@@ -1,38 +1,23 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_svg/svg.dart';
 import 'package:spyco_shop_management/constants/colors.dart';
 
-class MainRecentWidget extends StatefulWidget {
-  final int lenght;
-  final String title;
-  final String dataColumn1name;
-  final String dataColumn2name;
-  final String dataColumn3name;
-  final String dataColumn4name;
+class MainRecentFiles extends StatelessWidget {
+  final String mainTitle;
+  final String mainRowTitle1;
+  final String mainRowTitle2;
+  final String mainRowTitle3;
+  final List<DataRow> rows;
 
-  final String dataCell1Item;
-  final String dataCell2Item;
-  final String dataCell3Item;
-  final String dataCell4Item;
+  const MainRecentFiles({
+    Key? key,
+    required this.mainTitle,
+    required this.mainRowTitle1,
+    required this.mainRowTitle2,
+    required this.mainRowTitle3,
+    required this.rows,
+  }) : super(key: key);
 
-  const MainRecentWidget(
-      {super.key,
-      required this.title,
-      required this.dataColumn1name,
-      required this.dataColumn2name,
-      required this.dataColumn3name,
-      required this.dataColumn4name,
-      required this.lenght,
-      required this.dataCell1Item,
-      required this.dataCell2Item,
-      required this.dataCell3Item,
-      required this.dataCell4Item});
-
-  @override
-  State<MainRecentWidget> createState() => _MainRecentWidgetState();
-}
-
-class _MainRecentWidgetState extends State<MainRecentWidget> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -45,53 +30,59 @@ class _MainRecentWidgetState extends State<MainRecentWidget> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            widget.title,
+            mainTitle,
             style: Theme.of(context).textTheme.titleMedium,
           ),
           SizedBox(
             width: double.infinity,
             child: DataTable(
-              columnSpacing: defaultPadding,
-              // minWidth: 600,
-              columns: [
-                DataColumn(
-                  label: Text(widget.dataColumn1name),
-                ),
-                DataColumn(
-                  label: Text(widget.dataColumn2name),
-                ),
-                DataColumn(
-                  label: Text(widget.dataColumn3name),
-                ),
-                DataColumn(
-                  label: Text(widget.dataColumn4name),
-                ),
-              ],
-              rows: List.generate(
-                widget.lenght,
-                (index) => DataRow(
-                  cells: [
-                    DataCell(
-                      Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: defaultPadding),
-                            child: Text(widget.dataCell1Item),
-                          ),
-                        ],
-                      ),
-                    ),
-                    DataCell(Text(widget.dataCell2Item)),
-                    DataCell(Text(widget.dataCell3Item)),
-                    DataCell(Text(widget.dataCell4Item)),
-                  ],
-                ),
-              ),
-            ),
+                columnSpacing: defaultPadding,
+                // minWidth: 600,
+                columns: [
+                  DataColumn(
+                    label: Text(mainRowTitle1),
+                  ),
+                  DataColumn(
+                    label: Text(mainRowTitle2),
+                  ),
+                  DataColumn(
+                    label: Text(mainRowTitle3),
+                  ),
+                ],
+                rows: rows),
           ),
         ],
       ),
     );
   }
+}
+
+DataRow mainRecentFileDataRow(MainRecentFileRequires fileInfo) {
+  return DataRow(
+    cells: [
+      DataCell(
+        Row(
+          children: [
+            SvgPicture.asset(
+              fileInfo.icon!,
+              height: 30,
+              width: 30,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
+              child: Text(fileInfo.title!),
+            ),
+          ],
+        ),
+      ),
+      DataCell(Text(fileInfo.date!)),
+      DataCell(Text(fileInfo.size!)),
+    ],
+  );
+}
+
+class MainRecentFileRequires {
+  final String? icon, title, date, size;
+
+  MainRecentFileRequires({this.icon, this.title, this.date, this.size});
 }

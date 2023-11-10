@@ -7,6 +7,7 @@ import 'package:spyco_shop_management/constants/textstyle.dart';
 
 import 'package:spyco_shop_management/controllers/MenuAppController.dart';
 import 'package:spyco_shop_management/screens/dashboard/components/header.dart';
+
 import 'package:spyco_shop_management/screens/main/components/side_menu.dart';
 import 'package:spyco_shop_management/widgets/cards.dart';
 
@@ -125,11 +126,57 @@ class _AddSupplierState extends State<AddSupplier> {
     '10000',
     '10000',
   ];
+
+  List demoRecentFiles = [
+    MainRecentFileRequires(
+      icon: "assets/icons/xd_file.svg",
+      title: "XD File",
+      date: "01-03-2021",
+      size: "3.5mb",
+    ),
+    MainRecentFileRequires(
+      icon: "assets/icons/Figma_file.svg",
+      title: "Figma File",
+      date: "27-02-2021",
+      size: "19.0mb",
+    ),
+    MainRecentFileRequires(
+      icon: "assets/icons/doc_file.svg",
+      title: "Document",
+      date: "23-02-2021",
+      size: "32.5mb",
+    ),
+    MainRecentFileRequires(
+      icon: "assets/icons/sound_file.svg",
+      title: "Sound File",
+      date: "21-02-2021",
+      size: "3.5mb",
+    ),
+    MainRecentFileRequires(
+      icon: "assets/icons/media_file.svg",
+      title: "Media File",
+      date: "23-02-2021",
+      size: "2.5gb",
+    ),
+    MainRecentFileRequires(
+      icon: "assets/icons/pdf_file.svg",
+      title: "Sales PDF",
+      date: "25-02-2021",
+      size: "3.5mb",
+    ),
+    MainRecentFileRequires(
+      icon: "assets/icons/excel_file.svg",
+      title: "Excel File",
+      date: "25-02-2021",
+      size: "34.5mb",
+    ),
+  ];
+
   int selectedItemIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffeff4f8),
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(defaultPadding),
@@ -324,24 +371,17 @@ class _AddSupplierState extends State<AddSupplier> {
                               children: [
                                 Column(
                                   children: [
-                                    ListView.builder(
-                                        itemCount: transictionitem.length,
-                                        shrinkWrap: true,
-                                        itemBuilder: (_, i) {
-                                          return MainRecentWidget(
-                                            lenght: 4,
-                                            title: 'Recent Transactions',
-                                            dataColumn1name: 'item',
-                                            dataColumn2name: 'Quantity',
-                                            dataColumn3name: 'Date',
-                                            dataColumn4name: 'Amount',
-                                            dataCell1Item: transictionitem[i],
-                                            dataCell2Item:
-                                                transictionquantity[i],
-                                            dataCell3Item: transictiondate[i],
-                                            dataCell4Item: transictionamount[i],
-                                          );
-                                        })
+                                    MainRecentFiles(
+                                      mainTitle: '',
+                                      mainRowTitle1: '',
+                                      mainRowTitle2: 'mainRowTitle2',
+                                      mainRowTitle3: 'mainRowTitle3',
+                                      rows: List.generate(
+                                        demoRecentFiles.length,
+                                        (index) => mainRecentFileDataRow(
+                                            demoRecentFiles[index]),
+                                      ),
+                                    )
                                   ],
                                 )
 
