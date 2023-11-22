@@ -21,16 +21,22 @@ class CustomBgCard extends StatelessWidget {
 }
 
 class ElevatedBgCard extends StatelessWidget {
-  const ElevatedBgCard({super.key, required this.child, required this.radius});
+  const ElevatedBgCard({
+    super.key,
+    required this.child,
+    required this.radius,
+  });
   final Widget child;
   final double radius;
 
   @override
   Widget build(BuildContext context) {
-    return Material(
-      elevation: 7,
-      color: Colors.white,
-      borderRadius: BorderRadius.circular(radius),
+    return Container(
+      padding: EdgeInsets.all(radius),
+      decoration: BoxDecoration(
+        color: secondaryColor,
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
+      ),
       child: child,
     );
   }

@@ -47,4 +47,40 @@ List demoRecentFiles = [
     date: "25-02-2021",
     size: "34.5mb",
   ),
+  RecentFile(
+    icon: "assets/icons/excel_file.svg",
+    title: "Excel File",
+    date: "25-02-2021",
+    size: "34.5mb",
+  ),
+  RecentFile(
+    icon: "assets/icons/excel_file.svg",
+    title: "Excel File",
+    date: "25-02-2021",
+    size: "34.5mb",
+  ),
+  RecentFile(
+    icon: "assets/icons/excel_file.svg",
+    title: "Excel File",
+    date: "25-02-2021",
+    size: "34.5mb",
+  ),
+  RecentFile(
+    icon: "assets/icons/excel_file.svg",
+    title: "Excel File",
+    date: "25-02-2021",
+    size: "34.5mb",
+  ),
+  RecentFile(
+    icon: "assets/icons/excel_file.svg",
+    title: "Excel File",
+    date: "25-02-2021",
+    size: "34.5mb",
+  ),
+  RecentFile(
+    icon: "assets/icons/excel_file.svg",
+    title: "Excel File",
+    date: "25-02-2021",
+    size: "34.5mb",
+  ),
 ];

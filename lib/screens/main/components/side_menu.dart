@@ -3,13 +3,27 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:spyco_shop_management/constants/colors.dart';
 import 'package:spyco_shop_management/controllers/MenuAppController.dart';
+import 'package:spyco_shop_management/sales/customers.dart';
 import 'package:spyco_shop_management/screens/main/main_screen.dart';
 import 'package:spyco_shop_management/screens/supplier/add_supplier.dart';
 
-class SideMenu extends StatelessWidget {
+class SideMenu extends StatefulWidget {
   const SideMenu({
     Key? key,
   }) : super(key: key);
+
+  @override
+  State<SideMenu> createState() => _SideMenuState();
+}
+
+class _SideMenuState extends State<SideMenu> {
+  bool _isMenuOpen = false;
+
+  void toggleMenu() {
+    setState(() {
+      _isMenuOpen = !_isMenuOpen;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,11 +123,45 @@ class SideMenu extends StatelessWidget {
               ],
             ),
           ),
-          DrawerListTile(
-            title: "Sales",
-            svgSrc: "assets/icons/menu_store.svg",
-            press: () {},
+          DropDownMenu(
+            title: 'Sales',
+            leadingImage: 'assets/icons/menu_doc.svg',
+            child: Column(
+              children: [
+                CustomListTile(
+                  press: () {},
+                  title: "Invoice",
+                ),
+                CustomListTile(
+                  press: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MultiProvider(
+                          providers: [
+                            ChangeNotifierProvider(
+                              create: (context) => MenuAppController(),
+                            ),
+                          ],
+                          child: CustomersScreen(),
+                        ),
+                      ),
+                    );
+                  },
+                  title: "Customers",
+                ),
+                CustomListTile(
+                  press: () {},
+                  title: "Category 3",
+                )
+              ],
+            ),
           ),
+          // DrawerListTile(
+          //   title: "Sales",
+          //   svgSrc: "assets/icons/menu_store.svg",
+          //   press: () {},
+          // ),
           DrawerListTile(
             title: "Lead management",
             svgSrc: "assets/icons/menu_notification.svg",

@@ -129,46 +129,46 @@ class _AddSupplierState extends State<AddSupplier> {
 
   List demoRecentFiles = [
     MainRecentFileRequires(
-      icon: "assets/icons/xd_file.svg",
       title: "XD File",
       date: "01-03-2021",
       size: "3.5mb",
+      amount: "e3ew",
     ),
     MainRecentFileRequires(
-      icon: "assets/icons/Figma_file.svg",
       title: "Figma File",
       date: "27-02-2021",
       size: "19.0mb",
+      amount: "e3ew",
     ),
     MainRecentFileRequires(
-      icon: "assets/icons/doc_file.svg",
       title: "Document",
       date: "23-02-2021",
       size: "32.5mb",
+      amount: "e3ew",
     ),
     MainRecentFileRequires(
-      icon: "assets/icons/sound_file.svg",
       title: "Sound File",
       date: "21-02-2021",
       size: "3.5mb",
+      amount: "e3ew",
     ),
     MainRecentFileRequires(
-      icon: "assets/icons/media_file.svg",
       title: "Media File",
       date: "23-02-2021",
       size: "2.5gb",
+      amount: "e3ew",
     ),
     MainRecentFileRequires(
-      icon: "assets/icons/pdf_file.svg",
       title: "Sales PDF",
       date: "25-02-2021",
       size: "3.5mb",
+      amount: "e3ew",
     ),
     MainRecentFileRequires(
-      icon: "assets/icons/excel_file.svg",
       title: "Excel File",
       date: "25-02-2021",
       size: "34.5mb",
+      amount: "e3ew",
     ),
   ];
 
@@ -179,11 +179,15 @@ class _AddSupplierState extends State<AddSupplier> {
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
+          primary: false,
           padding: EdgeInsets.all(defaultPadding),
           child: Column(
             children: [
               Header(
                 title: 'Add Supplier',
+              ),
+              SizedBox(
+                height: 10,
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -191,26 +195,32 @@ class _AddSupplierState extends State<AddSupplier> {
                   // We want this side menu only for large screen
                   if (Responsive.isDesktop(context))
                     Expanded(
-                      child: Material(
-                        elevation: 7,
-                        borderRadius: BorderRadius.circular(20),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                      child: ElevatedBgCard(
+                        radius: 0,
+                        child: SizedBox(
+                          height: MediaQuery.sizeOf(context).height,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "All Suppliers",
-                                    style: nameText,
-                                  ),
-                                  PlusButton(
-                                    press: () {},
-                                  )
-                                ],
+                              Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 16,
+                                  right: 16,
+                                  top: 16,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "All Suppliers",
+                                      style: nameText,
+                                    ),
+                                    PlusButton(
+                                      press: () {},
+                                    )
+                                  ],
+                                ),
                               ),
                               SizedBox(
                                 height: 10,
@@ -234,15 +244,24 @@ class _AddSupplierState extends State<AddSupplier> {
                                                   0.40) // Change the background color of the selected item
                                               : secondaryColor,
                                           child: Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 8),
+                                            padding: const EdgeInsets.only(
+                                                top: 8,
+                                                left: 16,
+                                                right: 16,
+                                                bottom: 8),
                                             child: Row(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
                                                 children: [
-                                                  Text(customerName[i]),
                                                   Text(
-                                                      "\u20B9${billingPrice[i]}"),
+                                                    customerName[i],
+                                                    style: nameSlimText,
+                                                  ),
+                                                  Spacer(),
+                                                  Text(
+                                                    "\u20B9${billingPrice[i]}",
+                                                    style: nameSlimText,
+                                                  ),
                                                 ]),
                                           ),
                                         ),
@@ -259,18 +278,18 @@ class _AddSupplierState extends State<AddSupplier> {
                         ),
                       ),
                     ),
-                  SizedBox(
-                    width: 10,
-                  ),
+                  // SizedBox(
+                  //   width: 10,
+                  // ),
                   Expanded(
                       // It takes 5/6 part of the screen
                       flex: 3,
-                      child: Column(
-                        children: [
-                          ElevatedBgCard(
-                            radius: 16,
-                            child: Padding(
-                              padding: const EdgeInsets.all(12.0),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Column(
+                          children: [
+                            ElevatedBgCard(
+                              radius: 16.0,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -359,30 +378,31 @@ class _AddSupplierState extends State<AddSupplier> {
                                 ],
                               ),
                             ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(12.0),
-                            child: Column(
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Column(
-                                  children: [
-                                    MainRecentFiles(
-                                      mainTitle: '',
-                                      mainRowTitle1: '',
-                                      mainRowTitle2: 'mainRowTitle2',
-                                      mainRowTitle3: 'mainRowTitle3',
-                                      rows: List.generate(
-                                        demoRecentFiles.length,
-                                        (index) => mainRecentFileDataRow(
-                                            demoRecentFiles[index]),
-                                      ),
-                                    )
-                                  ],
+                                SizedBox(
+                                  height: MediaQuery.sizeOf(context).height,
+                                  child: Column(
+                                    children: [
+                                      MainRecentFiles(
+                                        mainTitle: 'Recent Transactions',
+                                        mainRowTitle1: 'Item',
+                                        mainRowTitle2: 'Quantity',
+                                        mainRowTitle3: 'Date',
+                                        mainRowTitle4: 'amount',
+                                        rows: List.generate(
+                                          demoRecentFiles.length,
+                                          (index) => mainRecentFileDataRow(
+                                              demoRecentFiles[index]),
+                                        ),
+                                      )
+                                    ],
+                                  ),
                                 )
 
                                 // Text(
@@ -407,8 +427,8 @@ class _AddSupplierState extends State<AddSupplier> {
                                 // ),
                               ],
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       )),
                 ],
               ),

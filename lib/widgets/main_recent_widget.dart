@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+
 import 'package:spyco_shop_management/constants/colors.dart';
 
 class MainRecentFiles extends StatelessWidget {
@@ -7,6 +7,7 @@ class MainRecentFiles extends StatelessWidget {
   final String mainRowTitle1;
   final String mainRowTitle2;
   final String mainRowTitle3;
+  final String mainRowTitle4;
   final List<DataRow> rows;
 
   const MainRecentFiles({
@@ -16,6 +17,7 @@ class MainRecentFiles extends StatelessWidget {
     required this.mainRowTitle2,
     required this.mainRowTitle3,
     required this.rows,
+    required this.mainRowTitle4,
   }) : super(key: key);
 
   @override
@@ -48,6 +50,9 @@ class MainRecentFiles extends StatelessWidget {
                   DataColumn(
                     label: Text(mainRowTitle3),
                   ),
+                  DataColumn(
+                    label: Text(mainRowTitle4),
+                  ),
                 ],
                 rows: rows),
           ),
@@ -61,28 +66,23 @@ DataRow mainRecentFileDataRow(MainRecentFileRequires fileInfo) {
   return DataRow(
     cells: [
       DataCell(
-        Row(
-          children: [
-            SvgPicture.asset(
-              fileInfo.icon!,
-              height: 30,
-              width: 30,
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: defaultPadding),
-              child: Text(fileInfo.title!),
-            ),
-          ],
-        ),
+        Text(fileInfo.title!),
       ),
       DataCell(Text(fileInfo.date!)),
       DataCell(Text(fileInfo.size!)),
+      DataCell(Text(fileInfo.amount!)),
     ],
   );
 }
 
 class MainRecentFileRequires {
-  final String? icon, title, date, size;
+  final String? icon, title, date, size, amount;
 
-  MainRecentFileRequires({this.icon, this.title, this.date, this.size});
+  MainRecentFileRequires({
+    this.icon,
+    this.title,
+    this.date,
+    this.size,
+    this.amount,
+  });
 }

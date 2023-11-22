@@ -160,7 +160,7 @@ final TextStyle namepoppinsText = GoogleFonts.poppins(
     color: Colors.black,
   ),
 );
-final TextStyle nameopensansText = GoogleFonts.openSans(
+final TextStyle nameopensansText = GoogleFonts.poppins(
   textStyle: TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.w700,
@@ -169,8 +169,8 @@ final TextStyle nameopensansText = GoogleFonts.openSans(
 );
 final TextStyle nameSlimText = GoogleFonts.manrope(
   textStyle: TextStyle(
-    fontSize: 16,
-    fontWeight: FontWeight.w200,
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
     color: Colors.black,
   ),
 );
@@ -179,6 +179,48 @@ final TextStyle greyTextSmall = GoogleFonts.manrope(
       fontSize: 16,
       color: Colors.black.withOpacity(0.70),
       fontWeight: FontWeight.w400),
+);
+final TextStyle selectedThinText = GoogleFonts.manrope(
+  textStyle: TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: Colors.black,
+  ),
+);
+final TextStyle selectedThinText10 = GoogleFonts.manrope(
+  textStyle: TextStyle(
+    fontSize: 10,
+    fontWeight: FontWeight.w400,
+    color: Colors.black,
+  ),
+);
+final TextStyle selectedThinText16 = GoogleFonts.manrope(
+  textStyle: TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: Colors.black,
+  ),
+);
+final TextStyle selectedBoldText = GoogleFonts.roboto(
+  textStyle: TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    color: Colors.black,
+  ),
+);
+final TextStyle thinblueText = GoogleFonts.manrope(
+  textStyle: TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w300,
+    color: Colors.blue,
+  ),
+);
+final TextStyle thinblueText10w400 = GoogleFonts.manrope(
+  textStyle: TextStyle(
+    fontSize: 10,
+    fontWeight: FontWeight.w400,
+    color: Colors.blue,
+  ),
 );
 
 TextStyle ralewayStyle = GoogleFonts.raleway();
