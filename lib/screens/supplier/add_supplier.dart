@@ -400,7 +400,7 @@ class _AddSupplierState extends State<AddSupplier> {
                                           (index) => mainRecentFileDataRow(
                                               demoRecentFiles[index]),
                                         ),
-                                      )
+                                      ),
                                     ],
                                   ),
                                 )

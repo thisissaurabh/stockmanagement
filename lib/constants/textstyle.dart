@@ -146,6 +146,20 @@ final TextStyle nameText = GoogleFonts.roboto(
     color: Colors.black,
   ),
 );
+final TextStyle nameTextGrey = GoogleFonts.roboto(
+  textStyle: TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w700,
+    color: Colors.black54,
+  ),
+);
+final TextStyle nameText42 = GoogleFonts.roboto(
+  textStyle: TextStyle(
+    fontSize: 42,
+    fontWeight: FontWeight.w700,
+    color: Colors.black.withOpacity(0.70),
+  ),
+);
 final TextStyle nameSmallText = GoogleFonts.roboto(
   textStyle: TextStyle(
     fontSize: 18,

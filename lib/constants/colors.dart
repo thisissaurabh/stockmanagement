@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+final Color barColor = Color(0xFF00bcd4);
+final Color primaryBlueColor = Color(0xff3553fd);
 final Color whiteBgColor = Color(0xFFededee);
 final Color selectedColor = Color(0xFF8ec9db);
 final Color k0CA4A5 = Color(0xFF0CA4A5);
@@ -18,6 +19,7 @@ final Color kF71735 = Color(0xFFF71735);
 final Color kC6FBFB = Color(0xFFC6FBFB);
 final Color kE0E0E0 = Color(0xFFE0E0E0);
 final Color k68B476 = Color(0xFF68B476);
+final Color positiveColor = Color(0xff1a804c).withOpacity(0.80);
 
 class AppColors {
   static const Color backColor = Color(0xffF6F6F6);

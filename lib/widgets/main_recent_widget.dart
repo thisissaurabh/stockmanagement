@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:spyco_shop_management/constants/colors.dart';
+import 'package:spyco_shop_management/constants/textstyle.dart';
 
 class MainRecentFiles extends StatelessWidget {
   final String mainTitle;
@@ -33,7 +34,7 @@ class MainRecentFiles extends StatelessWidget {
         children: [
           Text(
             mainTitle,
-            style: Theme.of(context).textTheme.titleMedium,
+            style: nameText,
           ),
           SizedBox(
             width: double.infinity,

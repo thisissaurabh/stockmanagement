@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class HorizontalLine extends StatelessWidget {
-  const HorizontalLine({super.key});
+class CustomHorizontalLine extends StatelessWidget {
+  const CustomHorizontalLine({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -11,6 +11,7 @@ class HorizontalLine extends StatelessWidget {
     );
   }
 }
+
 
 class MouseHover extends StatelessWidget {
   final Widget child;
