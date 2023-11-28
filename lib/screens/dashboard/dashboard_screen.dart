@@ -6,9 +6,11 @@ import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:spyco_shop_management/constants/colors.dart';
+import 'package:spyco_shop_management/constants/responsive.dart';
 import 'package:spyco_shop_management/constants/textstyle.dart';
 import 'package:spyco_shop_management/screens/dashboard/components/header.dart';
 import 'package:spyco_shop_management/widgets/cards.dart';
+import 'package:spyco_shop_management/widgets/custom_data_list.dart';
 import 'package:spyco_shop_management/widgets/global_widgets.dart';
 import 'package:spyco_shop_management/widgets/globals.dart';
 import 'package:spyco_shop_management/widgets/main_recent_widget.dart';
@@ -146,6 +148,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
   ];
 
 
+  List<String> saleType = ["Purchase","Sales","Purchase","Sales""Purchase","Sales""Purchase","Sales""Purchase","Sales"];
+  List <String>partyName = ["saurabh", "Roshan","saurabh", "Roshan","saurabh", "Roshan","saurabh", "Roshan","saurabh", "Roshan",];
+  List <String>date = ["24-10-2023","24-10-2023","24-10-2023","24-10-2023","24-10-2023","24-10-2023","24-10-2023","24-10-2023","24-10-2023","24-10-2023",];
+  List <String> amount = ["10000","20000","60000","90000","50000","10000","10000","10000","10000","10000",];
+
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -160,6 +168,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             SizedBox(height: defaultPadding),
             Row(
               children: [
+                if (Responsive.isDesktop(context))
                 Expanded(
                   flex: 2,
                     child: ElevatedBgCard(
@@ -170,6 +179,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       ),
                     )),
                 SizedBox(width: 16,),
+                if (Responsive.isDesktop(context))
                 Expanded(
                     child: ElevatedBgCard(
                       radius: 16,
@@ -186,6 +196,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                if (Responsive.isDesktop(context))
                 Expanded(
                   child: ElevatedBgCard(
                     radius: 16.0,
@@ -200,6 +211,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ),
                 ),
                 SizedBox(width: 16,),
+                if (Responsive.isDesktop(context))
                 Expanded(
                   child: ElevatedBgCard(
                     radius: 16.0,
@@ -215,146 +227,137 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ],
             ),
             SizedBox(height: 10,),
-            ElevatedBgCard(
-              radius: 0.0,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 16,top: 16,),
-                    child: Text(
-                      "Recent Entries",
-                      style: nameText,
+            Row(
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: CustomDataList(
+                    listTitle: 'Recent Entries',
+                    categoryTitle1: 'Type',
+                    categoryTitle2: 'Party Name',
+                    categoryTitle3: 'Date',
+                    categoryTitle4: 'Amount',
+                    listItemCount: saleType.length,
+                    saleType: saleType,
+                    partyName: partyName,
+                    date: date,
+                    amount: amount,
 
-                    ),
-                  ),
-                  SizedBox(height: 10,),
-                 Column(
-                   children: [
-                     Container(
-                       color: selectedColor
-                           .withOpacity(0.40),
-                       child: Padding(
-                         padding:
-                         const EdgeInsets.symmetric(horizontal: 16.0,vertical: 10),
-                       child: Row(
-                         mainAxisAlignment: MainAxisAlignment.center,
-                         crossAxisAlignment: CrossAxisAlignment.center,
-                         children: [
-                           Expanded(
-                             child: Text(
-                               "Type",
-                               style: nameTextGrey,
-                             ),
-                           ),
-                           Expanded(
-                             child: Text(
-                               "Name",
-                               style: nameTextGrey,
-                             ),
-                           ),
-                           Expanded(
-                             child: Text(
-                               "Date",
-                               style: nameTextGrey,
-                             ),
-                           ),
-                           Expanded(
-                             child: Text(
-                               "Amount",
-                               style: nameTextGrey,
-                             ),
-                           ),
+                  )
 
-                         ],
-                       ),
-                     ), ),
-                     SizedBox(
-                       height: 5,
-                     ),
-                     CustomHorizontalLine(),
-                     ListView.builder(
-                       itemCount: 12,
-                       shrinkWrap: true,
-                       itemBuilder: (_, i) {
-                         return Row(
-                           mainAxisAlignment: MainAxisAlignment.center,
-                           crossAxisAlignment: CrossAxisAlignment.center,
-                           children: [
-                             Expanded(
-                               child: Text(
-                                 "Type",
-                                 style: nameTextGrey,
-                               ),
-                             ),
-                             Expanded(
-                               child: Text(
-                                 "Name",
-                                 style: nameTextGrey,
-                               ),
-                             ),
-                             Expanded(
-                               child: Text(
-                                 "Date",
-                                 style: nameTextGrey,
-                               ),
-                             ),
-                             Expanded(
-                               child: Text(
-                                 "Amount",
-                                 style: nameTextGrey,
-                               ),
-                             ),
-
-                           ],
-                         );
-                       },
-                         )
-                   ],
-                 )
-                 /* SizedBox(
-                    height: MediaQuery.of(context).size.height,
-                    child: PageView(
-                      controller: _pageController,
-                      onPageChanged: (page) {
-                        setState(
-                              () {
-                            pageIndex = page;
-                          },
-                        );
-                      },
-                      children: [
-                        MainRecentFiles(
-                          mainTitle: 'Recent Transactions',
-                          mainRowTitle1: 'Item',
-                          mainRowTitle2: 'Quantity',
-                          mainRowTitle3: 'Date',
-                          mainRowTitle4: 'amount',
-                          rows: List.generate(
-                            demoRecentFiles.length,
-                                (index) => mainRecentFileDataRow(
-                                demoRecentFiles[index]),
-                          ),
-                        ),
-                        MainRecentFiles(
-                          mainTitle: 'Recent Transactions',
-                          mainRowTitle1: 'Item',
-                          mainRowTitle2: 'Quantity',
-                          mainRowTitle3: 'Date',
-                          mainRowTitle4: 'amount',
-                          rows: List.generate(
-                            demoRecentFiles.length,
-                                (index) => mainRecentFileDataRow(
-                                demoRecentFiles[index]),
-                          ),
-                        ),
-
-                      ],
-                    ),
-                  ),*/
-                ],
-              ),
+                  // ElevatedBgCard(
+                  //   radius: 0.0,
+                  //   child: Column(
+                  //     crossAxisAlignment: CrossAxisAlignment.start,
+                  //     mainAxisAlignment: MainAxisAlignment.start,
+                  //     children: [
+                  //       Padding(
+                  //         padding: const EdgeInsets.only(left: 16,top: 16,),
+                  //         child: Text(
+                  //           "Recent Entries",
+                  //           style: nameText,
+                  //
+                  //         ),
+                  //       ),
+                  //       SizedBox(height: 10,),
+                  //      Column(
+                  //        children: [
+                  //          Container(
+                  //            color: selectedColor
+                  //                .withOpacity(0.40),
+                  //            child: Padding(
+                  //              padding:
+                  //              const EdgeInsets.symmetric(horizontal: 16.0,vertical: 10),
+                  //            child: Row(
+                  //              mainAxisAlignment: MainAxisAlignment.center,
+                  //              crossAxisAlignment: CrossAxisAlignment.center,
+                  //              children: [
+                  //                Expanded(
+                  //                  child: Text(
+                  //                    "Type",
+                  //                    style: nameTextGrey,
+                  //                  ),
+                  //                ),
+                  //                Expanded(
+                  //                  child: Text(
+                  //                    "Name",
+                  //                    style: nameTextGrey,
+                  //                  ),
+                  //                ),
+                  //                Expanded(
+                  //                  child: Text(
+                  //                    "Date",
+                  //                    style: nameTextGrey,
+                  //                  ),
+                  //                ),
+                  //                Expanded(
+                  //                  child: Text(
+                  //                    "Amount",
+                  //                    style: nameTextGrey,
+                  //                  ),
+                  //                ),
+                  //
+                  //              ],
+                  //            ),
+                  //          ), ),
+                  //          SizedBox(
+                  //            height: 5,
+                  //          ),
+                  //          // CustomHorizontalLine(),
+                  //          ListView.separated(
+                  //            itemCount: saleType.length,
+                  //            shrinkWrap: true,
+                  //            itemBuilder: (_, i) {
+                  //              return Padding(
+                  //                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
+                  //                child: Row(
+                  //                  mainAxisAlignment: MainAxisAlignment.center,
+                  //                  crossAxisAlignment: CrossAxisAlignment.center,
+                  //                  children: [
+                  //                    Expanded(
+                  //                      child: Text(
+                  //                        saleType[i],
+                  //                        style: listName,
+                  //                      ),
+                  //                    ),
+                  //                    Expanded(
+                  //                      child: Text(
+                  //                        partyName[i],
+                  //                        style: listName,
+                  //                      ),
+                  //                    ),
+                  //                    Expanded(
+                  //                      child: Text(
+                  //                        date[i],
+                  //                        style: listName,
+                  //                      ),
+                  //                    ),
+                  //                    Expanded(
+                  //                      child: Text(
+                  //                        amount[i],
+                  //                        style: listName,
+                  //                      ),
+                  //                    ),
+                  //                  ],
+                  //                ),
+                  //              );
+                  //            }, separatorBuilder: (BuildContext context, int index) =>
+                  //              CustomHorizontalLine(),
+                  //          )
+                  //
+                  //        ],
+                  //      ),
+                  //     ],
+                  //   ),
+                  // ),
+                ),
+                SizedBox(width: 16),
+                Expanded(
+                  child: ElevatedBgCard(
+                      radius: 16.0,
+                      child: BarChartSample2()),
+                ),
+              ],
             ),
           ],
         ),
@@ -772,6 +775,383 @@ class BarChartSample1State extends State<BarChartSample1> {
   }
 }
 
+class BarChartSample2 extends StatefulWidget {
+  BarChartSample2({super.key});
+
+  List<Color> get availableColors => const <Color>[
+    AppColors.contentColorPurple,
+    AppColors.contentColorYellow,
+    AppColors.contentColorBlue,
+    AppColors.contentColorOrange,
+    AppColors.contentColorPink,
+    AppColors.contentColorRed,
+  ];
+
+  final Color barBackgroundColor =
+  AppColors.contentColorWhite.darken().withOpacity(0.3);
+  final Color barColor = AppColors.contentColorWhite;
+  final Color touchedBarColor = AppColors.contentColorGreen;
+
+  @override
+  State<StatefulWidget> createState() => BarChartSample2State();
+}
+
+class BarChartSample2State extends State<BarChartSample2> {
+  final Duration animDuration = const Duration(milliseconds: 250);
+
+  int touchedIndex = -1;
+
+  bool isPlaying = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return AspectRatio(
+      aspectRatio:1,
+      child: Stack(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                const SizedBox(
+                  height: 4,
+                ),
+                Text(
+                  "Payment Report",
+                  style: nameText,
+                ),
+                const SizedBox(
+                  height: 38,
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                    child: BarChart(
+                      isPlaying ? randomData() : mainBarData(),
+                      swapAnimationDuration: animDuration,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 12,
+                ),
+              ],
+            ),
+          ),
+
+        ],
+      ),
+    );
+  }
+
+  BarChartGroupData makeGroupData(
+      int x,
+      double y, {
+        bool isTouched = false,
+        Color? barColor,
+        double width = 40,
+        double barHeight = 40,
+        List<int> showTooltips = const [],
+      }) {
+    final alternatingColors = [
+      Colors.blue, // Change this to the first color you want
+      Colors.grey, // Change this to the second color you want
+    ];
+    final colorIndex = x % alternatingColors.length;
+    final selectedColor = alternatingColors[colorIndex];
+    //     List<int> showTooltips = const [],
+    //   }) {
+    // barColor ??= Colors.blue;
+    return BarChartGroupData(
+
+      x: x,
+      barRods: [
+        BarChartRodData(
+          toY: isTouched ? y + 1 : y,
+          color: isTouched ? widget.touchedBarColor : barColor,
+          width: width,
+          borderRadius: BorderRadius.circular(12),
+          borderSide: isTouched
+              ? BorderSide(color: widget.touchedBarColor.darken(80))
+              : const BorderSide(color: Colors.white, width: 0),
+          backDrawRodData: BackgroundBarChartRodData(
+            show: true,
+            toY: 20,
+            color: widget.barBackgroundColor,
+          ),
+        ),
+      ],
+      showingTooltipIndicators: showTooltips,
+    );
+  }
+
+  List<BarChartGroupData> showingGroups() => List.generate(3, (i) {
+    switch (i) {
+      case 0:
+        return makeGroupData(0, 5, isTouched: i == touchedIndex);
+      case 1:
+        return makeGroupData(1, 6.5, isTouched: i == touchedIndex);
+      case 2:
+        return makeGroupData(2, 5, isTouched: i == touchedIndex);
+
+
+      default:
+        return throw Error();
+    }
+  });
+
+  BarChartData mainBarData() {
+    return BarChartData(
+      barTouchData: BarTouchData(
+        touchTooltipData: BarTouchTooltipData(
+          tooltipBgColor: Colors.black,
+          tooltipHorizontalAlignment: FLHorizontalAlignment.right,
+          tooltipMargin: -10,
+          getTooltipItem: (group, groupIndex, rod, rodIndex) {
+            String weekDay;
+            switch (group.x) {
+              case 0:
+                weekDay = 'Cash';
+                break;
+              case 1:
+                weekDay = 'Bank';
+                break;
+              case 2:
+                weekDay = 'Others';
+                break;
+
+                break;
+              default:
+                throw Error();
+            }
+            return BarTooltipItem(
+              '$weekDay\n',
+              const TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+              children: <TextSpan>[
+                TextSpan(
+                  text: (rod.toY - 1).toString(),
+                  style: TextStyle(
+                    color: widget.touchedBarColor,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
+        touchCallback: (FlTouchEvent event, barTouchResponse) {
+          setState(() {
+            if (!event.isInterestedForInteractions ||
+                barTouchResponse == null ||
+                barTouchResponse.spot == null) {
+              touchedIndex = -1;
+              return;
+            }
+            touchedIndex = barTouchResponse.spot!.touchedBarGroupIndex;
+          });
+        },
+      ),
+      titlesData: FlTitlesData(
+
+        show: true,
+        rightTitles: const AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        topTitles: const AxisTitles(
+          sideTitles: SideTitles(showTitles: false),
+        ),
+        bottomTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            getTitlesWidget: getTitles,
+            reservedSize: 38,
+          ),
+        ),
+        leftTitles:  AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            getTitlesWidget: leftTitles,
+            reservedSize: 10,
+            interval: 1,
+          ),
+        ),
+      ),
+      borderData: FlBorderData(
+        show: false,
+      ),
+      barGroups: showingGroups(),
+      gridData: const FlGridData(show: false),
+    );
+  }
+
+  Widget leftTitles(double value, TitleMeta meta) {
+    const style = TextStyle(
+      color: Color(0xff7589a2),
+      fontWeight: FontWeight.bold,
+      fontSize: 18,
+    );
+    String text;
+    if (value == 0) {
+      text = '0';
+    } else if (value == 10) {
+      text = '1lac';
+    } else if (value == 19) {
+      text = '10lac';
+    } else {
+      return Container();
+    }
+    return FittedBox(
+      child: Row(
+        children: [
+          Text(
+            text,
+            style: TextStyle(
+              color: Color(0xff7589a2),
+              fontWeight: FontWeight.bold,
+              fontSize: 14,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget getTitles(double value, TitleMeta meta) {
+    const style = TextStyle(
+      color: Colors.black,
+      fontWeight: FontWeight.w400,
+      fontSize: 14,
+
+
+    );
+    Widget text;
+    switch (value.toInt()) {
+      case 0:
+        text = const Text('Cash', style:style );
+        break;
+      case 1:
+        text = const Text('Bank', style: style);
+        break;
+      default:
+        text = const Text('Other', style: style);
+        break;
+    }
+    return SideTitleWidget(
+      axisSide: meta.axisSide,
+      space: 16,
+      child: text,
+    );
+  }
+
+  BarChartData randomData() {
+    return BarChartData(
+      barTouchData: BarTouchData(
+        enabled: false,
+      ),
+      titlesData: FlTitlesData(
+        show: true,
+        bottomTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            getTitlesWidget: getTitles,
+            reservedSize: 38,
+          ),
+        ),
+        leftTitles: const AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: false,
+          ),
+        ),
+        topTitles: const AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: false,
+          ),
+        ),
+        rightTitles: const AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: false,
+          ),
+        ),
+      ),
+      borderData: FlBorderData(
+        show: false,
+      ),
+      barGroups: List.generate(7, (i) {
+        switch (i) {
+          case 0:
+            return makeGroupData(
+              0,
+              Random().nextInt(15).toDouble() + 6,
+              barColor: widget.availableColors[
+              Random().nextInt(widget.availableColors.length)],
+            );
+          case 1:
+            return makeGroupData(
+              1,
+              Random().nextInt(15).toDouble() + 6,
+              barColor: widget.availableColors[
+              Random().nextInt(widget.availableColors.length)],
+            );
+          case 2:
+            return makeGroupData(
+              2,
+              Random().nextInt(15).toDouble() + 6,
+              barColor: widget.availableColors[
+              Random().nextInt(widget.availableColors.length)],
+            );
+          case 3:
+            return makeGroupData(
+              3,
+              Random().nextInt(15).toDouble() + 6,
+              barColor: widget.availableColors[
+              Random().nextInt(widget.availableColors.length)],
+            );
+          case 4:
+            return makeGroupData(
+              4,
+              Random().nextInt(15).toDouble() + 6,
+              barColor: widget.availableColors[
+              Random().nextInt(widget.availableColors.length)],
+            );
+          case 5:
+            return makeGroupData(
+              5,
+              Random().nextInt(15).toDouble() + 6,
+              barColor: widget.availableColors[
+              Random().nextInt(widget.availableColors.length)],
+            );
+          case 6:
+            return makeGroupData(
+              6,
+              Random().nextInt(15).toDouble() + 6,
+              barColor: widget.availableColors[
+              Random().nextInt(widget.availableColors.length)],
+            );
+          default:
+            return throw Error();
+        }
+      }),
+      gridData: const FlGridData(show: false),
+    );
+  }
+
+  Future<dynamic> refreshState() async {
+    setState(() {});
+    await Future<dynamic>.delayed(
+      animDuration + const Duration(milliseconds: 50),
+    );
+    if (isPlaying) {
+      await refreshState();
+    }
+  }
+}
+
 
 extension ColorExtension on Color {
   /// Convert the color to a darken color based on the [percent]
@@ -848,36 +1228,48 @@ class PieChart2State extends State {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 200,
-      child: Center(
-        child: AspectRatio(
-          aspectRatio: 1,
-          child: PieChart(
-            PieChartData(
-              pieTouchData: PieTouchData(
-                touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                  setState(() {
-                    if (!event.isInterestedForInteractions ||
-                        pieTouchResponse == null ||
-                        pieTouchResponse.touchedSection == null) {
-                      touchedIndex = -1;
-                      return;
-                    }
-                    touchedIndex = pieTouchResponse
-                        .touchedSection!.touchedSectionIndex;
-                  });
-                },
+      height: 180,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          AspectRatio(
+            aspectRatio: 0.5,
+            child: PieChart(
+              PieChartData(
+                pieTouchData: PieTouchData(
+                  touchCallback: (FlTouchEvent event, pieTouchResponse) {
+                    setState(() {
+                      if (!event.isInterestedForInteractions ||
+                          pieTouchResponse == null ||
+                          pieTouchResponse.touchedSection == null) {
+                        touchedIndex = -1;
+                        return;
+                      }
+                      touchedIndex = pieTouchResponse
+                          .touchedSection!.touchedSectionIndex;
+                    });
+                  },
+                ),
+                borderData: FlBorderData(
+                  show: false,
+                ),
+                sectionsSpace: 0,
+                centerSpaceRadius: 20,
+                sections: showingSections(),
               ),
-              borderData: FlBorderData(
-                show: false,
-              ),
-              sectionsSpace: 0,
-              centerSpaceRadius: 20,
-              sections: showingSections(),
             ),
           ),
-        ),
+          SizedBox(width:20,),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Indicator(color:barColor.withOpacity(0.80) , text: "Total purchase", isSquare: false),
+              Indicator(color:primaryBlueColor , text: "Total Sales", isSquare: false)
+            ],
+          ),
 
+        ],
       ),
     );
   }

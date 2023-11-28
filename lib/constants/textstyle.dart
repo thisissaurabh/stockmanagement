@@ -139,6 +139,14 @@ final TextStyle titleBold = GoogleFonts.manrope(
   ),
 );
 
+final TextStyle listName = GoogleFonts.manrope(
+  textStyle: TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w600,
+    color: Colors.black,
+  ),
+);
+
 final TextStyle nameText = GoogleFonts.roboto(
   textStyle: TextStyle(
     fontSize: 16,
