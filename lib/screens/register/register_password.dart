@@ -6,18 +6,17 @@ import 'package:spyco_shop_management/constants/responsive_widget.dart';
 import 'package:spyco_shop_management/constants/textfield_decoration.dart';
 import 'package:spyco_shop_management/constants/textstyle.dart';
 import 'package:spyco_shop_management/controllers/MenuAppController.dart';
-import 'package:spyco_shop_management/screens/login/login.dart';
 import 'package:spyco_shop_management/screens/main/main_screen.dart';
-import 'package:spyco_shop_management/screens/register/register_verify_email.dart';
+import 'package:spyco_shop_management/screens/register/register.dart';
 
-class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({Key? key}) : super(key: key);
+class RegisterPasswordScreen extends StatefulWidget {
+  const RegisterPasswordScreen({Key? key}) : super(key: key);
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  State<RegisterPasswordScreen> createState() => _RegisterPasswordScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   bool showEye = false;
@@ -37,21 +36,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ResponsiveWidget.isSmallScreen(context)
                 ? const SizedBox()
                 : Expanded(
-                    child: Container(
-                      height: height,
-                      color: bgColor,
-                      child: Center(
-                        child: Text(
-                          'Our Logo',
-                          style: ralewayStyle.copyWith(
-                            fontSize: 48.0,
-                            color: AppColors.whiteColor,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                      ),
+              child: Container(
+                height: height,
+                color: bgColor,
+                child: Center(
+                  child: Text(
+                    'Our Logo',
+                    style: ralewayStyle.copyWith(
+                      fontSize: 48.0,
+                      color: AppColors.whiteColor,
+                      fontWeight: FontWeight.w800,
                     ),
                   ),
+                ),
+              ),
+            ),
             Expanded(
               child: Container(
                 height: height,
@@ -71,14 +70,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         text: TextSpan(
                           children: [
                             TextSpan(
-                                text: 'Register',
+                                text: 'Setup',
                                 style: ralewayStyle.copyWith(
                                   fontSize: 25.0,
                                   color: AppColors.blueDarkColor,
                                   fontWeight: FontWeight.normal,
                                 )),
                             TextSpan(
-                              text: ' Now ',
+                              text: ' Password',
                               style: ralewayStyle.copyWith(
                                 fontWeight: FontWeight.w800,
                                 color: AppColors.blueDarkColor,
@@ -90,52 +89,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       SizedBox(height: height * 0.02),
                       Text(
-                        ' Enter Details to get register.',
+                        'Hey, Setup your password to create \nyour account.',
                         style: ralewayStyle.copyWith(
                           fontSize: 12.0,
                           fontWeight: FontWeight.w400,
                           color: AppColors.textColor,
                         ),
                       ),
-                      SizedBox(height: height * 0.064),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 16.0),
-                        child: Text(
-                          'Email',
-                          style: ralewayStyle.copyWith(
-                            fontSize: 12.0,
-                            color: AppColors.blueDarkColor,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 6.0),
-                      Container(
-                        height: 50.0,
-                        width: width,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16.0),
-                          color: AppColors.whiteColor,
-                        ),
-                        child: TextFormField(
-                          keyboardType: TextInputType.emailAddress,
-                          validator: (v) {
-                            if (v!.isEmpty || !v.contains('@')) {
-                              return 'Please enter a valid email!';
-                            }
-                            return null;
-                          },
-                          controller: usernameController,
-                          cursorColor: Colors.black,
-                          decoration: DecorationCustom(
-                            suffixIcon: false,
-                            label: 'Your Email',
-                            prefixIcon: 'sms',
-                          ).textFieldDecoration(),
-                        ),
-                      ),
                       SizedBox(height: height * 0.014),
-                     /* Padding(
+                      Padding(
                         padding: const EdgeInsets.only(left: 16.0),
                         child: Text(
                           'Password',
@@ -179,31 +141,82 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ).textFieldDecoration(),
                         ),
                       ),
-                      SizedBox(height: height * 0.03),*/
-                      SizedBox(height: height * 0.02),
+                      SizedBox(height: height * 0.03),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 16.0),
+                        child: Text(
+                          'ConfirmPassword',
+                          style: ralewayStyle.copyWith(
+                            fontSize: 12.0,
+                            color: AppColors.blueDarkColor,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 6.0),
+                      Container(
+                        height: 50.0,
+                        width: width,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(16.0),
+                          color: AppColors.whiteColor,
+                        ),
+                        child: TextFormField(
+                          validator: (v) {
+                            if (v!.isEmpty) {
+                              return 'Please enter a password!';
+                            }
+                            return null;
+                          },
+                          controller: passwordController,
+                          cursorColor: Colors.black,
+                          style: k16_400_black,
+                          obscureText: !showEye,
+                          obscuringCharacter: '●',
+                          decoration: DecorationCustom(
+                            onTap: () {
+                              setState(() {
+                                showEye = !showEye;
+                              });
+                            },
+                            showEye: showEye,
+                            suffixIcon: true,
+                            label: 'Confirm Password',
+                            prefixIcon: 'lock',
+                          ).textFieldDecoration(),
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: TextButton(
+                          onPressed: () {},
+                          child: Text(
+                            'Forgot Password?',
+                            style: ralewayStyle.copyWith(
+                              fontSize: 12.0,
+                              color: bgColor,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: height * 0.05),
                       Material(
                         color: Colors.transparent,
                         child: InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => RegisterVerifyEmailScreen()),
-                            );
-                          },
-                          // onTap: () => Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => MultiProvider(
-                          //       providers: [
-                          //         ChangeNotifierProvider(
-                          //           create: (context) => MenuAppController(),
-                          //         ),
-                          //       ],
-                          //       child: MainScreen(),
-                          //     ),
-                          //   ),
-                          // ),
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MultiProvider(
+                                providers: [
+                                  ChangeNotifierProvider(
+                                    create: (context) => MenuAppController(),
+                                  ),
+                                ],
+                                child: MainScreen(),
+                              ),
+                            ),
+                          ),
                           borderRadius: BorderRadius.circular(16.0),
                           child: Ink(
                             padding: const EdgeInsets.symmetric(
@@ -213,7 +226,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               color: bgColor,
                             ),
                             child: Text(
-                              'Verify Email',
+                              'Create Account',
                               style: ralewayStyle.copyWith(
                                 fontWeight: FontWeight.w700,
                                 color: AppColors.whiteColor,
@@ -223,42 +236,42 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ),
                         ),
                       ),
-                      Container(
-                        height: 50,
-                        width: width,
-                        child: Row(
-                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(left: 16.0),
-                                child: Text(
-                                  'Already have an account ?',
-                                  style: ralewayStyle.copyWith(
-                                    fontSize: 12.0,
-                                    color: AppColors.blueDarkColor,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => LoginScreen()),
-                                  );
-                                },
-                                child: Text(
-                                  'Login',
-                                  style: ralewayStyle.copyWith(
-                                    fontSize: 12.0,
-                                    color: bgColor,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ),
-                            ]),
-                      )
+                      // Container(
+                      //   height: 50,
+                      //   width: width,
+                      //   child: Row(
+                      //     // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //       children: [
+                      //         Padding(
+                      //           padding: const EdgeInsets.only(left: 16.0),
+                      //           child: Text(
+                      //             'Dont have an account ?',
+                      //             style: ralewayStyle.copyWith(
+                      //               fontSize: 12.0,
+                      //               color: AppColors.blueDarkColor,
+                      //               fontWeight: FontWeight.w700,
+                      //             ),
+                      //           ),
+                      //         ),
+                      //         TextButton(
+                      //           onPressed: () {
+                      //             Navigator.push(
+                      //               context,
+                      //               MaterialPageRoute(
+                      //                   builder: (context) => RegisterScreen()),
+                      //             );
+                      //           },
+                      //           child: Text(
+                      //             'Register now',
+                      //             style: ralewayStyle.copyWith(
+                      //               fontSize: 12.0,
+                      //               color: bgColor,
+                      //               fontWeight: FontWeight.w600,
+                      //             ),
+                      //           ),
+                      //         ),
+                      //       ]),
+                      // )
                     ],
                   ),
                 ),

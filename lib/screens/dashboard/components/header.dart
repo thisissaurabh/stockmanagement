@@ -8,9 +8,10 @@ import 'package:spyco_shop_management/constants/responsive.dart';
 class Header extends StatelessWidget {
   const Header({
     Key? key,
-    required this.title,
+    required this.title, this.profileCard,
   }) : super(key: key);
   final String title;
+  final Widget? profileCard;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class Header extends StatelessWidget {
         if (!Responsive.isMobile(context))
           Spacer(flex: Responsive.isDesktop(context) ? 2 : 1),
         // Expanded(child: SearchField()),
-        ProfileCard()
+        profileCard ?? ProfileCard()
       ],
     );
   }

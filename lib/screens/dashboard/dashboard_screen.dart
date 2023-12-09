@@ -102,56 +102,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
     '10000',
   ];
 
-  List demoRecentFiles = [
-    MainRecentFileRequires(
-      title: "XD File",
-      date: "01-03-2021",
-      size: "3.5mb",
-      amount: "e3ew",
-    ),
-    MainRecentFileRequires(
-      title: "Figma File",
-      date: "27-02-2021",
-      size: "19.0mb",
-      amount: "e3ew",
-    ),
-    MainRecentFileRequires(
-      title: "Document",
-      date: "23-02-2021",
-      size: "32.5mb",
-      amount: "e3ew",
-    ),
-    MainRecentFileRequires(
-      title: "Sound File",
-      date: "21-02-2021",
-      size: "3.5mb",
-      amount: "e3ew",
-    ),
-    MainRecentFileRequires(
-      title: "Media File",
-      date: "23-02-2021",
-      size: "2.5gb",
-      amount: "e3ew",
-    ),
-    MainRecentFileRequires(
-      title: "Sales PDF",
-      date: "25-02-2021",
-      size: "3.5mb",
-      amount: "e3ew",
-    ),
-    MainRecentFileRequires(
-      title: "Excel File",
-      date: "25-02-2021",
-      size: "34.5mb",
-      amount: "e3ew",
-    ),
-  ];
 
 
   List<String> saleType = ["Purchase","Sales","Purchase","Sales""Purchase","Sales""Purchase","Sales""Purchase","Sales"];
   List <String>partyName = ["saurabh", "Roshan","saurabh", "Roshan","saurabh", "Roshan","saurabh", "Roshan","saurabh", "Roshan",];
   List <String>date = ["24-10-2023","24-10-2023","24-10-2023","24-10-2023","24-10-2023","24-10-2023","24-10-2023","24-10-2023","24-10-2023","24-10-2023",];
   List <String> amount = ["10000","20000","60000","90000","50000","10000","10000","10000","10000","10000",];
+  List item = ["fabric", "fabric","fabric", "fabric","fabric", "fabric","fabric", "fabric","fabric", "fabric",];
 
 
   @override
@@ -234,14 +191,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   child: CustomDataList(
                     listTitle: 'Recent Entries',
                     categoryTitle1: 'Type',
-                    categoryTitle2: 'Party Name',
-                    categoryTitle3: 'Date',
-                    categoryTitle4: 'Amount',
+                    categoryTitle2: 'Party',
+                    categoryTitle3: 'Item',
+                    categoryTitle4: 'Date',
                     listItemCount: saleType.length,
                     saleType: saleType,
                     partyName: partyName,
                     date: date,
                     amount: amount,
+                    categoryTitle5: 'Amount',
+                    item: [],
 
                   )
 

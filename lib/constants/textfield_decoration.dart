@@ -147,6 +147,8 @@ class DecorationCustom {
     this.onTap,
   });
 
+
+
   InputDecoration textFieldDecoration() {
     if (suffixIcon) {
       return InputDecoration(
@@ -369,6 +371,33 @@ class DecorationSimple {
           color: Colors.redAccent,
           width: 2,
         ),
+      ),
+    );
+  }
+}
+
+class CustomDataField {
+  final String label;
+  CustomDataField({required this.label});
+
+  InputDecoration dataFieldDecoration() {
+    return InputDecoration(
+      filled: true,
+      fillColor: Colors.white,
+      hintText: label,
+      hintStyle: k16_400_62696A,
+      contentPadding: EdgeInsets.symmetric(
+        horizontal: 10,
+        vertical: 10,
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(6),
+        borderSide: BorderSide(color: Colors.black.withOpacity(0.60), width: 0.5),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(6),
+        borderSide: BorderSide( color: selectedColor
+            .withOpacity(0.90), width: 0.5),
       ),
     );
   }

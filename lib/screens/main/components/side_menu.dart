@@ -3,9 +3,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:spyco_shop_management/constants/colors.dart';
 import 'package:spyco_shop_management/controllers/MenuAppController.dart';
+import 'package:spyco_shop_management/sales/add_customer.dart';
 import 'package:spyco_shop_management/sales/customers.dart';
+import 'package:spyco_shop_management/screens/company_profile.dart';
 import 'package:spyco_shop_management/screens/main/main_screen.dart';
 import 'package:spyco_shop_management/screens/supplier/add_supplier.dart';
+import 'package:spyco_shop_management/screens/supplier/supplier.dart';
 
 class SideMenu extends StatefulWidget {
   const SideMenu({
@@ -80,14 +83,26 @@ class _SideMenuState extends State<SideMenu> {
                             create: (context) => MenuAppController(),
                           ),
                         ],
-                        child: AddSupplierScreen(),
+                        child: AddSupplier(),
                       ),
                     ),
                   ),
                   title: "Add supplier",
                 ),
                 CustomListTile(
-                  press: () {},
+                  press: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MultiProvider(
+                        providers: [
+                          ChangeNotifierProvider(
+                            create: (context) => MenuAppController(),
+                          ),
+                        ],
+                        child: SupplierScreen(),
+                      ),
+                    ),
+                  ),
                   title: "View all supplier",
                 ),
                 CustomListTile(
@@ -129,8 +144,22 @@ class _SideMenuState extends State<SideMenu> {
             child: Column(
               children: [
                 CustomListTile(
-                  press: () {},
-                  title: "Invoice",
+                  press: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MultiProvider(
+                          providers: [
+                            ChangeNotifierProvider(
+                              create: (context) => MenuAppController(),
+                            ),
+                          ],
+                          child: AddCustomer(),
+                        ),
+                      ),
+                    );
+                  },
+                  title: "Add Customer",
                 ),
                 CustomListTile(
                   press: () {
@@ -148,7 +177,7 @@ class _SideMenuState extends State<SideMenu> {
                       ),
                     );
                   },
-                  title: "Customers",
+                  title: "All Customers",
                 ),
                 CustomListTile(
                   press: () {},
@@ -162,15 +191,34 @@ class _SideMenuState extends State<SideMenu> {
           //   svgSrc: "assets/icons/menu_store.svg",
           //   press: () {},
           // ),
+          // DrawerListTile(
+          //   title: "Lead management",
+          //   svgSrc: "assets/icons/menu_notification.svg",
+          //   press: () {},
+          // ),
           DrawerListTile(
-            title: "Lead management",
-            svgSrc: "assets/icons/menu_notification.svg",
+            title: "Users",
+            svgSrc: "assets/icons/menu_profile.svg",
             press: () {},
           ),
           DrawerListTile(
-            title: "Reports",
-            svgSrc: "assets/icons/menu_profile.svg",
-            press: () {},
+            title: "Company profile",
+            svgSrc: "assets/icons/menu_setting.svg",
+            press: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MultiProvider(
+                    providers: [
+                      ChangeNotifierProvider(
+                        create: (context) => MenuAppController(),
+                      ),
+                    ],
+                    child: CompanyProfile(),
+                  ),
+                ),
+              );
+            },
           ),
           DrawerListTile(
             title: "Settings",

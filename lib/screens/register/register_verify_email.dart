@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
 
 import 'package:spyco_shop_management/constants/colors.dart';
@@ -8,19 +9,18 @@ import 'package:spyco_shop_management/constants/textstyle.dart';
 import 'package:spyco_shop_management/controllers/MenuAppController.dart';
 import 'package:spyco_shop_management/screens/login/login.dart';
 import 'package:spyco_shop_management/screens/main/main_screen.dart';
-import 'package:spyco_shop_management/screens/register/register_verify_email.dart';
+import 'package:spyco_shop_management/screens/register/register_details.dart';
 
-class RegisterScreen extends StatefulWidget {
-  const RegisterScreen({Key? key}) : super(key: key);
+class RegisterVerifyEmailScreen extends StatefulWidget {
+  const RegisterVerifyEmailScreen({Key? key}) : super(key: key);
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  State<RegisterVerifyEmailScreen> createState() => _RegisterVerifyEmailScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
-  final usernameController = TextEditingController();
-  final passwordController = TextEditingController();
-  bool showEye = false;
+class _RegisterVerifyEmailScreenState extends State<RegisterVerifyEmailScreen> {
+  final otpController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -37,21 +37,21 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ResponsiveWidget.isSmallScreen(context)
                 ? const SizedBox()
                 : Expanded(
-                    child: Container(
-                      height: height,
-                      color: bgColor,
-                      child: Center(
-                        child: Text(
-                          'Our Logo',
-                          style: ralewayStyle.copyWith(
-                            fontSize: 48.0,
-                            color: AppColors.whiteColor,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                      ),
+              child: Container(
+                height: height,
+                color: bgColor,
+                child: Center(
+                  child: Text(
+                    'Our Logo',
+                    style: ralewayStyle.copyWith(
+                      fontSize: 48.0,
+                      color: AppColors.whiteColor,
+                      fontWeight: FontWeight.w800,
                     ),
                   ),
+                ),
+              ),
+            ),
             Expanded(
               child: Container(
                 height: height,
@@ -71,14 +71,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         text: TextSpan(
                           children: [
                             TextSpan(
-                                text: 'Register',
+                                text: 'Verify',
                                 style: ralewayStyle.copyWith(
                                   fontSize: 25.0,
                                   color: AppColors.blueDarkColor,
                                   fontWeight: FontWeight.normal,
                                 )),
                             TextSpan(
-                              text: ' Now ',
+                              text: ' Email ',
                               style: ralewayStyle.copyWith(
                                 fontWeight: FontWeight.w800,
                                 color: AppColors.blueDarkColor,
@@ -90,7 +90,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       SizedBox(height: height * 0.02),
                       Text(
-                        ' Enter Details to get register.',
+                        ' Enter Otp to Continue.',
                         style: ralewayStyle.copyWith(
                           fontSize: 12.0,
                           fontWeight: FontWeight.w400,
@@ -98,44 +98,62 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                       SizedBox(height: height * 0.064),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 16.0),
-                        child: Text(
-                          'Email',
-                          style: ralewayStyle.copyWith(
-                            fontSize: 12.0,
-                            color: AppColors.blueDarkColor,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
+                      // Padding(
+                      //   padding: const EdgeInsets.only(left: 16.0),
+                      //   child: Text(
+                      //     'Email',
+                      //     style: ralewayStyle.copyWith(
+                      //       fontSize: 12.0,
+                      //       color: AppColors.blueDarkColor,
+                      //       fontWeight: FontWeight.w700,
+                      //     ),
+                      //   ),
+                      // ),
                       const SizedBox(height: 6.0),
-                      Container(
-                        height: 50.0,
-                        width: width,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16.0),
-                          color: AppColors.whiteColor,
-                        ),
-                        child: TextFormField(
-                          keyboardType: TextInputType.emailAddress,
-                          validator: (v) {
-                            if (v!.isEmpty || !v.contains('@')) {
-                              return 'Please enter a valid email!';
-                            }
-                            return null;
-                          },
-                          controller: usernameController,
-                          cursorColor: Colors.black,
-                          decoration: DecorationCustom(
-                            suffixIcon: false,
-                            label: 'Your Email',
-                            prefixIcon: 'sms',
-                          ).textFieldDecoration(),
+                      PinCodeTextField(
+                        validator: (pinText) {
+                          if (pinText == null || pinText.isEmpty) {
+                            return "Enter pin";
+                          }
+                          return null;
+                        },
+                        controller: otpController,
+                        cursorColor: Colors.black,
+                        keyboardType: TextInputType.number,
+                        appContext: context,
+                        length: 4,
+                        onChanged: (val) {},
+                        pinTheme: PinTheme(
+                          activeColor: Colors.black,
+                          inactiveColor: Colors.black,
                         ),
                       ),
+                      // Container(
+                      //   height: 50.0,
+                      //   width: width,
+                      //   decoration: BoxDecoration(
+                      //     borderRadius: BorderRadius.circular(16.0),
+                      //     color: AppColors.whiteColor,
+                      //   ),
+                      //   child: TextFormField(
+                      //     keyboardType: TextInputType.emailAddress,
+                      //     validator: (v) {
+                      //       if (v!.isEmpty || !v.contains('@')) {
+                      //         return 'Please enter a valid email!';
+                      //       }
+                      //       return null;
+                      //     },
+                      //     controller: otpController,
+                      //     cursorColor: Colors.black,
+                      //     decoration: DecorationCustom(
+                      //       suffixIcon: false,
+                      //       label: 'Your Email',
+                      //       prefixIcon: 'sms',
+                      //     ).textFieldDecoration(),
+                      //   ),
+                      // ),
                       SizedBox(height: height * 0.014),
-                     /* Padding(
+                      /* Padding(
                         padding: const EdgeInsets.only(left: 16.0),
                         child: Text(
                           'Password',
@@ -188,22 +206,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => RegisterVerifyEmailScreen()),
+                                  builder: (context) => RegisterDetailsScreen()),
                             );
                           },
-                          // onTap: () => Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => MultiProvider(
-                          //       providers: [
-                          //         ChangeNotifierProvider(
-                          //           create: (context) => MenuAppController(),
-                          //         ),
-                          //       ],
-                          //       child: MainScreen(),
-                          //     ),
-                          //   ),
-                          // ),
+
                           borderRadius: BorderRadius.circular(16.0),
                           child: Ink(
                             padding: const EdgeInsets.symmetric(
@@ -213,7 +219,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               color: bgColor,
                             ),
                             child: Text(
-                              'Verify Email',
+                              'Enter OTP ',
                               style: ralewayStyle.copyWith(
                                 fontWeight: FontWeight.w700,
                                 color: AppColors.whiteColor,
@@ -227,12 +233,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         height: 50,
                         width: width,
                         child: Row(
-                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Padding(
                                 padding: const EdgeInsets.only(left: 16.0),
                                 child: Text(
-                                  'Already have an account ?',
+                                  'Did not Received Otp ?',
                                   style: ralewayStyle.copyWith(
                                     fontSize: 12.0,
                                     color: AppColors.blueDarkColor,
@@ -249,7 +255,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   );
                                 },
                                 child: Text(
-                                  'Login',
+                                  'Resend',
                                   style: ralewayStyle.copyWith(
                                     fontSize: 12.0,
                                     color: bgColor,
