@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:spyco_shop_management/api/login_register/login_api.dart';
+import 'package:spyco_shop_management/api_models/login_model.dart';
 
 import 'package:spyco_shop_management/constants/colors.dart';
 import 'package:spyco_shop_management/constants/responsive_widget.dart';
+import 'package:spyco_shop_management/constants/shared_prefs.dart';
 import 'package:spyco_shop_management/constants/textfield_decoration.dart';
 import 'package:spyco_shop_management/constants/textstyle.dart';
 import 'package:spyco_shop_management/controllers/MenuAppController.dart';
 import 'package:spyco_shop_management/screens/main/main_screen.dart';
 import 'package:spyco_shop_management/screens/register/register.dart';
+import 'package:spyco_shop_management/widgets/main_button.dart';
+import 'package:spyco_shop_management/widgets/snackbar.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -20,6 +26,9 @@ class _LoginScreenState extends State<LoginScreen> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   bool showEye = false;
+  bool isLoading = false;
+
+  LoginResponse? response;
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -100,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Padding(
                         padding: const EdgeInsets.only(left: 16.0),
                         child: Text(
-                          'Email',
+                          'Username',
                           style: ralewayStyle.copyWith(
                             fontSize: 12.0,
                             color: AppColors.blueDarkColor,
@@ -118,17 +127,17 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         child: TextFormField(
                           keyboardType: TextInputType.emailAddress,
-                          validator: (v) {
-                            if (v!.isEmpty || !v.contains('@')) {
-                              return 'Please enter a valid email!';
-                            }
-                            return null;
-                          },
+                          // validator: (v) {
+                          //   if (v!.isEmpty || !v.contains('@')) {
+                          //     return 'Please enter a valid username!';
+                          //   }
+                          //   return null;
+                          // },
                           controller: usernameController,
                           cursorColor: Colors.black,
                           decoration: DecorationCustom(
                             suffixIcon: false,
-                            label: 'Your Email',
+                            label: 'Your Username',
                             prefixIcon: 'sms',
                           ).textFieldDecoration(),
                         ),
@@ -194,22 +203,84 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       SizedBox(height: height * 0.05),
+                      isLoading ? LoadingButton() :
                       Material(
                         color: Colors.transparent,
                         child: InkWell(
-                          onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => MultiProvider(
-                                providers: [
-                                  ChangeNotifierProvider(
-                                    create: (context) => MenuAppController(),
-                                  ),
-                                ],
-                                child: MainScreen(),
-                              ),
-                            ),
-                          ),
+                          onTap: () {
+                            if (usernameController.text.isNotEmpty &&
+                            passwordController.text.isNotEmpty) {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              loginApi(
+                                  password: passwordController.text,
+                                  username: usernameController.text)
+                                  .then((value) async {
+                                response = value;
+                                if (response?.status != null &&
+                                    response!.status == 1) {
+                                  SharedPrefs().init();
+                                  var prefs =
+                                  await SharedPreferences
+                                      .getInstance();
+                                  prefs.setString('token',
+                                      response!.accessToken.toString()
+                                      );
+                                  prefs.setString('email',
+                                      usernameController.text
+                                  );
+                                  prefs.setString('password',
+                                      passwordController.text
+                                  );
+                                  // prefs.setBool(Keys().loginDone, true);
+                                  SharedPrefs().setLoginTrue();
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                  CustomSnackbar.show(
+                                      context: context,
+                                      label: 'Success',
+                                      color: Colors.green,
+                                      iconImage: "assets/icons/tick.svg");
+                                  print('check token');
+                                  print(response!.accessToken.toString());
+                                  print('check token');
+
+                                  Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => MultiProvider(
+                                            providers: [
+                                              ChangeNotifierProvider(
+                                                create: (context) => MenuAppController(),
+                                              ),
+                                            ],
+                                            child: MainScreen(),
+                                          ),
+                                        ),
+                                  );
+                                } else {
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                  CustomMsgSnackbar.show(
+                                      context: context,
+                                      label: value['message'],
+                                      color: Colors.red,
+                                      iconImage: "assets/icons/cross.svg");
+                                  // print("no");
+                                }
+                              });
+                            } else {
+                              CustomMsgSnackbar.show(
+                                  context: context,
+                                  label: 'Please Enter login credentials',
+                                  color: Colors.red,
+                                  iconImage: "assets/icons/cross.svg");
+
+                            }
+                          },
                           borderRadius: BorderRadius.circular(16.0),
                           child: Ink(
                             padding: const EdgeInsets.symmetric(

@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:spyco_shop_management/api/login_register/register_apis.dart';
 
 import 'package:spyco_shop_management/constants/colors.dart';
 import 'package:spyco_shop_management/constants/responsive_widget.dart';
 import 'package:spyco_shop_management/constants/textfield_decoration.dart';
 import 'package:spyco_shop_management/constants/textstyle.dart';
 import 'package:spyco_shop_management/controllers/MenuAppController.dart';
+import 'package:spyco_shop_management/screens/login/login.dart';
 import 'package:spyco_shop_management/screens/main/main_screen.dart';
 import 'package:spyco_shop_management/screens/register/register.dart';
+import 'package:spyco_shop_management/widgets/main_button.dart';
+import 'package:spyco_shop_management/widgets/snackbar.dart';
 
 class RegisterPasswordScreen extends StatefulWidget {
   const RegisterPasswordScreen({Key? key}) : super(key: key);
@@ -17,9 +21,10 @@ class RegisterPasswordScreen extends StatefulWidget {
 }
 
 class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
-  final usernameController = TextEditingController();
   final passwordController = TextEditingController();
+  final confirmPassword = TextEditingController();
   bool showEye = false;
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -168,7 +173,7 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                             }
                             return null;
                           },
-                          controller: passwordController,
+                          controller: confirmPassword,
                           cursorColor: Colors.black,
                           style: k16_400_black,
                           obscureText: !showEye,
@@ -201,22 +206,70 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                         ),
                       ),
                       SizedBox(height: height * 0.05),
+                      isLoading ?
+                      LoadingButton() :
                       Material(
                         color: Colors.transparent,
                         child: InkWell(
-                          onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => MultiProvider(
-                                providers: [
-                                  ChangeNotifierProvider(
-                                    create: (context) => MenuAppController(),
-                                  ),
-                                ],
-                                child: MainScreen(),
-                              ),
-                            ),
-                          ),
+                          onTap: () {
+                            if (passwordController.text == confirmPassword.text) {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              passwordApi(
+                                  password: passwordController.text,
+                                  confirmPassword: confirmPassword.text)
+                                  .then((value) async {
+                                if (value['status'] == 1) {
+
+                                  setState(() {
+                                     isLoading = false;
+                                  });
+                                  CustomSnackbar.show(
+                                      context: context,
+                                      label: 'Success',
+                                      color: Colors.green,
+                                      iconImage: "assets/icons/tick.svg");
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            LoginScreen()),
+                                  );
+                                } else {
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                  CustomSnackbar.show(
+                                      context: context,
+                                      label: 'Failed!!',
+                                      color: Colors.red,
+                                      iconImage: "assets/icons/cross.svg");
+                                  // print("no");
+                                }
+                              });
+                            } else {
+                              CustomMsgSnackbar.show(
+                                  context: context,
+                                  label: 'Please Check your password',
+                                  color: Colors.red,
+                                  iconImage: "assets/icons/cross.svg");
+
+                            }
+                          },
+                          // onTap: () => Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => MultiProvider(
+                          //       providers: [
+                          //         ChangeNotifierProvider(
+                          //           create: (context) => MenuAppController(),
+                          //         ),
+                          //       ],
+                          //       child: MainScreen(),
+                          //     ),
+                          //   ),
+                          // ),
                           borderRadius: BorderRadius.circular(16.0),
                           child: Ink(
                             padding: const EdgeInsets.symmetric(

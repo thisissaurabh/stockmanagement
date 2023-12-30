@@ -100,16 +100,22 @@ class RowSpaceBetweenRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
       children: [
-        Text(
-          title,
-          style: selectedThinText16,
-        ),
-        Text(
-          desc,
-          style: selectedThinText16,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              title,
+              style: selectedThinText16,
+            ),
+            Text(
+              desc,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: selectedThinText16,
+            ),
+          ],
         ),
       ],
     );
@@ -274,11 +280,20 @@ class _AddSupplierRowState extends State<AddSupplierRow> {
 
         SizedBox(width: 16,),
         widget.child2 ?? SizedBox()
-
-
-
-
       ],
     );
+  }
+}
+
+class TextFieldErrorText extends StatelessWidget {
+  final String text;
+  const TextFieldErrorText({super.key,
+    required this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      text,
+    style: TextStyle(color: Colors.red),);
   }
 }

@@ -3,16 +3,20 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import 'package:provider/provider.dart';
+import 'package:spyco_shop_management/api/login_register/logout_api.dart';
 import 'package:spyco_shop_management/constants/colors.dart';
 
 import 'package:spyco_shop_management/constants/responsive.dart';
+import 'package:spyco_shop_management/constants/shared_prefs.dart';
 import 'package:spyco_shop_management/constants/textfield_decoration.dart';
 import 'package:spyco_shop_management/constants/textstyle.dart';
 
 import 'package:spyco_shop_management/controllers/MenuAppController.dart';
 import 'package:spyco_shop_management/screens/dashboard/components/header.dart';
+import 'package:spyco_shop_management/screens/login/login.dart';
 
 import 'package:spyco_shop_management/screens/main/components/side_menu.dart';
 import 'package:spyco_shop_management/widgets/cards.dart';
@@ -21,6 +25,7 @@ import 'package:spyco_shop_management/widgets/global_widgets.dart';
 import 'package:spyco_shop_management/widgets/globals.dart';
 import 'package:spyco_shop_management/widgets/main_button.dart';
 import 'package:spyco_shop_management/widgets/main_recent_widget.dart';
+import 'package:spyco_shop_management/widgets/snackbar.dart';
 
 class CompanyProfile extends StatefulWidget {
   const CompanyProfile({super.key});
@@ -30,6 +35,8 @@ class CompanyProfile extends StatefulWidget {
 }
 
 class _CompanyProfileState extends State<CompanyProfile> {
+
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,6 +74,8 @@ class CompanyProfileDetails extends StatefulWidget {
 }
 
 class _CompanyProfileDetailsState extends State<CompanyProfileDetails> {
+
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -320,6 +329,50 @@ class _CompanyProfileDetailsState extends State<CompanyProfileDetails> {
                           color: Color(0xff824cfb).withOpacity(0.90),
                           titleColor: Colors.white,
                         ),
+                      Spacer(),
+                      if (Responsive.isDesktop(context))
+                        isLoading ? LoadingButton(
+                          color: Colors.red,
+                        ) :
+                      MainButton(
+                        title: 'Logout',
+                        press: () {
+                          setState(() {
+                            isLoading = true;
+                          });
+                          logoutApi(
+                          ).then((value) async {
+                            if (value['status'] == 1) {
+                              setState(() {
+                                isLoading = false;
+                              });
+                              CustomSnackbar.show(context: context,
+                                  label:"Sucess",
+                                  color: Colors.green,
+                                  iconImage: "assets/icons/tick.svg");
+                              SharedPrefs().setLoginFalse();
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => LoginScreen(
+                                     ),),
+                              );
+                            } else {
+                              setState(() {
+                                isLoading = false;
+                              });
+                              CustomMsgSnackbar.show(context: context,
+                                  label: value['message'],
+                                  color: Colors.red,
+                                  iconImage: "assets/icons/cross.svg");
+                            }
+                          });
+                        },
+                        sizeHorizontal: 30,
+                        sizeVerticle: 16,
+                        color: Colors.red.withOpacity(0.80),
+                        titleColor: Colors.white,
+                      ),
                     ],
                   ),
                 ],

@@ -30,15 +30,17 @@ class Header extends StatelessWidget {
         if (!Responsive.isMobile(context))
           Spacer(flex: Responsive.isDesktop(context) ? 2 : 1),
         // Expanded(child: SearchField()),
-        profileCard ?? ProfileCard()
+        profileCard ?? ProfileCard(username: '', userImage: '',)
       ],
     );
   }
 }
 
 class ProfileCard extends StatelessWidget {
+  final  String username;
+  final String userImage;
   const ProfileCard({
-    Key? key,
+    Key? key, required this.username, required this.userImage,
   }) : super(key: key);
 
   @override
@@ -56,15 +58,15 @@ class ProfileCard extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Image.asset(
-            "assets/images/profile_pic.png",
+          SvgPicture.asset(
+            userImage,
             height: 38,
           ),
           if (!Responsive.isMobile(context))
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: defaultPadding / 2),
-              child: Text("Angelina Jolie"),
+              child: Text(username),
             ),
           Icon(Icons.keyboard_arrow_down),
         ],

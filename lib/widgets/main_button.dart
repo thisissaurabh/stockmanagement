@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:spyco_shop_management/constants/colors.dart';
 import 'package:spyco_shop_management/constants/textstyle.dart';
 
@@ -58,6 +60,65 @@ class PlusButton extends StatelessWidget {
                 shape: BoxShape.rectangle),
             child: Icon(Icons.add)),
       ),
+    );
+  }
+}
+
+
+class AddButtonWithText extends StatelessWidget {
+  final VoidCallback onTap;
+  const AddButtonWithText({super.key, required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          color: purpleColor.withOpacity(0.80),
+          borderRadius: BorderRadius.circular(4),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              SvgPicture.asset("assets/icons/add-svgrepo-com.svg",color: Colors.white,),
+              Text("Add User",
+              style: TextStyle(color: Colors.white),),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class LoadingButton extends StatelessWidget {
+  final Color? color;
+  const LoadingButton({super.key, this.color});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Material(
+          color: Colors.transparent,
+          child: Ink(
+            padding: const EdgeInsets.symmetric(
+                horizontal: 70.0, vertical: 18.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(16.0),
+              color: color ?? bgColor,
+            ),
+            child: Center(
+        child: LoadingAnimationWidget.waveDots(
+        color: Colors.white,
+        size: 20,
+        ),
+          ),
+        ),
+        ),
+      ],
     );
   }
 }

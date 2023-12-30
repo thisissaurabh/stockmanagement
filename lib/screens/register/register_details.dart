@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:spyco_shop_management/api/login_register/register_apis.dart';
 
 import 'package:spyco_shop_management/constants/colors.dart';
 import 'package:spyco_shop_management/constants/responsive_widget.dart';
@@ -9,6 +10,7 @@ import 'package:spyco_shop_management/controllers/MenuAppController.dart';
 import 'package:spyco_shop_management/screens/main/main_screen.dart';
 import 'package:spyco_shop_management/screens/register/register.dart';
 import 'package:spyco_shop_management/screens/register/register_password.dart';
+import 'package:spyco_shop_management/widgets/snackbar.dart';
 
 class RegisterDetailsScreen extends StatefulWidget {
   const RegisterDetailsScreen({Key? key}) : super(key: key);
@@ -18,9 +20,15 @@ class RegisterDetailsScreen extends StatefulWidget {
 }
 
 class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
+  final nameController = TextEditingController();
+  final companyController = TextEditingController();
   final usernameController = TextEditingController();
-  final passwordController = TextEditingController();
+  final gstNoController = TextEditingController();
+  final addressController = TextEditingController();
   bool showEye = false;
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -62,250 +70,327 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
                 color: AppColors.backColor,
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.only(bottom: 40.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      SizedBox(height: height * 0.08),
-                      RichText(
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                                text: 'Enter',
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        SizedBox(height: height * 0.08),
+                        RichText(
+                          text: TextSpan(
+                            children: [
+                              TextSpan(
+                                  text: 'Enter',
+                                  style: ralewayStyle.copyWith(
+                                    fontSize: 25.0,
+                                    color: AppColors.blueDarkColor,
+                                    fontWeight: FontWeight.normal,
+                                  )),
+                              TextSpan(
+                                text: ' Details',
                                 style: ralewayStyle.copyWith(
-                                  fontSize: 25.0,
+                                  fontWeight: FontWeight.w800,
                                   color: AppColors.blueDarkColor,
-                                  fontWeight: FontWeight.normal,
-                                )),
-                            TextSpan(
-                              text: ' Details',
-                              style: ralewayStyle.copyWith(
-                                fontWeight: FontWeight.w800,
-                                color: AppColors.blueDarkColor,
-                                fontSize: 25.0,
+                                  fontSize: 25.0,
+                                ),
                               ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: height * 0.02),
+                        Text(
+                          'Hey, Enter your details to create \nyour account.',
+                          style: ralewayStyle.copyWith(
+                            fontSize: 12.0,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.textColor,
+                          ),
+                        ),
+                        SizedBox(height: height * 0.064),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16.0),
+                          child: Text(
+                            'Name',
+                            style: ralewayStyle.copyWith(
+                              fontSize: 12.0,
+                              color: AppColors.blueDarkColor,
+                              fontWeight: FontWeight.w700,
                             ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: height * 0.02),
-                      Text(
-                        'Hey, Enter your details to create \nyour account.',
-                        style: ralewayStyle.copyWith(
-                          fontSize: 12.0,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.textColor,
-                        ),
-                      ),
-                      SizedBox(height: height * 0.064),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 16.0),
-                        child: Text(
-                          'Company Name',
-                          style: ralewayStyle.copyWith(
-                            fontSize: 12.0,
-                            color: AppColors.blueDarkColor,
-                            fontWeight: FontWeight.w700,
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 6.0),
-                      Container(
-                        height: 50.0,
-                        width: width,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16.0),
-                          color: AppColors.whiteColor,
-                        ),
-                        child: TextFormField(
-                          controller: usernameController,
-                          cursorColor: Colors.black,
-                          decoration: DecorationCustom(
-                            suffixIcon: false,
-                            label: 'Your Company Name',
-                            prefixIcon: 'sms',
-                          ).textFieldDecoration(),
-                        ),
-                      ),
-                      SizedBox(height: height * 0.014),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 16.0),
-                        child: Text(
-                          'UserName',
-                          style: ralewayStyle.copyWith(
-                            fontSize: 12.0,
-                            color: AppColors.blueDarkColor,
-                            fontWeight: FontWeight.w700,
+                        const SizedBox(height: 6.0),
+                        Container(
+                          height: 50.0,
+                          width: width,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16.0),
+                            color: AppColors.whiteColor,
+                          ),
+                          child: TextFormField(
+                            controller: nameController,
+                            cursorColor: Colors.black,
+                            decoration: DecorationCustom(
+                              suffixIcon: false,
+                              label: 'Your Name',
+                              prefixIcon: 'sms',
+                            ).textFieldDecoration(),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 6.0),
-                      Container(
-                        height: 50.0,
-                        width: width,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16.0),
-                          color: AppColors.whiteColor,
-                        ),
-                        child: TextFormField(
-                          controller: usernameController,
-                          cursorColor: Colors.black,
-                          decoration: DecorationCustom(
-                            suffixIcon: false,
-                            label: 'Your UserName',
-                            prefixIcon: 'sms',
-                          ).textFieldDecoration(),
-                        ),
-                      ),
-                      SizedBox(height: height * 0.014),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 16.0),
-                        child: Text(
-                          'Gst No',
-                          style: ralewayStyle.copyWith(
-                            fontSize: 12.0,
-                            color: AppColors.blueDarkColor,
-                            fontWeight: FontWeight.w700,
+                        SizedBox(height: height * 0.014),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16.0),
+                          child: Text(
+                            'Company Name',
+                            style: ralewayStyle.copyWith(
+                              fontSize: 12.0,
+                              color: AppColors.blueDarkColor,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 6.0),
-                      Container(
-                        height: 50.0,
-                        width: width,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16.0),
-                          color: AppColors.whiteColor,
-                        ),
-                        child: TextFormField(
-                          controller: usernameController,
-                          cursorColor: Colors.black,
-                          decoration: DecorationCustom(
-                            suffixIcon: false,
-                            label: 'Your Gst No',
-                            prefixIcon: 'sms',
-                          ).textFieldDecoration(),
-                        ),
-                      ),
-                      SizedBox(height: height * 0.014),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 16.0),
-                        child: Text(
-                          'Address',
-                          style: ralewayStyle.copyWith(
-                            fontSize: 12.0,
-                            color: AppColors.blueDarkColor,
-                            fontWeight: FontWeight.w700,
+                        const SizedBox(height: 6.0),
+                        Container(
+                          height: 50.0,
+                          width: width,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16.0),
+                            color: AppColors.whiteColor,
+                          ),
+                          child: TextFormField(
+                            controller: companyController,
+                            cursorColor: Colors.black,
+                            decoration: DecorationCustom(
+                              suffixIcon: false,
+                              label: 'Your Company Name',
+                              prefixIcon: 'sms',
+                            ).textFieldDecoration(),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 6.0),
-                      Container(
-                        height: 50.0,
-                        width: width,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16.0),
-                          color: AppColors.whiteColor,
+                        SizedBox(height: height * 0.014),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16.0),
+                          child: Text(
+                            'UserName',
+                            style: ralewayStyle.copyWith(
+                              fontSize: 12.0,
+                              color: AppColors.blueDarkColor,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
                         ),
-                        child: TextFormField(
-                          // keyboardType: TextInputType.emailAddress,
-                          // validator: (v) {
-                          //   if (v!.isEmpty || !v.contains('@')) {
-                          //     return 'Please enter a valid email!';
-                          //   }
-                          //   return null;
-                          // },
-                          controller: usernameController,
-                          cursorColor: Colors.black,
-                          decoration: DecorationCustom(
-                            suffixIcon: false,
-                            label: 'Bussiness Address',
-                            prefixIcon: 'sms',
-                          ).textFieldDecoration(),
+                        const SizedBox(height: 6.0),
+                        Container(
+                          height: 50.0,
+                          width: width,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16.0),
+                            color: AppColors.whiteColor,
+                          ),
+                          child: TextFormField(
+                            controller: usernameController,
+                            cursorColor: Colors.black,
+                            decoration: DecorationCustom(
+                              suffixIcon: false,
+                              label: 'Your UserName',
+                              prefixIcon: 'sms',
+                            ).textFieldDecoration(),
+                          ),
                         ),
-                      ),
-                      SizedBox(height: height * 0.014),
+                        SizedBox(height: height * 0.014),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16.0),
+                          child: Text(
+                            'Gst No',
+                            style: ralewayStyle.copyWith(
+                              fontSize: 12.0,
+                              color: AppColors.blueDarkColor,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 6.0),
+                        Container(
+                          height: 50.0,
+                          width: width,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16.0),
+                            color: AppColors.whiteColor,
+                          ),
+                          child: TextFormField(
+                            controller: gstNoController,
+                            cursorColor: Colors.black,
+                            decoration: DecorationCustom(
+                              suffixIcon: false,
+                              label: 'Your Gst No',
+                              prefixIcon: 'sms',
+                            ).textFieldDecoration(),
+                          ),
+                        ),
+                        SizedBox(height: height * 0.014),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16.0),
+                          child: Text(
+                            'Address',
+                            style: ralewayStyle.copyWith(
+                              fontSize: 12.0,
+                              color: AppColors.blueDarkColor,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 6.0),
+                        Container(
+                          height: 50.0,
+                          width: width,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16.0),
+                            color: AppColors.whiteColor,
+                          ),
+                          child: TextFormField(
+                            // keyboardType: TextInputType.emailAddress,
+                            // validator: (v) {
+                            //   if (v!.isEmpty || !v.contains('@')) {
+                            //     return 'Please enter a valid email!';
+                            //   }
+                            //   return null;
+                            // },
+                            controller: addressController,
+                            cursorColor: Colors.black,
+                            decoration: DecorationCustom(
+                              suffixIcon: false,
+                              label: 'Bussiness Address',
+                              prefixIcon: 'sms',
+                            ).textFieldDecoration(),
+                          ),
+                        ),
+                        SizedBox(height: height * 0.014),
 
-                      SizedBox(height: height * 0.05),
-                      Material(
-                        color: Colors.transparent,
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => RegisterPasswordScreen()),
-                            );
-                          },
-                          // onTap: () => Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => MultiProvider(
-                          //       providers: [
-                          //         ChangeNotifierProvider(
-                          //           create: (context) => MenuAppController(),
-                          //         ),
-                          //       ],
-                          //       child: MainScreen(),
-                          //     ),
-                          //   ),
-                          // ),
-                          borderRadius: BorderRadius.circular(16.0),
-                          child: Ink(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 70.0, vertical: 18.0),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(16.0),
-                              color: bgColor,
-                            ),
-                            child: Text(
-                              'Continue',
-                              style: ralewayStyle.copyWith(
-                                fontWeight: FontWeight.w700,
-                                color: AppColors.whiteColor,
-                                fontSize: 16.0,
+                        SizedBox(height: height * 0.05),
+                        Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            onTap: () {
+                              if(
+                              nameController.text.isNotEmpty &&
+                              companyController.text.isNotEmpty &&
+                              usernameController.text.isNotEmpty &&
+                              gstNoController.text.isNotEmpty &&
+                              addressController.text.isNotEmpty) {
+                                setState(() {
+                                  isLoading = true;
+                                });
+                                companyRegister(
+                                    name: nameController.text,
+                                    companyName: companyController.text,
+                                    userName: usernameController.text,
+                                    gstNo: gstNoController.text,
+                                    address: addressController.text
+                                ).then((value) async {
+                                  if (value['status'] == 1) {
+                                    setState(() {
+                                      isLoading = false;
+                                    });
+                                    CustomSnackbar.show(context: context,
+                                        label: 'Success',
+                                        color: Colors.green,
+                                        iconImage: "assets/icons/tick.svg");
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => RegisterPasswordScreen()),
+                                    );
+
+                                  } else {
+                                    isLoading = false;
+                                    CustomSnackbar.show(context: context,
+                                        label: 'Failed!!',
+                                        color: Colors.red,
+                                        iconImage: "assets/icons/cross.svg");
+                                  }
+                                });
+                              } else {
+                                CustomMsgSnackbar.show(context: context,
+                                    label: 'Please Enter all details',
+                                    color: Colors.red,
+                                    iconImage: "assets/icons/cross.svg");
+                              }
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //       builder: (context) => RegisterPasswordScreen()),
+                              // );
+                            },
+                            // onTap: () => Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => MultiProvider(
+                            //       providers: [
+                            //         ChangeNotifierProvider(
+                            //           create: (context) => MenuAppController(),
+                            //         ),
+                            //       ],
+                            //       child: MainScreen(),
+                            //     ),
+                            //   ),
+                            // ),
+                            borderRadius: BorderRadius.circular(16.0),
+                            child: Ink(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 70.0, vertical: 18.0),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(16.0),
+                                color: bgColor,
+                              ),
+                              child: Text(
+                                'Continue',
+                                style: ralewayStyle.copyWith(
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.whiteColor,
+                                  fontSize: 16.0,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                      // Container(
-                      //   height: 50,
-                      //   width: width,
-                      //   child: Row(
-                      //     // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //       children: [
-                      //         Padding(
-                      //           padding: const EdgeInsets.only(left: 16.0),
-                      //           child: Text(
-                      //             'Dont have an account ?',
-                      //             style: ralewayStyle.copyWith(
-                      //               fontSize: 12.0,
-                      //               color: AppColors.blueDarkColor,
-                      //               fontWeight: FontWeight.w700,
-                      //             ),
-                      //           ),
-                      //         ),
-                      //         TextButton(
-                      //           onPressed: () {
-                      //             Navigator.push(
-                      //               context,
-                      //               MaterialPageRoute(
-                      //                   builder: (context) => RegisterScreen()),
-                      //             );
-                      //           },
-                      //           child: Text(
-                      //             'Register now',
-                      //             style: ralewayStyle.copyWith(
-                      //               fontSize: 12.0,
-                      //               color: bgColor,
-                      //               fontWeight: FontWeight.w600,
-                      //             ),
-                      //           ),
-                      //         ),
-                      //       ]),
-                      // )
-                    ],
+                        // Container(
+                        //   height: 50,
+                        //   width: width,
+                        //   child: Row(
+                        //     // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        //       children: [
+                        //         Padding(
+                        //           padding: const EdgeInsets.only(left: 16.0),
+                        //           child: Text(
+                        //             'Dont have an account ?',
+                        //             style: ralewayStyle.copyWith(
+                        //               fontSize: 12.0,
+                        //               color: AppColors.blueDarkColor,
+                        //               fontWeight: FontWeight.w700,
+                        //             ),
+                        //           ),
+                        //         ),
+                        //         TextButton(
+                        //           onPressed: () {
+                        //             Navigator.push(
+                        //               context,
+                        //               MaterialPageRoute(
+                        //                   builder: (context) => RegisterScreen()),
+                        //             );
+                        //           },
+                        //           child: Text(
+                        //             'Register now',
+                        //             style: ralewayStyle.copyWith(
+                        //               fontSize: 12.0,
+                        //               color: bgColor,
+                        //               fontWeight: FontWeight.w600,
+                        //             ),
+                        //           ),
+                        //         ),
+                        //       ]),
+                        // )
+                      ],
+                    ),
                   ),
                 ),
               ),

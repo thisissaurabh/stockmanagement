@@ -5,8 +5,10 @@ import 'dart:math';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:spyco_shop_management/api_models/login_model.dart';
 import 'package:spyco_shop_management/constants/colors.dart';
 import 'package:spyco_shop_management/constants/responsive.dart';
+import 'package:spyco_shop_management/constants/shared_prefs.dart';
 import 'package:spyco_shop_management/constants/textstyle.dart';
 import 'package:spyco_shop_management/screens/dashboard/components/header.dart';
 import 'package:spyco_shop_management/widgets/cards.dart';
@@ -26,6 +28,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   );
 
   int pageIndex = 0;
+  LoginResponse ? response;
 
   @override
   void dispose() {
@@ -121,6 +124,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
           children: [
             Header(
               title: "Dashboard",
+              profileCard: ProfileCard(
+                  username: '',
+                  userImage: "person-svgrepo-com.svg",
+              ),
             ),
             SizedBox(height: defaultPadding),
             Row(
@@ -202,113 +209,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     categoryTitle5: 'Amount',
                     item: [],
 
-                  )
-
-                  // ElevatedBgCard(
-                  //   radius: 0.0,
-                  //   child: Column(
-                  //     crossAxisAlignment: CrossAxisAlignment.start,
-                  //     mainAxisAlignment: MainAxisAlignment.start,
-                  //     children: [
-                  //       Padding(
-                  //         padding: const EdgeInsets.only(left: 16,top: 16,),
-                  //         child: Text(
-                  //           "Recent Entries",
-                  //           style: nameText,
-                  //
-                  //         ),
-                  //       ),
-                  //       SizedBox(height: 10,),
-                  //      Column(
-                  //        children: [
-                  //          Container(
-                  //            color: selectedColor
-                  //                .withOpacity(0.40),
-                  //            child: Padding(
-                  //              padding:
-                  //              const EdgeInsets.symmetric(horizontal: 16.0,vertical: 10),
-                  //            child: Row(
-                  //              mainAxisAlignment: MainAxisAlignment.center,
-                  //              crossAxisAlignment: CrossAxisAlignment.center,
-                  //              children: [
-                  //                Expanded(
-                  //                  child: Text(
-                  //                    "Type",
-                  //                    style: nameTextGrey,
-                  //                  ),
-                  //                ),
-                  //                Expanded(
-                  //                  child: Text(
-                  //                    "Name",
-                  //                    style: nameTextGrey,
-                  //                  ),
-                  //                ),
-                  //                Expanded(
-                  //                  child: Text(
-                  //                    "Date",
-                  //                    style: nameTextGrey,
-                  //                  ),
-                  //                ),
-                  //                Expanded(
-                  //                  child: Text(
-                  //                    "Amount",
-                  //                    style: nameTextGrey,
-                  //                  ),
-                  //                ),
-                  //
-                  //              ],
-                  //            ),
-                  //          ), ),
-                  //          SizedBox(
-                  //            height: 5,
-                  //          ),
-                  //          // CustomHorizontalLine(),
-                  //          ListView.separated(
-                  //            itemCount: saleType.length,
-                  //            shrinkWrap: true,
-                  //            itemBuilder: (_, i) {
-                  //              return Padding(
-                  //                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10),
-                  //                child: Row(
-                  //                  mainAxisAlignment: MainAxisAlignment.center,
-                  //                  crossAxisAlignment: CrossAxisAlignment.center,
-                  //                  children: [
-                  //                    Expanded(
-                  //                      child: Text(
-                  //                        saleType[i],
-                  //                        style: listName,
-                  //                      ),
-                  //                    ),
-                  //                    Expanded(
-                  //                      child: Text(
-                  //                        partyName[i],
-                  //                        style: listName,
-                  //                      ),
-                  //                    ),
-                  //                    Expanded(
-                  //                      child: Text(
-                  //                        date[i],
-                  //                        style: listName,
-                  //                      ),
-                  //                    ),
-                  //                    Expanded(
-                  //                      child: Text(
-                  //                        amount[i],
-                  //                        style: listName,
-                  //                      ),
-                  //                    ),
-                  //                  ],
-                  //                ),
-                  //              );
-                  //            }, separatorBuilder: (BuildContext context, int index) =>
-                  //              CustomHorizontalLine(),
-                  //          )
-                  //
-                  //        ],
-                  //      ),
-                  //     ],
-                  //   ),
-                  // ),
+                  ),
                 ),
                 SizedBox(width: 16),
                 Expanded(

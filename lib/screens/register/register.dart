@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_icon_snackbar/flutter_icon_snackbar.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
+import 'package:spyco_shop_management/api/login_register/register_apis.dart';
 
 import 'package:spyco_shop_management/constants/colors.dart';
 import 'package:spyco_shop_management/constants/responsive_widget.dart';
@@ -9,6 +12,9 @@ import 'package:spyco_shop_management/controllers/MenuAppController.dart';
 import 'package:spyco_shop_management/screens/login/login.dart';
 import 'package:spyco_shop_management/screens/main/main_screen.dart';
 import 'package:spyco_shop_management/screens/register/register_verify_email.dart';
+import 'package:spyco_shop_management/widgets/main_button.dart';
+import 'package:spyco_shop_management/widgets/snackbar.dart';
+
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -18,9 +24,9 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
-  final usernameController = TextEditingController();
-  final passwordController = TextEditingController();
+  final emailController = TextEditingController();
   bool showEye = false;
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
@@ -125,7 +131,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             }
                             return null;
                           },
-                          controller: usernameController,
+                          controller: emailController,
                           cursorColor: Colors.black,
                           decoration: DecorationCustom(
                             suffixIcon: false,
@@ -135,75 +141,60 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                       ),
                       SizedBox(height: height * 0.014),
-                     /* Padding(
-                        padding: const EdgeInsets.only(left: 16.0),
-                        child: Text(
-                          'Password',
-                          style: ralewayStyle.copyWith(
-                            fontSize: 12.0,
-                            color: AppColors.blueDarkColor,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 6.0),
-                      Container(
-                        height: 50.0,
-                        width: width,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16.0),
-                          color: AppColors.whiteColor,
-                        ),
-                        child: TextFormField(
-                          validator: (v) {
-                            if (v!.isEmpty) {
-                              return 'Please enter a password!';
-                            }
-                            return null;
-                          },
-                          controller: passwordController,
-                          cursorColor: Colors.black,
-                          style: k16_400_black,
-                          obscureText: !showEye,
-                          obscuringCharacter: '●',
-                          decoration: DecorationCustom(
-                            onTap: () {
-                              setState(() {
-                                showEye = !showEye;
-                              });
-                            },
-                            showEye: showEye,
-                            suffixIcon: true,
-                            label: 'Password',
-                            prefixIcon: 'lock',
-                          ).textFieldDecoration(),
-                        ),
-                      ),
-                      SizedBox(height: height * 0.03),*/
                       SizedBox(height: height * 0.02),
+                      isLoading ?
+                          LoadingButton() :
                       Material(
                         color: Colors.transparent,
                         child: InkWell(
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => RegisterVerifyEmailScreen()),
-                            );
+                            if(emailController.text.contains("@") &&
+                                emailController.text.contains("com")
+
+                            ) {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              registerApi(
+                                  email: emailController.text
+                              ).then((value) async {
+
+                                if (value['status'] == 1) {
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                  CustomSnackbar.show(context: context,
+                                      label:"Sucess",
+                                      color: Colors.green,
+                                      iconImage: "assets/icons/tick.svg");
+                                  // Fluttertoast.showToast(
+                                  //   msg: 'Your OTP is ${value['otp']}',
+                                  // );
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => RegisterVerifyEmailScreen(
+                                          email: emailController.text,)),
+                                  );
+                                } else {
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                  CustomMsgSnackbar.show(context: context,
+                                      label: value['message'],
+                                      color: Colors.red,
+                                      iconImage: "assets/icons/cross.svg");
+                                }
+                              });
+                            }
+                          else {
+                              CustomMsgSnackbar.show(context: context,
+                                  label: 'Please Enter valid email',
+                                  color: Colors.red,
+                                  iconImage: "assets/icons/cross.svg");
+                            }
                           },
-                          // onTap: () => Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => MultiProvider(
-                          //       providers: [
-                          //         ChangeNotifierProvider(
-                          //           create: (context) => MenuAppController(),
-                          //         ),
-                          //       ],
-                          //       child: MainScreen(),
-                          //     ),
-                          //   ),
-                          // ),
+
                           borderRadius: BorderRadius.circular(16.0),
                           child: Ink(
                             padding: const EdgeInsets.symmetric(
@@ -267,6 +258,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
           ],
         ),
       ),
+    );
+  }
+  void showCustomToast(BuildContext context) {
+    Fluttertoast.showToast(
+      msg: 'This is a custom toast!',
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.TOP, // Set the gravity to top
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.grey[800],
+      textColor: Colors.white,
+      fontSize: 16.0,
     );
   }
 }

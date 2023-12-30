@@ -9,6 +9,8 @@ import 'package:spyco_shop_management/screens/company_profile.dart';
 import 'package:spyco_shop_management/screens/main/main_screen.dart';
 import 'package:spyco_shop_management/screens/supplier/add_supplier.dart';
 import 'package:spyco_shop_management/screens/supplier/supplier.dart';
+import 'package:spyco_shop_management/screens/users/users.dart';
+import 'package:spyco_shop_management/users.dart';
 
 class SideMenu extends StatefulWidget {
   const SideMenu({
@@ -105,10 +107,6 @@ class _SideMenuState extends State<SideMenu> {
                   ),
                   title: "View all supplier",
                 ),
-                CustomListTile(
-                  press: () {},
-                  title: "Category 3",
-                )
               ],
             ),
           ),
@@ -139,7 +137,7 @@ class _SideMenuState extends State<SideMenu> {
             ),
           ),
           DropDownMenu(
-            title: 'Sales',
+            title: 'Customer',
             leadingImage: 'assets/icons/menu_doc.svg',
             child: Column(
               children: [
@@ -179,10 +177,10 @@ class _SideMenuState extends State<SideMenu> {
                   },
                   title: "All Customers",
                 ),
-                CustomListTile(
-                  press: () {},
-                  title: "Category 3",
-                )
+                // CustomListTile(
+                //   press: () {},
+                //   title: "Category 3",
+                // )
               ],
             ),
           ),
@@ -199,7 +197,21 @@ class _SideMenuState extends State<SideMenu> {
           DrawerListTile(
             title: "Users",
             svgSrc: "assets/icons/menu_profile.svg",
-            press: () {},
+            press: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => MultiProvider(
+                    providers: [
+                      ChangeNotifierProvider(
+                        create: (context) => MenuAppController(),
+                      ),
+                    ],
+                    child: Users(),
+                  ),
+                ),
+              );
+            },
           ),
           DrawerListTile(
             title: "Company profile",

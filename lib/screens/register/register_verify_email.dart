@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
+import 'package:spyco_shop_management/api/login_register/register_apis.dart';
 
 import 'package:spyco_shop_management/constants/colors.dart';
 import 'package:spyco_shop_management/constants/responsive_widget.dart';
@@ -10,16 +11,21 @@ import 'package:spyco_shop_management/controllers/MenuAppController.dart';
 import 'package:spyco_shop_management/screens/login/login.dart';
 import 'package:spyco_shop_management/screens/main/main_screen.dart';
 import 'package:spyco_shop_management/screens/register/register_details.dart';
+import 'package:spyco_shop_management/widgets/main_button.dart';
+import 'package:spyco_shop_management/widgets/snackbar.dart';
 
 class RegisterVerifyEmailScreen extends StatefulWidget {
-  const RegisterVerifyEmailScreen({Key? key}) : super(key: key);
+  final String email;
+  const RegisterVerifyEmailScreen({Key? key, required this.email}) : super(key: key);
 
   @override
-  State<RegisterVerifyEmailScreen> createState() => _RegisterVerifyEmailScreenState();
+  State<RegisterVerifyEmailScreen> createState() =>
+      _RegisterVerifyEmailScreenState();
 }
 
 class _RegisterVerifyEmailScreenState extends State<RegisterVerifyEmailScreen> {
   final otpController = TextEditingController();
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -37,21 +43,21 @@ class _RegisterVerifyEmailScreenState extends State<RegisterVerifyEmailScreen> {
             ResponsiveWidget.isSmallScreen(context)
                 ? const SizedBox()
                 : Expanded(
-              child: Container(
-                height: height,
-                color: bgColor,
-                child: Center(
-                  child: Text(
-                    'Our Logo',
-                    style: ralewayStyle.copyWith(
-                      fontSize: 48.0,
-                      color: AppColors.whiteColor,
-                      fontWeight: FontWeight.w800,
+                    child: Container(
+                      height: height,
+                      color: bgColor,
+                      child: Center(
+                        child: Text(
+                          'Our Logo',
+                          style: ralewayStyle.copyWith(
+                            fontSize: 48.0,
+                            color: AppColors.whiteColor,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                      ),
                     ),
                   ),
-                ),
-              ),
-            ),
             Expanded(
               child: Container(
                 height: height,
@@ -90,36 +96,25 @@ class _RegisterVerifyEmailScreenState extends State<RegisterVerifyEmailScreen> {
                       ),
                       SizedBox(height: height * 0.02),
                       Text(
-                        ' Enter Otp to Continue.',
+                        ' Enter Otp From Mail to Continue.',
                         style: ralewayStyle.copyWith(
-                          fontSize: 12.0,
+                          fontSize: 16.0,
                           fontWeight: FontWeight.w400,
                           color: AppColors.textColor,
                         ),
                       ),
                       SizedBox(height: height * 0.064),
-                      // Padding(
-                      //   padding: const EdgeInsets.only(left: 16.0),
-                      //   child: Text(
-                      //     'Email',
-                      //     style: ralewayStyle.copyWith(
-                      //       fontSize: 12.0,
-                      //       color: AppColors.blueDarkColor,
-                      //       fontWeight: FontWeight.w700,
-                      //     ),
-                      //   ),
-                      // ),
                       const SizedBox(height: 6.0),
                       PinCodeTextField(
-                        validator: (pinText) {
-                          if (pinText == null || pinText.isEmpty) {
-                            return "Enter pin";
-                          }
-                          return null;
-                        },
+                        // validator: (pinText) {
+                        //   if (pinText == null || pinText.isEmpty) {
+                        //     return "Enter pin";
+                        //   }
+                        //   return null;
+                        // },
                         controller: otpController,
                         cursorColor: Colors.black,
-                        keyboardType: TextInputType.number,
+                        // keyboardType: TextInputType.number,
                         appContext: context,
                         length: 4,
                         onChanged: (val) {},
@@ -128,88 +123,63 @@ class _RegisterVerifyEmailScreenState extends State<RegisterVerifyEmailScreen> {
                           inactiveColor: Colors.black,
                         ),
                       ),
-                      // Container(
-                      //   height: 50.0,
-                      //   width: width,
-                      //   decoration: BoxDecoration(
-                      //     borderRadius: BorderRadius.circular(16.0),
-                      //     color: AppColors.whiteColor,
-                      //   ),
-                      //   child: TextFormField(
-                      //     keyboardType: TextInputType.emailAddress,
-                      //     validator: (v) {
-                      //       if (v!.isEmpty || !v.contains('@')) {
-                      //         return 'Please enter a valid email!';
-                      //       }
-                      //       return null;
-                      //     },
-                      //     controller: otpController,
-                      //     cursorColor: Colors.black,
-                      //     decoration: DecorationCustom(
-                      //       suffixIcon: false,
-                      //       label: 'Your Email',
-                      //       prefixIcon: 'sms',
-                      //     ).textFieldDecoration(),
-                      //   ),
-                      // ),
                       SizedBox(height: height * 0.014),
-                      /* Padding(
-                        padding: const EdgeInsets.only(left: 16.0),
-                        child: Text(
-                          'Password',
-                          style: ralewayStyle.copyWith(
-                            fontSize: 12.0,
-                            color: AppColors.blueDarkColor,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 6.0),
-                      Container(
-                        height: 50.0,
-                        width: width,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16.0),
-                          color: AppColors.whiteColor,
-                        ),
-                        child: TextFormField(
-                          validator: (v) {
-                            if (v!.isEmpty) {
-                              return 'Please enter a password!';
-                            }
-                            return null;
-                          },
-                          controller: passwordController,
-                          cursorColor: Colors.black,
-                          style: k16_400_black,
-                          obscureText: !showEye,
-                          obscuringCharacter: '●',
-                          decoration: DecorationCustom(
-                            onTap: () {
-                              setState(() {
-                                showEye = !showEye;
-                              });
-                            },
-                            showEye: showEye,
-                            suffixIcon: true,
-                            label: 'Password',
-                            prefixIcon: 'lock',
-                          ).textFieldDecoration(),
-                        ),
-                      ),
-                      SizedBox(height: height * 0.03),*/
                       SizedBox(height: height * 0.02),
+                      isLoading ? LoadingButton() :
                       Material(
                         color: Colors.transparent,
                         child: InkWell(
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => RegisterDetailsScreen()),
-                            );
-                          },
+                            if (otpController.text.length == 4) {
+                              setState(() {
+                                isLoading = true;
+                              });
+                              enterOtpApi(
+                                  otp: otpController.text)
+                                  .then((value) async {
+                                    print(otpController.text);
+                                if (value['status'] == 1) {
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                  CustomSnackbar.show(
+                                      context: context,
+                                      label: 'Success',
+                                      color: Colors.green,
+                                      iconImage: "assets/icons/tick.svg");
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            RegisterDetailsScreen()),
+                                  );
+                                } else {
+                                  setState(() {
+                                    isLoading = false;
+                                  });
+                                  CustomSnackbar.show(
+                                      context: context,
+                                      label: 'Failed!!',
+                                      color: Colors.red,
+                                      iconImage: "assets/icons/cross.svg");
+                                  // print("no");
+                                }
+                              });
+                            } else {
+                              CustomMsgSnackbar.show(
+                                  context: context,
+                                  label: 'Please Enter Otp',
+                                  color: Colors.red,
+                                  iconImage: "assets/icons/cross.svg");
 
+                            }
+
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //       builder: (context) => RegisterDetailsScreen()),
+                            // );
+                          },
                           borderRadius: BorderRadius.circular(16.0),
                           child: Ink(
                             padding: const EdgeInsets.symmetric(
@@ -233,7 +203,7 @@ class _RegisterVerifyEmailScreenState extends State<RegisterVerifyEmailScreen> {
                         height: 50,
                         width: width,
                         child: Row(
-                          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Padding(
                                 padding: const EdgeInsets.only(left: 16.0),
@@ -248,11 +218,22 @@ class _RegisterVerifyEmailScreenState extends State<RegisterVerifyEmailScreen> {
                               ),
                               TextButton(
                                 onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => LoginScreen()),
-                                  );
+                                  registerApi(
+                                      email: widget.email
+                                  ).then((value) async {
+                                    if (value['status'] == 1) {
+                                      CustomSnackbar.show(context: context,
+                                          label: 'Success',
+                                          color: Colors.green,
+                                          iconImage: "assets/icons/tick.svg");
+
+                                    }
+                                  });
+                                  // Navigator.push(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //       builder: (context) => LoginScreen()),
+                                  // );
                                 },
                                 child: Text(
                                   'Resend',

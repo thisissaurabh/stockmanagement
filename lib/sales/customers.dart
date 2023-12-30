@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
+import 'package:spyco_shop_management/api/login_register/get_customer_api.dart';
+import 'package:spyco_shop_management/api_models/customer_model.dart';
 import 'package:spyco_shop_management/constants/colors.dart';
 
 import 'package:spyco_shop_management/constants/responsive.dart';
@@ -26,6 +28,13 @@ class CustomersScreen extends StatefulWidget {
 }
 
 class _CustomersScreenState extends State<CustomersScreen> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,6 +88,31 @@ class _LeftCustomerPanelState extends State<LeftCustomerPanel> {
   @override
   void initState() {
     super.initState();
+    getCustomer();
+
+  }
+
+
+  bool isLoading = false;
+
+  List<CustomerModel> customers = [];
+
+  getCustomer() {
+    isLoading = true;
+    var resp = getCustomerApi();
+    resp.then((value) {
+      if (value['status'] == 1) {
+        for(var v in value['customerData']['data']) {
+          customers.add(CustomerModel.fromJson(v));
+        }
+        print(customers.length);
+        setState(() {
+          isLoading = false;
+        });
+      } else {
+        isLoading = false;
+      }
+    });
   }
 
   var customerName = [
@@ -163,7 +197,9 @@ class _LeftCustomerPanelState extends State<LeftCustomerPanel> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
+      body:
+      isLoading ?
+      CircularProgressIndicator() :SingleChildScrollView(
         primary: false,
         padding: EdgeInsets.all(defaultPadding),
         child: Column(
@@ -226,7 +262,7 @@ class _LeftCustomerPanelState extends State<LeftCustomerPanel> {
                             ),
                             ListView.separated(
                                 shrinkWrap: true,
-                                itemCount: customerName.length,
+                                itemCount: customers.length,
                                 itemBuilder: (_, i) {
                                   return GestureDetector(
                                     onTap: () {
@@ -253,12 +289,16 @@ class _LeftCustomerPanelState extends State<LeftCustomerPanel> {
                                                   CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  customerName[i],
+                                                  customers[i].firstName.toString(),
                                                   style: nameSlimText,
                                                 ),
                                                 Spacer(),
                                                 Text(
-                                                  "\u20B9${billingPrice[i]}",
+                                                  customers[i].mail.toString(),
+                                                  maxLines: 1,
+                                                  overflow: TextOverflow.ellipsis,
+
+                                                  // "\u20B9${billingPrice[i]}",
                                                   style: nameSlimText,
                                                 ),
                                               ]),
@@ -287,7 +327,8 @@ class _LeftCustomerPanelState extends State<LeftCustomerPanel> {
                     padding: const EdgeInsets.symmetric(horizontal: 16.0),
                     child: Column(
                       children: [
-                        ElevatedBgCard(
+                        //details card --------//
+                      /*  ElevatedBgCard(
                           radius: 16.0,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -298,18 +339,19 @@ class _LeftCustomerPanelState extends State<LeftCustomerPanel> {
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 children: [
+                                  selectedItemIndex != -1 && customers.isNotEmpty && selectedItemIndex < customers.length ?
                                   Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        "Saurav",
+                                        customers[selectedItemIndex].firstName.toString(),
                                         style: nameSmallText,
                                       ),
                                       Row(
                                         children: [
                                           Text("Phone:"),
-                                          Text("9484848484"),
+                                          Text(customers[selectedItemIndex].phone.toString(),),
                                           Row(
                                             children: [],
                                           )
@@ -318,17 +360,18 @@ class _LeftCustomerPanelState extends State<LeftCustomerPanel> {
                                       Row(
                                         children: [
                                           Text("Email:"),
-                                          Text("spycotech@gmail.com")
+                                          Text(customers[selectedItemIndex].mail.toString(),)
                                         ],
                                       ),
                                       Row(
                                         children: [
                                           Text("Gstin:"),
-                                          Text("4474875874784574")
+                                          Text(customers[selectedItemIndex].gstNo.toString(),)
                                         ],
                                       ),
                                     ],
-                                  ),
+                                  ) :
+                                      SizedBox(),
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
@@ -341,7 +384,7 @@ class _LeftCustomerPanelState extends State<LeftCustomerPanel> {
                                             MediaQuery.sizeOf(context).width *
                                                 0.30,
                                         child: Text(
-                                          "P-68 Vijay Vihar Uttam Nagar New delhi 110059",
+                                          customers[selectedItemIndex].companyAddress.toString(),
                                           maxLines: 3,
                                           textAlign: TextAlign.end,
                                           overflow: TextOverflow.ellipsis,
@@ -350,31 +393,11 @@ class _LeftCustomerPanelState extends State<LeftCustomerPanel> {
                                     ],
                                   )
                                 ],
-                              )
-
-                              // Text(
-                              //   "${customerName[selectedItemIndex]}",
-                              //   style: titleBold,
-                              // ),
-                              // HorizontalLine(),
-                              // SizedBox(
-                              //   height: 10,
-                              // ),
-                              // Container(
-                              //   color: Colors.yellow,
-                              //   child: Center(
-                              //     child: Row(
-                              //       children: [
-                              //         Container(),
-                              //         Text(
-                              //             "Content of ${customerName[selectedItemIndex]}"),
-                              //       ],
-                              //     ),
-                              //   ),
-                              // ),
+                              ),
                             ],
                           ),
-                        ),
+                        ),*/
+                        //details card --------//
                         SizedBox(
                           height: 10,
                         ),
@@ -480,14 +503,16 @@ class _LeftCustomerPanelState extends State<LeftCustomerPanel> {
                                                 BorderRadius.circular(16)),
                                         child: Padding(
                                           padding: const EdgeInsets.all(16.0),
-                                          child: Column(
+                                          child:
+                                          selectedItemIndex != -1 && customers.isNotEmpty && selectedItemIndex < customers.length ?
+                                          Column(
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
                                               CustomerDetailsCard(
-                                                name: "saurabh",
-                                                email: 'saurabh@gmail.com',
-                                                phoneNo: '948494849',
+                                                name: customers[selectedItemIndex].firstName.toString(),
+                                                email:  customers[selectedItemIndex].mail.toString(),
+                                                phoneNo:  customers[selectedItemIndex].phone.toString(),
                                               ),
                                               SizedBox(height: 10),
                                               Text("Address"),
@@ -499,9 +524,58 @@ class _LeftCustomerPanelState extends State<LeftCustomerPanel> {
                                                 height: 5,
                                               ),
                                               Text(
-                                                "P-86 vijat vijart nffvnfv fcfcn nfvnf cnfkdcnf cnfkcfn ncfknckf cnfkcnf cmfkvfm mcfkmcfkmc mckfmcfkm nckfnkcf",
+                                                customers[selectedItemIndex].companyAddress.toString(),
                                                 style: selectedThinText16,
                                               ),
+                                              SizedBox(height: 6),
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    "State",
+                                                    style: selectedThinText16,
+                                                  ),
+                                                  SizedBox(
+                                                    width:100,
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                                      children: [
+                                                        Text(
+                                                          customers[selectedItemIndex].state.toString(),
+                                                          maxLines: 2,
+                                                          overflow: TextOverflow.ellipsis,
+                                                          style: selectedThinText16,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                              SizedBox(height: 6),
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    "City",
+                                                    style: selectedThinText16,
+                                                  ),
+                                                  SizedBox(
+                                                    width:100,
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                                      children: [
+                                                        Text(
+                                                          customers[selectedItemIndex].city.toString(),
+                                                          maxLines: 2,
+                                                          overflow: TextOverflow.ellipsis,
+                                                          style: selectedThinText16,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+
                                               SizedBox(height: 10),
                                               Text("Other Details"),
                                               SizedBox(
@@ -512,17 +586,17 @@ class _LeftCustomerPanelState extends State<LeftCustomerPanel> {
                                                 height: 5,
                                               ),
                                               RowSpaceBetweenRow(
-                                                desc: "Customer type",
-                                                title: 'Bussiness',
+                                                desc: customers[selectedItemIndex].customerType.toString(),
+                                                title:  "Customer type",
                                               ),
                                               SizedBox(height: 6),
                                               RowSpaceBetweenRow(
                                                 title: 'Customer id',
-                                                desc: "38383838",
+                                                desc:  customers[selectedItemIndex].userId.toString(),
                                               ),
                                               SizedBox(height: 6),
                                               RowSpaceBetweenRow(
-                                                desc: "8484848488",
+                                                desc:  customers[selectedItemIndex].gstNo.toString(),
                                                 title: 'Gst no',
                                               ),
                                               SizedBox(height: 6),
@@ -536,17 +610,40 @@ class _LeftCustomerPanelState extends State<LeftCustomerPanel> {
                                                 title: 'Total Sales',
                                               ),
                                               SizedBox(height: 6),
-                                              RowSpaceBetweenRow(
-                                                title: 'Created on',
-                                                desc: "24-11-2023",
+                                              Row(
+                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                children: [
+                                                  Text(
+                                                    "Created on",
+                                                    style: selectedThinText16,
+                                                  ),
+                                                  SizedBox(
+                                                    width:100,
+                                                    child: Column(
+                                                      children: [
+                                                        Text(
+                                                          customers[selectedItemIndex].createdAt.toString(),
+                                                          maxLines: 2,
+                                                          overflow: TextOverflow.ellipsis,
+                                                          style: selectedThinText16,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
+                                              // RowSpaceBetweenRow(
+                                              //   title: 'Created on',
+                                              //   desc: customers[selectedItemIndex].createdAt.toString(),
+                                              // ),
 
                                               // Text(
                                               //   'Adress',
                                               //   style: selectedThinText,
                                               // ),
                                             ],
-                                          ),
+                                          ) :
+                                              SizedBox()
                                         ),
                                       ),
                                     ),

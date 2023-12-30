@@ -1,0 +1,1 @@
+const String baseUrl = 'https://spycotech.com/shop-app/api';

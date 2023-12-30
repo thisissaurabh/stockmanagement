@@ -25,7 +25,7 @@ class _RelationShipCheckBoxState extends State<RelationShipCheckBox> {
             setState(() {
               _gIndex = 0;
               Navigator.of(context).pop();
-              widget.onPop("Bussiness");
+              widget.onPop("business");
             });
           },
           child: Row(
@@ -35,7 +35,7 @@ class _RelationShipCheckBoxState extends State<RelationShipCheckBox> {
                   setState(() {
                     _gIndex = 0;
                     // Navigator.of(context).pop();
-                    widget.onPop("Bussiness");
+                    widget.onPop("business");
                   });
                 },
                 child: Container(
@@ -63,7 +63,7 @@ class _RelationShipCheckBoxState extends State<RelationShipCheckBox> {
                 ),
               ),
               SizedBox(width: 10),
-              Text('Bussiness', )
+              Text('business', )
             ],
           ),
         ),
@@ -73,7 +73,7 @@ class _RelationShipCheckBoxState extends State<RelationShipCheckBox> {
             setState(() {
               _gIndex = 1;
               Navigator.of(context).pop();
-              widget.onPop("Individual");
+              widget.onPop("individual");
             });
           },
           child: Row(
@@ -83,7 +83,7 @@ class _RelationShipCheckBoxState extends State<RelationShipCheckBox> {
                   setState(() {
                     _gIndex = 1;
                     // Navigator.of(context).pop();
-                    widget.onPop("Individual");
+                    widget.onPop("individual");
                   });
                 },
                 child: Container(
@@ -111,7 +111,7 @@ class _RelationShipCheckBoxState extends State<RelationShipCheckBox> {
                 ),
               ),
               SizedBox(width: 10),
-              Text('Individual',)
+              Text('individual',)
             ],
           ),
         ),
@@ -122,9 +122,9 @@ class _RelationShipCheckBoxState extends State<RelationShipCheckBox> {
 
   @override
   void initState() {
-    if (widget.relation == "Bussiness") {
+    if (widget.relation == "business") {
       _gIndex = 0;
-    } else if (widget.relation == "Individual") {
+    } else if (widget.relation == "individual") {
       _gIndex = 1;
     }
     super.initState();

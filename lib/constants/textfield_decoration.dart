@@ -382,23 +382,55 @@ class CustomDataField {
 
   InputDecoration dataFieldDecoration() {
     return InputDecoration(
-      filled: true,
-      fillColor: Colors.white,
-      hintText: label,
-      hintStyle: k16_400_62696A,
-      contentPadding: EdgeInsets.symmetric(
-        horizontal: 10,
-        vertical: 10,
-      ),
-      enabledBorder: OutlineInputBorder(
+        // contentPadding: EdgeInsets.symmetric(vertical: 1),
+        labelText: label,
+        labelStyle: k16_400_62696A.copyWith(fontSize: 14),
+      //   contentPadding: EdgeInsets.symmetric(
+      //     horizontal: 10,
+      //     vertical: 10,
+      //   ),
+
+        // This is the normal border
+        border: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: Colors.yellow,
+                width: 1
+          )
+        ),
+    enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(6),
         borderSide: BorderSide(color: Colors.black.withOpacity(0.60), width: 0.5),
       ),
-      focusedBorder: OutlineInputBorder(
+        errorBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+                color: Colors.red,
+                width: 1),
+        ),
+    focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(6),
         borderSide: BorderSide( color: selectedColor
             .withOpacity(0.90), width: 0.5),
       ),
     );
+
+    // return InputDecoration(
+    //   filled: true,
+    //   fillColor: Colors.white,
+    //   hintText: label,
+    //   hintStyle: k16_400_62696A,
+    //   contentPadding: EdgeInsets.symmetric(
+    //     horizontal: 10,
+    //     vertical: 10,
+    //   ),
+    //   enabledBorder: OutlineInputBorder(
+    //     borderRadius: BorderRadius.circular(6),
+    //     borderSide: BorderSide(color: Colors.black.withOpacity(0.60), width: 0.5),
+    //   ),
+    //   focusedBorder: OutlineInputBorder(
+    //     borderRadius: BorderRadius.circular(6),
+    //     borderSide: BorderSide( color: selectedColor
+    //         .withOpacity(0.90), width: 0.5),
+    //   ),
+    // );
   }
 }
