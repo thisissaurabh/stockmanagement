@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
+import 'package:spyco_shop_management/api/login_register/get_supplier_api.dart';
+import 'package:spyco_shop_management/api_models/supplier_model.dart';
 import 'package:spyco_shop_management/constants/colors.dart';
 import 'package:spyco_shop_management/constants/responsive.dart';
 import 'package:spyco_shop_management/constants/textstyle.dart';
@@ -62,6 +64,35 @@ class LeftSupplierPanel extends StatefulWidget {
 }
 
 class _LeftSupplierPanelState extends State<LeftSupplierPanel> {
+
+  @override
+  void initState() {
+    getSupplier();
+    super.initState();
+  }
+
+
+
+  bool isLoading = false;
+
+  List<SupplierModel> suppliers = [];
+
+  getSupplier() {
+    isLoading = true;
+    var resp = getSupplierApi();
+    resp.then((value) {
+      if (value['status'] == 1) {
+        for(var v in value['supplierData']['data']) {
+          suppliers.add(SupplierModel.fromJson(v));
+        }
+        setState(() {
+          isLoading = false;
+        });
+      } else {
+        isLoading = false;
+      }
+    });
+  }
   var customerName = [
     "Rampal singh",
     "jaipal singh",
@@ -209,7 +240,7 @@ class _LeftSupplierPanelState extends State<LeftSupplierPanel> {
                               ),
                               ListView.separated(
                                   shrinkWrap: true,
-                                  itemCount: customerName.length,
+                                  itemCount: suppliers.length,
                                   itemBuilder: (_, i) {
                                     return GestureDetector(
                                       onTap: () {
@@ -236,12 +267,15 @@ class _LeftSupplierPanelState extends State<LeftSupplierPanel> {
                                                 CrossAxisAlignment.start,
                                                 children: [
                                                   Text(
-                                                    customerName[i],
+                                                    suppliers[i].firstName.toString(),
                                                     style: nameSlimText,
                                                   ),
                                                   Spacer(),
                                                   Text(
-                                                    "\u20B9${billingPrice[i]}",
+                                                    suppliers[i].mail.toString(),
+                                                    overflow: TextOverflow.ellipsis,
+                                                    maxLines: 3,
+                                                    // "\u20B9${billingPrice[i]}",
                                                     style: nameSlimText,
                                                   ),
                                                 ]),
@@ -270,6 +304,7 @@ class _LeftSupplierPanelState extends State<LeftSupplierPanel> {
                         padding: const EdgeInsets.symmetric(horizontal: 16.0),
                         child: Column(
                           children: [
+                            selectedItemIndex != -1 && suppliers.isNotEmpty && selectedItemIndex < suppliers.length ?
                             ElevatedBgCard(
                               radius: 16.0,
                               child: Column(
@@ -287,13 +322,13 @@ class _LeftSupplierPanelState extends State<LeftSupplierPanel> {
                                         CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            "Saurav",
+                                            suppliers[selectedItemIndex].firstName.toString(),
                                             style: nameSmallText,
                                           ),
                                           Row(
                                             children: [
-                                              Text("Phone:"),
-                                              Text("9484848484"),
+                                              Text("Phone: "),
+                                              Text( suppliers[selectedItemIndex].phone.toString(),),
                                               Row(
                                                 children: [],
                                               )
@@ -301,14 +336,14 @@ class _LeftSupplierPanelState extends State<LeftSupplierPanel> {
                                           ),
                                           Row(
                                             children: [
-                                              Text("Email:"),
-                                              Text("spycotech@gmail.com")
+                                              Text("Email: "),
+                                              Text( suppliers[selectedItemIndex].mail.toString(),)
                                             ],
                                           ),
                                           Row(
                                             children: [
-                                              Text("Gstin:"),
-                                              Text("4474875874784574")
+                                              Text("Gstin: "),
+                                              Text( suppliers[selectedItemIndex].gstNo.toString(),)
                                             ],
                                           ),
                                         ],
@@ -326,16 +361,44 @@ class _LeftSupplierPanelState extends State<LeftSupplierPanel> {
                                                 .width *
                                                 0.30,
                                             child: Text(
-                                              "P-68 Vijay Vihar Uttam Nagar New delhi 110059",
+                                              suppliers[selectedItemIndex].companyAddress.toString(),
                                               maxLines: 3,
                                               textAlign: TextAlign.end,
                                               overflow: TextOverflow.ellipsis,
                                             ),
                                           ),
+                                          Row(
+                                            children: [
+                                              Text("City: "),
+                                              Text( 
+                                                suppliers[selectedItemIndex].city.toString(),
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                              Row(
+                                                children: [],
+                                              )
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              Text("State: "),
+                                              Text(
+                                                suppliers[selectedItemIndex].state.toString(),
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                              Row(
+                                                children: [],
+                                              )
+                                            ],
+                                          ),
                                         ],
-                                      )
+                                      ),
+
                                     ],
-                                  )
+                                  ),
+
 
                                   // Text(
                                   //   "${customerName[selectedItemIndex]}",
@@ -359,7 +422,7 @@ class _LeftSupplierPanelState extends State<LeftSupplierPanel> {
                                   // ),
                                 ],
                               ),
-                            ),
+                            ) :SizedBox(),
                             SizedBox(
                               height: 10,
                             ),

@@ -58,25 +58,54 @@ class _SplashScreenState extends State<SplashScreen> {
                   username: '${prefs.getString(Keys().email)}',
                   password: '${prefs.getString(Keys().password)}',
           ).then((value) async {
-            response = value;
-            if (response.status == 1) {
-              prefs.setString('token',
-                  response!.accessToken.toString()
-              );
-              Navigator.push(
+            if (value is LoginResponse) {
+              response = value;
+              if (response.status == 1) {
+                prefs.setString('token',
+                          response!.accessToken.toString()
+                      );
+                Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => MultiProvider(
+                            providers: [
+                              ChangeNotifierProvider(
+                                create: (context) => MenuAppController(),
+                              ),
+                            ],
+                            child: MainScreen(),
+                          ),
+                        ),
+                      );
+              }
+            } else {
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => MultiProvider(
-                    providers: [
-                      ChangeNotifierProvider(
-                        create: (context) => MenuAppController(),
-                      ),
-                    ],
-                    child: MainScreen(),
-                  ),
+                  builder: (_) => LoginScreen(),
                 ),
               );
+              // Handle the case where authTokenLoginApi returns an unexpected type
             }
+            // response = value;
+            // if (response.status == 1) {
+            //   prefs.setString('token',
+            //       response!.accessToken.toString()
+            //   );
+            //   Navigator.push(
+            //     context,
+            //     MaterialPageRoute(
+            //       builder: (context) => MultiProvider(
+            //         providers: [
+            //           ChangeNotifierProvider(
+            //             create: (context) => MenuAppController(),
+            //           ),
+            //         ],
+            //         child: MainScreen(),
+            //       ),
+            //     ),
+            //   );
+            // }
           });
         } else {
           Navigator.pushReplacement(

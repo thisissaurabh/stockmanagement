@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:spyco_shop_management/api/login_register/add_user_api.dart';
+import 'package:spyco_shop_management/api_models/user_model.dart';
 import 'package:spyco_shop_management/constants/colors.dart';
 import 'package:spyco_shop_management/constants/responsive.dart';
 import 'package:spyco_shop_management/constants/textfield_decoration.dart';
@@ -18,6 +20,7 @@ import 'package:spyco_shop_management/widgets/custom_data_list.dart';
 import 'package:spyco_shop_management/widgets/global_widgets.dart';
 import 'package:spyco_shop_management/widgets/globals.dart';
 import 'package:spyco_shop_management/widgets/intraction_buttons.dart';
+import 'package:spyco_shop_management/widgets/loading.dart';
 import 'package:spyco_shop_management/widgets/main_button.dart';
 
 class Users extends StatefulWidget {
@@ -67,7 +70,39 @@ class AllUsersList extends StatefulWidget {
 
 class _AllUsersListState extends State<AllUsersList> {
 
-  List<String> saleType = ["1","2","3","4""5","6","7","8","9","10"];
+  @override
+  void initState() {
+    getUsers();
+    // TODO: implement initState
+    super.initState();
+
+  }
+
+
+
+  bool isLoading = false;
+
+  List<UserModel> users = [];
+
+  getUsers() {
+    isLoading = true;
+    var resp = getUsersApi();
+    resp.then((value) {
+      if (value['status'] == 1) {
+        for(var v in value['users']['data']) {
+          users.add(UserModel.fromJson(v));
+        }
+        print(users.length);
+        setState(() {
+          isLoading = false;
+        });
+      } else {
+        isLoading = false;
+      }
+    });
+  }
+
+  List<String> sNo = ["1","2","3","4","5","6","7","8","9","10"];
   List <String>partyName = ["95959595", "95959595","95959595", "95959595","95959595", "95959595","95959595", "95959595","95959595", "95959595",];
   List <String>date = ["saurabh","saurabh","saurabh","saurabh","saurabh","saurabh","saurabh","saurabh","saurabh","saurabh",];
   List <String> amount = ["xyz collections","xyz collections","xyz collections","xyz collections","xyz collections","xyz collections","xyz collections","xyz collections","xyz collections","xyz collections",];
@@ -77,7 +112,10 @@ class _AllUsersListState extends State<AllUsersList> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return
+      isLoading ?
+          Loading():
+      SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -130,18 +168,7 @@ class _AllUsersListState extends State<AllUsersList> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Expanded(
-                                flex:1,
-                                child: Center(
-                                  child: Align(
-                                    alignment: Alignment.centerLeft,
-                                    child: Text(
-                                      "S.no",
-                                      style: nameTextGrey,
-                                    ),
-                                  ),
-                                ),
-                              ),
+
                               Expanded(
                                 flex:2,
                                 child: Center(
@@ -173,7 +200,7 @@ class _AllUsersListState extends State<AllUsersList> {
                                 flex:2,
                                 child: Center(
                                   child: Text(
-                                    "Store",
+                                    "Location",
                                     style: nameTextGrey,
                                   ),
                                 ),
@@ -204,7 +231,7 @@ class _AllUsersListState extends State<AllUsersList> {
                       ),
                       // CustomHorizontalLine(),
                       ListView.separated(
-                        itemCount: saleType.length,
+                        itemCount: users.length,
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
                         itemBuilder: (_, i) {
@@ -215,23 +242,10 @@ class _AllUsersListState extends State<AllUsersList> {
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Expanded(
-                                  flex:1,
-                                  child: Center(
-                                    child: Align(
-                                      alignment: Alignment.centerLeft,
-                                      child: Text(
-
-                                        saleType[i],
-                                        style: listName,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
                                   flex:2,
                                   child: Center(
                                     child: Text(
-                                      partyName[i],
+                                      users[i].id.toString(),
                                       style: listName,
                                     ),
                                   ),
@@ -275,7 +289,7 @@ class _AllUsersListState extends State<AllUsersList> {
                                   flex:2,
                                   child: Center(
                                     child: Text(
-                                      date[i],
+                                      users[i].name.toString(),
                                       style: listName,
                                     ),
                                   ),
@@ -284,7 +298,7 @@ class _AllUsersListState extends State<AllUsersList> {
                                   flex:2,
                                   child: Center(
                                     child: Text(
-                                      item[i],
+                                      users[i].companyName.toString(),
                                       style: listName,
                                     ),
                                   ),
@@ -293,7 +307,7 @@ class _AllUsersListState extends State<AllUsersList> {
                                   flex:2,
                                   child: Center(
                                     child: Text(
-                                      amount[i],
+                                      users[i].role.toString(),
                                       style: listName,
                                     ),
                                   ),
@@ -304,9 +318,10 @@ class _AllUsersListState extends State<AllUsersList> {
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.center,
                                         children: [
-                                          SvgPicture.asset("assets/images/edit-user-6-svgrepo-com.svg"),
+                                          MouseHover(
+                                              child: SvgPicture.asset("assets/images/edit-user-6-svgrepo-com.svg")),
                                           SizedBox(width: 10,),
-                                          SvgPicture.asset("assets/images/delete-alt-2-svgrepo-com.svg")
+                                          MouseHover(child: SvgPicture.asset("assets/images/delete-alt-2-svgrepo-com.svg"))
                                         ],
                                       ),
                                     )

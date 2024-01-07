@@ -10,6 +10,7 @@ import 'package:spyco_shop_management/screens/main/main_screen.dart';
 import 'package:spyco_shop_management/screens/supplier/add_supplier.dart';
 import 'package:spyco_shop_management/screens/supplier/supplier.dart';
 import 'package:spyco_shop_management/screens/users/users.dart';
+import 'package:spyco_shop_management/stock/add_stock.dart';
 import 'package:spyco_shop_management/users.dart';
 
 class SideMenu extends StatefulWidget {
@@ -117,22 +118,36 @@ class _SideMenuState extends State<SideMenu> {
           //   press: () {},
           // ),
           DropDownMenu(
-            title: 'Stock',
+            title: 'Purchase',
             leadingImage: 'assets/icons/menu_doc.svg',
             child: Column(
               children: [
                 CustomListTile(
-                  press: () {},
-                  title: "Add stock",
+                  press: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MultiProvider(
+                          providers: [
+                            ChangeNotifierProvider(
+                              create: (context) => MenuAppController(),
+                            ),
+                          ],
+                          child: AddStock(),
+                        ),
+                      ),
+                    );
+                  },
+                  title: "Add Purchase",
                 ),
                 CustomListTile(
                   press: () {},
                   title: "View all stock",
                 ),
-                CustomListTile(
-                  press: () {},
-                  title: "Category 3",
-                )
+                // CustomListTile(
+                //   press: () {},
+                //   title: "Category 3",
+                // )
               ],
             ),
           ),

@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:spyco_shop_management/constants/colors.dart';
 import 'package:spyco_shop_management/screens/login/login.dart';
 import 'package:spyco_shop_management/splash/splash.dart';
+import 'package:spyco_shop_management/widgets/loading.dart';
 
 void main() {
   runApp(MyApp());
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
         canvasColor: secondaryColor,
       ),
       home: SplashScreen(),
+      // home: Loading(),
       // home: AddSupplierScreen(),
       // home: LoginScreen(),
 

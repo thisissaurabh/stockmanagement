@@ -116,7 +116,7 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                 title: 'Customer Name',
                 child2: SizedBox(
                   width: 130,
-                  // height: 40.0,
+                  height: 40.0,
                   child: TextFormField(
                     keyboardType: TextInputType.emailAddress,
                     // validator: (v) {
@@ -140,7 +140,7 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                 ) ,
                 child: SizedBox(
                   width: 130,
-                  // height: 40.0,
+                  height: 40.0,
                   child: TextFormField(
                     keyboardType: TextInputType.emailAddress,
                     controller: firstName,
@@ -155,9 +155,11 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                     decoration: CustomDataField(
                       label: 'First Name',
                     ).dataFieldDecoration().copyWith(
-    errorBorder: OutlineInputBorder(
-    borderSide: BorderSide(color: Colors.red),
-                  ), ),),
+                      errorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.red),
+                      ),
+                    ),
+                  ),
                 ),
               ),
               SizedBox(height: 16,),
@@ -165,7 +167,7 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                 title: 'Company Name',
                 child:SizedBox(
                   width: 276,
-                  // height: 40.0,
+                  height: 40.0,
                   child: TextFormField(
                     keyboardType: TextInputType.emailAddress,
                     // validator: (v) {
@@ -187,7 +189,7 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                 title: 'Customer Mail',
                 child:SizedBox(
                   width: 276,
-                  // height: 40.0,
+                  height: 40.0,
                   child: TextFormField(
                     keyboardType: TextInputType.emailAddress,
                     validator: (v) {
@@ -208,7 +210,7 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                 title: 'Customer Phone',
                 child2: SizedBox(
                   width: 130,
-                  // height: 40.0,
+                  height: 40.0,
                   child: TextFormField(
                     keyboardType: TextInputType.emailAddress,
                     // validator: (v) {
@@ -226,7 +228,7 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                 ) ,
                 child: SizedBox(
                   width: 130,
-                  // height: 40.0,
+                  height: 40.0,
                   child: TextFormField(
                     keyboardType: TextInputType.emailAddress,
                     controller: mobileNo,
@@ -249,7 +251,7 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                 title: 'Gst no',
                 child:SizedBox(
                   width: 276,
-                  // height: 40.0,
+                  height: 40.0,
                   child: TextFormField(
                     keyboardType: TextInputType.emailAddress,
                     // validator: (v) {
@@ -296,7 +298,7 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                   children: [
                     SizedBox(
                       width: 276,
-                      // height: 40.0,
+                      height: 40.0,
                       child: TextFormField(
                         keyboardType: TextInputType.emailAddress,
                         // validator: (v) {
@@ -315,7 +317,7 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                     SizedBox(width: 16,),
                     SizedBox(
                       width: 130,
-                      // height: 40.0,
+                      height: 40.0,
                       child: TextFormField(
                         keyboardType: TextInputType.emailAddress,
                         // validator: (v) {
@@ -334,7 +336,7 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                     SizedBox(width: 16,),
                     SizedBox(
                       width: 130,
-                      // height: 40.0,
+                      height: 40.0,
                       child: TextFormField(
                         keyboardType: TextInputType.emailAddress,
                         // validator: (v) {

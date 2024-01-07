@@ -385,6 +385,7 @@ class CustomDataField {
         // contentPadding: EdgeInsets.symmetric(vertical: 1),
         labelText: label,
         labelStyle: k16_400_62696A.copyWith(fontSize: 14),
+      fillColor: Colors.white,
       //   contentPadding: EdgeInsets.symmetric(
       //     horizontal: 10,
       //     vertical: 10,
