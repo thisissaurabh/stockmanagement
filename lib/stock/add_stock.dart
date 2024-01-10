@@ -22,6 +22,7 @@ import 'package:spyco_shop_management/widgets/snackbar.dart';
 import '../api/login_register/add_supplier_api.dart';
 import '../api/login_register/get_supplier_api.dart';
 import '../api_models/supplier_model.dart';
+import 'add_stock_item.dart';
 
 class AddStock extends StatefulWidget {
   const AddStock({super.key});
@@ -104,8 +105,15 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
     'box',
     'metre',
   ];
+  final List<String> codingType = [
+    '1. Unique',
+    '2. Lot',
+    '3. Fixed'
+
+  ];
 
   String? unitValue;
+  String? codingValue;
 
 
 
@@ -548,7 +556,7 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                                             ),
                                           ],
                                         ),
-                                        items: items
+                                        items: codingType
                                             .map((String item) => DropdownMenuItem<String>(
                                           value: item,
                                           child: Text(
@@ -562,10 +570,10 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                                           ),
                                         ))
                                             .toList(),
-                                        value: selectedValue,
+                                        value: codingValue,
                                         onChanged: (String? value) {
                                           setState(() {
-                                            selectedValue = value;
+                                            codingValue = value;
                                           });
                                         },
                                         buttonStyleData: ButtonStyleData(
@@ -659,595 +667,68 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                         )),
                   ),
                 ],
+              ),
+
+
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => MultiProvider(
+                        providers: [
+                          ChangeNotifierProvider(
+                            create: (context) => MenuAppController(),
+                          ),
+                        ],
+                        child: AddStockItems(),
+                      ),
+                    ),
+                  );
+                },
+                child: MouseHover(
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 30.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Material(
+                          elevation: 3,
+                          borderRadius: BorderRadius.circular(6),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.green,
+                              borderRadius: BorderRadius.circular(6),
+
+                            ),
+
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                children: [
+                                  SvgPicture.asset("assets/icons/right-arrow-svgrepo-com.svg",
+                                    height: 24,
+                                    width: 24,
+                                    color: Colors.white,
+                                  ),
+                                  SizedBox(width: 3,),
+                                  Text("Add Items",style: TextStyle(color: Colors.white),)
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               )
+              
+
 
             ],
           ),
-          // child: Column(
-          //   crossAxisAlignment: CrossAxisAlignment.start,
-          //   children: [
-          //     Row(
-          //       children: [
-          //         Expanded(child: Header(title: "Add Purchase")),
-          //         // Text("23/10/1996")
-          //       ],
-          //     ),
-          //     SizedBox(height: 5,),
-          //     CustomHorizontalLine(),
-          //     SizedBox(height: 16,),
-          //     SizedBox(height: 20,),
-          //
-          //
-          //
-          //     SizedBox(height: 16,),
-          //
-          //     Row(
-          //       children: [
-          //         Expanded(
-          //           child: AddSupplierRow(
-          //             title: 'Supplier Name',
-          //             child:Column(
-          //               crossAxisAlignment: CrossAxisAlignment.end,
-          //               children: [
-          //                 SizedBox(
-          //                   width: 276,
-          //                   height: 40.0,
-          //                   child:   DropdownButtonHideUnderline(
-          //                     child: DropdownButton2<String>(
-          //                       isExpanded: true,
-          //                       hint: const Row(
-          //                         children: [
-          //                           Expanded(
-          //                             child: Text(
-          //                               'Select Supplier',
-          //                               style: TextStyle(
-          //                                 fontSize: 14,
-          //                                 color: Colors.black,
-          //                               ),
-          //                               overflow: TextOverflow.ellipsis,
-          //                             ),
-          //                           ),
-          //                         ],
-          //                       ),
-          //                       items: items
-          //                           .map((String item) => DropdownMenuItem<String>(
-          //                         value: item,
-          //                         child: Text(
-          //                           item,
-          //                           style: const TextStyle(
-          //                             fontSize: 14,
-          //                             // fontWeight: FontWeight.bold,
-          //                             color: Colors.black,
-          //                           ),
-          //                           overflow: TextOverflow.ellipsis,
-          //                         ),
-          //                       ))
-          //                           .toList(),
-          //                       value: selectedValue,
-          //                       onChanged: (String? value) {
-          //                         setState(() {
-          //                           selectedValue = value;
-          //                         });
-          //                       },
-          //                       buttonStyleData: ButtonStyleData(
-          //                         height: 50,
-          //                         width: 276,
-          //                         // width: 160,
-          //                         padding: const EdgeInsets.only(left: 14, right: 14),
-          //                         decoration: BoxDecoration(
-          //                           borderRadius: BorderRadius.circular(6),
-          //                           border: Border.all(
-          //                             color: Colors.black26,
-          //                           ),
-          //                           color: Colors.white,
-          //                         ),
-          //                         elevation: 0,
-          //                       ),
-          //                       iconStyleData: const IconStyleData(
-          //                         icon: Icon(
-          //                           Icons.arrow_forward_ios_outlined,
-          //                         ),
-          //                         iconSize: 14,
-          //                         iconEnabledColor: Colors.black,
-          //                         iconDisabledColor: Colors.black,
-          //                       ),
-          //                       dropdownStyleData: DropdownStyleData(
-          //                         // maxHeight: 200,
-          //                         width: 276,
-          //                         decoration: BoxDecoration(
-          //                           borderRadius: BorderRadius.circular(14),
-          //                           color: Colors.white,
-          //                         ),
-          //                         offset: const Offset(0, 0),
-          //                         scrollbarTheme: ScrollbarThemeData(
-          //                           radius: const Radius.circular(6),
-          //                           thickness: MaterialStateProperty.all<double>(6),
-          //                           thumbVisibility: MaterialStateProperty.all<bool>(true),
-          //                         ),
-          //                       ),
-          //                       menuItemStyleData: const MenuItemStyleData(
-          //                         height: 40,
-          //                         padding: EdgeInsets.only(left: 14, right: 14),
-          //                       ),
-          //                     ),
-          //                   ),
-          //                 ),
-          //                 SizedBox(height: 5,),
-          //                 MouseHover(
-          //                   child: Row(
-          //                     children: [
-          //                       SvgPicture.asset("assets/icons/add-svgrepo-com.svg",
-          //                         color: Colors.green,),
-          //                       Text("Add new Supplier",
-          //                         style: TextStyle(
-          //                             color: Colors.green
-          //                         ),)
-          //                     ],
-          //                   ),
-          //                 ),
-          //               ],
-          //             ) ,
-          //           ),
-          //         ),
-          //         Expanded(
-          //           child: AddSupplierRow(
-          //             title: 'Purchase Invoice No',
-          //             child:SizedBox(
-          //               width: 276,
-          //               height: 40.0,
-          //               child: TextFormField(
-          //                 keyboardType: TextInputType.emailAddress,
-          //                 // validator: (v) {
-          //                 //   if (v!.isEmpty || !v.contains('@')) {
-          //                 //     return 'Please enter a valid email!';
-          //                 //   }
-          //                 //   return null;
-          //                 // },
-          //                 controller: companyName,
-          //                 cursorColor: Colors.black,
-          //                 decoration: CustomDataField(
-          //                   label: 'Purchase Invoice No',
-          //                 ).dataFieldDecoration(),
-          //               ),
-          //             ) ,
-          //           ),
-          //         ),
-          //       ],
-          //     ),
-          //
-          //     // SizedBox(height: 16,),
-          //     // AddSupplierRow(
-          //     //   title: 'Enter Date',
-          //     //   child:SizedBox(
-          //     //     width: 276,
-          //     //     height: 40.0,
-          //     //     child: TextFormField(
-          //     //       readOnly: true,
-          //     //
-          //     //
-          //     //       onTap: () async {
-          //     //         DateTime? pickedDate = await showDatePicker(
-          //     //             context: context, initialDate: DateTime.now(),
-          //     //             firstDate: DateTime(2000), //DateTime.now() - not to allow to choose before today.
-          //     //             lastDate: DateTime(2101)
-          //     //         );
-          //     //
-          //     //         if(pickedDate != null ){
-          //     //           print(pickedDate);  //pickedDate output format => 2021-03-10 00:00:00.000
-          //     //           String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
-          //     //           print(formattedDate); //formatted date output using intl package =>  2021-03-16
-          //     //           //you can implement different kind of Date Format here according to your requirement
-          //     //
-          //     //           setState(() {
-          //     //             dateInput.text = formattedDate; //set output date to TextField value.
-          //     //           });
-          //     //         }else{
-          //     //           print("Date is not selected");
-          //     //         }
-          //     //       },
-          //     //       // validator: (v) {
-          //     //       //   if (v!.isEmpty || !v.contains('@')) {
-          //     //       //     return 'Please enter a valid email!';
-          //     //       //   }
-          //     //       //   return null;
-          //     //       // },
-          //     //       controller: dateInput,
-          //     //       cursorColor: Colors.black,
-          //     //       decoration: CustomDataField(
-          //     //         label: 'Enter Date',
-          //     //       ).dataFieldDecoration(),
-          //     //     ),
-          //     //   ) ,
-          //     // ),
-          //     SizedBox(height: 16,),
-          //     // AddSupplierRow(
-          //     //   title: 'Purchase invoice',
-          //     //   child:SizedBox(
-          //     //     width: 276,
-          //     //     height: 40.0,
-          //     //     child: TextFormField(
-          //     //       keyboardType: TextInputType.emailAddress,
-          //     //       // validator: (v) {
-          //     //       //   if (v!.isEmpty || !v.contains('@')) {
-          //     //       //     return 'Please enter a valid email!';
-          //     //       //   }
-          //     //       //   return null;
-          //     //       // },
-          //     //       controller: companyName,
-          //     //       cursorColor: Colors.black,
-          //     //       decoration: CustomDataField(
-          //     //         label: 'Purchase invoice',
-          //     //       ).dataFieldDecoration(),
-          //     //     ),
-          //     //   ) ,
-          //     // ),
-          //
-          //
-          //
-          //
-          //     SizedBox(height: 16,),
-          //     Row(
-          //       children: [
-          //         Expanded(
-          //           child: AddSupplierRow(
-          //             title: 'Challan No',
-          //             child:SizedBox(
-          //               width: 276,
-          //               height: 40.0,
-          //               child: TextFormField(
-          //                 keyboardType: TextInputType.emailAddress,
-          //                 validator: (v) {
-          //                   if (v!.isEmpty ) {
-          //                     return 'Please enter email!';
-          //                   }
-          //                   return null;
-          //                 },
-          //                 controller:mail,
-          //                 cursorColor: Colors.black,
-          //                 decoration: CustomDataField(
-          //                   label: 'Challan No',
-          //                 ).dataFieldDecoration(),
-          //               ),
-          //             ) ,),
-          //         ),
-          //
-          //         Expanded(
-          //           child: AddSupplierRow(
-          //             title: 'Enter Date',
-          //             child:SizedBox(
-          //               width: 276,
-          //               height: 40.0,
-          //               child: TextFormField(
-          //                 readOnly: true,
-          //
-          //
-          //                 onTap: () async {
-          //                   DateTime? pickedDate = await showDatePicker(
-          //                       context: context, initialDate: DateTime.now(),
-          //                       firstDate: DateTime(2000), //DateTime.now() - not to allow to choose before today.
-          //                       lastDate: DateTime(2101)
-          //                   );
-          //
-          //                   if(pickedDate != null ){
-          //                     print(pickedDate);  //pickedDate output format => 2021-03-10 00:00:00.000
-          //                     String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
-          //                     print(formattedDate); //formatted date output using intl package =>  2021-03-16
-          //                     //you can implement different kind of Date Format here according to your requirement
-          //
-          //                     setState(() {
-          //                       dateInput.text = formattedDate; //set output date to TextField value.
-          //                     });
-          //                   }else{
-          //                     print("Date is not selected");
-          //                   }
-          //                 },
-          //                 // validator: (v) {
-          //                 //   if (v!.isEmpty || !v.contains('@')) {
-          //                 //     return 'Please enter a valid email!';
-          //                 //   }
-          //                 //   return null;
-          //                 // },
-          //                 controller: dateInput,
-          //                 cursorColor: Colors.black,
-          //                 decoration: CustomDataField(
-          //                   label: 'Enter Date',
-          //                 ).dataFieldDecoration(),
-          //               ),
-          //             ) ,
-          //           ),
-          //         ),
-          //
-          //       ],
-          //     ),
-          //     SizedBox(height: 16,),
-          //
-          //     SizedBox(height: 24,),
-          //     Text(
-          //       "Other Details",
-          //       style: selectedBoldText,
-          //     ),
-          //     SizedBox(height: 7,),
-          //     CustomHorizontalLine(),
-          //     SizedBox(height: 16,),
-          //     Row(
-          //       children: [
-          //         Expanded(
-          //           child: AddSupplierRow(
-          //             title: 'Business Name',
-          //             child:SizedBox(
-          //               width: 276,
-          //               height: 40.0,
-          //               child: TextFormField(
-          //                 keyboardType: TextInputType.emailAddress,
-          //                 // validator: (v) {
-          //                 //   if (v!.isEmpty || !v.contains('@')) {
-          //                 //     return 'Please enter a valid email!';
-          //                 //   }
-          //                 //   return null;
-          //                 // },
-          //                 controller: companyName,
-          //                 cursorColor: Colors.black,
-          //                 decoration: CustomDataField(
-          //                   label: 'Business Name',
-          //                 ).dataFieldDecoration(),
-          //               ),
-          //             ) ,
-          //           ),
-          //         ),
-          //         Expanded(
-          //           child: AddSupplierRow(
-          //             title: 'Contact Person Name',
-          //             child:SizedBox(
-          //               width: 276,
-          //               height: 40.0,
-          //               child: TextFormField(
-          //                 keyboardType: TextInputType.emailAddress,
-          //                 // validator: (v) {
-          //                 //   if (v!.isEmpty || !v.contains('@')) {
-          //                 //     return 'Please enter a valid email!';
-          //                 //   }
-          //                 //   return null;
-          //                 // },
-          //                 controller: companyName,
-          //                 cursorColor: Colors.black,
-          //                 decoration: CustomDataField(
-          //                   label: 'Contact Person Name',
-          //                 ).dataFieldDecoration(),
-          //               ),
-          //             ) ,
-          //           ),
-          //         ),
-          //       ],
-          //     ),
-          //     // AddSupplierRow(
-          //     //   title: 'Unit',
-          //     //   child:SizedBox(
-          //     //     width: 276,
-          //     //     height: 40.0,
-          //     //     child:   DropdownButtonHideUnderline(
-          //     //       child: DropdownButton2<String>(
-          //     //         isExpanded: true,
-          //     //         hint: const Row(
-          //     //           children: [
-          //     //             Expanded(
-          //     //               child: Text(
-          //     //                 'Select Unit',
-          //     //                 style: TextStyle(
-          //     //                   fontSize: 14,
-          //     //                   color: Colors.black,
-          //     //                 ),
-          //     //                 overflow: TextOverflow.ellipsis,
-          //     //               ),
-          //     //             ),
-          //     //           ],
-          //     //         ),
-          //     //         items: unit
-          //     //             .map((String item) => DropdownMenuItem<String>(
-          //     //           value: item,
-          //     //           child: Text(
-          //     //             item,
-          //     //             style: const TextStyle(
-          //     //               fontSize: 14,
-          //     //               // fontWeight: FontWeight.bold,
-          //     //               color: Colors.black,
-          //     //             ),
-          //     //             overflow: TextOverflow.ellipsis,
-          //     //           ),
-          //     //         ))
-          //     //             .toList(),
-          //     //         value: unitValue,
-          //     //         onChanged: (String? value) {
-          //     //           setState(() {
-          //     //             unitValue = value;
-          //     //           });
-          //     //         },
-          //     //         buttonStyleData: ButtonStyleData(
-          //     //           height: 40,
-          //     //           width: 276,
-          //     //           // width: 160,
-          //     //           padding: const EdgeInsets.only(left: 14, right: 14),
-          //     //           decoration: BoxDecoration(
-          //     //             borderRadius: BorderRadius.circular(6),
-          //     //             border: Border.all(
-          //     //               color: Colors.black26,
-          //     //             ),
-          //     //             color: Colors.white,
-          //     //           ),
-          //     //           elevation: 0,
-          //     //         ),
-          //     //         iconStyleData: const IconStyleData(
-          //     //           icon: Icon(
-          //     //             Icons.arrow_forward_ios_outlined,
-          //     //           ),
-          //     //           iconSize: 14,
-          //     //           iconEnabledColor: Colors.black,
-          //     //           iconDisabledColor: Colors.black,
-          //     //         ),
-          //     //         dropdownStyleData: DropdownStyleData(
-          //     //           // maxHeight: 200,
-          //     //           width: 276,
-          //     //           decoration: BoxDecoration(
-          //     //             borderRadius: BorderRadius.circular(14),
-          //     //             color: Colors.white,
-          //     //           ),
-          //     //           offset: const Offset(0, 0),
-          //     //           scrollbarTheme: ScrollbarThemeData(
-          //     //             radius: const Radius.circular(6),
-          //     //             thickness: MaterialStateProperty.all<double>(6),
-          //     //             thumbVisibility: MaterialStateProperty.all<bool>(true),
-          //     //           ),
-          //     //         ),
-          //     //         menuItemStyleData: const MenuItemStyleData(
-          //     //           height: 40,
-          //     //           padding: EdgeInsets.only(left: 14, right: 14),
-          //     //         ),
-          //     //       ),
-          //     //     ),
-          //     //   ) ,
-          //     // ),
-          //     // // SizedBox(
-          //     // //   width: 276,
-          //     // //   child: TextFormField(
-          //     // //     validator: (value) {
-          //     // //       if (value != null && value.trim().length < 3) {
-          //     // //         return 'This field requires a minimum of 3 characters';
-          //     // //       }
-          //     // //
-          //     // //       return null;
-          //     // //     },
-          //     // //     decoration: const InputDecoration(
-          //     // //       contentPadding: EdgeInsets.symmetric(vertical: 12),
-          //     // //         labelText: 'Enter Your Name',
-          //     // //         labelStyle: TextStyle(color: Colors.red),
-          //     // //
-          //     // //         // This is the normal border
-          //     // //         border: OutlineInputBorder(),
-          //     // //
-          //     // //         // This is the error border
-          //     // //         errorBorder: OutlineInputBorder(
-          //     // //             borderSide: BorderSide(color: Colors.red, width: 1))),
-          //     // //   ),
-          //     // // ),
-          //     // SizedBox(height: 16,),
-          //     // AddSupplierRow(
-          //     //   title: 'Enter Pin Code',
-          //     //   child:SizedBox(
-          //     //     width: 276,
-          //     //     height: 40.0,
-          //     //     child: TextFormField(
-          //     //       keyboardType: TextInputType.emailAddress,
-          //     //       // validator: (v) {
-          //     //       //   if (v!.isEmpty || !v.contains('@')) {
-          //     //       //     return 'Please enter a valid email!';
-          //     //       //   }
-          //     //       //   return null;
-          //     //       // },
-          //     //       controller: gstNO,
-          //     //       cursorColor: Colors.black,
-          //     //       decoration: CustomDataField(
-          //     //         label: 'Enter pin Code',
-          //     //       ).dataFieldDecoration(),
-          //     //     ),
-          //     //   ) ,
-          //     // ),
-          //     // SizedBox(height: 16,),
-          //     // AddSupplierRow(
-          //     //   title: 'Adress',
-          //     //   child:Row(
-          //     //     children: [
-          //     //       SizedBox(
-          //     //         width: 276,
-          //     //         height: 40.0,
-          //     //         child: TextFormField(
-          //     //           keyboardType: TextInputType.emailAddress,
-          //     //           // validator: (v) {
-          //     //           //   if (v!.isEmpty || !v.contains('@')) {
-          //     //           //     return 'Please enter a valid email!';
-          //     //           //   }
-          //     //           //   return null;
-          //     //           // },
-          //     //           controller: address,
-          //     //           cursorColor: Colors.black,
-          //     //           decoration: CustomDataField(
-          //     //             label: 'Company Adress',
-          //     //           ).dataFieldDecoration(),
-          //     //         ),
-          //     //       ),
-          //     //       SizedBox(width: 16,),
-          //     //       SizedBox(
-          //     //         width: 130,
-          //     //         height: 40.0,
-          //     //         child: TextFormField(
-          //     //           keyboardType: TextInputType.emailAddress,
-          //     //           // validator: (v) {
-          //     //           //   if (v!.isEmpty || !v.contains('@')) {
-          //     //           //     return 'Please enter a valid email!';
-          //     //           //   }
-          //     //           //   return null;
-          //     //           // },
-          //     //           controller: city,
-          //     //           cursorColor: Colors.black,
-          //     //           decoration: CustomDataField(
-          //     //             label: 'City',
-          //     //           ).dataFieldDecoration(),
-          //     //         ),
-          //     //       ),
-          //     //       SizedBox(width: 16,),
-          //     //       SizedBox(
-          //     //         width: 130,
-          //     //         height: 40.0,
-          //     //         child: TextFormField(
-          //     //           keyboardType: TextInputType.emailAddress,
-          //     //           // validator: (v) {
-          //     //           //   if (v!.isEmpty || !v.contains('@')) {
-          //     //           //     return 'Please enter a valid email!';
-          //     //           //   }
-          //     //           //   return null;
-          //     //           // },
-          //     //           controller: state,
-          //     //           cursorColor: Colors.black,
-          //     //           decoration: CustomDataField(
-          //     //             label: 'State',
-          //     //           ).dataFieldDecoration(),
-          //     //         ),
-          //     //       ),
-          //     //     ],
-          //     //   ) ,
-          //     // ),
-          //     SizedBox(height: 20,),
-          //     Align(
-          //       alignment: Alignment.centerRight,
-          //       child: Row(
-          //         children: [
-          //           if (Responsive.isDesktop(context))
-          //             isLoading ?
-          //             LoadingButton():
-          //             MainButton(
-          //               title: 'Add',
-          //               press: () {
-          //
-          //               },
-          //
-          //               sizeHorizontal: 30,
-          //               sizeVerticle: 16,
-          //               color: bgColor,
-          //               titleColor: Colors.white,
-          //             ),
-          //           SizedBox(width: 5,),
-          //           if (Responsive.isDesktop(context))
-          //             MainButton(
-          //               title: 'Cancel',
-          //               press: () {  },
-          //               sizeHorizontal: 30,
-          //               sizeVerticle: 16,
-          //               color: purpleColor,
-          //               titleColor: Colors.white,
-          //             ),
-          //         ],
-          //       ),
-          //     ),
-          //   ],
-          // ),
+        
         ),
       ),
     );

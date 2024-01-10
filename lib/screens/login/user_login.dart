@@ -15,14 +15,14 @@ import 'package:spyco_shop_management/screens/register/register.dart';
 import 'package:spyco_shop_management/widgets/main_button.dart';
 import 'package:spyco_shop_management/widgets/snackbar.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class UserLogin extends StatefulWidget {
+  const UserLogin({Key? key}) : super(key: key);
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<UserLogin> createState() => _UserLoginState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _UserLoginState extends State<UserLogin> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   bool showEye = false;
@@ -45,21 +45,21 @@ class _LoginScreenState extends State<LoginScreen> {
             ResponsiveWidget.isSmallScreen(context)
                 ? const SizedBox()
                 : Expanded(
-                    child: Container(
-                      height: height,
-                      color: bgColor,
-                      child: Center(
-                        child: Text(
-                          'Our Logo',
-                          style: ralewayStyle.copyWith(
-                            fontSize: 48.0,
-                            color: AppColors.whiteColor,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                      ),
+              child: Container(
+                height: height,
+                color: bgColor,
+                child: Center(
+                  child: Text(
+                    'Our Logo',
+                    style: ralewayStyle.copyWith(
+                      fontSize: 48.0,
+                      color: AppColors.whiteColor,
+                      fontWeight: FontWeight.w800,
                     ),
                   ),
+                ),
+              ),
+            ),
             Expanded(
               child: Container(
                 height: height,
@@ -188,19 +188,34 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       SizedBox(height: height * 0.03),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: TextButton(
-                          onPressed: () {},
-                          child: Text(
-                            'Forgot Password?',
-                            style: ralewayStyle.copyWith(
-                              fontSize: 12.0,
-                              color: bgColor,
-                              fontWeight: FontWeight.w600,
+                      Row(
+                        children: [
+                          TextButton(
+                            onPressed: () {
+
+                            },
+                            child: Text(
+                              'User login',
+                              style: ralewayStyle.copyWith(
+                                fontSize: 12.0,
+                                color: bgColor,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ),
-                        ),
+                          Spacer(),
+                          TextButton(
+                            onPressed: () {},
+                            child: Text(
+                              'Forgot Password?',
+                              style: ralewayStyle.copyWith(
+                                fontSize: 12.0,
+                                color: bgColor,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                       SizedBox(height: height * 0.05),
                       isLoading ? LoadingButton() :
@@ -209,9 +224,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: InkWell(
                           onTap: () {
                             if (usernameController.text.isNotEmpty &&
-                            passwordController.text.isNotEmpty) {
+                                passwordController.text.isNotEmpty) {
                               setState(() {
-                                // isLoading = true;
+                                isLoading = true;
                               });
                               loginApi(
                                   password: passwordController.text,
@@ -226,7 +241,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       .getInstance();
                                   prefs.setString('token',
                                       response!.accessToken.toString()
-                                      );
+                                  );
                                   prefs.setString('email',
                                       usernameController.text
                                   );
@@ -236,7 +251,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   // prefs.setBool(Keys().loginDone, true);
                                   SharedPrefs().setLoginTrue();
                                   setState(() {
-                                    // isLoading = false;
+                                    isLoading = false;
                                   });
                                   CustomSnackbar.show(
                                       context: context,
@@ -248,17 +263,17 @@ class _LoginScreenState extends State<LoginScreen> {
                                   print('check token');
 
                                   Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => MultiProvider(
-                                            providers: [
-                                              ChangeNotifierProvider(
-                                                create: (context) => MenuAppController(),
-                                              ),
-                                            ],
-                                            child: MainScreen(),
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => MultiProvider(
+                                        providers: [
+                                          ChangeNotifierProvider(
+                                            create: (context) => MenuAppController(),
                                           ),
-                                        ),
+                                        ],
+                                        child: MainScreen(),
+                                      ),
+                                    ),
                                   );
                                 } else {
                                   setState(() {
@@ -304,7 +319,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: 50,
                         width: width,
                         child: Row(
-                            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Padding(
                                 padding: const EdgeInsets.only(left: 16.0),

@@ -435,3 +435,65 @@ class CustomDataField {
     // );
   }
 }
+
+
+class ItemDataField {
+  final String label;
+  ItemDataField({required this.label});
+
+  InputDecoration itemFieldDecoration() {
+    return InputDecoration(
+      // contentPadding: EdgeInsets.symmetric(vertical: 1),
+      hintText: label,
+      hintStyle: k16_400_62696A.copyWith(fontSize: 12),
+      fillColor: Colors.white,
+
+      //   contentPadding: EdgeInsets.symmetric(
+      //     horizontal: 10,
+      //     vertical: 10,
+      //   ),
+
+      // This is the normal border
+      border: OutlineInputBorder(
+          borderSide: BorderSide(
+              color: Colors.yellow,
+              width: 0.5
+          )
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(0),
+        borderSide: BorderSide(color: Colors.black.withOpacity(0.60), width: 0.5),
+      ),
+      errorBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(0),
+              borderSide: BorderSide(color: Colors.black.withOpacity(0.60), width: 0.5),
+            ),
+      focusedBorder:OutlineInputBorder(
+        borderRadius: BorderRadius.circular(0),
+        borderSide: BorderSide(color: Colors.black.withOpacity(0.60), width: 0.5),
+      ),
+      contentPadding: EdgeInsets.symmetric(vertical: 6,horizontal: 2),
+
+    );
+
+    // return InputDecoration(
+    //   filled: true,
+    //   fillColor: Colors.white,
+    //   hintText: label,
+    //   hintStyle: k16_400_62696A,
+    //   contentPadding: EdgeInsets.symmetric(
+    //     horizontal: 10,
+    //     vertical: 10,
+    //   ),
+    //   enabledBorder: OutlineInputBorder(
+    //     borderRadius: BorderRadius.circular(6),
+    //     borderSide: BorderSide(color: Colors.black.withOpacity(0.60), width: 0.5),
+    //   ),
+    //   focusedBorder: OutlineInputBorder(
+    //     borderRadius: BorderRadius.circular(6),
+    //     borderSide: BorderSide( color: selectedColor
+    //         .withOpacity(0.90), width: 0.5),
+    //   ),
+    // );
+  }
+}

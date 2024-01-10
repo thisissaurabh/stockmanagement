@@ -20,6 +20,8 @@ import 'package:spyco_shop_management/widgets/globals.dart';
 import 'package:spyco_shop_management/widgets/main_button.dart';
 import 'package:spyco_shop_management/widgets/main_recent_widget.dart';
 
+import '../widgets/loading.dart';
+
 class CustomersScreen extends StatefulWidget {
   const CustomersScreen({super.key});
 
@@ -102,7 +104,7 @@ class _LeftCustomerPanelState extends State<LeftCustomerPanel> {
     var resp = getCustomerApi();
     resp.then((value) {
       if (value['status'] == 1) {
-        for(var v in value['customerData']['data']) {
+        for(var v in value['supplierData']['data']) {
           customers.add(CustomerModel.fromJson(v));
         }
         print(customers.length);
@@ -199,7 +201,7 @@ class _LeftCustomerPanelState extends State<LeftCustomerPanel> {
       backgroundColor: Colors.white,
       body:
       isLoading ?
-      CircularProgressIndicator() :SingleChildScrollView(
+      Loading() :SingleChildScrollView(
         primary: false,
         padding: EdgeInsets.all(defaultPadding),
         child: Column(

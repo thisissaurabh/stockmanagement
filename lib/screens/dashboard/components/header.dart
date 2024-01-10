@@ -8,10 +8,11 @@ import 'package:spyco_shop_management/constants/responsive.dart';
 class Header extends StatelessWidget {
   const Header({
     Key? key,
-    required this.title, this.profileCard,
+    required this.title, this.profileCard, this.backIcon,
   }) : super(key: key);
   final String title;
   final Widget? profileCard;
+  final Widget? backIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +23,8 @@ class Header extends StatelessWidget {
             icon: Icon(Icons.menu),
             onPressed: context.read<MenuAppController>().controlMenu,
           ),
+        if (!Responsive.isDesktop(context))
+          backIcon ?? SizedBox(),
         if (!Responsive.isMobile(context))
           Text(
             title,

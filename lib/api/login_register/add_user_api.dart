@@ -57,7 +57,7 @@ Future<dynamic> getUsersApi() async {
   var headers = {
     'Accept': 'application/json',
     'Authorization': 'Bearer $v' };
-  var request = http.Request('GET', Uri.parse('$adminUrl/get-admin-user'));
+  var request = http.Request('GET', Uri.parse('$baseUrl/get-admin-user'));
   request.headers.addAll(headers);
   http.StreamedResponse response = await request.send();
   var resp = jsonDecode(await response.stream.bytesToString());
