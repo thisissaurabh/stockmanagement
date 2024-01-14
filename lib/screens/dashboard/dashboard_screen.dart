@@ -117,109 +117,112 @@ class _DashboardScreenState extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: SingleChildScrollView(
-        primary: false,
-        padding: EdgeInsets.all(defaultPadding),
-        child: Column(
-          children: [
-            Header(
-              title: "Dashboard",
-              profileCard: ProfileCard(
-                  username: '',
-                  userImage: "person-svgrepo-com.svg",
+      child: Scaffold(
+        backgroundColor: scaffoldColor,
+        body: SingleChildScrollView(
+          primary: false,
+          padding: EdgeInsets.all(defaultPadding),
+          child: Column(
+            children: [
+              Header(
+                title: "Dashboard",
+                profileCard: ProfileCard(
+                    username: '',
+                    userImage: "person-svgrepo-com.svg",
+                ),
               ),
-            ),
-            SizedBox(height: defaultPadding),
-            Row(
-              children: [
-                if (Responsive.isDesktop(context))
-                Expanded(
-                  flex: 2,
+              SizedBox(height: defaultPadding),
+              Row(
+                children: [
+                  if (Responsive.isDesktop(context))
+                  Expanded(
+                    // flex: 2,
+                      child: ElevatedBgCard(
+                        radius: 16,
+                        child: Container(
+                          height: MediaQuery.sizeOf(context).height *0.41,
+                          child: BarChartSample1(),
+                        ),
+                      )),
+                  SizedBox(width: 16,),
+                  if (Responsive.isDesktop(context))
+                  Expanded(
+                      child: ElevatedBgCard(
+                        radius: 16,
+                        child: Container(
+                          height: MediaQuery.sizeOf(context).height *0.41,
+                          child: PieChartSample2(),
+                        ),
+                      )),
+                ],
+              ),
+              SizedBox(height: defaultPadding),
+
+
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (Responsive.isDesktop(context))
+                  Expanded(
                     child: ElevatedBgCard(
-                      radius: 16,
-                      child: Container(
-                        height: MediaQuery.sizeOf(context).height *0.41,
-                        child: BarChartSample1(),
-                      ),
-                    )),
-                SizedBox(width: 16,),
-                if (Responsive.isDesktop(context))
-                Expanded(
-                    child: ElevatedBgCard(
-                      radius: 16,
-                      child: Container(
-                        height: MediaQuery.sizeOf(context).height *0.41,
-                        child: PieChartSample2(),
-                      ),
-                    )),
-              ],
-            ),
-            SizedBox(height: defaultPadding),
-
-
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (Responsive.isDesktop(context))
-                Expanded(
-                  child: ElevatedBgCard(
-                    radius: 16.0,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-
-                        DashBoardPriceCard(title: 'Total Sales', price: '₹40000', percent: '29 %',)
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(width: 16,),
-                if (Responsive.isDesktop(context))
-                Expanded(
-                  child: ElevatedBgCard(
-                    radius: 16.0,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        DashBoardPriceCard(title: 'Total Purchases', price: '₹10000', percent: '29 %',)
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 10,),
-            Row(
-              children: [
-                Expanded(
-                  flex: 2,
-                  child: CustomDataList(
-                    listTitle: 'Recent Entries',
-                    categoryTitle1: 'Type',
-                    categoryTitle2: 'Party',
-                    categoryTitle3: 'Item',
-                    categoryTitle4: 'Date',
-                    listItemCount: saleType.length,
-                    saleType: saleType,
-                    partyName: partyName,
-                    date: date,
-                    amount: amount,
-                    categoryTitle5: 'Amount',
-                    item: [],
-
-                  ),
-                ),
-                SizedBox(width: 16),
-                Expanded(
-                  child: ElevatedBgCard(
                       radius: 16.0,
-                      child: BarChartSample2()),
-                ),
-              ],
-            ),
-          ],
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+
+                          DashBoardPriceCard(title: 'Total Sales', price: '₹40000', percent: '29 %',)
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 16,),
+                  if (Responsive.isDesktop(context))
+                  Expanded(
+                    child: ElevatedBgCard(
+                      radius: 16.0,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          DashBoardPriceCard(title: 'Total Purchases', price: '₹10000', percent: '29 %',)
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 10,),
+              Row(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: CustomDataList(
+                      listTitle: 'Recent Entries',
+                      categoryTitle1: 'Type',
+                      categoryTitle2: 'Party',
+                      categoryTitle3: 'Item',
+                      categoryTitle4: 'Date',
+                      listItemCount: saleType.length,
+                      saleType: saleType,
+                      partyName: partyName,
+                      date: date,
+                      amount: amount,
+                      categoryTitle5: 'Amount',
+                      item: [],
+
+                    ),
+                  ),
+                  SizedBox(width: 16),
+                  Expanded(
+                    child: ElevatedBgCard(
+                        radius: 16.0,
+                        child: BarChartSample2()),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

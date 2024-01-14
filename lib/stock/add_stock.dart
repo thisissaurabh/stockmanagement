@@ -37,18 +37,18 @@ class _AddStockState extends State<AddStock> {
     return Scaffold(
       backgroundColor: Colors.white,
       key: context.read<MenuAppController>().scaffoldKey,
-      drawer: SideMenu(),
+      // drawer: SideMenu(),
       body: SafeArea(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // We want this side menu only for large screen
             if (Responsive.isDesktop(context))
-              Expanded(
-                // default flex = 1
-                // and it takes 1/6 part of the screen
-                child: SideMenu(),
-              ),
+              // Expanded(
+              //   // default flex = 1
+              //   // and it takes 1/6 part of the screen
+              //   child: SideMenu(),
+              // ),
             Expanded(
               // It takes 5/6 part of the screen
               flex: 5,
@@ -167,7 +167,7 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                                     crossAxisAlignment: CrossAxisAlignment.end,
                                     children: [
                                       SizedBox(
-                                        width: 276,
+                                        width: MediaQuery.sizeOf(context).width,
                                         height: 40.0,
                                         child:   DropdownButtonHideUnderline(
                                           child: DropdownButton2<String>(
@@ -208,7 +208,7 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                                             },
                                             buttonStyleData: ButtonStyleData(
                                               height: 50,
-                                              width: 276,
+                                              width: MediaQuery.sizeOf(context).width,
                                               // width: 160,
                                               padding: const EdgeInsets.only(left: 14, right: 14),
                                               decoration: BoxDecoration(
@@ -230,7 +230,7 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                                             ),
                                             dropdownStyleData: DropdownStyleData(
                                               // maxHeight: 200,
-                                              width: 276,
+                                              width: MediaQuery.sizeOf(context).width,
                                               decoration: BoxDecoration(
                                                 borderRadius: BorderRadius.circular(14),
                                                 color: Colors.white,
@@ -269,7 +269,7 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                              AddSupplierRow(
                                       title: 'Business Name',
                                       child:Container(
-                                        width: 276,
+                                        width: MediaQuery.sizeOf(context).width,
                                         height: 40.0,
                                         color: Colors.white,
                                         child: TextFormField(
@@ -292,7 +292,7 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                             AddSupplierRow(
                               title: 'Short Name',
                               child:Container(
-                                width: 276,
+                                width: MediaQuery.sizeOf(context).width,
                                 height: 40.0,
                                 color: Colors.white,
                                 child: TextFormField(
@@ -312,33 +312,37 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                               ) ,
                             ),
                             SizedBox(height: 16,),
-                            AddSupplierRow(
-                                  title: 'Address',
-                                  child:Row(
-                                    children: [
-                                      SizedBox(
-                                        width: 276,
-                                        height: 100.0,
-                                        child: Container(
-                                          height: 100,
-                                          decoration: BoxDecoration(
-                                              color: Colors.white,
-                                            borderRadius: BorderRadius.circular(6),
-                                            border: Border.all(
-                                              width: 0.5,
-                                              color: Colors.black.withOpacity(0.60)
-                                            ),
-                                          ),
 
-                                        )
+                            Row(
+                              children: [
+                                Container(
+                                    width: MediaQuery.sizeOf(context).width *0.10,
+                                    child: Text("Address")),
+                                SizedBox(width: 16,),
+                                Expanded(
+                                  child: Container(
+                                    height: 100,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(6),
+                                      border: Border.all(
+                                          width: 0.5,
+                                          color: Colors.black.withOpacity(0.60)
                                       ),
+                                    ),
+
+
+                                  ),
+                                ),
+                                SizedBox(width: 16,),
                               ],
-                            )),
+                            ),
+
                             SizedBox(height: 16,),
                             AddSupplierRow(
                               title: 'Pin Code',
                               child:Container(
-                                width: 276,
+                                width: MediaQuery.sizeOf(context).width,
                                 height: 40.0,
                                 color: Colors.white,
                                 child: TextFormField(
@@ -361,7 +365,7 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                             AddSupplierRow(
                               title: 'City',
                               child:Container(
-                                width: 276,
+                                width: MediaQuery.sizeOf(context).width,
                                 height: 40.0,
                                 color: Colors.white,
                                 child: TextFormField(
@@ -384,7 +388,7 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                             AddSupplierRow(
                               title: 'State',
                               child:Container(
-                                width: 276,
+                                width: MediaQuery.sizeOf(context).width,
                                 height: 40.0,
                                 color: Colors.white,
                                 child: TextFormField(
@@ -407,7 +411,7 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                             AddSupplierRow(
                               title: 'Gst No',
                               child:Container(
-                                width: 276,
+                                width: MediaQuery.sizeOf(context).width,
                                 height: 40.0,
                                 color: Colors.white,
                                 child: TextFormField(
@@ -444,7 +448,7 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                             AddSupplierRow(
                               title: 'Purchase Invoice No',
                               child:Container(
-                                width: 276,
+                                width: MediaQuery.sizeOf(context).width,
                                 height: 40.0,
                                 color: Colors.white,
                                 child: TextFormField(
@@ -467,7 +471,7 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                             AddSupplierRow(
                               title: 'Challan No',
                               child:Container(
-                                width: 276,
+                                width: MediaQuery.sizeOf(context).width,
                                 height: 40.0,
                                 color: Colors.white,
                                 child: TextFormField(
@@ -490,7 +494,7 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                         AddSupplierRow(
                                       title: 'Invoice Date',
                                       child:SizedBox(
-                                        width: 276,
+                                        width: MediaQuery.sizeOf(context).width,
                                         height: 40.0,
                                         child: TextFormField(
                                           readOnly: true,
@@ -537,7 +541,7 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   SizedBox(
-                                    width: 276,
+                                    width: MediaQuery.sizeOf(context).width,
                                     height: 40.0,
                                     child:   DropdownButtonHideUnderline(
                                       child: DropdownButton2<String>(
@@ -620,49 +624,34 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                                     ),
                                   ),
                                   SizedBox(height: 5,),
-                                  // MouseHover(
-                                  //   child: Row(
-                                  //     children: [
-                                  //       SvgPicture.asset("assets/icons/add-svgrepo-com.svg",
-                                  //         color: Colors.green,),
-                                  //       Text("Add new Supplier",
-                                  //         style: TextStyle(
-                                  //             color: Colors.green
-                                  //         ),)
-                                  //     ],
-                                  //   ),
-                                  // ),
                                 ],
                               ) ,
                             ),
                             SizedBox(height: 16,),
-                            AddSupplierRow(
-                                title: 'Remarks if any',
-                                child:Row(
-                                  children: [
-                                    SizedBox(
-                                        width: 276,
-                                        height: 100.0,
-                                        child: Container(
-                                          height: 100,
-                                          decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius: BorderRadius.circular(6),
-                                            border: Border.all(
-                                                width: 0.5,
-                                                color: Colors.black.withOpacity(0.60)
-                                            ),
-                                          ),
-
-
-                                        )
+                            Row(
+                              children: [
+                                Container(
+                                    width: MediaQuery.sizeOf(context).width *0.10,
+                                    child: Text("Address")),
+                                SizedBox(width: 16,),
+                                Expanded(
+                                  child: Container(
+                                    height: 100,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(6),
+                                      border: Border.all(
+                                          width: 0.5,
+                                          color: Colors.black.withOpacity(0.60)
+                                      ),
                                     ),
-                                  ],
+
+
+                                  ),
                                 ),
+                                SizedBox(width: 16,),
+                              ],
                             ),
-
-
-
                           ],
                         )),
                   ),
@@ -672,6 +661,7 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
 
               GestureDetector(
                 onTap: () {
+                  print(dateInput.text);
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -681,7 +671,7 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                             create: (context) => MenuAppController(),
                           ),
                         ],
-                        child: AddStockItems(),
+                        child: AddStockItems(date: dateInput.text,),
                       ),
                     ),
                   );

@@ -10,6 +10,7 @@ import 'package:spyco_shop_management/constants/textstyle.dart';
 
 import 'package:spyco_shop_management/controllers/MenuAppController.dart';
 import 'package:spyco_shop_management/sales/add_customer.dart';
+import 'package:spyco_shop_management/sales/edit_customer.dart';
 import 'package:spyco_shop_management/screens/dashboard/components/header.dart';
 
 import 'package:spyco_shop_management/screens/main/components/side_menu.dart';
@@ -42,18 +43,18 @@ class _CustomersScreenState extends State<CustomersScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       key: context.read<MenuAppController>().scaffoldKey,
-      drawer: SideMenu(),
+      // drawer: SideMenu(),
       body: SafeArea(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // We want this side menu only for large screen
-            if (Responsive.isDesktop(context))
-              Expanded(
-                // default flex = 1
-                // and it takes 1/6 part of the screen
-                child: SideMenu(),
-              ),
+            // if (Responsive.isDesktop(context))
+            //   Expanded(
+            //     // default flex = 1
+            //     // and it takes 1/6 part of the screen
+            //     child: SideMenu(),
+            //   ),
             Expanded(
               // It takes 5/6 part of the screen
               flex: 5,
@@ -509,12 +510,27 @@ class _LeftCustomerPanelState extends State<LeftCustomerPanel> {
                                           selectedItemIndex != -1 && customers.isNotEmpty && selectedItemIndex < customers.length ?
                                           Column(
                                             crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            CrossAxisAlignment.start,
                                             children: [
                                               CustomerDetailsCard(
                                                 name: customers[selectedItemIndex].firstName.toString(),
                                                 email:  customers[selectedItemIndex].mail.toString(),
                                                 phoneNo:  customers[selectedItemIndex].phone.toString(),
+                                                onTap: () {
+                                                //   Navigator.push(
+                                                //   context,
+                                                //   MaterialPageRoute(
+                                                //     builder: (context) => MultiProvider(
+                                                //       providers: [
+                                                //         ChangeNotifierProvider(
+                                                //           create: (context) => MenuAppController(),
+                                                //         ),
+                                                //       ],
+                                                //       child: CustomerProfileDetails(),
+                                                //     ),
+                                                //   ),
+                                                // );
+                                                  },
                                               ),
                                               SizedBox(height: 10),
                                               Text("Address"),

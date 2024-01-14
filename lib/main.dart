@@ -5,6 +5,8 @@ import 'package:spyco_shop_management/screens/login/login.dart';
 import 'package:spyco_shop_management/splash/splash.dart';
 import 'package:spyco_shop_management/widgets/loading.dart';
 
+import 'dashboard.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -22,7 +24,8 @@ class MyApp extends StatelessWidget {
             .apply(bodyColor: Colors.black),
         canvasColor: secondaryColor,
       ),
-      home: SplashScreen(),
+      // home: SplashScreen(),
+      home: DashBoard(),
       // home: Loading(),
       // home: AddSupplierScreen(),
       // home: LoginScreen(),

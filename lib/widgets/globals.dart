@@ -11,11 +11,12 @@ class CustomerDetailsCard extends StatelessWidget {
   final String name;
   final String email;
   final String phoneNo;
+  final Function() onTap;
   const CustomerDetailsCard(
       {super.key,
       required this.name,
       required this.email,
-      required this.phoneNo});
+      required this.phoneNo, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -64,9 +65,14 @@ class CustomerDetailsCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  "Edit",
-                  style: thinblueText,
+                GestureDetector(
+                  onTap: onTap,
+                  child: MouseRegion(
+                    child: Text(
+                      "Edit",
+                      style: thinblueText,
+                    ),
+                  ),
                 ),
                 SizedBox(
                   width: 5,
@@ -276,7 +282,7 @@ class _AddSupplierRowState extends State<AddSupplierRow> {
           width: MediaQuery.sizeOf(context).width *0.10,
             child: Text(widget.title)),
         SizedBox(width: 16,),
-        widget.child ?? SizedBox(),
+        Expanded(child: widget.child ?? SizedBox()),
 
         SizedBox(width: 16,),
         widget.child2 ?? SizedBox()

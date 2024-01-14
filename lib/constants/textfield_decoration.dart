@@ -497,3 +497,23 @@ class ItemDataField {
     // );
   }
 }
+
+
+class UnderLineField {
+  final String label;
+  UnderLineField({required this.label});
+
+  InputDecoration itemFieldDecoration() {
+    return  InputDecoration(
+      labelText: label,
+      labelStyle: TextStyle(color: Colors.grey),
+      enabledBorder: UnderlineInputBorder(
+        borderSide: BorderSide(color: Colors.red),
+      ),
+      focusedBorder: UnderlineInputBorder(
+        borderSide: BorderSide(color: Colors.blue),
+      ),
+    );
+
+  }
+}

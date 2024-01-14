@@ -34,7 +34,7 @@ class ElevatedBgCard extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(radius),
       decoration: BoxDecoration(
-        color: secondaryColor,
+        color: Colors.white,
         borderRadius: const BorderRadius.all(Radius.circular(10)),
       ),
       child: child,

@@ -19,7 +19,9 @@ import 'package:spyco_shop_management/widgets/globals.dart';
 import 'components/items_model.dart';
 
 class AddStockItems extends StatefulWidget {
-  const AddStockItems({super.key});
+  final String date;
+
+  const AddStockItems({super.key, required this.date});
 
   @override
   State<AddStockItems> createState() => _AddStockItemsState();
@@ -29,9 +31,9 @@ class _AddStockItemsState extends State<AddStockItems> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: scaffoldColor,
       key: context.read<MenuAppController>().scaffoldKey,
-      drawer: SideMenu(),
+      // drawer: SideMenu(),
       body: SafeArea(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,7 +48,7 @@ class _AddStockItemsState extends State<AddStockItems> {
             Expanded(
               // It takes 5/6 part of the screen
               // flex: 5,
-              child: AddItemsContainer(
+              child: AddItemsContainer(date: widget.date,
               ),
             ),
           ],
@@ -58,7 +60,12 @@ class _AddStockItemsState extends State<AddStockItems> {
 
 
 class AddItemsContainer extends StatefulWidget {
-  const AddItemsContainer({super.key});
+  final String date;
+  // final String date;
+
+  const AddItemsContainer({super.key,
+    required this.date
+  });
 
   @override
   State<AddItemsContainer> createState() => _AddItemsContainerState();
@@ -105,6 +112,7 @@ class _AddItemsContainerState extends State<AddItemsContainer> {
                     height: 500,
                       child: HomePage()),
                 ),
+                SizedBox(width: 16),
                 Expanded(
                     child: Padding(
                       padding: const EdgeInsets.only(top: 24.0),
@@ -116,7 +124,7 @@ class _AddItemsContainerState extends State<AddItemsContainer> {
                             children: [
                               DataSpaceBetweenContainer(
                                 title: 'Date',
-                                date: '23/10/1996',),
+                                date: widget.date,),
                               DataSpaceBetweenContainer(
                                 title: 'Supplier',
                                 date: 'Gagan',),
@@ -272,493 +280,499 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: Colors.white,
 
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: AddItemHeaderBox(title: '',)
-                ),
-                Expanded(
-                    child: AddItemHeaderBox(title: 'Item Code',)
-                ),
-                Expanded(
-                    child: AddItemHeaderBox(title: 'Item Name',)
-                ),
-                Expanded(
-                    child: AddItemHeaderBox(title: 'Design Name',)
-                ),
-                Expanded(
-                    child: AddItemHeaderBox(title: 'Color',)
-                ),
-                Expanded(
-                    child: AddItemHeaderBox(title: 'Size',)
-                ),
-                Expanded(
-                    child: AddItemHeaderBox(title: 'Hsn Code',)
-                ),
-                Expanded(
-                    child: AddItemHeaderBox(title: 'Quantity',)
-                ),
-                Expanded(
-                    child: AddItemHeaderBox(title: 'Unit',)
-                ),
-                Expanded(
-                    child: AddItemHeaderBox(title: 'Purchase Price',)
-                ),
-                Expanded(
-                    child: AddItemHeaderBox(title: 'Discount %',)
-                ),
-                Expanded(
-                    child: AddItemHeaderBox(title: 'Tax %',)
-                ),
-                Expanded(
-                    child: AddItemHeaderBox(title: 'Set Mrp',)
-                ),
-                Expanded(
-                    child: AddItemHeaderBox(title: 'Total',)
-                ),
+      body: Container(
+        decoration: BoxDecoration(
 
-              ],
-            ),
-           Row(
-             children: [
-               Expanded(
-                 child: AddItemField(control: sno, label: '',),
-               ),
-            
-               Expanded(
-                 child: AddItemField(control: itemCode, label: 'Item Code',),
-               ),
-               Expanded(
-                 child: AddItemField(control: itemName, label: 'Item Name',),
-               ),
-               Expanded(
-                 child: AddItemField(control: designName, label: 'Design Name',),
-               ),
-               Expanded(
-                 child: AddItemField(control: color, label: 'Color',),
-               ),
-               Expanded(
-                 child: AddItemField(control: size, label: 'Size',),
-               ),
-               Expanded(
-                 child: AddItemField(control: hsnCode, label: 'Hsn Code',),
-               ),
-               Expanded(
-                 child:  SizedBox(
-                   height: 30,
-                   child: TextField(
-                     cursorHeight: 22,
-                     controller: quantity,
-                     onChanged: (value) {
-                       quantityP = double.tryParse(value) ?? 0;
-                       calculateTotalAmount();
-                     },
-                     onSubmitted: (val) {
-                       FocusScope.of(context).requestFocus(FocusNode());
-                       FocusScope.of(context).nextFocus();
-                     },
-                     decoration: ItemDataField(
-                       label: "quantity",
-                     ).itemFieldDecoration(),
-                   ),
-                 ),
-               ),
-               Expanded(
-                 child:SizedBox(
-                   height: 30,
-                   child: DropdownButtonHideUnderline(
-                     child: DropdownButton2<String>(
-                       isExpanded: true,
-                       hint: const Row(
-                         children: [
-                           Expanded(
-                             child: Text(
-                               'Select',
-                               style: TextStyle(
-                                 fontSize: 14,
-                                 color: Colors.black,
-                               ),
-                               overflow: TextOverflow.ellipsis,
-                             ),
-                           ),
-                         ],
-                       ),
-                       items: units
-                           .map((String item) => DropdownMenuItem<String>(
-                         value: item,
-                         child: Text(
-                           item,
-                           style: const TextStyle(
-                             fontSize: 14,
-                             // fontWeight: FontWeight.bold,
-                             color: Colors.black,
-                           ),
-                           overflow: TextOverflow.ellipsis,
-                         ),
-                       ))
-                           .toList(),
-                       value: unitVal,
-                       onChanged: (String? value) {
-                         setState(() {
-                           unitVal = value;
-                           unit.text = value!;
-                         });
-                       },
-                       buttonStyleData: ButtonStyleData(
-                         // height: 50,
-                         width: 276,
-                         // width: 160,
-                         padding: const EdgeInsets.only(left: 14, right: 14),
-                         decoration: BoxDecoration(
-                           border: Border.all(
-                             color: Colors.black.withOpacity(0.50),
-                             width: 0.5,
-                           ),
-                           // color: Colors.white,
-                         ),
-                         elevation: 0,
-                       ),
-                       iconStyleData: const IconStyleData(
-                         icon: Icon(
-                           Icons.arrow_forward_ios_outlined,
-                         ),
-                         iconSize: 14,
-                         iconEnabledColor: Colors.black,
-                         iconDisabledColor: Colors.black,
-                       ),
-                       dropdownStyleData: DropdownStyleData(
-                         // maxHeight: 200,
-                         width: 276,
-                         decoration: BoxDecoration(
-                           borderRadius: BorderRadius.circular(14),
-                           color: Colors.white,
-                         ),
-                         offset: const Offset(0, 0),
-                         scrollbarTheme: ScrollbarThemeData(
-                           radius: const Radius.circular(6),
-                           thickness: MaterialStateProperty.all<double>(6),
-                           thumbVisibility: MaterialStateProperty.all<bool>(true),
-                         ),
-                       ),
-                       menuItemStyleData: const MenuItemStyleData(
-                         height: 40,
-                         padding: EdgeInsets.only(left: 14, right: 14),
-                       ),
-                     ),
-                   ),
-                 ),
-               ),
-               Expanded(
-                 child:  SizedBox(
-                   height: 30,
-                   child: TextField(
-                     cursorHeight: 22,
-                     controller: purchasePrice,
-                     onChanged: (value) {
-                       purchasePriceP = double.tryParse(value) ?? 0;
-                       calculateTotalAmount();
+          borderRadius: BorderRadius.circular(20)
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: AddItemHeaderBox(title: '',)
+                  ),
+                  Expanded(
+                      child: AddItemHeaderBox(title: 'Item Code',)
+                  ),
+                  Expanded(
+                      child: AddItemHeaderBox(title: 'Item Name',)
+                  ),
+                  Expanded(
+                      child: AddItemHeaderBox(title: 'Design Name',)
+                  ),
+                  Expanded(
+                      child: AddItemHeaderBox(title: 'Color',)
+                  ),
+                  Expanded(
+                      child: AddItemHeaderBox(title: 'Size',)
+                  ),
+                  Expanded(
+                      child: AddItemHeaderBox(title: 'Hsn Code',)
+                  ),
+                  Expanded(
+                      child: AddItemHeaderBox(title: 'Quantity',)
+                  ),
+                  Expanded(
+                      child: AddItemHeaderBox(title: 'Unit',)
+                  ),
+                  Expanded(
+                      child: AddItemHeaderBox(title: 'Purchase Price',)
+                  ),
+                  Expanded(
+                      child: AddItemHeaderBox(title: 'Discount %',)
+                  ),
+                  Expanded(
+                      child: AddItemHeaderBox(title: 'Tax %',)
+                  ),
+                  Expanded(
+                      child: AddItemHeaderBox(title: 'Set Mrp',)
+                  ),
+                  Expanded(
+                      child: AddItemHeaderBox(title: 'Total',)
+                  ),
 
-                     },
-                     onSubmitted: (val) {
-                       FocusScope.of(context).requestFocus(FocusNode());
-                       FocusScope.of(context).nextFocus();
-                     },
-                     decoration: ItemDataField(
-                       label: "purchase Price",
-                     ).itemFieldDecoration(),
-                   ),
-                 ),
-               ),
-               Expanded(
-                 child: SizedBox(
-                   height: 30,
-                   child: TextField(
-                     cursorHeight: 22,
-                     controller: discount,
-                     onChanged: (value) {
-                       discountP = double.tryParse(value) ?? 0;
-                       calculateTotalAmount();
-                     },
-                     onSubmitted: (val) {
-                       FocusScope.of(context).requestFocus(FocusNode());
-                       FocusScope.of(context).nextFocus();
-                     },
-                     decoration: ItemDataField(
-                       label: "Discount",
-                     ).itemFieldDecoration(),
-                   ),
-                 ),
-               ),
-               Expanded(
-                 child:SizedBox(
-                   height: 30,
-                   child: DropdownButtonHideUnderline(
-                     child: DropdownButton2<String>(
-                       isExpanded: true,
-                       hint: const Row(
-                         children: [
-                           Expanded(
-                             child: Text(
-                               'Select',
-                               style: TextStyle(
-                                 fontSize: 14,
-                                 color: Colors.black,
-                               ),
-                               overflow: TextOverflow.ellipsis,
-                             ),
-                           ),
-                         ],
-                       ),
-                       items: gst
-                           .map((String item) => DropdownMenuItem<String>(
-                         value: item,
-                         child: Text(
-                           item,
-                           style: const TextStyle(
-                             fontSize: 14,
-                             // fontWeight: FontWeight.bold,
-                             color: Colors.black,
-                           ),
-                           overflow: TextOverflow.ellipsis,
-                         ),
-                       ))
-                           .toList(),
-                       value: gstVal,
-                       onChanged: (String? value) {
-                         setState(() {
-                           gstVal = value;
-                           gstController.text = value ?? '';
-
-                           gstP = double.tryParse(value!) ?? 0;
-                           calculateTotalAmount();
-                         });
-                         print(gstController.toString());
-                       },
-                       buttonStyleData: ButtonStyleData(
-                         // height: 50,
-                         width: 276,
-                         // width: 160,
-                         padding: const EdgeInsets.only(left: 14, right: 14),
-                         decoration: BoxDecoration(
-                           border: Border.all(
-                             color: Colors.black.withOpacity(0.50),
-                             width: 0.5,
-                           ),
-                           // color: Colors.white,
-                         ),
-                         elevation: 0,
-                       ),
-                       iconStyleData: const IconStyleData(
-                         icon: Icon(
-                           Icons.arrow_forward_ios_outlined,
-                         ),
-                         iconSize: 14,
-                         iconEnabledColor: Colors.black,
-                         iconDisabledColor: Colors.black,
-                       ),
-                       dropdownStyleData: DropdownStyleData(
-                         // maxHeight: 200,
-                         width: 276,
-                         decoration: BoxDecoration(
-                           borderRadius: BorderRadius.circular(14),
-                           color: Colors.white,
-                         ),
-                         offset: const Offset(0, 0),
-                         scrollbarTheme: ScrollbarThemeData(
-                           radius: const Radius.circular(6),
-                           thickness: MaterialStateProperty.all<double>(6),
-                           thumbVisibility: MaterialStateProperty.all<bool>(true),
-                         ),
-                       ),
-                       menuItemStyleData: const MenuItemStyleData(
-                         height: 40,
-                         padding: EdgeInsets.only(left: 14, right: 14),
-                       ),
-                     ),
-                   ),
-                 ),
-               ),
-
-               Expanded(
-                 child: AddItemField(control: setMrp, label: 'Set Mrp',),
-               ),
-               Expanded(
-                 child: SizedBox(
-                   height: 30,
-                   child: TextField(
-                     cursorHeight: 22,
-                     controller: totalAmount,
-                     onChanged: (val) {
-
-                     },
-                     onSubmitted: (val) {
-                       FocusScope.of(context).requestFocus(FocusNode());
-                       FocusScope.of(context).nextFocus();
-                     },
-                     decoration: ItemDataField(
-                       label: "Total amount",
-                     ).itemFieldDecoration(),
-                   ),
-                 ),
-               ),
-
-
-
-
-             ],
-           ),
-            const SizedBox(height: 10),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                    onPressed: () {
-                      //
-                      String itemC = itemCode.text.trim();
-                      String itemN = itemName.text.trim();
-                      String designN = designName.text.trim();
-                      String colorN = color.text.trim();
-                      String sizeN = size.text.trim();
-                      String hsnN = hsnCode.text.trim();
-                      String unitN = unit.text.trim();
-                      String quantityN = quantity.text.trim();
-                      String purchaseN = purchasePrice.text.trim();
-                      String gstN = gstController.text.trim();
-
-                      String discountN = discount.text.trim();
-                      String taxPerN = taxPercent.text.trim();
-                      String setN = setMrp.text.trim();
-                      String totalN = totalAmount.text.trim();
-                      if (itemC.isNotEmpty &&
-                          itemN.isNotEmpty &&
-                          designN.isNotEmpty &&
-                          colorN.isNotEmpty &&
-                          sizeN.isNotEmpty &&
-                          hsnN.isNotEmpty &&
-                          unitN.isNotEmpty &&
-                          quantityN.isNotEmpty &&
-                          purchaseN.isNotEmpty &&
-                          discountN.isNotEmpty &&
-                          setN.isNotEmpty &&
-                          gstN.isNotEmpty &&
-                          totalN.isNotEmpty
-                      ) {
-                        setState(() {
-                          itemCode.text = '';
-                          itemName.text = '';
-                          designName.text = '';
-                          color.text = '';
-                          size.text = '';
-                          hsnCode.text = '';
-                          unit.text = '';
-                          quantity.text = '';
-                          purchasePrice.text = '';
-                          discount.text = '';
-                          gstController.text = '';
-                          setMrp.text = '';
-                          totalAmount.text = '';
-                          contacts.add(
-                              Contact(
-                              itemCode: itemC,
-                              itemName: itemN,
-                            designName: designN,
-                            color: colorN,
-                            size: sizeN,
-                            hsnCode: hsnN,
-                            unit: unitN,
-                            quantity: quantityN,
-                            purchasePrice: purchaseN,
-                            discount: discountN,
-                            mrp: setN,
-                            total: totalN,
-                              taxPercent: taxPerN, gst: gstN
-                          ));
-                        });
-                      }
-                      //
-                    },
-                    child: const Text('Save')),
-                ElevatedButton(
-                    onPressed: () {
-                      String itemC = itemCode.text.trim();
-                      String itemN = itemName.text.trim();
-                      String designN = designName.text.trim();
-                      String colorN = color.text.trim();
-                      String sizeN = size.text.trim();
-                      String hsnN = hsnCode.text.trim();
-                      String unitN = unit.text.trim();
-                      String quantityN = quantity.text.trim();
-                      String purchaseN = purchasePrice.text.trim();
-                      String discountN = discount.text.trim();
-                      String gstN = gstController.text.trim();
-                      String taxPerN = taxPercent.text.trim();
-                      String setN = setMrp.text.trim();
-
-                      String totalN = totalAmount.text.trim();
-                      if (itemC.isNotEmpty &&
-                          itemN.isNotEmpty &&
-                          designN.isNotEmpty &&
-                          colorN.isNotEmpty &&
-                          sizeN.isNotEmpty &&
-                          hsnN.isNotEmpty &&
-                          unitN.isNotEmpty &&
-                          quantityN.isNotEmpty &&
-                          purchaseN.isNotEmpty &&
-                          discountN.isNotEmpty &&
-                          taxPerN.isNotEmpty &&
-                          setN.isNotEmpty &&
-                          gstN.isNotEmpty &&
-                          totalN.isNotEmpty) {
-                        setState(() {
-                          itemCode.text = '';
-                          itemName.text = '';
-                          designName.text = '';
-                          color.text = '';
-                          size.text = '';
-                          hsnCode.text = '';
-                          unit.text = '';
-                          quantity.text = '';
-                          purchasePrice.text = '';
-                          discount.text = '';
-                          gstController.text = '';
-                          taxPercent.text = '';
-                          setMrp.text = '';
-                          totalAmount.text = '';
-                          contacts[selectedIndex].itemCode = itemC;
-                          contacts[selectedIndex].itemName = itemN;
-                          contacts[selectedIndex].designName = designN;
-                          contacts[selectedIndex].color = colorN;
-                          contacts[selectedIndex].size = sizeN;
-                          contacts[selectedIndex].hsnCode = hsnN;
-                          contacts[selectedIndex].unit = unitN;
-                          contacts[selectedIndex].quantity = quantityN;
-                          contacts[selectedIndex].purchasePrice = purchaseN;
-                          contacts[selectedIndex].discount = discountN;
-                          contacts[selectedIndex].gst = gstN;
-                          contacts[selectedIndex].taxPercent = taxPerN;
-                          contacts[selectedIndex].mrp = setN;
-                          contacts[selectedIndex].total = totalN;
-                          selectedIndex = -1;
-                        });
-                      }
-                      //
-                    },
-                    child: const Text('Update')),
-              ],
-            ),
-            const SizedBox(height: 10),
-             Expanded(
-              child: ListView.separated(
-                itemCount: contacts.length,
-                itemBuilder: (context, index) => getRow(index), separatorBuilder: (BuildContext context, int index) =>
-                SizedBox(height: 10,),
+                ],
               ),
-            )
-          ],
+             Row(
+               children: [
+                 Expanded(
+                   child: AddItemField(control: sno, label: '',),
+                 ),
+              
+                 Expanded(
+                   child: AddItemField(control: itemCode, label: 'Item Code',),
+                 ),
+                 Expanded(
+                   child: AddItemField(control: itemName, label: 'Item Name',),
+                 ),
+                 Expanded(
+                   child: AddItemField(control: designName, label: 'Design Name',),
+                 ),
+                 Expanded(
+                   child: AddItemField(control: color, label: 'Color',),
+                 ),
+                 Expanded(
+                   child: AddItemField(control: size, label: 'Size',),
+                 ),
+                 Expanded(
+                   child: AddItemField(control: hsnCode, label: 'Hsn Code',),
+                 ),
+                 Expanded(
+                   child:  SizedBox(
+                     height: 30,
+                     child: TextField(
+                       cursorHeight: 22,
+                       controller: quantity,
+                       onChanged: (value) {
+                         quantityP = double.tryParse(value) ?? 0;
+                         calculateTotalAmount();
+                       },
+                       onSubmitted: (val) {
+                         FocusScope.of(context).requestFocus(FocusNode());
+                         FocusScope.of(context).nextFocus();
+                       },
+                       decoration: ItemDataField(
+                         label: "quantity",
+                       ).itemFieldDecoration(),
+                     ),
+                   ),
+                 ),
+                 Expanded(
+                   child:SizedBox(
+                     height: 30,
+                     child: DropdownButtonHideUnderline(
+                       child: DropdownButton2<String>(
+                         isExpanded: true,
+                         hint: const Row(
+                           children: [
+                             Expanded(
+                               child: Text(
+                                 'Select',
+                                 style: TextStyle(
+                                   fontSize: 14,
+                                   color: Colors.black,
+                                 ),
+                                 overflow: TextOverflow.ellipsis,
+                               ),
+                             ),
+                           ],
+                         ),
+                         items: units
+                             .map((String item) => DropdownMenuItem<String>(
+                           value: item,
+                           child: Text(
+                             item,
+                             style: const TextStyle(
+                               fontSize: 14,
+                               // fontWeight: FontWeight.bold,
+                               color: Colors.black,
+                             ),
+                             overflow: TextOverflow.ellipsis,
+                           ),
+                         ))
+                             .toList(),
+                         value: unitVal,
+                         onChanged: (String? value) {
+                           setState(() {
+                             unitVal = value;
+                             unit.text = value!;
+                           });
+                         },
+                         buttonStyleData: ButtonStyleData(
+                           // height: 50,
+                           width: 276,
+                           // width: 160,
+                           padding: const EdgeInsets.only(left: 14, right: 14),
+                           decoration: BoxDecoration(
+                             border: Border.all(
+                               color: Colors.black.withOpacity(0.50),
+                               width: 0.5,
+                             ),
+                             // color: Colors.white,
+                           ),
+                           elevation: 0,
+                         ),
+                         iconStyleData: const IconStyleData(
+                           icon: Icon(
+                             Icons.arrow_forward_ios_outlined,
+                           ),
+                           iconSize: 14,
+                           iconEnabledColor: Colors.black,
+                           iconDisabledColor: Colors.black,
+                         ),
+                         dropdownStyleData: DropdownStyleData(
+                           // maxHeight: 200,
+                           width: 276,
+                           decoration: BoxDecoration(
+                             borderRadius: BorderRadius.circular(14),
+                             color: Colors.white,
+                           ),
+                           offset: const Offset(0, 0),
+                           scrollbarTheme: ScrollbarThemeData(
+                             radius: const Radius.circular(6),
+                             thickness: MaterialStateProperty.all<double>(6),
+                             thumbVisibility: MaterialStateProperty.all<bool>(true),
+                           ),
+                         ),
+                         menuItemStyleData: const MenuItemStyleData(
+                           height: 40,
+                           padding: EdgeInsets.only(left: 14, right: 14),
+                         ),
+                       ),
+                     ),
+                   ),
+                 ),
+                 Expanded(
+                   child:  SizedBox(
+                     height: 30,
+                     child: TextField(
+                       cursorHeight: 22,
+                       controller: purchasePrice,
+                       onChanged: (value) {
+                         purchasePriceP = double.tryParse(value) ?? 0;
+                         calculateTotalAmount();
+
+                       },
+                       onSubmitted: (val) {
+                         FocusScope.of(context).requestFocus(FocusNode());
+                         FocusScope.of(context).nextFocus();
+                       },
+                       decoration: ItemDataField(
+                         label: "purchase Price",
+                       ).itemFieldDecoration(),
+                     ),
+                   ),
+                 ),
+                 Expanded(
+                   child: SizedBox(
+                     height: 30,
+                     child: TextField(
+                       cursorHeight: 22,
+                       controller: discount,
+                       onChanged: (value) {
+                         discountP = double.tryParse(value) ?? 0;
+                         calculateTotalAmount();
+                       },
+                       onSubmitted: (val) {
+                         FocusScope.of(context).requestFocus(FocusNode());
+                         FocusScope.of(context).nextFocus();
+                       },
+                       decoration: ItemDataField(
+                         label: "Discount",
+                       ).itemFieldDecoration(),
+                     ),
+                   ),
+                 ),
+                 Expanded(
+                   child:SizedBox(
+                     height: 30,
+                     child: DropdownButtonHideUnderline(
+                       child: DropdownButton2<String>(
+                         isExpanded: true,
+                         hint: const Row(
+                           children: [
+                             Expanded(
+                               child: Text(
+                                 'Select',
+                                 style: TextStyle(
+                                   fontSize: 14,
+                                   color: Colors.black,
+                                 ),
+                                 overflow: TextOverflow.ellipsis,
+                               ),
+                             ),
+                           ],
+                         ),
+                         items: gst
+                             .map((String item) => DropdownMenuItem<String>(
+                           value: item,
+                           child: Text(
+                             item,
+                             style: const TextStyle(
+                               fontSize: 14,
+                               // fontWeight: FontWeight.bold,
+                               color: Colors.black,
+                             ),
+                             overflow: TextOverflow.ellipsis,
+                           ),
+                         ))
+                             .toList(),
+                         value: gstVal,
+                         onChanged: (String? value) {
+                           setState(() {
+                             gstVal = value;
+                             gstController.text = value ?? '';
+
+                             gstP = double.tryParse(value!) ?? 0;
+                             calculateTotalAmount();
+                           });
+                           print(gstController.toString());
+                         },
+                         buttonStyleData: ButtonStyleData(
+                           // height: 50,
+                           width: 276,
+                           // width: 160,
+                           padding: const EdgeInsets.only(left: 14, right: 14),
+                           decoration: BoxDecoration(
+                             border: Border.all(
+                               color: Colors.black.withOpacity(0.50),
+                               width: 0.5,
+                             ),
+                             // color: Colors.white,
+                           ),
+                           elevation: 0,
+                         ),
+                         iconStyleData: const IconStyleData(
+                           icon: Icon(
+                             Icons.arrow_forward_ios_outlined,
+                           ),
+                           iconSize: 14,
+                           iconEnabledColor: Colors.black,
+                           iconDisabledColor: Colors.black,
+                         ),
+                         dropdownStyleData: DropdownStyleData(
+                           // maxHeight: 200,
+                           width: 276,
+                           decoration: BoxDecoration(
+                             borderRadius: BorderRadius.circular(14),
+                             color: Colors.white,
+                           ),
+                           offset: const Offset(0, 0),
+                           scrollbarTheme: ScrollbarThemeData(
+                             radius: const Radius.circular(6),
+                             thickness: MaterialStateProperty.all<double>(6),
+                             thumbVisibility: MaterialStateProperty.all<bool>(true),
+                           ),
+                         ),
+                         menuItemStyleData: const MenuItemStyleData(
+                           height: 40,
+                           padding: EdgeInsets.only(left: 14, right: 14),
+                         ),
+                       ),
+                     ),
+                   ),
+                 ),
+
+                 Expanded(
+                   child: AddItemField(control: setMrp, label: 'Set Mrp',),
+                 ),
+                 Expanded(
+                   child: SizedBox(
+                     height: 30,
+                     child: TextField(
+                       cursorHeight: 22,
+                       controller: totalAmount,
+                       onChanged: (val) {
+
+                       },
+                       onSubmitted: (val) {
+                         FocusScope.of(context).requestFocus(FocusNode());
+                         FocusScope.of(context).nextFocus();
+                       },
+                       decoration: ItemDataField(
+                         label: "Total amount",
+                       ).itemFieldDecoration(),
+                     ),
+                   ),
+                 ),
+
+
+
+
+               ],
+             ),
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                      onPressed: () {
+                        //
+                        String itemC = itemCode.text.trim();
+                        String itemN = itemName.text.trim();
+                        String designN = designName.text.trim();
+                        String colorN = color.text.trim();
+                        String sizeN = size.text.trim();
+                        String hsnN = hsnCode.text.trim();
+                        String unitN = unit.text.trim();
+                        String quantityN = quantity.text.trim();
+                        String purchaseN = purchasePrice.text.trim();
+                        String gstN = gstController.text.trim();
+
+                        String discountN = discount.text.trim();
+                        String taxPerN = taxPercent.text.trim();
+                        String setN = setMrp.text.trim();
+                        String totalN = totalAmount.text.trim();
+                        if (itemC.isNotEmpty &&
+                            itemN.isNotEmpty &&
+                            designN.isNotEmpty &&
+                            colorN.isNotEmpty &&
+                            sizeN.isNotEmpty &&
+                            hsnN.isNotEmpty &&
+                            unitN.isNotEmpty &&
+                            quantityN.isNotEmpty &&
+                            purchaseN.isNotEmpty &&
+                            discountN.isNotEmpty &&
+                            setN.isNotEmpty &&
+                            gstN.isNotEmpty &&
+                            totalN.isNotEmpty
+                        ) {
+                          setState(() {
+                            itemCode.text = '';
+                            itemName.text = '';
+                            designName.text = '';
+                            color.text = '';
+                            size.text = '';
+                            hsnCode.text = '';
+                            unit.text = '';
+                            quantity.text = '';
+                            purchasePrice.text = '';
+                            discount.text = '';
+                            gstController.text = '';
+                            setMrp.text = '';
+                            totalAmount.text = '';
+                            contacts.add(
+                                Contact(
+                                itemCode: itemC,
+                                itemName: itemN,
+                              designName: designN,
+                              color: colorN,
+                              size: sizeN,
+                              hsnCode: hsnN,
+                              unit: unitN,
+                              quantity: quantityN,
+                              purchasePrice: purchaseN,
+                              discount: discountN,
+                              mrp: setN,
+                              total: totalN,
+                                taxPercent: taxPerN, gst: gstN
+                            ));
+                          });
+                        }
+                        //
+                      },
+                      child: const Text('Save')),
+                  ElevatedButton(
+                      onPressed: () {
+                        String itemC = itemCode.text.trim();
+                        String itemN = itemName.text.trim();
+                        String designN = designName.text.trim();
+                        String colorN = color.text.trim();
+                        String sizeN = size.text.trim();
+                        String hsnN = hsnCode.text.trim();
+                        String unitN = unit.text.trim();
+                        String quantityN = quantity.text.trim();
+                        String purchaseN = purchasePrice.text.trim();
+                        String discountN = discount.text.trim();
+                        String gstN = gstController.text.trim();
+                        String taxPerN = taxPercent.text.trim();
+                        String setN = setMrp.text.trim();
+
+                        String totalN = totalAmount.text.trim();
+                        if (itemC.isNotEmpty &&
+                            itemN.isNotEmpty &&
+                            designN.isNotEmpty &&
+                            colorN.isNotEmpty &&
+                            sizeN.isNotEmpty &&
+                            hsnN.isNotEmpty &&
+                            unitN.isNotEmpty &&
+                            quantityN.isNotEmpty &&
+                            purchaseN.isNotEmpty &&
+                            discountN.isNotEmpty &&
+                            taxPerN.isNotEmpty &&
+                            setN.isNotEmpty &&
+                            gstN.isNotEmpty &&
+                            totalN.isNotEmpty) {
+                          setState(() {
+                            itemCode.text = '';
+                            itemName.text = '';
+                            designName.text = '';
+                            color.text = '';
+                            size.text = '';
+                            hsnCode.text = '';
+                            unit.text = '';
+                            quantity.text = '';
+                            purchasePrice.text = '';
+                            discount.text = '';
+                            gstController.text = '';
+                            taxPercent.text = '';
+                            setMrp.text = '';
+                            totalAmount.text = '';
+                            contacts[selectedIndex].itemCode = itemC;
+                            contacts[selectedIndex].itemName = itemN;
+                            contacts[selectedIndex].designName = designN;
+                            contacts[selectedIndex].color = colorN;
+                            contacts[selectedIndex].size = sizeN;
+                            contacts[selectedIndex].hsnCode = hsnN;
+                            contacts[selectedIndex].unit = unitN;
+                            contacts[selectedIndex].quantity = quantityN;
+                            contacts[selectedIndex].purchasePrice = purchaseN;
+                            contacts[selectedIndex].discount = discountN;
+                            contacts[selectedIndex].gst = gstN;
+                            contacts[selectedIndex].taxPercent = taxPerN;
+                            contacts[selectedIndex].mrp = setN;
+                            contacts[selectedIndex].total = totalN;
+                            selectedIndex = -1;
+                          });
+                        }
+                        //
+                      },
+                      child: const Text('Update')),
+                ],
+              ),
+              const SizedBox(height: 10),
+               Expanded(
+                child: ListView.separated(
+                  itemCount: contacts.length,
+                  itemBuilder: (context, index) => getRow(index), separatorBuilder: (BuildContext context, int index) =>
+                  SizedBox(height: 10,),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

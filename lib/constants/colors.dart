@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 final Color barColor = Color(0xFF00bcd4);
+final Color sideBarColor = Color(0xFF0d0d0d);
+final Color selectedColor = Color(0xFFffab2d);
 final Color primaryBlueColor = Color(0xff3553fd);
 final Color whiteBgColor = Color(0xFFededee);
-final Color selectedColor = Color(0xFF8ec9db);
+// final Color selectedColor = Color(0xFF8ec9db);
 final Color k0CA4A5 = Color(0xFF0CA4A5);
 final Color kF0F0F0 = Color(0xFFF0F0F0);
 final Color textfieldBorder = Color(0xFF31212d);
@@ -34,7 +36,13 @@ class AppColors {
 const primaryColor = Color(0xFF2697FF);
 // const secondaryColor = Color(0xFF2A2D3E);
 const secondaryColor = Color(0xFFf4f6fa);
-const bgColor = Color(0xFF212332);
+const bgColor = Color(0xFF844dfb);
+const scaffoldColor = Color(0xFFf7f6fb);
+const sideMenuTextColor = Color(0xFF89878c);
+
+
+
+// const bgColor = Color(0xFF212332);
 // const mainscreenColor = Color(0xFFededee);
 const mainscreenColor = Colors.white;
 // const bgColor = Colors.yellow;

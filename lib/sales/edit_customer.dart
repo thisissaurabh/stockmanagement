@@ -27,14 +27,14 @@ import 'package:spyco_shop_management/widgets/main_button.dart';
 import 'package:spyco_shop_management/widgets/main_recent_widget.dart';
 import 'package:spyco_shop_management/widgets/snackbar.dart';
 
-class CompanyProfile extends StatefulWidget {
-  const CompanyProfile({super.key});
+class EditCustomer extends StatefulWidget {
+  const EditCustomer({super.key});
 
   @override
-  State<CompanyProfile> createState() => _CompanyProfileState();
+  State<EditCustomer> createState() => _EditCustomerState();
 }
 
-class _CompanyProfileState extends State<CompanyProfile> {
+class _EditCustomerState extends State<EditCustomer> {
 
   bool isLoading = false;
   @override
@@ -42,22 +42,22 @@ class _CompanyProfileState extends State<CompanyProfile> {
     return Scaffold(
       backgroundColor: Colors.white,
       key: context.read<MenuAppController>().scaffoldKey,
-      drawer: SideMenu(),
+      // drawer: SideMenu(),
       body: SafeArea(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // We want this side menu only for large screen
             if (Responsive.isDesktop(context))
-              Expanded(
-                // default flex = 1
-                // and it takes 1/6 part of the screen
-                child: SideMenu(),
-              ),
+              // Expanded(
+              //   // default flex = 1
+              //   // and it takes 1/6 part of the screen
+              //   child: SideMenu(),
+              // ),
             Expanded(
               // It takes 5/6 part of the screen
               flex: 5,
-              child: CompanyProfileDetails(),
+              child: CustomerProfileDetails(),
             ),
           ],
         ),
@@ -66,14 +66,14 @@ class _CompanyProfileState extends State<CompanyProfile> {
   }
 }
 
-class CompanyProfileDetails extends StatefulWidget {
-  const CompanyProfileDetails({super.key});
+class CustomerProfileDetails extends StatefulWidget {
+  const CustomerProfileDetails({super.key});
 
   @override
-  State<CompanyProfileDetails> createState() => _CompanyProfileDetailsState();
+  State<CustomerProfileDetails> createState() => _CustomerProfileDetailsState();
 }
 
-class _CompanyProfileDetailsState extends State<CompanyProfileDetails> {
+class _CustomerProfileDetailsState extends State<CustomerProfileDetails> {
 
   bool isLoading = false;
 
