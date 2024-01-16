@@ -41,3 +41,27 @@ class ElevatedBgCard extends StatelessWidget {
     );
   }
 }
+
+class ElevatedBgColorCard extends StatelessWidget {
+  const ElevatedBgColorCard({
+    super.key,
+    required this.child,
+    required this.radius,
+    required this.color,
+  });
+  final Widget child;
+  final double radius;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(radius),
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
+      ),
+      child: child,
+    );
+  }
+}

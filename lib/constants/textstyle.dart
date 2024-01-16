@@ -246,3 +246,5 @@ final TextStyle thinblueText10w400 = GoogleFonts.manrope(
 );
 
 TextStyle ralewayStyle = GoogleFonts.raleway();
+
+

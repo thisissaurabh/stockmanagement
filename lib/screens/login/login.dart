@@ -10,6 +10,7 @@ import 'package:spyco_shop_management/constants/shared_prefs.dart';
 import 'package:spyco_shop_management/constants/textfield_decoration.dart';
 import 'package:spyco_shop_management/constants/textstyle.dart';
 import 'package:spyco_shop_management/controllers/MenuAppController.dart';
+import 'package:spyco_shop_management/dashboard.dart';
 import 'package:spyco_shop_management/screens/main/main_screen.dart';
 import 'package:spyco_shop_management/screens/register/register.dart';
 import 'package:spyco_shop_management/widgets/main_button.dart';
@@ -47,16 +48,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 : Expanded(
                     child: Container(
                       height: height,
-                      color: bgColor,
+                      color: Colors.black,
                       child: Center(
-                        child: Text(
-                          'Our Logo',
-                          style: ralewayStyle.copyWith(
-                            fontSize: 48.0,
-                            color: AppColors.whiteColor,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
+                        child:Image.asset("assets/images/Logo final.jpg",
+                          height: 200,
+                          width: 400,
+                        )
                       ),
                     ),
                   ),
@@ -218,6 +215,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                   username: usernameController.text)
                                   .then((value) async {
                                 response = value;
+                                print("check value");
+                                print(response!.user.name.toString());
+                                print(response!.user.userName.toString());
+                                print(response!.user.companyName.toString());
                                 if (response?.status != null &&
                                     response!.status == 1) {
                                   SharedPrefs().init();
@@ -250,14 +251,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => MultiProvider(
-                                            providers: [
-                                              ChangeNotifierProvider(
-                                                create: (context) => MenuAppController(),
-                                              ),
-                                            ],
-                                            child: MainScreen(),
-                                          ),
+                                          builder: (context) => DashBoard(),
                                         ),
                                   );
                                 } else {
@@ -287,7 +281,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 horizontal: 70.0, vertical: 18.0),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(16.0),
-                              color: bgColor,
+                              color: Colors.black,
                             ),
                             child: Text(
                               'Sign In',

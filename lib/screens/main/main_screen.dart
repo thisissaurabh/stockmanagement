@@ -12,7 +12,6 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: mainscreenColor,
-      key: context.read<MenuAppController>().scaffoldKey,
       body: SafeArea(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,

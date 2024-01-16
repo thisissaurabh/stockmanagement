@@ -5,6 +5,7 @@ import 'dart:math';
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:spyco_shop_management/api_models/login_model.dart';
 import 'package:spyco_shop_management/constants/colors.dart';
 import 'package:spyco_shop_management/constants/responsive.dart';
@@ -16,6 +17,8 @@ import 'package:spyco_shop_management/widgets/custom_data_list.dart';
 import 'package:spyco_shop_management/widgets/global_widgets.dart';
 import 'package:spyco_shop_management/widgets/globals.dart';
 import 'package:spyco_shop_management/widgets/main_recent_widget.dart';
+
+import '../../constants/text_styles.dart';
 
 class DashboardScreen extends StatefulWidget {
   @override
@@ -123,104 +126,674 @@ class _DashboardScreenState extends State<DashboardScreen> {
           primary: false,
           padding: EdgeInsets.all(defaultPadding),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Header(
-                title: "Dashboard",
-                profileCard: ProfileCard(
-                    username: '',
-                    userImage: "person-svgrepo-com.svg",
-                ),
-              ),
-              SizedBox(height: defaultPadding),
+              // Header(
+              //   title: "Dashboard",
+              //   profileCard: ProfileCard(
+              //       username: '',
+              //       userImage: "person-svgrepo-com.svg",
+              //   ),
+              // ),
+              SizedBox(height: 5,),
+              // SizedBox(height: 10),
+              CustomHorizontalLine(),
+              SizedBox(height: 16,),
               Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   if (Responsive.isDesktop(context))
                   Expanded(
-                    // flex: 2,
-                      child: ElevatedBgCard(
-                        radius: 16,
-                        child: Container(
-                          height: MediaQuery.sizeOf(context).height *0.41,
-                          child: BarChartSample1(),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("Business Monitor",
+                        style: title36w500,
                         ),
-                      )),
+                        SizedBox(height: 10,),
+                        ElevatedBgColorCard(
+                          color: selectedColor.withOpacity(0.60),
+                          radius: 12,
+                          child: Text(
+                            "Top Selling items",
+                            style: title16,
+                          ),
+                        ),
+                        SizedBox(height: 10,),
+                        ElevatedBgCard(
+                          radius: 12,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text("1200",style: title34w300,),
+                                      SvgPicture.asset("assets/icon/rupee-sign-svgrepo-com.svg",
+                                        height: 15,
+                                        width: 15,)
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text("Quantity: 100",
+                                      style: TextStyle(
+                                        color: Colors.black
+                                      ),),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text("1200",style: title34w300,),
+                                      SvgPicture.asset("assets/icon/rupee-sign-svgrepo-com.svg",
+                                        height: 15,
+                                        width: 15,)
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text("Quantity: 100",
+                                        style: TextStyle(
+                                            color: Colors.black
+                                        ),),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text("1200",style: title34w300,),
+                                      SvgPicture.asset("assets/icon/rupee-sign-svgrepo-com.svg",
+                                        height: 15,
+                                        width: 15,)
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text("Quantity: 100",
+                                        style: TextStyle(
+                                            color: Colors.black
+                                        ),),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 20,),
+                        ElevatedBgColorCard(
+                          color: selectedColor.withOpacity(0.60),
+                          radius: 12,
+                          child: Text("Non Moving Item",
+                            style: title16,
+                          ),
+                        ),
+                        SizedBox(height: 10,),
+                        ElevatedBgCard(
+                          radius: 12,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text("1200",style: title34w300,),
+                                      SvgPicture.asset("assets/icon/rupee-sign-svgrepo-com.svg",
+                                        height: 15,
+                                        width: 15,)
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text("Quantity: 100",
+                                        style: TextStyle(
+                                            color: Colors.black
+                                        ),),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text("1200",style: title34w300,),
+                                      SvgPicture.asset("assets/icon/rupee-sign-svgrepo-com.svg",
+                                        height: 15,
+                                        width: 15,)
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text("Quantity: 100",
+                                        style: TextStyle(
+                                            color: Colors.black
+                                        ),),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text("1200",style: title34w300,),
+                                      SvgPicture.asset("assets/icon/rupee-sign-svgrepo-com.svg",
+                                        height: 15,
+                                        width: 15,)
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text("Quantity: 100",
+                                        style: TextStyle(
+                                            color: Colors.black
+                                        ),),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 20,),
+                        ElevatedBgColorCard(
+                          color: selectedColor.withOpacity(0.60),
+                          radius: 12,
+                          child: Text(
+                            "Top Supplier",
+                            style: title16,
+                          ),
+                        ),
+                        SizedBox(height: 20,),
+                        ElevatedBgCard(
+                          radius: 12,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text("Sk \nEnterprises",style: title20w500,),
+                                        // SvgPicture.asset("assets/icon/rupee-sign-svgrepo-com.svg",
+                                        //   height: 15,
+                                        //   width: 15,)
+                                      ],
+                                    ),
+                                    SizedBox(height: 6,),
+                                    Row(
+                                      children: [
+                                        Text("Sold Quantity:\n 100",
+                                          style: TextStyle(
+                                              color: Colors.black
+                                          ),),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text("Sorav \nCollection",style: title20w500,),
+                                        // SvgPicture.asset("assets/icon/rupee-sign-svgrepo-com.svg",
+                                        //   height: 15,
+                                        //   width: 15,)
+                                      ],
+                                    ),
+                                    SizedBox(height: 6,),
+                                    Row(
+                                      children: [
+                                        Text("Sold Quantity:\n 100",
+                                          style: TextStyle(
+                                              color: Colors.black
+                                          ),),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text("Garg \nEnterprises",style: title20w500,),
+                                        // SvgPicture.asset("assets/icon/rupee-sign-svgrepo-com.svg",
+                                        //   height: 15,
+                                        //   width: 15,)
+                                      ],
+                                    ),
+                                    SizedBox(height: 6,),
+                                    Row(
+                                      children: [
+                                        Text("Sold Quantity:\n 100",
+                                          style: TextStyle(
+                                              color: Colors.black
+                                          ),),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 20,),
+                        ElevatedBgColorCard(
+                          color: Colors.green,
+                          radius: 12,
+                          child: Text(
+                            "Total Business Profit",
+                            style: title16white,
+                          ),
+                        ),
+                        SizedBox(height: 10,),
+                        ElevatedBgColorCard(
+                          color: Colors.green,
+                          radius: 12,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text("1200",style: title40,),
+                                      SvgPicture.asset("assets/icon/rupee-sign-svgrepo-com.svg",
+                                        color: Colors.white,
+                                        height: 15,
+                                        width: 15,)
+                                    ],
+                                  ),
+
+                                ],
+                              ),
+
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 20,),
+
+                      ],
+                    )
+                  ),
                   SizedBox(width: 16,),
                   if (Responsive.isDesktop(context))
                   Expanded(
-                      child: ElevatedBgCard(
-                        radius: 16,
-                        child: Container(
-                          height: MediaQuery.sizeOf(context).height *0.41,
-                          child: PieChartSample2(),
+                    flex:2,
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              child: ElevatedBgCard(
+                                  radius: 16,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text("Today Sale"),
+                                        SvgPicture.asset("assets/icon/arrow-up-right-svgrepo-com.svg",
+                                        height: 24,
+                                        width: 24,)
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text("1200",style: pageTitle,),
+                                        SvgPicture.asset("assets/icon/rupee-sign-svgrepo-com.svg",
+                                        height: 24,
+                                        width: 24,),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 16,),
+                            Expanded(
+                              child: ElevatedBgCard(
+                                radius: 16,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text("Weekly Sale"),
+                                        SvgPicture.asset("assets/icon/arrow-up-right-svgrepo-com.svg",
+                                          height: 24,
+                                          width: 24,)
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text("8000",style: pageTitle,),
+                                        SvgPicture.asset("assets/icon/rupee-sign-svgrepo-com.svg",
+                                          height: 24,
+                                          width: 24,)
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 20,),
+                            Expanded(
+                              child: ElevatedBgCard(
+                                radius: 16,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text("Montly Sale"),
+                                        SvgPicture.asset("assets/icon/arrow-up-right-svgrepo-com.svg",
+                                          height: 24,
+                                          width: 24,)
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text("18282",style: pageTitle,),
+                                        SvgPicture.asset(
+                                          "assets/icon/rupee-sign-svgrepo-com.svg",
+                                          height: 24,
+                                          width: 24,),
+
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      )),
-                ],
-              ),
-              SizedBox(height: defaultPadding),
+                        SizedBox(height: 24,),
+                        ElevatedBgColorCard(
+                          radius: 0,
+                          color: selectedColor,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text("Total Sale",
+                                          style: title20,
+                                        ),
+                                        Row(
+                                          children: [
+                                            SvgPicture.asset(
+                                              "assets/icon/rupee-sign-svgrepo-com.svg",
+                                              height: 24,
+                                              width: 24,),
+                                            Text("18282",style: pageTitle,),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                            child: Column(
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Text("10000",style: title34w300,),
+                                                    SvgPicture.asset(
+                                                      "assets/icon/rupee-sign-svgrepo-com.svg",
+                                                      height: 16,
+                                                      width: 16,),
+
+                                                  ],
+                                                ),
+                                                SizedBox(height: 10,),
+                                                Row(
+                                                  children: [
+                                                    Container(
+                                                      height: 10,
+                                                      width: 10,
+                                                      decoration: BoxDecoration(
+                                                          shape: BoxShape.circle,
+                                                          color: Colors.black
+                                                      ),
+                                                    ),
+                                                    SizedBox(width: 4,),
+                                                    Text("CASH",
+                                                      style: TextStyle(
+                                                          color: Colors.black
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            )),
+                                        Expanded(
+                                            child: Column(
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Text("8282",style: title34w300,),
+                                                    SvgPicture.asset(
+                                                      "assets/icon/rupee-sign-svgrepo-com.svg",
+                                                      height: 16,
+                                                      width: 16,),
+                                                  ],
+                                                ),
+                                                SizedBox(height: 10,),
+                                                Row(
+                                                  children: [
+                                                    Container(
+                                                      height: 10,
+                                                      width: 10,
+                                                      decoration: BoxDecoration(
+                                                          shape: BoxShape.circle,
+                                                          color: Colors.black
+                                                      ),
+                                                    ),
+                                                    SizedBox(width: 4,),
+                                                    Text("UPI",
+                                                      style: TextStyle(
+                                                          color: Colors.black
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            )),
+                                        Expanded(
+                                            child: Column(
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Text("4000",style: title34w300,),
+                                                    SvgPicture.asset(
+                                                      "assets/icon/rupee-sign-svgrepo-com.svg",
+                                                      height: 16,
+                                                      width: 16,),
+                                                  ],
+                                                ),
+                                                SizedBox(height: 10,),
+                                                Row(
+                                                  children: [
+                                                    Container(
+                                                      height: 10,
+                                                      width: 10,
+                                                      decoration: BoxDecoration(
+                                                          shape: BoxShape.circle,
+                                                          color: Colors.black
+                                                      ),
+                                                    ),
+                                                    SizedBox(width: 4,),
+                                                    Text("CREDIT",
+                                                      style: TextStyle(
+                                                          color: Colors.black
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
 
 
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  if (Responsive.isDesktop(context))
-                  Expanded(
-                    child: ElevatedBgCard(
-                      radius: 16.0,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
 
-                          DashBoardPriceCard(title: 'Total Sales', price: '₹40000', percent: '29 %',)
-                        ],
-                      ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 24,),
+                        ElevatedBgColorCard(
+
+                          radius: 0,
+                          color: selectedColor,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.black.withOpacity(0.10),
+                              borderRadius: BorderRadius.circular(12)
+                            ),
+                            child: BarChartSample1(),
+
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  SizedBox(width: 16,),
-                  if (Responsive.isDesktop(context))
-                  Expanded(
-                    child: ElevatedBgCard(
-                      radius: 16.0,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          DashBoardPriceCard(title: 'Total Purchases', price: '₹10000', percent: '29 %',)
-                        ],
-                      ),
-                    ),
-                  ),
                 ],
               ),
-              SizedBox(height: 10,),
-              Row(
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: CustomDataList(
-                      listTitle: 'Recent Entries',
-                      categoryTitle1: 'Type',
-                      categoryTitle2: 'Party',
-                      categoryTitle3: 'Item',
-                      categoryTitle4: 'Date',
-                      listItemCount: saleType.length,
-                      saleType: saleType,
-                      partyName: partyName,
-                      date: date,
-                      amount: amount,
-                      categoryTitle5: 'Amount',
-                      item: [],
 
-                    ),
-                  ),
-                  SizedBox(width: 16),
-                  Expanded(
-                    child: ElevatedBgCard(
-                        radius: 16.0,
-                        child: BarChartSample2()),
-                  ),
-                ],
-              ),
+
+              //---------------Old dashb0ard----------------
+              // Row(
+              //   children: [
+              //     if (Responsive.isDesktop(context))
+              //     Expanded(
+              //       // flex: 2,
+              //         child: ElevatedBgCard(
+              //           radius: 16,
+              //           child: Container(
+              //             height: MediaQuery.sizeOf(context).height *0.41,
+              //             child: BarChartSample1(),
+              //           ),
+              //         )),
+              //     SizedBox(width: 16,),
+              //     if (Responsive.isDesktop(context))
+              //     Expanded(
+              //         child: ElevatedBgCard(
+              //           radius: 16,
+              //           child: Container(
+              //             hExpanded(
+              //                               child: ElevatedBgCard(
+              //                                   radius: 16,
+              //                                 child: Column(
+              //                                   children: [
+              //                                     Row(
+              //                                       children: [
+              //                                         Text("Last Week"),
+              //                                       ],
+              //                                     ),
+              //                                     Text("277",style: pageTitle,)
+              //                                   ],
+              //                                 ),
+              //                               ),
+              //                             ),eight: MediaQuery.sizeOf(context).height *0.41,
+              //             child: PieChartSample2(),
+              //           ),
+              //         )),
+              //   ],
+              // ),
+              // SizedBox(height: defaultPadding),
+              //
+              //
+              // Row(
+              //   crossAxisAlignment: CrossAxisAlignment.start,
+              //   children: [
+              //     if (Responsive.isDesktop(context))
+              //     Expanded(
+              //       child: ElevatedBgCard(
+              //         radius: 16.0,
+              //         child: Column(
+              //           crossAxisAlignment: CrossAxisAlignment.start,
+              //           mainAxisAlignment: MainAxisAlignment.start,
+              //           children: [
+              //
+              //             DashBoardPriceCard(title: 'Total Sales', price: '₹40000', percent: '29 %',)
+              //           ],
+              //         ),
+              //       ),
+              //     ),
+              //     SizedBox(width: 16,),
+              //     if (Responsive.isDesktop(context))
+              //     Expanded(
+              //       child: ElevatedBgCard(
+              //         radius: 16.0,
+              //         child: Column(
+              //           crossAxisAlignment: CrossAxisAlignment.start,
+              //           mainAxisAlignment: MainAxisAlignment.start,
+              //           children: [
+              //             DashBoardPriceCard(title: 'Total Purchases', price: '₹10000', percent: '29 %',)
+              //           ],
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              // SizedBox(height: 10,),
+              // Row(
+              //   children: [
+              //     Expanded(
+              //       flex: 2,
+              //       child: CustomDataList(
+              //         listTitle: 'Recent Entries',
+              //         categoryTitle1: 'Type',
+              //         categoryTitle2: 'Party',
+              //         categoryTitle3: 'Item',
+              //         categoryTitle4: 'Date',
+              //         listItemCount: saleType.length,
+              //         saleType: saleType,
+              //         partyName: partyName,
+              //         date: date,
+              //         amount: amount,
+              //         categoryTitle5: 'Amount',
+              //         item: [],
+              //
+              //       ),
+              //     ),
+              //     SizedBox(width: 16),
+              //     Expanded(
+              //       child: ElevatedBgCard(
+              //           radius: 16.0,
+              //           child: BarChartSample2()),
+              //     ),
+              //   ],
+              // ),
             ],
           ),
         ),
@@ -273,7 +846,7 @@ class BarChartSample1State extends State<BarChartSample1> {
                   height: 4,
                 ),
                 Text(
-                  "Sales Report",
+                  "Analysis",
                   style: nameText,
                 ),
                 const SizedBox(
@@ -305,8 +878,8 @@ class BarChartSample1State extends State<BarChartSample1> {
       double y, {
         bool isTouched = false,
         Color? barColor,
-        double width = 40,
-        double barHeight = 40,
+        double width = 150,
+        double barHeight = 10,
         List<int> showTooltips = const [],
       }) {
     final alternatingColors = [
@@ -324,7 +897,7 @@ class BarChartSample1State extends State<BarChartSample1> {
       barRods: [
         BarChartRodData(
           toY: isTouched ? y + 1 : y,
-          color: isTouched ? widget.touchedBarColor : barColor,
+          color: isTouched ? widget.touchedBarColor : Colors.white,
           width: width,
           borderRadius: BorderRadius.circular(12),
           borderSide: isTouched
@@ -332,7 +905,7 @@ class BarChartSample1State extends State<BarChartSample1> {
               : const BorderSide(color: Colors.white, width: 0),
           backDrawRodData: BackgroundBarChartRodData(
             show: true,
-            toY: 20,
+            toY: 10,
             color: widget.barBackgroundColor,
           ),
         ),
@@ -341,7 +914,7 @@ class BarChartSample1State extends State<BarChartSample1> {
     );
   }
 
-  List<BarChartGroupData> showingGroups() => List.generate(7, (i) {
+  List<BarChartGroupData> showingGroups() => List.generate(3, (i) {
     switch (i) {
       case 0:
         return makeGroupData(0, 5, isTouched: i == touchedIndex);
@@ -349,14 +922,6 @@ class BarChartSample1State extends State<BarChartSample1> {
         return makeGroupData(1, 6.5, isTouched: i == touchedIndex);
       case 2:
         return makeGroupData(2, 5, isTouched: i == touchedIndex);
-      case 3:
-        return makeGroupData(3, 7.5, isTouched: i == touchedIndex);
-      case 4:
-        return makeGroupData(4, 9, isTouched: i == touchedIndex);
-      case 5:
-        return makeGroupData(5, 11.5, isTouched: i == touchedIndex);
-      case 6:
-        return makeGroupData(6, 6.5, isTouched: i == touchedIndex);
       default:
         return throw Error();
     }
@@ -504,28 +1069,13 @@ class BarChartSample1State extends State<BarChartSample1> {
     Widget text;
     switch (value.toInt()) {
       case 0:
-        text = const Text('Jan', style:style );
+        text = const Text('TOTAL STOCK', style:style );
         break;
       case 1:
-        text = const Text('Feb', style: style);
-        break;
-      case 2:
-        text = const Text('Mar', style: style);
-        break;
-      case 3:
-        text = const Text('Apr', style: style);
-        break;
-      case 4:
-        text = const Text('May', style: style);
-        break;
-      case 5:
-        text = const Text('Jun', style: style);
-        break;
-      case 6:
-        text = const Text('Jul', style: style);
+        text = const Text('TOTAL SALE', style: style);
         break;
       default:
-        text = const Text('Aug', style: style);
+        text = const Text('CREDIT', style: style);
         break;
     }
     return SideTitleWidget(

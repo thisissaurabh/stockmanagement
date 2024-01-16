@@ -5,13 +5,20 @@ import 'package:spyco_shop_management/constants/colors.dart';
 import 'package:spyco_shop_management/constants/textstyle.dart';
 
 class MainButton extends StatelessWidget {
-  const MainButton({super.key, required this.title, required this.press, required this.sizeHorizontal, required this.sizeVerticle, required this.color, required this.titleColor});
+  const MainButton({super.key,
+    required this.title,
+    required this.press,
+    required this.sizeHorizontal,
+    required this.sizeVerticle,
+    required this.color,
+    required this.titleColor, this.radius});
   final String title;
   final VoidCallback press;
   final double sizeHorizontal;
   final double sizeVerticle;
   final Color color;
   final Color titleColor;
+  final double? radius;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +26,7 @@ class MainButton extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: press,
-        borderRadius: BorderRadius.circular(12.0),
+        borderRadius: BorderRadius.circular(radius ??12.0),
         child: Container(
           padding:  EdgeInsets.symmetric(horizontal: sizeHorizontal, vertical: sizeVerticle),
           decoration: BoxDecoration(
@@ -29,7 +36,7 @@ class MainButton extends StatelessWidget {
           child: Text(
             title,
             style: ralewayStyle.copyWith(
-              fontWeight: FontWeight.w700,
+              fontWeight: FontWeight.w900,
               color: titleColor,
               fontSize: 16.0,
             ),

@@ -1,4 +1,4 @@
-import 'dart:io';
+
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -7,6 +7,7 @@ import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import 'package:provider/provider.dart';
 import 'package:spyco_shop_management/api/login_register/logout_api.dart';
+import 'package:spyco_shop_management/api_models/login_model.dart';
 import 'package:spyco_shop_management/constants/colors.dart';
 
 import 'package:spyco_shop_management/constants/responsive.dart';
@@ -37,11 +38,11 @@ class CompanyProfile extends StatefulWidget {
 class _CompanyProfileState extends State<CompanyProfile> {
 
   bool isLoading = false;
+  LoginResponse? response;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      key: context.read<MenuAppController>().scaffoldKey,
       // drawer: SideMenu(),
       body: SafeArea(
         child: Row(

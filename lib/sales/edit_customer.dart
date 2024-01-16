@@ -41,7 +41,6 @@ class _EditCustomerState extends State<EditCustomer> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      key: context.read<MenuAppController>().scaffoldKey,
       // drawer: SideMenu(),
       body: SafeArea(
         child: Row(

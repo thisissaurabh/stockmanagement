@@ -31,8 +31,8 @@ class _SupplierScreenState extends State<SupplierScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      key: context.read<MenuAppController>().scaffoldKey,
+      backgroundColor: Color(0xfff5f5f5),
+
       // drawer: SideMenu(),
       body: SafeArea(
         child: Row(
@@ -175,7 +175,7 @@ class _LeftSupplierPanelState extends State<LeftSupplierPanel> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xffeaeaea).withOpacity(0.20),
       body: SafeArea(
         child: SingleChildScrollView(
           primary: false,
@@ -183,7 +183,7 @@ class _LeftSupplierPanelState extends State<LeftSupplierPanel> {
           child: Column(
             children: [
               Header(
-                title: 'Add Supplier',
+                title: 'Supplier',
               ),
               SizedBox(
                 height: 10,

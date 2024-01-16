@@ -36,7 +36,7 @@ class _AddStockState extends State<AddStock> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      key: context.read<MenuAppController>().scaffoldKey,
+
       // drawer: SideMenu(),
       body: SafeArea(
         child: Row(

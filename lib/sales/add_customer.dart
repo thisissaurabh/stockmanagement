@@ -29,7 +29,6 @@ class _AddCustomerState extends State<AddCustomer> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      key: context.read<MenuAppController>().scaffoldKey,
       // drawer: SideMenu(),
       body: SafeArea(
         child: Row(
@@ -97,20 +96,28 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
               SizedBox(height: 16,),
               SizedBox(height: 20,),
 
-              AddSupplierRow(
-                title: "Bussiness Type",
-                child:  Expanded(
-                  child: RelationShipCheckBox(
-                    relation: businessType.text,
-                    onPop: (val ) {
-                      setState(() {
-                        businessType.text = val;
-                      });
-                    },
-                  ),
-                ),),
-              SizedBox(height: 16,),
+          Row(
+            children: [
+              Container(
+                  color: Colors.transparent,
+                  width: MediaQuery.sizeOf(context).width *0.10,
+                  child: Text("Bussiness Type")),
+              SizedBox(width: 16,),
+              Expanded(
+                child: RelationShipCheckBox(
+                  relation: businessType.text,
+                  onPop: (val ) {
+                    setState(() {
+                      businessType.text = val;
+                    });
+                  },
+                ),
+              ),
+              SizedBox(width: 16,),
+            ],
+          ),
 
+              SizedBox(height: 16,),
 
               AddSupplierRow(
                 title: 'Customer Name',

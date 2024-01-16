@@ -23,7 +23,7 @@ Future<dynamic> loginApi({
   var resp = jsonDecode(await response.stream.bytesToString());
   if(response.statusCode == 200) {
     if(resp['status'] == 1){
-      print(resp);
+      // print(resp);
       return LoginResponse.fromJson(resp);
     }
   } else {

@@ -45,16 +45,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 : Expanded(
                     child: Container(
                       height: height,
-                      color: bgColor,
+                      color: Colors.black,
                       child: Center(
-                        child: Text(
-                          'Our Logo',
-                          style: ralewayStyle.copyWith(
-                            fontSize: 48.0,
-                            color: AppColors.whiteColor,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
+                        child: Image.asset("assets/images/Logo final.jpg",
+                          height: 200,
+                          width: 400,
+                        )
+                        // child: Text(
+                        //   'Our Logo',
+                        //   style: ralewayStyle.copyWith(
+                        //     fontSize: 48.0,
+                        //     color: AppColors.whiteColor,
+                        //     fontWeight: FontWeight.w800,
+                        //   ),
+                        // ),
                       ),
                     ),
                   ),
@@ -201,7 +205,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 horizontal: 70.0, vertical: 18.0),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(16.0),
-                              color: bgColor,
+                              color: Colors.black,
                             ),
                             child: Text(
                               'Verify Email',

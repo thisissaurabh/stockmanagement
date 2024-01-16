@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:spyco_shop_management/constants/colors.dart';
 import 'package:spyco_shop_management/constants/responsive.dart';
+import 'package:spyco_shop_management/constants/text_styles.dart';
 import 'package:spyco_shop_management/constants/textfield_decoration.dart';
 import 'package:spyco_shop_management/constants/textstyle.dart';
 import 'package:spyco_shop_management/controllers/MenuAppController.dart';
@@ -16,6 +17,8 @@ import 'package:spyco_shop_management/screens/main/components/side_menu.dart';
 import 'package:spyco_shop_management/widgets/cards.dart';
 import 'package:spyco_shop_management/widgets/global_widgets.dart';
 import 'package:spyco_shop_management/widgets/globals.dart';
+
+import '../widgets/main_button.dart';
 
 
 class Invoice extends StatefulWidget {
@@ -32,7 +35,6 @@ class _InvoiceState extends State<Invoice> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      key: context.read<MenuAppController>().scaffoldKey,
       body: SafeArea(
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -82,7 +84,65 @@ class _BillingWindowState extends State<BillingWindow> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: scaffoldColor,
+      bottomNavigationBar: Container(
+        padding: EdgeInsets.symmetric(horizontal: 22),
+        color: Colors.white,
+        height: 60,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Container(
+              padding: EdgeInsets.symmetric(
+                  vertical: 8,
+                  horizontal: 20
+              ),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(
+                      width: 0.5,
+                      color: selectedColor
+                  )
+              ),
+              child: Row(
+                children: [
+                  SvgPicture.asset(
+                    "assets/icon/whatsapp-color-svgrepo-com.svg",
+                  height: 18,
+                  width: 18,
+                  ),
+                  SizedBox(width: 3,),
+                  Text("Share")
+                ],
+              ),
+            ),
+            SizedBox(width: 5,),
+            // Container(
+            //   padding: EdgeInsets.symmetric(
+            //     vertical: 8,
+            //     horizontal: 50
+            //   ),
+            //   decoration: BoxDecoration(
+            //     borderRadius: BorderRadius.circular(8),
+            //     border: Border.all(
+            //       width: 0.5,
+            //       color: selectedColor
+            //     )
+            //   ),
+            //   child: Text("Print"),
+            // ),
+            // SizedBox(width: 5,),
+            MainButton(
+              title: 'Save',
+              press: () {  },
+              sizeHorizontal: 50,
+              sizeVerticle: 10,
+              radius: 8,
+              color: selectedColor,
+              titleColor: Colors.black,),
+          ],
+        ),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -96,15 +156,13 @@ class _BillingWindowState extends State<BillingWindow> {
                 },
                 child: Row(
                   children: [
-                    SvgPicture.asset("assets/icons/arrow-back-basic-svgrepo-com.svg",
+                    SvgPicture.asset("assets/icons/chevron-back-svgrepo-com.svg",
+                      color: Colors.black,
                       height: 32,
                       width: 32,),
                     SizedBox(width: 8,),
                     Text("Billing",
-                      style: TextStyle(
-                          fontSize: 32,
-                        fontWeight: FontWeight.w700
-                      ),)
+                      style: pageTitle,)
                   ],
                 ),
               ),
@@ -115,111 +173,159 @@ class _BillingWindowState extends State<BillingWindow> {
                 children: [
                   Expanded(
                     flex: 1,
-                    child: SizedBox(
-                      width: 300,
-                      height: 40.0,
-                      child:   DropdownButtonHideUnderline(
-                        child: DropdownButton2<String>(
-                          isExpanded: true,
-                          hint: const Row(
-                            children: [
-                              Expanded(
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          width: 300,
+                          height: 40.0,
+                          child:   DropdownButtonHideUnderline(
+                            child: DropdownButton2<String>(
+                              isExpanded: true,
+                              hint: const Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      'Add Customer',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.black,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              items: items
+                                  .map((String item) => DropdownMenuItem<String>(
+                                value: item,
                                 child: Text(
-                                  'Add Customer',
-                                  style: TextStyle(
+                                  item,
+                                  style: const TextStyle(
                                     fontSize: 14,
+                                    // fontWeight: FontWeight.bold,
                                     color: Colors.black,
                                   ),
                                   overflow: TextOverflow.ellipsis,
                                 ),
+                              ))
+                                  .toList(),
+                              value: selectedValue,
+                              onChanged: (String? value) {
+                                setState(() {
+                                  selectedValue = value;
+                                });
+                              },
+                              buttonStyleData: ButtonStyleData(
+                                height: 50,
+                                width: 360,
+                                // width: 160,
+                                padding: const EdgeInsets.only(left: 14, right: 14),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(6),
+                                  border: Border.all(
+                                    color: Colors.black26,
+                                  ),
+                                  color: Colors.white,
+                                ),
+                                elevation: 0,
                               ),
-                            ],
-                          ),
-                          items: items
-                              .map((String item) => DropdownMenuItem<String>(
-                            value: item,
-                            child: Text(
-                              item,
-                              style: const TextStyle(
-                                fontSize: 14,
-                                // fontWeight: FontWeight.bold,
-                                color: Colors.black,
+                              iconStyleData: const IconStyleData(
+                                icon: Icon(
+                                  Icons.arrow_forward_ios_outlined,
+                                ),
+                                iconSize: 14,
+                                iconEnabledColor: Colors.black,
+                                iconDisabledColor: Colors.black,
                               ),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ))
-                              .toList(),
-                          value: selectedValue,
-                          onChanged: (String? value) {
-                            setState(() {
-                              selectedValue = value;
-                            });
-                          },
-                          buttonStyleData: ButtonStyleData(
-                            height: 50,
-                            width: 360,
-                            // width: 160,
-                            padding: const EdgeInsets.only(left: 14, right: 14),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(6),
-                              border: Border.all(
-                                color: Colors.black26,
+                              dropdownStyleData: DropdownStyleData(
+                                // maxHeight: 200,
+                                  width: 360,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(14),
+                                  color: Colors.white,
+                                ),
+                                offset: const Offset(0, 0),
+                                scrollbarTheme: ScrollbarThemeData(
+                                  radius: const Radius.circular(6),
+                                  thickness: MaterialStateProperty.all<double>(6),
+                                  thumbVisibility: MaterialStateProperty.all<bool>(true),
+                                ),
                               ),
-                              color: Colors.white,
+                              menuItemStyleData: const MenuItemStyleData(
+                                height: 40,
+                                padding: EdgeInsets.only(left: 14, right: 14),
+                              ),
                             ),
-                            elevation: 0,
-                          ),
-                          iconStyleData: const IconStyleData(
-                            icon: Icon(
-                              Icons.arrow_forward_ios_outlined,
-                            ),
-                            iconSize: 14,
-                            iconEnabledColor: Colors.black,
-                            iconDisabledColor: Colors.black,
-                          ),
-                          dropdownStyleData: DropdownStyleData(
-                            // maxHeight: 200,
-                              width: 360,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(14),
-                              color: Colors.white,
-                            ),
-                            offset: const Offset(0, 0),
-                            scrollbarTheme: ScrollbarThemeData(
-                              radius: const Radius.circular(6),
-                              thickness: MaterialStateProperty.all<double>(6),
-                              thumbVisibility: MaterialStateProperty.all<bool>(true),
-                            ),
-                          ),
-                          menuItemStyleData: const MenuItemStyleData(
-                            height: 40,
-                            padding: EdgeInsets.only(left: 14, right: 14),
                           ),
                         ),
-                      ),
+                        SizedBox(height: 16,),
+                        Container(
+                          width: MediaQuery.sizeOf(context).width,
+                          height: 40.0,
+                          color: Colors.white,
+                          child: TextFormField(
+
+                            // validator: (v) {
+                            //   if (v!.isEmpty || !v.contains('@')) {
+                            //     return 'Please enter a valid email!';
+                            //   }
+                            //   return null;
+                            // },
+
+                            cursorColor: Colors.black,
+                            decoration: CustomDataField(
+                              label: 'Email',
+                            ).dataFieldDecoration(),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   SizedBox(width: 30,),
                   Expanded(
                     flex: 1,
-                    child: Container(
-                      width: MediaQuery.sizeOf(context).width,
-                      height: 40.0,
-                      color: Colors.white,
-                      child: TextFormField(
-                        keyboardType: TextInputType.emailAddress,
-                        // validator: (v) {
-                        //   if (v!.isEmpty || !v.contains('@')) {
-                        //     return 'Please enter a valid email!';
-                        //   }
-                        //   return null;
-                        // },
+                    child: Column(
+                      children: [
+                        Container(
+                          width: MediaQuery.sizeOf(context).width,
+                          height: 40.0,
+                          color: Colors.white,
+                          child: TextFormField(
 
-                        cursorColor: Colors.black,
-                        decoration: CustomDataField(
-                          label: 'Phone No',
-                        ).dataFieldDecoration(),
-                      ),
+                            // validator: (v) {
+                            //   if (v!.isEmpty || !v.contains('@')) {
+                            //     return 'Please enter a valid email!';
+                            //   }
+                            //   return null;
+                            // },
+
+                            cursorColor: Colors.black,
+                            decoration: CustomDataField(
+                              label: 'Phone No',
+                            ).dataFieldDecoration(),
+                          ),
+                        ),
+                        SizedBox(height: 16,),
+                        Container(
+                          width: MediaQuery.sizeOf(context).width,
+                          height: 40.0,
+                          color: Colors.white,
+                          child: TextFormField(
+
+                            // validator: (v) {
+                            //   if (v!.isEmpty || !v.contains('@')) {
+                            //     return 'Please enter a valid email!';
+                            //   }
+                            //   return null;
+                            // },
+
+                            cursorColor: Colors.black,
+                            decoration: CustomDataField(
+                              label: 'Address',
+                            ).dataFieldDecoration(),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   SizedBox(width: 30,),
@@ -232,7 +338,7 @@ class _BillingWindowState extends State<BillingWindow> {
                           children: [
                             UnderLineTextWidget(text: 'Invoice No', data: '1',),
                             SizedBox(height: 24,),
-                            UnderLineTextWidget(text: 'Invoice Date', data: '24/10/2023',),
+                            UnderLineDateWidget(text: 'Invoice Date', data: '24/10/2023',),
 
 
                           ],
@@ -240,6 +346,179 @@ class _BillingWindowState extends State<BillingWindow> {
                       ),
                   )
                 ],
+              ),
+
+              Padding(
+                padding: const EdgeInsets.only(top: 40.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                        child: InvoiceBoxField(title: '#',)
+                    ),
+                    Expanded(
+                      flex: 4,
+                        child: InvoiceBoxField(title: 'Item',)
+                    ),
+                    Expanded(
+                        child: InvoiceBoxField(title: 'Quantity',)
+                    ),
+                    Expanded(
+                      flex: 2,
+                        child: InvoiceBoxField(title: 'Discount',)
+                    ),
+                    Expanded(
+                        flex: 2,
+                        child: InvoiceBoxField(title: 'Tax',)
+                    ),
+                    Expanded(
+                        child: InvoiceBoxField(title: 'Total',)
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                color: Colors.grey.withOpacity(0.10),
+                child: Row(
+                  children: [
+                    Expanded(
+                        child: ItemRowBilling(title: '', color: Colors.transparent,)
+                    ),
+                    Expanded(
+                        flex: 4,
+                        child: ItemRowBilling(title: '',
+                            color: Colors.transparent)
+                    ),
+                    Expanded(
+                        child: ItemRowBilling(title: '',
+                            color: Colors.transparent)
+                    ),
+                    Expanded(
+                        flex: 2,
+                        child: ItemRowBilling(title: '',
+                            color: Colors.transparent)
+                    ),
+                    Expanded(
+                        flex: 2,
+                        child: ItemRowBilling(title: '',
+                            color: Colors.transparent)
+                    ),
+                    Expanded(
+                        child: ItemRowBilling(title: '',
+                            color: Colors.transparent)
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                color: Colors.grey.withOpacity(0.10),
+                child: Row(
+                  children: [
+                    Expanded(
+                        child: ItemRowBilling(title: '', color: Colors.transparent,)
+                    ),
+                    Expanded(
+                        flex: 4,
+                        child: ItemRowBilling(title: '',
+                            color: Colors.transparent)
+                    ),
+                    Expanded(
+                        child: ItemRowBilling(title: '',
+                            color: Colors.transparent)
+                    ),
+                    Expanded(
+                        flex: 2,
+                        child: ItemRowBilling(title: '',
+                            color: Colors.transparent)
+                    ),
+                    Expanded(
+                        flex: 2,
+                        child: ItemRowBilling(title: '',
+                            color: Colors.transparent)
+                    ),
+                    Expanded(
+                        child: ItemRowBilling(title: '',
+                            color: Colors.transparent)
+                    ),
+                  ],
+                ),
+              ),
+
+              Row(
+                children: [
+                  Expanded(
+                      child: InvoiceTotalBoxField(title: '',)
+                  ),
+                  Expanded(
+                      flex: 4,
+                      child: InvoiceTotalBoxField(title: '',)
+                  ),
+                  Expanded(
+                      child: InvoiceTotalBoxField(title: 'Total',)
+                  ),
+                  Expanded(
+                      flex: 2,
+                      child: InvoiceTotalBoxField(title: 'Total',)
+                  ),
+                  Expanded(
+                      flex: 2,
+                      child: InvoiceTotalBoxField(title: 'Total',)
+                  ),
+                  Expanded(
+                      child: InvoiceTotalBoxField(title: 'Total',)
+                  ),
+                ],
+              ),
+        SizedBox(height: 20,),
+        Text("Remarks",
+        style: contentHeading,),
+              SizedBox(height: 10,),
+        Container(
+          width: MediaQuery.sizeOf(context).width * 0.30,
+          color: Colors.white,
+          child: TextFormField(
+            maxLines: 5,
+
+            // validator: (v) {
+            //   if (v!.isEmpty || !v.contains('@')) {
+            //     return 'Please enter a valid email!';
+            //   }
+            //   return null;
+            // },
+
+            cursorColor: Colors.black,
+            decoration: CustomDataField(
+              label: '',
+            ).dataFieldDecoration(),
+          ),
+        ),
+              SizedBox(height: 10,),
+              Text("Add Document",
+                style: contentHeading,),
+              SizedBox(height: 20,),
+
+              Container(
+                height: 50,
+                width: 200,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(6),
+                  border: Border.all(
+                    width: 0.2,
+                    color: Colors.black
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(
+                      "assets/icon/document-add-svgrepo-com.svg",
+                    color: Colors.grey,
+                    height: 24,
+                    width: 24,),
+                    SizedBox(width: 5,),
+                    Text("Add Document"),
+                  ],
+                ),
               ),
             ],
           ),
@@ -262,41 +541,172 @@ class UnderLineTextWidget extends StatefulWidget {
 class _UnderLineTextWidgetState extends State<UnderLineTextWidget> {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Text(widget.text),
-          SizedBox(width: 24,),
-          Container(
-            width: 220,
-            child: Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  TextField(
-                    readOnly: true,
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(vertical: 6),
-                      hintText: widget.data, hintStyle: TextStyle(
-                        color: Colors.black,fontWeight: FontWeight.w500,
-                    ),
-                      enabledBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black.withOpacity(0.40)),
-                      ),
-                      focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black.withOpacity(0.40)),
-                      ),
-
-                    ),
-                  )
-                ],
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Text(widget.text),
+        SizedBox(width: 24,),
+        Container(
+          height: 20,
+          width: 220,
+          child: TextField(
+            readOnly: true,
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.symmetric(vertical: 16),
+              hintText: widget.data,
+              hintStyle: TextStyle(
+                color: Colors.black,fontWeight: FontWeight.w500,
+            ),
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.black.withOpacity(0.40)),
+              ),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.black.withOpacity(0.40)),
               ),
 
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
+  }
+}
+
+
+class InvoiceBoxField extends StatelessWidget {
+  final String title;
+  const InvoiceBoxField({super.key, required this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 50,
+      decoration: BoxDecoration(
+          color: selectedColor,
+          border: Border.all(
+              width: 0.2,
+              color: Colors.black.withOpacity(0.50)
+          )
+      ),
+      child: Center(
+          child: Text(
+            title,
+            style: TextStyle(
+                color: Colors.black,
+                fontSize: 13,
+                fontWeight: FontWeight.w900
+            ),
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.center,
+            maxLines: 2,)),
+    );
+  }
+}
+class ItemRowBilling extends StatelessWidget {
+  final String title;
+  final Color color;
+  const ItemRowBilling({super.key, required this.title, required this.color});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 50,
+      decoration: BoxDecoration(
+          color: color,
+          border: Border.all(
+              width: 0.2,
+              color: Colors.black.withOpacity(0.50)
+          )
+      ),
+      child: Center(
+          child: Text(
+            title,
+            style: TextStyle(
+                color: Colors.black,
+                fontSize: 13,
+                fontWeight: FontWeight.w700
+            ),
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.center,
+            maxLines: 2,)),
+    );
+  }
+}
+class InvoiceTotalBoxField extends StatelessWidget {
+  final String title;
+  const InvoiceTotalBoxField({super.key, required this.title});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 50,
+      decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.80),
+          border: Border.all(
+              width: 0.2,
+              color: Colors.black.withOpacity(0.50)
+          )
+      ),
+      child: Center(
+          child: Text(
+            title,
+            style: TextStyle(
+                color: Colors.black,
+                fontSize: 13,
+              fontWeight: FontWeight.w700
+            ),
+            overflow: TextOverflow.ellipsis,
+            textAlign: TextAlign.center,
+            maxLines: 2,)),
+    );
+  }
+}
+
+class UnderLineDateWidget extends StatefulWidget {
+  final String text;
+  final String data;
+  const UnderLineDateWidget({super.key, required this.text, required this.data});
+
+  @override
+  State<UnderLineDateWidget> createState() => _UnderLineDateWidgetState();
+}
+
+class _UnderLineDateWidgetState extends State<UnderLineDateWidget> {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Text(widget.text),
+        SizedBox(width: 24),
+        Container(
+          height: 20,
+          width: 220,
+          child: TextField(
+            readOnly: true,
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.symmetric(vertical: 16),
+              hintText: '23/12/2023',
+              hintStyle: TextStyle(
+                color: Colors.black,fontWeight: FontWeight.w500,
+              ),
+              // suffixIcon: Container(
+              //   height:60,
+              //   width: 40,
+              //   child: Icon(Icons.search,
+              //   color: Colors.red,),
+              // ),
+              enabledBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.black.withOpacity(0.40)),
+              ),
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.black.withOpacity(0.40)),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+
   }
 }

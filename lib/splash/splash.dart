@@ -9,6 +9,7 @@ import 'package:spyco_shop_management/api_models/login_model.dart';
 import 'package:spyco_shop_management/constants/shared_prefs.dart';
 import 'package:spyco_shop_management/constants/textstyle.dart';
 import 'package:spyco_shop_management/controllers/MenuAppController.dart';
+import 'package:spyco_shop_management/dashboard.dart';
 import 'package:spyco_shop_management/screens/login/login.dart';
 import 'package:spyco_shop_management/screens/main/main_screen.dart';
 
@@ -47,7 +48,7 @@ class _SplashScreenState extends State<SplashScreen> {
     SharedPrefs().init();
     var prefs = await SharedPreferences.getInstance();
     bool loginDone = false;
-    Future.delayed(Duration(seconds: 3), () async {
+    Future.delayed(Duration(seconds: 2), () async {
       loginDone = SharedPrefs().getLogin() ?? false;
 
         if (loginDone) {
@@ -73,7 +74,7 @@ class _SplashScreenState extends State<SplashScreen> {
                                 create: (context) => MenuAppController(),
                               ),
                             ],
-                            child: MainScreen(),
+                            child: DashBoard(),
                           ),
                         ),
                       );
@@ -133,16 +134,22 @@ class _SplashScreenState extends State<SplashScreen> {
         children: [
           Container(
             height: MediaQuery.sizeOf(context).height,
-            color: bgColor,
+            color: Colors.black,
             child: Center(
-              child: Text(
-                'Our Logo',
-                style: ralewayStyle.copyWith(
-                  fontSize: 48.0,
-                  color: AppColors.whiteColor,
-                  fontWeight: FontWeight.w800,
-                ),
+              child: Padding(
+                padding: const EdgeInsets.all(0.0),
+                child: Image.asset("assets/images/Logo final.jpg",
+                height: 200,
+                width: 400),
               ),
+              // child: Text(
+              //   'Our Logo',
+              //   style: ralewayStyle.copyWith(
+              //     fontSize: 48.0,
+              //     color: AppColors.whiteColor,
+              //     fontWeight: FontWeight.w800,
+              //   ),
+              // ),
             ),
           ),
         ],

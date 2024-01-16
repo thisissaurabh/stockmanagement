@@ -5,6 +5,8 @@ import 'package:spyco_shop_management/constants/colors.dart';
 import 'package:spyco_shop_management/controllers/MenuAppController.dart';
 import 'package:spyco_shop_management/constants/responsive.dart';
 
+import '../../../constants/text_styles.dart';
+
 class Header extends StatelessWidget {
   const Header({
     Key? key,
@@ -28,7 +30,7 @@ class Header extends StatelessWidget {
         if (!Responsive.isMobile(context))
           Text(
             title,
-            style: Theme.of(context).textTheme.titleLarge,
+            style: pageTitle,
           ),
         if (!Responsive.isMobile(context))
           Spacer(flex: Responsive.isDesktop(context) ? 2 : 1),

@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:spyco_shop_management/constants/colors.dart';
 import 'package:spyco_shop_management/constants/responsive.dart';
+import 'package:spyco_shop_management/constants/text_styles.dart';
 import 'package:spyco_shop_management/constants/textfield_decoration.dart';
 import 'package:spyco_shop_management/constants/textstyle.dart';
 import 'package:spyco_shop_management/controllers/MenuAppController.dart';
@@ -32,7 +33,7 @@ class _AddStockItemsState extends State<AddStockItems> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: scaffoldColor,
-      key: context.read<MenuAppController>().scaffoldKey,
+
       // drawer: SideMenu(),
       body: SafeArea(
         child: Row(
@@ -91,14 +92,12 @@ class _AddItemsContainerState extends State<AddItemsContainer> {
               },
               child: Row(
                 children: [
-                  SvgPicture.asset("assets/icons/arrow-back-basic-svgrepo-com.svg",
+                  SvgPicture.asset("assets/icons/chevron-back-svgrepo-com.svg",
                   height: 32,
                   width: 32,),
                   SizedBox(width: 8,),
                   Text("Add Items",
-                  style: TextStyle(
-                    fontSize: 16
-                  ),)
+                  style: pageTitle)
                 ],
               ),
             ),
