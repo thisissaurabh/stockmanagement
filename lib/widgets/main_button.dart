@@ -63,7 +63,7 @@ class PlusButton extends StatelessWidget {
             padding: EdgeInsets.all(8),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(6.0),
-                color: bgColor,
+                color: selectedColor,
                 shape: BoxShape.rectangle),
             child: Icon(Icons.add)),
       ),

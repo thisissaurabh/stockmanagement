@@ -32,7 +32,7 @@ class _RegisterVerifyEmailScreenState extends State<RegisterVerifyEmailScreen> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: AppColors.backColor,
+      backgroundColor: selectedColor,
       body: SizedBox(
         height: height,
         width: width,
@@ -45,7 +45,7 @@ class _RegisterVerifyEmailScreenState extends State<RegisterVerifyEmailScreen> {
                 : Expanded(
                     child: Container(
                       height: height,
-                      color: bgColor,
+                      color: Colors.black,
                       child: Center(
                         child: Text(
                           'Our Logo',
@@ -65,7 +65,7 @@ class _RegisterVerifyEmailScreenState extends State<RegisterVerifyEmailScreen> {
                     horizontal: ResponsiveWidget.isSmallScreen(context)
                         ? height * 0.032
                         : height * 0.12),
-                color: AppColors.backColor,
+                color: selectedColor,
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.only(bottom: 40.0),
                   child: Column(
@@ -186,7 +186,7 @@ class _RegisterVerifyEmailScreenState extends State<RegisterVerifyEmailScreen> {
                                 horizontal: 70.0, vertical: 18.0),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(16.0),
-                              color: bgColor,
+                              color: Colors.black,
                             ),
                             child: Text(
                               'Enter OTP ',
@@ -238,9 +238,9 @@ class _RegisterVerifyEmailScreenState extends State<RegisterVerifyEmailScreen> {
                                 child: Text(
                                   'Resend',
                                   style: ralewayStyle.copyWith(
-                                    fontSize: 12.0,
-                                    color: bgColor,
-                                    fontWeight: FontWeight.w600,
+                                    fontSize: 15.0,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w800,
                                   ),
                                 ),
                               ),

@@ -137,7 +137,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               // ),
               SizedBox(height: 5,),
               // SizedBox(height: 10),
-              CustomHorizontalLine(),
+              // CustomHorizontalLine(),
               SizedBox(height: 16,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -413,7 +413,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 children: [
                                   Row(
                                     children: [
-                                      Text("1200",style: title40,),
+                                      Text("1200000",style: title40,),
                                       SvgPicture.asset("assets/icon/rupee-sign-svgrepo-com.svg",
                                         color: Colors.white,
                                         height: 15,

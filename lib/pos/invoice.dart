@@ -167,7 +167,7 @@ class _BillingWindowState extends State<BillingWindow> {
                 ),
               ),
               SizedBox(height: 5,),
-              CustomHorizontalLine(),
+              // CustomHorizontalLine(),
               SizedBox(height: 32,),
               Row(
                 children: [

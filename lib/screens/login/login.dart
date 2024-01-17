@@ -35,7 +35,7 @@ class _LoginScreenState extends State<LoginScreen> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: AppColors.backColor,
+      backgroundColor: selectedColor,
       body: SizedBox(
         height: height,
         width: width,
@@ -64,7 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     horizontal: ResponsiveWidget.isSmallScreen(context)
                         ? height * 0.032
                         : height * 0.12),
-                color: AppColors.backColor,
+                color: selectedColor,
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.only(bottom: 40.0),
                   child: Column(
@@ -193,8 +193,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             'Forgot Password?',
                             style: ralewayStyle.copyWith(
                               fontSize: 12.0,
-                              color: bgColor,
-                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w900,
                             ),
                           ),
                         ),
@@ -260,7 +260,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   });
                                   CustomMsgSnackbar.show(
                                       context: context,
-                                      label: value['message'],
+                                      label: "Please check your Login Credentials",
                                       color: Colors.red,
                                       iconImage: "assets/icons/cross.svg");
                                   // print("no");
@@ -323,7 +323,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   'Register now',
                                   style: ralewayStyle.copyWith(
                                     fontSize: 12.0,
-                                    color: bgColor,
+                                    color:Colors.black,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),

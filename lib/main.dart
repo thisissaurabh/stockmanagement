@@ -18,12 +18,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: bgColor,
-        textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
-            .apply(bodyColor: Colors.black),
-        canvasColor: secondaryColor,
-      ),
+      // theme: ThemeData.dark().copyWith(
+      //   scaffoldBackgroundColor: bgColor,
+      //   textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
+      //       .apply(bodyColor: Colors.black),
+      //   canvasColor: secondaryColor,
+      // ),
       home: SplashScreen(),
       // home: Loading(),
       // home: AddSupplierScreen(),

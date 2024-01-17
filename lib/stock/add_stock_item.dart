@@ -628,6 +628,8 @@ class _HomePageState extends State<HomePage> {
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ElevatedButton(
+                    style: ButtonStyle(
+                    ),
                       onPressed: () {
                         //
                         String itemC = itemCode.text.trim();
@@ -920,7 +922,7 @@ class AddItemHeaderBox extends StatelessWidget {
     return Container(
       height: 50,
       decoration: BoxDecoration(
-          color: Colors.blue.withOpacity(0.80),
+          color: selectedColor,
         border: Border.all(
           width: 0.2,
           color: Colors.black.withOpacity(0.50)
@@ -930,7 +932,7 @@ class AddItemHeaderBox extends StatelessWidget {
           child: Text(
         title,
       style: TextStyle(
-        color: Colors.white,
+        color: Colors.black,
             fontSize: 13
       ),
       overflow: TextOverflow.ellipsis,

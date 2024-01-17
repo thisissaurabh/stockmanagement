@@ -466,19 +466,39 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
 
                         sizeHorizontal: 30,
                         sizeVerticle: 16,
-                        color: bgColor,
-                        titleColor: Colors.white,
+                        color: selectedColor,
+                        titleColor: Colors.black,
                       ),
                     SizedBox(width: 5,),
                     if (Responsive.isDesktop(context))
-                      MainButton(
-                        title: 'Cancel',
-                        press: () {  },
-                        sizeHorizontal: 30,
-                        sizeVerticle: 16,
-                        color: purpleColor,
-                        titleColor: Colors.white,
+
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 14,
+                            horizontal: 20,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(
+                                width: 0.5,
+                                color: selectedColor
+                            )
+                        ),
+                        child: Row(
+                          children: [
+                            Text("Cancel")
+                          ],
+                        ),
                       ),
+                      // MainButton(
+                      //   title: 'Cancel',
+                      //   press: () {  },
+                      //   sizeHorizontal: 30,
+                      //   sizeVerticle: 16,
+                      //   color: purpleColor,
+                      //   titleColor: Colors.white,
+                      // ),
                   ],
                 ),
               ),

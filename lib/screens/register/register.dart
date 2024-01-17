@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_icon_snackbar/flutter_icon_snackbar.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -32,7 +34,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: AppColors.backColor,
+      backgroundColor: selectedColor,
       body: SizedBox(
         height: height,
         width: width,
@@ -69,7 +71,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     horizontal: ResponsiveWidget.isSmallScreen(context)
                         ? height * 0.032
                         : height * 0.12),
-                color: AppColors.backColor,
+                color: selectedColor,
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.only(bottom: 40.0),
                   child: Column(
@@ -85,12 +87,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 style: ralewayStyle.copyWith(
                                   fontSize: 25.0,
                                   color: AppColors.blueDarkColor,
-                                  fontWeight: FontWeight.normal,
+                                  fontWeight: FontWeight.w600,
                                 )),
                             TextSpan(
                               text: ' Now ',
                               style: ralewayStyle.copyWith(
-                                fontWeight: FontWeight.w800,
+                                fontWeight: FontWeight.w900,
                                 color: AppColors.blueDarkColor,
                                 fontSize: 25.0,
                               ),
@@ -246,9 +248,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 child: Text(
                                   'Login',
                                   style: ralewayStyle.copyWith(
-                                    fontSize: 12.0,
-                                    color: bgColor,
-                                    fontWeight: FontWeight.w600,
+                                    fontSize: 18.0,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w900,
                                   ),
                                 ),
                               ),

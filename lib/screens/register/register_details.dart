@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:spyco_shop_management/api/login_register/register_apis.dart';
 
@@ -34,7 +35,7 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: AppColors.backColor,
+      backgroundColor: selectedColor,
       body: SizedBox(
         height: height,
         width: width,
@@ -47,7 +48,7 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
                 : Expanded(
               child: Container(
                 height: height,
-                color: bgColor,
+                color: Colors.black,
                 child: Center(
                   child: Text(
                     'Our Logo',
@@ -67,7 +68,7 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
                     horizontal: ResponsiveWidget.isSmallScreen(context)
                         ? height * 0.032
                         : height * 0.12),
-                color: AppColors.backColor,
+                color: selectedColor,
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.only(bottom: 40.0),
                   child: Form(
@@ -84,14 +85,14 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
                                   text: 'Enter',
                                   style: ralewayStyle.copyWith(
                                     fontSize: 25.0,
-                                    color: AppColors.blueDarkColor,
+                                    color:Colors.black,
                                     fontWeight: FontWeight.normal,
                                   )),
                               TextSpan(
-                                text: ' Details',
+                                text: ' Company Details',
                                 style: ralewayStyle.copyWith(
                                   fontWeight: FontWeight.w800,
-                                  color: AppColors.blueDarkColor,
+                                  color: Colors.black,
                                   fontSize: 25.0,
                                 ),
                               ),
@@ -104,7 +105,7 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
                           style: ralewayStyle.copyWith(
                             fontSize: 12.0,
                             fontWeight: FontWeight.w400,
-                            color: AppColors.textColor,
+                            color: Colors.black,
                           ),
                         ),
                         SizedBox(height: height * 0.064),
@@ -114,7 +115,7 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
                             'Name',
                             style: ralewayStyle.copyWith(
                               fontSize: 12.0,
-                              color: AppColors.blueDarkColor,
+                              color: Colors.black,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
@@ -130,6 +131,9 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
                           child: TextFormField(
                             controller: nameController,
                             cursorColor: Colors.black,
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(20),
+                            ],
                             decoration: DecorationCustom(
                               suffixIcon: false,
                               label: 'Your Name',
@@ -142,6 +146,7 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
                           padding: const EdgeInsets.only(left: 16.0),
                           child: Text(
                             'Company Name',
+
                             style: ralewayStyle.copyWith(
                               fontSize: 12.0,
                               color: AppColors.blueDarkColor,
@@ -160,6 +165,9 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
                           child: TextFormField(
                             controller: companyController,
                             cursorColor: Colors.black,
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(50),
+                            ],
                             decoration: DecorationCustom(
                               suffixIcon: false,
                               label: 'Your Company Name',
@@ -190,6 +198,9 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
                           child: TextFormField(
                             controller: usernameController,
                             cursorColor: Colors.black,
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(20),
+                            ],
                             decoration: DecorationCustom(
                               suffixIcon: false,
                               label: 'Your UserName',
@@ -220,6 +231,9 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
                           child: TextFormField(
                             controller: gstNoController,
                             cursorColor: Colors.black,
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(15),
+                            ],
                             decoration: DecorationCustom(
                               suffixIcon: false,
                               label: 'Your Gst No',
@@ -248,6 +262,9 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
                             color: AppColors.whiteColor,
                           ),
                           child: TextFormField(
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(100),
+                            ],
                             // keyboardType: TextInputType.emailAddress,
                             // validator: (v) {
                             //   if (v!.isEmpty || !v.contains('@')) {
@@ -340,7 +357,7 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
                                   horizontal: 70.0, vertical: 18.0),
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(16.0),
-                                color: bgColor,
+                                color: Colors.black,
                               ),
                               child: Text(
                                 'Continue',

@@ -191,7 +191,6 @@ class _LeftSupplierPanelState extends State<LeftSupplierPanel> {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // We want this side menu only for large screen
                   if (Responsive.isDesktop(context))
                     Expanded(
                       child: ElevatedBgCard(
@@ -294,9 +293,6 @@ class _LeftSupplierPanelState extends State<LeftSupplierPanel> {
                         ),
                       ),
                     ),
-                  // SizedBox(
-                  //   width: 10,
-                  // ),
                   Expanded(
                     // It takes 5/6 part of the screen
                       flex: 3,

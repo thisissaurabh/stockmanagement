@@ -317,19 +317,12 @@ class _CompanyProfileDetailsState extends State<CompanyProfileDetails> {
                           press: () {  },
                           sizeHorizontal: 30,
                           sizeVerticle: 16,
-                          color: bgColor,
-                          titleColor: Colors.white,
+                          color: selectedColor,
+                          titleColor: Colors.black,
                         ),
                       SizedBox(width: 5,),
                       if (Responsive.isDesktop(context))
-                        MainButton(
-                          title: 'Cancel',
-                          press: () {  },
-                          sizeHorizontal: 30,
-                          sizeVerticle: 16,
-                          color: Color(0xff824cfb).withOpacity(0.90),
-                          titleColor: Colors.white,
-                        ),
+
                       Spacer(),
                       if (Responsive.isDesktop(context))
                         isLoading ? LoadingButton(
@@ -371,7 +364,7 @@ class _CompanyProfileDetailsState extends State<CompanyProfileDetails> {
                         },
                         sizeHorizontal: 30,
                         sizeVerticle: 16,
-                        color: Colors.red.withOpacity(0.80),
+                        color: Colors.red,
                         titleColor: Colors.white,
                       ),
                     ],

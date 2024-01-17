@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:spyco_shop_management/api/login_register/register_apis.dart';
 
@@ -30,7 +31,7 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: AppColors.backColor,
+      backgroundColor: selectedColor,
       body: SizedBox(
         height: height,
         width: width,
@@ -43,7 +44,7 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                 : Expanded(
               child: Container(
                 height: height,
-                color: bgColor,
+                color: Colors.black,
                 child: Center(
                   child: Text(
                     'Our Logo',
@@ -63,7 +64,7 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                     horizontal: ResponsiveWidget.isSmallScreen(context)
                         ? height * 0.032
                         : height * 0.12),
-                color: AppColors.backColor,
+                color: selectedColor,
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.only(bottom: 40.0),
                   child: Column(
@@ -77,15 +78,15 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                             TextSpan(
                                 text: 'Setup',
                                 style: ralewayStyle.copyWith(
-                                  fontSize: 25.0,
-                                  color: AppColors.blueDarkColor,
-                                  fontWeight: FontWeight.normal,
+                                  fontSize: 32.0,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w800,
                                 )),
                             TextSpan(
                               text: ' Password',
                               style: ralewayStyle.copyWith(
                                 fontWeight: FontWeight.w800,
-                                color: AppColors.blueDarkColor,
+                                color: Colors.black,
                                 fontSize: 25.0,
                               ),
                             ),
@@ -96,9 +97,9 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                       Text(
                         'Hey, Setup your password to create \nyour account.',
                         style: ralewayStyle.copyWith(
-                          fontSize: 12.0,
+                          fontSize: 15.0,
                           fontWeight: FontWeight.w400,
-                          color: AppColors.textColor,
+                          color: Colors.black,
                         ),
                       ),
                       SizedBox(height: height * 0.014),
@@ -128,6 +129,9 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                             }
                             return null;
                           },
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(8),
+                          ],
                           controller: passwordController,
                           cursorColor: Colors.black,
                           style: k16_400_black,
@@ -174,6 +178,9 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                             return null;
                           },
                           controller: confirmPassword,
+                          inputFormatters: [
+                            LengthLimitingTextInputFormatter(8),
+                          ],
                           cursorColor: Colors.black,
                           style: k16_400_black,
                           obscureText: !showEye,
@@ -198,8 +205,8 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                           child: Text(
                             'Forgot Password?',
                             style: ralewayStyle.copyWith(
-                              fontSize: 12.0,
-                              color: bgColor,
+                              fontSize: 16.0,
+                              color: Colors.black,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -276,7 +283,7 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                                 horizontal: 70.0, vertical: 18.0),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(16.0),
-                              color: bgColor,
+                              color: Colors.black,
                             ),
                             child: Text(
                               'Create Account',
