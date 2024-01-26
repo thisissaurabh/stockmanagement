@@ -17,6 +17,14 @@ final TextStyle title40 = GoogleFonts.interTight(
   ),
 );
 
+final TextStyle titleBlack = GoogleFonts.interTight(
+  textStyle: TextStyle(
+    fontSize: 40,
+    fontWeight: FontWeight.w600,
+    color: Colors.black,
+  ),
+);
+
 final TextStyle title36w500 = GoogleFonts.interTight(
   textStyle: TextStyle(
     fontSize: 40,
@@ -51,6 +59,20 @@ final TextStyle title20 = GoogleFonts.interTight(
     fontSize: 20,
     fontWeight: FontWeight.w700,
     color: Colors.black,
+  ),
+);
+final TextStyle title20Black = GoogleFonts.interTight(
+  textStyle: TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w700,
+    color: Colors.black,
+  ),
+);
+final TextStyle title20White = GoogleFonts.interTight(
+  textStyle: TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w700,
+    color: Colors.white,
   ),
 );
 

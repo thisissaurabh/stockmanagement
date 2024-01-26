@@ -65,7 +65,8 @@ class PlusButton extends StatelessWidget {
                 borderRadius: BorderRadius.circular(6.0),
                 color: selectedColor,
                 shape: BoxShape.rectangle),
-            child: Icon(Icons.add)),
+            child: Icon(Icons.add),
+        ),
       ),
     );
   }
@@ -115,7 +116,7 @@ class LoadingButton extends StatelessWidget {
                 horizontal: 70.0, vertical: 18.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(16.0),
-              color: color ?? bgColor,
+              color: color ?? Colors.black,
             ),
             child: Center(
         child: LoadingAnimationWidget.waveDots(

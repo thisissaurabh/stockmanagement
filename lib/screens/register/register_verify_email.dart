@@ -80,14 +80,16 @@ class _RegisterVerifyEmailScreenState extends State<RegisterVerifyEmailScreen> {
                                 text: 'Verify',
                                 style: ralewayStyle.copyWith(
                                   fontSize: 25.0,
-                                  color: AppColors.blueDarkColor,
+                                  color: Colors.black,
+                                  // color: AppColors.blueDarkColor,
                                   fontWeight: FontWeight.normal,
                                 )),
                             TextSpan(
                               text: ' Email ',
                               style: ralewayStyle.copyWith(
                                 fontWeight: FontWeight.w800,
-                                color: AppColors.blueDarkColor,
+                                color: Colors.black,
+                                // color: AppColors.blueDarkColor,
                                 fontSize: 25.0,
                               ),
                             ),
@@ -100,7 +102,8 @@ class _RegisterVerifyEmailScreenState extends State<RegisterVerifyEmailScreen> {
                         style: ralewayStyle.copyWith(
                           fontSize: 16.0,
                           fontWeight: FontWeight.w400,
-                          color: AppColors.textColor,
+                          color: Colors.black,
+                          // color: AppColors.textColor,
                         ),
                       ),
                       SizedBox(height: height * 0.064),
@@ -168,7 +171,7 @@ class _RegisterVerifyEmailScreenState extends State<RegisterVerifyEmailScreen> {
                             } else {
                               CustomMsgSnackbar.show(
                                   context: context,
-                                  label: 'Please Enter Otp',
+                                  label: 'Please Enter OTP',
                                   color: Colors.red,
                                   iconImage: "assets/icons/cross.svg");
 
@@ -211,7 +214,8 @@ class _RegisterVerifyEmailScreenState extends State<RegisterVerifyEmailScreen> {
                                   'Did not Received Otp ?',
                                   style: ralewayStyle.copyWith(
                                     fontSize: 12.0,
-                                    color: AppColors.blueDarkColor,
+                                    color: Colors.black,
+                                    // color: AppColors.blueDarkColor,
                                     fontWeight: FontWeight.w700,
                                   ),
                                 ),

@@ -14,6 +14,7 @@ import 'package:spyco_shop_management/controllers/MenuAppController.dart';
 import 'package:spyco_shop_management/screens/login/login.dart';
 import 'package:spyco_shop_management/screens/main/main_screen.dart';
 import 'package:spyco_shop_management/screens/register/register_verify_email.dart';
+import 'package:spyco_shop_management/widgets/global_widgets.dart';
 import 'package:spyco_shop_management/widgets/main_button.dart';
 import 'package:spyco_shop_management/widgets/snackbar.dart';
 
@@ -86,14 +87,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 text: 'Register',
                                 style: ralewayStyle.copyWith(
                                   fontSize: 25.0,
-                                  color: AppColors.blueDarkColor,
+                                  color: Colors.black,
+                                  // color: AppColors.blueDarkColor,
                                   fontWeight: FontWeight.w600,
                                 )),
                             TextSpan(
                               text: ' Now ',
                               style: ralewayStyle.copyWith(
                                 fontWeight: FontWeight.w900,
-                                color: AppColors.blueDarkColor,
+                                color: Colors.black,
+                                // color: AppColors.blueDarkColor,
                                 fontSize: 25.0,
                               ),
                             ),
@@ -102,11 +105,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                       SizedBox(height: height * 0.02),
                       Text(
-                        ' Enter Details to get register.',
+                        ' Enter Email to get register.',
                         style: ralewayStyle.copyWith(
                           fontSize: 12.0,
                           fontWeight: FontWeight.w400,
-                          color: AppColors.textColor,
+                          color: Colors.black
+                          // color: AppColors.textColor,
                         ),
                       ),
                       SizedBox(height: height * 0.064),
@@ -127,7 +131,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         width: width,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(16.0),
-                          color: AppColors.whiteColor,
+                          // color: AppColors.whiteColor,
+                          color: Colors.transparent,
                         ),
                         child: TextFormField(
                           keyboardType: TextInputType.emailAddress,
@@ -137,6 +142,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             }
                             return null;
                           },
+                          textInputAction: TextInputAction.next,
                           controller: emailController,
                           cursorColor: Colors.black,
                           decoration: DecorationCustom(
@@ -170,7 +176,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     isLoading = false;
                                   });
                                   CustomSnackbar.show(context: context,
-                                      label:"Sucess",
+                                      label:"Success",
                                       color: Colors.green,
                                       iconImage: "assets/icons/tick.svg");
                                   // Fluttertoast.showToast(
@@ -195,7 +201,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             }
                           else {
                               CustomMsgSnackbar.show(context: context,
-                                  label: 'Please Enter valid email',
+                                  label: 'Please Enter Valid Email',
                                   color: Colors.red,
                                   iconImage: "assets/icons/cross.svg");
                             }
@@ -232,25 +238,26 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   'Already have an account ?',
                                   style: ralewayStyle.copyWith(
                                     fontSize: 12.0,
-                                    color: AppColors.blueDarkColor,
+                                    color: Colors.black,
                                     fontWeight: FontWeight.w700,
                                   ),
                                 ),
                               ),
-                              TextButton(
-                                onPressed: () {
+                              GestureDetector(
+                                onTap: () {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                         builder: (context) => LoginScreen()),
                                   );
                                 },
-                                child: Text(
-                                  'Login',
-                                  style: ralewayStyle.copyWith(
-                                    fontSize: 18.0,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w900,
+                                child: MouseHover(
+                                  child: Text(' Login',
+                                    style: ralewayStyle.copyWith(
+                                      fontSize: 12.0,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w900,
+                                    ),
                                   ),
                                 ),
                               ),

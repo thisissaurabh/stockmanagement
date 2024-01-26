@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
+import 'package:spyco_shop_management/management/management.dart';
 import 'package:spyco_shop_management/pos/invoice.dart';
 import 'package:spyco_shop_management/sales/add_customer.dart';
 import 'package:spyco_shop_management/sales/customers.dart';
@@ -14,6 +15,7 @@ import 'package:spyco_shop_management/screens/users/users.dart';
 import 'package:spyco_shop_management/stock/add_stock.dart';
 import 'constants/colors.dart';
 import 'controllers/MenuAppController.dart';
+import 'crm/crm.dart';
 
 class DashBoard extends StatefulWidget {
   const DashBoard({Key? key}) : super(key: key);
@@ -352,6 +354,71 @@ class _DashBoardState extends State<DashBoard> {
                               // );
                             },
                           ),
+
+                          DrawerListTile(
+                            title: "Management",
+                            svgSrc: "assets/icon/dashboard-svgrepo-com.svg",
+                            color: Colors.black,
+                            iconColor:
+                            _index == 8 ? selectedColor : Colors.black,
+                            svgColor: _index == 8 ? Colors.black : Colors.white,
+                            selectColor:
+                            _index == 8 ? Colors.white : Colors.transparent,
+                            selectTextColor:
+                            _index == 8 ? Colors.black : Colors.white,
+                            font:
+                            _index == 8 ? FontWeight.w600 : FontWeight.w300,
+                            press: () {
+                              setState(() {
+                                _index = 8;
+                              });
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //     builder: (context) => MultiProvider(
+                              //       providers: [
+                              //         ChangeNotifierProvider(
+                              //           create: (context) => MenuAppController(),
+                              //         ),
+                              //       ],
+                              //       child: MainScreen(),
+                              //     ),
+                              //   ),
+                              // );
+                            },
+                          ),
+                          DrawerListTile(
+                            title: "CRM",
+                            svgSrc: "assets/icon/dashboard-svgrepo-com.svg",
+                            color: Colors.black,
+                            iconColor:
+                            _index == 9 ? selectedColor : Colors.black,
+                            svgColor: _index == 9 ? Colors.black : Colors.white,
+                            selectColor:
+                            _index == 9 ? Colors.white : Colors.transparent,
+                            selectTextColor:
+                            _index == 9 ? Colors.black : Colors.white,
+                            font:
+                            _index == 9 ? FontWeight.w600 : FontWeight.w300,
+                            press: () {
+                              setState(() {
+                                _index = 9;
+                              });
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //     builder: (context) => MultiProvider(
+                              //       providers: [
+                              //         ChangeNotifierProvider(
+                              //           create: (context) => MenuAppController(),
+                              //         ),
+                              //       ],
+                              //       child: MainScreen(),
+                              //     ),
+                              //   ),
+                              // );
+                            },
+                          ),
                           // DrawerListTile(
                           //   title: "Settings",
                           //   svgSrc: "assets/icons/menu_setting.svg",
@@ -434,6 +501,22 @@ class _DashBoardState extends State<DashBoard> {
                       ],
                       child: CompanyProfile(),
                     ),
+                    MultiProvider(
+                      providers: [
+                        ChangeNotifierProvider(
+                          create: (context) => MenuAppController(),
+                        ),
+                      ],
+                      child: Management(),
+                    ),
+                    MultiProvider(
+                      providers: [
+                        ChangeNotifierProvider(
+                          create: (context) => MenuAppController(),
+                        ),
+                      ],
+                      child: Crm(),
+                    ),
                   ].elementAt(_index),
                 ),
               )
@@ -446,14 +529,14 @@ class _DashBoardState extends State<DashBoard> {
 }
 
 class CustomListTile extends StatelessWidget {
-  const CustomListTile(
-      {super.key,
+  const CustomListTile({
+    super.key,
       required this.title,
       required this.press,
       required this.selectColor,
       required this.selectTextColor,
-      required this.font});
-
+      required this.font
+  });
   final String title;
   final VoidCallback press;
   final Color selectColor;

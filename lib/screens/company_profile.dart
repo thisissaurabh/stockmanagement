@@ -38,30 +38,14 @@ class CompanyProfile extends StatefulWidget {
 class _CompanyProfileState extends State<CompanyProfile> {
 
   bool isLoading = false;
-  LoginResponse? response;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       // drawer: SideMenu(),
       body: SafeArea(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // We want this side menu only for large screen
-            if (Responsive.isDesktop(context))
-              // Expanded(
-              //   // default flex = 1
-              //   // and it takes 1/6 part of the screen
-              //   child: SideMenu(),
-              // ),
-            Expanded(
-              // It takes 5/6 part of the screen
-              flex: 4,
-              child: CompanyProfileDetails(),
-            ),
-          ],
-        ),
+        child:
+        CompanyProfileDetails(),
       ),
     );
   }
@@ -77,9 +61,11 @@ class CompanyProfileDetails extends StatefulWidget {
 class _CompanyProfileDetailsState extends State<CompanyProfileDetails> {
 
   bool isLoading = false;
+  // LoginResponse? response;
 
   @override
   Widget build(BuildContext context) {
+
     return SingleChildScrollView(
       padding: EdgeInsets.all(defaultPadding),
       child: Column(
@@ -142,24 +128,42 @@ class _CompanyProfileDetailsState extends State<CompanyProfileDetails> {
                         SizedBox(height: 7,),
                         CustomHorizontalLine(),
                         SizedBox(height: 16,),
-                        AddSupplierRow(
-                          title: 'Supplier Mail',
-                          child:Expanded(
-                            child: SizedBox(
-                              // width: MediaQuery.sizeOf(context).width,
-                              height: 40.0,
-                              child: TextFormField(
-                                keyboardType: TextInputType.emailAddress,
-                                // controller: usernameController,
-                                cursorColor: Colors.black,
-                                decoration: CustomDataField(
-                                  label: 'Mail',
-                                ).dataFieldDecoration(),
-                              ),
-                            ),
-                          ) ,
+                        DataWithTextFieldRow(
+                          name: 'Mail',
+                          child: TextFormField(
+                            keyboardType: TextInputType.emailAddress,
+                            // controller: usernameController,
+                            cursorColor: Colors.black,
+                            decoration: CustomDataField(
+                              label: 'Mail',
+                            ).dataFieldDecoration(),
+                          ),
+                        ),
+                       SizedBox(height: 16,),
+                        DataWithTextFieldRow(
+                          name: 'Username',
+                          child: TextFormField(
+                            keyboardType: TextInputType.emailAddress,
+                            // controller: usernameController,
+                            cursorColor: Colors.black,
+                            decoration: CustomDataField(
+                              label: 'Username',
+                            ).dataFieldDecoration(),
+                          ),
                         ),
                         SizedBox(height: 16,),
+                        DataWithTextFieldRow(
+                          name: 'Contact No',
+                          child: TextFormField(
+                            keyboardType: TextInputType.emailAddress,
+                            // controller: usernameController,
+                            cursorColor: Colors.black,
+                            decoration: CustomDataField(
+                              label: 'Contact No',
+                            ).dataFieldDecoration(),
+                          ),
+                        ),
+                       /* SizedBox(height: 16,),
                         AddSupplierRow(
                           title: 'Username',
                           child:Expanded(
@@ -195,7 +199,7 @@ class _CompanyProfileDetailsState extends State<CompanyProfileDetails> {
                             ),
                           ) ,
                         ),
-                        SizedBox(height: 16,),
+                        SizedBox(height: 16,),*/
                       ],
                     ),
                   )),
@@ -220,162 +224,142 @@ class _CompanyProfileDetailsState extends State<CompanyProfileDetails> {
                         SizedBox(height: 7,),
                         CustomHorizontalLine(),
                         SizedBox(height: 16,),
-                        AddSupplierRow(
-                          title: 'Company Adress',
-                          child:Row(
-                            children: [
-                              SizedBox(
-                                width: 276,
-                                height: 40.0,
-                                child: TextFormField(
-                                  keyboardType: TextInputType.emailAddress,
-                                  cursorColor: Colors.black,
-                                  decoration: CustomDataField(
-                                    label: 'Company Adress',
-                                  ).dataFieldDecoration(),
-                                ),
-                              ),
+                        DataWithTextFieldRow(
+                          name: 'Company Address',
+                          child: TextFormField(
+                            keyboardType: TextInputType.emailAddress,
+                            // controller: usernameController,
+                            cursorColor: Colors.black,
+                            decoration: CustomDataField(
+                              label: 'Company Address',
+                            ).dataFieldDecoration(),
+                          ),
+                        ),
                               SizedBox(width: 16,),
-                              SizedBox(
-                                width: 130,
-                                height: 40.0,
-                                child: TextFormField(
-                                  keyboardType: TextInputType.emailAddress,
-                                  cursorColor: Colors.black,
-                                  decoration: CustomDataField(
-                                    label: 'City',
-                                  ).dataFieldDecoration(),
-                                ),
-                              ),
+                        SizedBox(height: 16,),
+                        DataWithTextFieldRow(
+                          name: 'City',
+                          child: TextFormField(
+                            keyboardType: TextInputType.emailAddress,
+                            // controller: usernameController,
+                            cursorColor: Colors.black,
+                            decoration: CustomDataField(
+                              label: 'City',
+                            ).dataFieldDecoration(),
+                          ),
+                        ),
                               SizedBox(width: 16,),
-                              SizedBox(
-                                width: 130,
-                                height: 40.0,
-                                child: TextFormField(
-                                  keyboardType: TextInputType.emailAddress,
-                                 
-                                  cursorColor: Colors.black,
-                                  decoration: CustomDataField(
-                                    label: 'State',
-                                  ).dataFieldDecoration(),
-                                ),
-                              ),
+                        SizedBox(height: 16,),
+                        DataWithTextFieldRow(
+                          name: 'State',
+                          child: TextFormField(
+                            keyboardType: TextInputType.emailAddress,
+                            // controller: usernameController,
+                            cursorColor: Colors.black,
+                            decoration: CustomDataField(
+                              label: 'State',
+                            ).dataFieldDecoration(),
+                          ),
+                        ),
+                        SizedBox(height: 16,),
+                        DataWithTextFieldRow(
+                          name: 'Gst NO',
+                          child: TextFormField(
+                            keyboardType: TextInputType.emailAddress,
+                            // controller: usernameController,
+                            cursorColor: Colors.black,
+                            decoration: CustomDataField(
+                              label: 'Gst NO',
+                            ).dataFieldDecoration(),
+                          ),
+                        ),
+                        SizedBox(height: 16,),
+                        DataWithTextFieldRow(
+                          name: 'Role',
+                          child: TextFormField(
+                            keyboardType: TextInputType.emailAddress,
+                            // controller: usernameController,
+                            cursorColor: Colors.black,
+                            decoration: CustomDataField(
+                              label: 'Role',
+                            ).dataFieldDecoration(),
+                          ),
+                        ),
+                        SizedBox(height: 16,),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Row(
+                              children: [
+                                if (Responsive.isDesktop(context))
+                                  MainButton(
+                                    title: 'Update',
+                                    press: () {  },
+                                    sizeHorizontal: 30,
+                                    sizeVerticle: 16,
+                                    color: selectedColor,
+                                    titleColor: Colors.black,
+                                  ),
+                                SizedBox(width: 5,),
+                                if (Responsive.isDesktop(context))
+
+                                  Spacer(),
+                                if (Responsive.isDesktop(context))
+                                  isLoading ? LoadingButton(
+                                    color: Colors.red,
+                                  ) :
+                                  MainButton(
+                                    title: 'Logout',
+                                    press: () {
+                                      setState(() {
+                                        isLoading = true;
+                                      });
+                                      logoutApi(
+                                      ).then((value) async {
+                                        if (value['status'] == 1) {
+                                          setState(() {
+                                            isLoading = false;
+                                          });
+                                          CustomSnackbar.show(context: context,
+                                              label:"Sucess",
+                                              color: Colors.green,
+                                              iconImage: "assets/icons/tick.svg");
+                                          SharedPrefs().setLoginFalse();
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => LoginScreen(
+                                              ),),
+                                          );
+                                        } else {
+                                          setState(() {
+                                            isLoading = false;
+                                          });
+                                          CustomMsgSnackbar.show(context: context,
+                                              label: value['message'],
+                                              color: Colors.red,
+                                              iconImage: "assets/icons/cross.svg");
+                                        }
+                                      });
+                                    },
+                                    sizeHorizontal: 30,
+                                    sizeVerticle: 16,
+                                    color: Colors.red,
+                                    titleColor: Colors.white,
+                                  ),
+                              ],
+                            ),
+                          ],
+                        ),
                             ],
                           ) ,
-                        ),
-                        SizedBox(height: 16,),
-                        AddSupplierRow(
-                          title: 'Gst no',
-                          child:Expanded(
-                            child: SizedBox(
-                              // width: MediaQuery.sizeOf(context).width,
-                              height: 40.0,
-                              child: TextFormField(
-                                keyboardType: TextInputType.emailAddress,
-                                // controller: usernameController,
-                                cursorColor: Colors.black,
-                                decoration: CustomDataField(
-                                  label: 'Gst No',
-                                ).dataFieldDecoration(),
-                              ),
-                            ),
-                          ) ,
-                        ),
-                        SizedBox(height: 16,),
-                        AddSupplierRow(
-                          title: 'Role',
-                          child:Expanded(
-                            child: SizedBox(
-                              // width: MediaQuery.sizeOf(context).width,
-                              height: 40.0,
-                              child: TextFormField(
-                                keyboardType: TextInputType.emailAddress,
-                                // controller: usernameController,
-                                cursorColor: Colors.black,
-                                decoration: CustomDataField(
-                                  label: 'Admin',
-                                ).dataFieldDecoration(),
-                              ),
-                            ),
-                          ) ,
-                        ),
-                        SizedBox(height: 16,),
-
-                      ],
-                    ),
-                  ),
-              ),
-              SizedBox(height: 16,),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Row(
-                    children: [
-                      if (Responsive.isDesktop(context))
-                        MainButton(
-                          title: 'Update',
-                          press: () {  },
-                          sizeHorizontal: 30,
-                          sizeVerticle: 16,
-                          color: selectedColor,
-                          titleColor: Colors.black,
-                        ),
-                      SizedBox(width: 5,),
-                      if (Responsive.isDesktop(context))
-
-                      Spacer(),
-                      if (Responsive.isDesktop(context))
-                        isLoading ? LoadingButton(
-                          color: Colors.red,
-                        ) :
-                      MainButton(
-                        title: 'Logout',
-                        press: () {
-                          setState(() {
-                            isLoading = true;
-                          });
-                          logoutApi(
-                          ).then((value) async {
-                            if (value['status'] == 1) {
-                              setState(() {
-                                isLoading = false;
-                              });
-                              CustomSnackbar.show(context: context,
-                                  label:"Sucess",
-                                  color: Colors.green,
-                                  iconImage: "assets/icons/tick.svg");
-                              SharedPrefs().setLoginFalse();
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => LoginScreen(
-                                     ),),
-                              );
-                            } else {
-                              setState(() {
-                                isLoading = false;
-                              });
-                              CustomMsgSnackbar.show(context: context,
-                                  label: value['message'],
-                                  color: Colors.red,
-                                  iconImage: "assets/icons/cross.svg");
-                            }
-                          });
-                        },
-                        sizeHorizontal: 30,
-                        sizeVerticle: 16,
-                        color: Colors.red,
-                        titleColor: Colors.white,
-                      ),
-                    ],
-                  ),
-                ],
+    ),
               ),
             ],
-          )
+          ),
+      ],
+    ),);
 
-        ],
-      ),
-    );
+
   }
 }

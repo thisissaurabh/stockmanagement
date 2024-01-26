@@ -126,11 +126,13 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
                           width: width,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(16.0),
-                            color: AppColors.whiteColor,
+                            color: Colors.transparent
+                            // color: AppColors.whiteColor,
                           ),
                           child: TextFormField(
                             controller: nameController,
                             cursorColor: Colors.black,
+                            textInputAction: TextInputAction.next,
                             inputFormatters: [
                               LengthLimitingTextInputFormatter(20),
                             ],
@@ -146,7 +148,6 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
                           padding: const EdgeInsets.only(left: 16.0),
                           child: Text(
                             'Company Name',
-
                             style: ralewayStyle.copyWith(
                               fontSize: 12.0,
                               color: AppColors.blueDarkColor,
@@ -160,11 +161,13 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
                           width: width,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(16.0),
-                            color: AppColors.whiteColor,
+                              color: Colors.transparent
+                            // color: AppColors.whiteColor,
                           ),
                           child: TextFormField(
                             controller: companyController,
                             cursorColor: Colors.black,
+                            textInputAction: TextInputAction.next,
                             inputFormatters: [
                               LengthLimitingTextInputFormatter(50),
                             ],
@@ -193,11 +196,13 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
                           width: width,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(16.0),
-                            color: AppColors.whiteColor,
+                              color: Colors.transparent,
+                            // color: AppColors.whiteColor,
                           ),
                           child: TextFormField(
                             controller: usernameController,
                             cursorColor: Colors.black,
+                            textInputAction: TextInputAction.next,
                             inputFormatters: [
                               LengthLimitingTextInputFormatter(20),
                             ],
@@ -226,11 +231,13 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
                           width: width,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(16.0),
-                            color: AppColors.whiteColor,
+                              color: Colors.transparent
+                            // color: AppColors.whiteColor,
                           ),
                           child: TextFormField(
                             controller: gstNoController,
                             cursorColor: Colors.black,
+                            textInputAction: TextInputAction.next,
                             inputFormatters: [
                               LengthLimitingTextInputFormatter(15),
                             ],
@@ -259,7 +266,8 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
                           width: width,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(16.0),
-                            color: AppColors.whiteColor,
+                              color: Colors.transparent,
+                            // color: AppColors.whiteColor,
                           ),
                           child: TextFormField(
                             inputFormatters: [
@@ -273,6 +281,7 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
                             //   return null;
                             // },
                             controller: addressController,
+                            textInputAction: TextInputAction.next,
                             cursorColor: Colors.black,
                             decoration: DecorationCustom(
                               suffixIcon: false,
@@ -328,7 +337,7 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
                                 });
                               } else {
                                 CustomMsgSnackbar.show(context: context,
-                                    label: 'Please Enter all details',
+                                    label: 'Please Enter Company Details',
                                     color: Colors.red,
                                     iconImage: "assets/icons/cross.svg");
                               }

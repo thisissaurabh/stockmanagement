@@ -5,6 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:spyco_shop_management/api/login_register/get_supplier_details_api.dart';
+import 'package:spyco_shop_management/api/login_register/get_supplier_name_api.dart';
+import 'package:spyco_shop_management/api_models/supplier_details_model.dart';
+import 'package:spyco_shop_management/api_models/supplier_name_model.dart';
 import 'package:spyco_shop_management/constants/colors.dart';
 import 'package:spyco_shop_management/constants/responsive.dart';
 import 'package:spyco_shop_management/constants/textfield_decoration.dart';
@@ -16,6 +20,7 @@ import 'package:spyco_shop_management/widgets/cards.dart';
 import 'package:spyco_shop_management/widgets/global_widgets.dart';
 import 'package:spyco_shop_management/widgets/globals.dart';
 import 'package:spyco_shop_management/widgets/intraction_buttons.dart';
+import 'package:spyco_shop_management/widgets/loading.dart';
 import 'package:spyco_shop_management/widgets/main_button.dart';
 import 'package:spyco_shop_management/widgets/snackbar.dart';
 
@@ -75,6 +80,7 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
   String? selectedOption;
   final GlobalKey<FormState>_formKey =  GlobalKey<FormState>();
   bool isLoading = false;
+  final supplier = TextEditingController();
   final gender = TextEditingController();
   final dateInput = TextEditingController();
   final secondName = TextEditingController();
@@ -87,16 +93,16 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
   final city = TextEditingController();
   final state = TextEditingController();
 
-  final List<String> items = [
-    'Item1',
-    'Item2',
-    'Item3',
-    'Item4',
-    'Item5',
-    'Item6',
-    'Item7',
-    'Item8',
-  ];
+  // final List<String> items = [
+  //   'Item1',
+  //   'Item2',
+  //   'Item3',
+  //   'Item4',
+  //   'Item5',
+  //   'Item6',
+  //   'Item7',
+  //   'Item8',
+  // ];
   String? selectedValue;
 
   final List<String> unit = [
@@ -117,15 +123,28 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
 
 
 
-  List<SupplierModel> suppliers = [];
+  List<SupplierNameModel> suppliersName = [];
+  // List<SupplierDetailsModel> suppliersDetails = [];
+  SupplierDetailsModel? suppliersDetails;
 
-  getSupplier() {
+  @override
+  void initState() {
+    getSupplierName();
+    super.initState();
+  }
+
+
+
+
+
+
+  getSupplierName() {
     isLoading = true;
-    var resp = getSupplierApi();
+    var resp = getSupplierNameApi();
     resp.then((value) {
       if (value['status'] == 1) {
-        for(var v in value['supplierData']['data']) {
-          suppliers.add(SupplierModel.fromJson(v));
+        for(var v in value['AllsupplierData']) {
+          suppliersName.add(SupplierNameModel.fromJson(v));
         }
         setState(() {
           isLoading = false;
@@ -138,7 +157,7 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return isLoading ? Loading() :SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -169,85 +188,143 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                                       SizedBox(
                                         width: MediaQuery.sizeOf(context).width,
                                         height: 40.0,
-                                        child:   DropdownButtonHideUnderline(
-                                          child: DropdownButton2<String>(
-                                            isExpanded: true,
-                                            hint: const Row(
-                                              children: [
-                                                Expanded(
-                                                  child: Text(
-                                                    'Select Supplier',
-                                                    style: TextStyle(
-                                                      fontSize: 14,
-                                                      color: Colors.black,
-                                                    ),
-                                                    overflow: TextOverflow.ellipsis,
-                                                  ),
+                                        child:  Center(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(16.0),
+                                            child: TextFormField(
+                                              controller: supplier,
+                                              readOnly: true,
+                                              decoration: InputDecoration(
+                                                suffixIcon: PopupMenuButton<int>(
+                                                  itemBuilder: (BuildContext context) {
+                                                    return List<PopupMenuEntry<int>>.generate(
+                                                      suppliersName.length,
+                                                          (int index) => PopupMenuItem<int>(
+                                                        value: index,
+                                                        child: GestureDetector(
+                                                          onTap: () {
+                                                            setState(() {
+                                                              var resp = getSupplierDetailsApi(id: suppliersName[index].id.toString());
+                                                              isLoading = true;
+                                                              resp.then((value) {
+                                                                if (value['status'] == 1) {
+                                                                  suppliersDetails = SupplierDetailsModel.fromJson(value);
+                                                                }
+
+                                                                setState(() {
+                                                                  isLoading = false;
+                                                                });
+
+                                                                if (value['status'] != 1) {
+                                                                  print("error");
+                                                                }
+                                                              });
+                                                            });
+
+                                                          },
+                                                          child: Container(
+                                                            color: Colors.redAccent,
+                                                              child: Text(suppliersName[index].firstName.toString())),
+                                                        ),
+                                                      ),
+                                                    );
+                                                  },
+                                                  onSelected: (int index) {
+                                                    setState(() {
+                                                      supplier.text = suppliersName[index].firstName.toString();
+
+                                                    });
+                                                  },
                                                 ),
-                                              ],
-                                            ),
-                                            items: items
-                                                .map((String item) => DropdownMenuItem<String>(
-                                              value: item,
-                                              child: Text(
-                                                item,
-                                                style: const TextStyle(
-                                                  fontSize: 14,
-                                                  // fontWeight: FontWeight.bold,
-                                                  color: Colors.black,
-                                                ),
-                                                overflow: TextOverflow.ellipsis,
                                               ),
-                                            ))
-                                                .toList(),
-                                            value: selectedValue,
-                                            onChanged: (String? value) {
-                                              setState(() {
-                                                selectedValue = value;
-                                              });
-                                            },
-                                            buttonStyleData: ButtonStyleData(
-                                              height: 50,
-                                              width: MediaQuery.sizeOf(context).width,
-                                              // width: 160,
-                                              padding: const EdgeInsets.only(left: 14, right: 14),
-                                              decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(6),
-                                                border: Border.all(
-                                                  color: Colors.black26,
-                                                ),
-                                                color: Colors.white,
-                                              ),
-                                              elevation: 0,
-                                            ),
-                                            iconStyleData: const IconStyleData(
-                                              icon: Icon(
-                                                Icons.arrow_forward_ios_outlined,
-                                              ),
-                                              iconSize: 14,
-                                              iconEnabledColor: Colors.black,
-                                              iconDisabledColor: Colors.black,
-                                            ),
-                                            dropdownStyleData: DropdownStyleData(
-                                              // maxHeight: 200,
-                                              width: MediaQuery.sizeOf(context).width,
-                                              decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(14),
-                                                color: Colors.white,
-                                              ),
-                                              offset: const Offset(0, 0),
-                                              scrollbarTheme: ScrollbarThemeData(
-                                                radius: const Radius.circular(6),
-                                                thickness: MaterialStateProperty.all<double>(6),
-                                                thumbVisibility: MaterialStateProperty.all<bool>(true),
-                                              ),
-                                            ),
-                                            menuItemStyleData: const MenuItemStyleData(
-                                              height: 40,
-                                              padding: EdgeInsets.only(left: 14, right: 14),
+                                              onTap: () {
+                                                setState(() {
+
+                                                });
+                                                FocusScope.of(context).requestFocus(new FocusNode());
+                                              },
                                             ),
                                           ),
                                         ),
+                                        // child:   DropdownButtonHideUnderline(
+                                        //   child: DropdownButton2<String>(
+                                        //     isExpanded: true,
+                                        //     hint: const Row(
+                                        //       children: [
+                                        //         Expanded(
+                                        //           child: Text(
+                                        //             'Select Supplier',
+                                        //             style: TextStyle(
+                                        //               fontSize: 14,
+                                        //               color: Colors.black,
+                                        //             ),
+                                        //             overflow: TextOverflow.ellipsis,
+                                        //           ),
+                                        //         ),
+                                        //       ],
+                                        //     ),
+                                        //     items: suppliersName[index].firstName
+                                        //         .map((String item) => DropdownMenuItem<String>(
+                                        //       value: item,
+                                        //       child: Text(
+                                        //         item,
+                                        //         style: const TextStyle(
+                                        //           fontSize: 14,
+                                        //           // fontWeight: FontWeight.bold,
+                                        //           color: Colors.black,
+                                        //         ),
+                                        //         overflow: TextOverflow.ellipsis,
+                                        //       ),
+                                        //     ))
+                                        //         .toList(),
+                                        //     value: selectedValue,
+                                        //     onChanged: (String? value) {
+                                        //       setState(() {
+                                        //         selectedValue = value;
+                                        //       });
+                                        //     },
+                                        //     buttonStyleData: ButtonStyleData(
+                                        //       height: 50,
+                                        //       width: MediaQuery.sizeOf(context).width,
+                                        //       // width: 160,
+                                        //       padding: const EdgeInsets.only(left: 14, right: 14),
+                                        //       decoration: BoxDecoration(
+                                        //         borderRadius: BorderRadius.circular(6),
+                                        //         border: Border.all(
+                                        //           color: Colors.black26,
+                                        //         ),
+                                        //         color: Colors.white,
+                                        //       ),
+                                        //       elevation: 0,
+                                        //     ),
+                                        //     iconStyleData: const IconStyleData(
+                                        //       icon: Icon(
+                                        //         Icons.arrow_forward_ios_outlined,
+                                        //       ),
+                                        //       iconSize: 14,
+                                        //       iconEnabledColor: Colors.black,
+                                        //       iconDisabledColor: Colors.black,
+                                        //     ),
+                                        //     dropdownStyleData: DropdownStyleData(
+                                        //       // maxHeight: 200,
+                                        //       width: MediaQuery.sizeOf(context).width,
+                                        //       decoration: BoxDecoration(
+                                        //         borderRadius: BorderRadius.circular(14),
+                                        //         color: Colors.white,
+                                        //       ),
+                                        //       offset: const Offset(0, 0),
+                                        //       scrollbarTheme: ScrollbarThemeData(
+                                        //         radius: const Radius.circular(6),
+                                        //         thickness: MaterialStateProperty.all<double>(6),
+                                        //         thumbVisibility: MaterialStateProperty.all<bool>(true),
+                                        //       ),
+                                        //     ),
+                                        //     menuItemStyleData: const MenuItemStyleData(
+                                        //       height: 40,
+                                        //       padding: EdgeInsets.only(left: 14, right: 14),
+                                        //     ),
+                                        //   ),
+                                        // ),
                                       ),
                                       SizedBox(height: 5,),
                                       // MouseHover(
@@ -283,7 +360,11 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                                           controller: companyName,
                                           cursorColor: Colors.black,
                                           decoration: CustomDataField(
-                                            label: 'Business Name',
+                                            label: suppliersDetails== null ?
+                                            "Bussiness Name" :
+                                            suppliersDetails!.data!.companyName.toString()
+
+                                            // label: 'Business  Name',
                                           ).dataFieldDecoration(),
                                         ),
                                       ) ,
@@ -306,7 +387,10 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                                   controller: companyName,
                                   cursorColor: Colors.black,
                                   decoration: CustomDataField(
-                                    label: 'Short Name',
+                                      label: suppliersDetails== null ?
+                                      "Short Name" :
+                                      suppliersDetails!.data!.firstName.toString()
+                                    // label: 'Short Name',
                                   ).dataFieldDecoration(),
                                 ),
                               ) ,
@@ -356,6 +440,9 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                                   controller: companyName,
                                   cursorColor: Colors.black,
                                   decoration: CustomDataField(
+                                      // label: suppliersDetails== null ?
+                                      // "Bussiness Name" :
+                                      // suppliersDetails!.data!..toString()
                                     label: 'Pin Code',
                                   ).dataFieldDecoration(),
                                 ),

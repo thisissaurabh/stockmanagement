@@ -670,18 +670,105 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           ),
                         ),
                         SizedBox(height: 24,),
-                        ElevatedBgColorCard(
+                        Row(
+                          children: [
+                            Expanded(
+                              child: ElevatedBgColorCard(
 
-                          radius: 0,
-                          color: selectedColor,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(0.10),
-                              borderRadius: BorderRadius.circular(12)
+                                radius: 0,
+                                color: Colors.white,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(12)
+                                  ),
+                                  child: PieChartSample5(),
+
+                                ),
+                              ),
                             ),
-                            child: BarChartSample1(),
+                            Expanded(
+                              child: ElevatedBgColorCard(
 
-                          ),
+                                radius: 0,
+                                color: Colors.white,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(12)
+                                  ),
+                                  child: PieChartSample6(),
+
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 24,),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: ElevatedBgColorCard(
+                                color: selectedColor,
+                                radius: 12,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text("Total Supplier's Credit",
+                                          style: title20Black,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text("1200",style: titleBlack,),
+                                            SvgPicture.asset("assets/icon/rupee-sign-svgrepo-com.svg",
+                                              color: Colors.black,
+                                              height: 15,
+                                              width: 15,)
+                                          ],
+                                        ),
+
+                                      ],
+                                    ),
+
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 16,),
+                            Expanded(
+                              child: ElevatedBgColorCard(
+                                color: Colors.green,
+                                radius: 12,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text("Total Customer's Credit",
+                                          style: title20White,
+                                        ),
+                                        Row(
+                                          children: [
+                                            Text("1200",style: title40,),
+                                            SvgPicture.asset("assets/icon/rupee-sign-svgrepo-com.svg",
+                                              color: Colors.white,
+                                              height: 15,
+                                              width: 15,)
+                                          ],
+                                        ),
+
+                                      ],
+                                    ),
+
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -1628,95 +1715,7 @@ class AppColors {
 
 
 
-class PieChartSample2 extends StatefulWidget {
-  const PieChartSample2({super.key});
 
-  @override
-  State<StatefulWidget> createState() => PieChart2State();
-}
-
-class PieChart2State extends State {
-  int touchedIndex = -1;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 180,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          AspectRatio(
-            aspectRatio: 0.5,
-            child: PieChart(
-              PieChartData(
-                pieTouchData: PieTouchData(
-                  touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                    setState(() {
-                      if (!event.isInterestedForInteractions ||
-                          pieTouchResponse == null ||
-                          pieTouchResponse.touchedSection == null) {
-                        touchedIndex = -1;
-                        return;
-                      }
-                      touchedIndex = pieTouchResponse
-                          .touchedSection!.touchedSectionIndex;
-                    });
-                  },
-                ),
-                borderData: FlBorderData(
-                  show: false,
-                ),
-                sectionsSpace: 0,
-                centerSpaceRadius: 20,
-                sections: showingSections(),
-              ),
-            ),
-          ),
-          SizedBox(width:20,),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Indicator(color:barColor.withOpacity(0.80) , text: "Total purchase", isSquare: false),
-              Indicator(color:primaryBlueColor , text: "Total Sales", isSquare: false)
-            ],
-          ),
-
-        ],
-      ),
-    );
-  }
-
-  List<PieChartSectionData> showingSections() {
-    return [
-      PieChartSectionData(
-        color: barColor.withOpacity(0.80),
-        value: 40,
-        title: '40%',
-        radius: 50.0, // Set the radius you prefer
-        titleStyle: TextStyle(
-          fontSize: 16.0,
-          fontWeight: FontWeight.bold,
-          color: AppColors.mainTextColor1,
-          shadows: [Shadow(color: Colors.black, blurRadius: 2)],
-        ),
-      ),
-      PieChartSectionData(
-        color: primaryBlueColor,
-        value: 30,
-        title: '30%',
-        radius: 60.0, // Set the radius you prefer
-        titleStyle: TextStyle(
-          fontSize: 16.0,
-          fontWeight: FontWeight.bold,
-          color: AppColors.mainTextColor1,
-          shadows: [Shadow(color: Colors.black, blurRadius: 2)],
-        ),
-      ),
-    ];
-  }
-
-}
 
 
 
@@ -1760,5 +1759,290 @@ class Indicator extends StatelessWidget {
         )
       ],
     );
+  }
+}
+
+
+
+
+class PieChartSample5 extends StatefulWidget {
+  const PieChartSample5({super.key});
+
+  @override
+  State<StatefulWidget> createState() => PieChartSample5State();
+}
+
+class PieChartSample5State extends State {
+  int touchedIndex = -1;
+
+  @override
+  Widget build(BuildContext context) {
+    return AspectRatio(
+      aspectRatio: 2,
+      child: Row(
+        children: <Widget>[
+          const SizedBox(
+            height: 18,
+          ),
+          Expanded(
+            child: AspectRatio(
+              aspectRatio: 4,
+              child: PieChart(
+                PieChartData(
+                  pieTouchData: PieTouchData(
+                    touchCallback: (FlTouchEvent event, pieTouchResponse) {
+                      setState(() {
+                        if (!event.isInterestedForInteractions ||
+                            pieTouchResponse == null ||
+                            pieTouchResponse.touchedSection == null) {
+                          touchedIndex = -1;
+                          return;
+                        }
+                        touchedIndex = pieTouchResponse
+                            .touchedSection!.touchedSectionIndex;
+                      });
+                    },
+                  ),
+                  borderData: FlBorderData(
+                    show: false,
+                  ),
+                  sectionsSpace: 0,
+                  centerSpaceRadius: 40,
+                  sections: showingSections(),
+                ),
+              ),
+            ),
+          ),
+          const Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Indicator(
+                color: AppColors.contentColorBlue,
+                text: 'Total Stock',
+                isSquare: true,
+              ),
+              SizedBox(
+                height: 4,
+              ),
+              Indicator(
+                color: AppColors.contentColorYellow,
+                text: 'Stock Out',
+                isSquare: true,
+              ),
+              SizedBox(
+                height: 4,
+              ),
+              Indicator(
+                color: AppColors.contentColorPurple,
+                text: 'Stock In',
+                isSquare: true,
+              ),
+              SizedBox(
+                height: 4,
+              ),
+            ],
+          ),
+          const SizedBox(
+            width: 28,
+          ),
+        ],
+      ),
+    );
+  }
+
+  List<PieChartSectionData> showingSections() {
+    return List.generate(3, (i) {
+      final isTouched = i == touchedIndex;
+      final fontSize = isTouched ? 25.0 : 16.0;
+      final radius = isTouched ? 60.0 : 50.0;
+      const shadows = [Shadow(color: Colors.black, blurRadius: 2)];
+      switch (i) {
+        case 0:
+          return PieChartSectionData(
+            color: AppColors.contentColorBlue,
+            value: 40,
+            title: '40%',
+            radius: radius,
+            titleStyle: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: AppColors.mainTextColor1,
+              shadows: shadows,
+            ),
+          );
+        case 1:
+          return PieChartSectionData(
+            color: AppColors.contentColorYellow,
+            value: 30,
+            title: '30%',
+            radius: radius,
+            titleStyle: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: AppColors.mainTextColor1,
+              shadows: shadows,
+            ),
+          );
+        case 2:
+          return PieChartSectionData(
+            color: AppColors.contentColorPurple,
+            value: 15,
+            title: '15%',
+            radius: radius,
+            titleStyle: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: AppColors.mainTextColor1,
+              shadows: shadows,
+            ),
+          );
+
+        default:
+          throw Error();
+      }
+    });
+  }
+}
+
+
+
+class PieChartSample6 extends StatefulWidget {
+  const PieChartSample6({super.key});
+
+  @override
+  State<StatefulWidget> createState() => PieChartSample6State();
+}
+
+class PieChartSample6State extends State {
+  int touchedIndex = -1;
+
+  @override
+  Widget build(BuildContext context) {
+    return AspectRatio(
+      aspectRatio: 2,
+      child: Row(
+        children: <Widget>[
+          const SizedBox(
+            height: 18,
+          ),
+          Expanded(
+            child: AspectRatio(
+              aspectRatio: 4,
+              child: PieChart(
+                PieChartData(
+                  pieTouchData: PieTouchData(
+                    touchCallback: (FlTouchEvent event, pieTouchResponse) {
+                      setState(() {
+                        if (!event.isInterestedForInteractions ||
+                            pieTouchResponse == null ||
+                            pieTouchResponse.touchedSection == null) {
+                          touchedIndex = -1;
+                          return;
+                        }
+                        touchedIndex = pieTouchResponse
+                            .touchedSection!.touchedSectionIndex;
+                      });
+                    },
+                  ),
+                  borderData: FlBorderData(
+                    show: false,
+                  ),
+                  sectionsSpace: 0,
+                  centerSpaceRadius: 40,
+                  sections: showingSections(),
+                ),
+              ),
+            ),
+          ),
+          const Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Indicator(
+                color: AppColors.contentColorBlue,
+                text: 'Purchase',
+                isSquare: true,
+              ),
+              SizedBox(
+                height: 4,
+              ),
+              Indicator(
+                color: AppColors.contentColorYellow,
+                text: 'Expenses',
+                isSquare: true,
+              ),
+              SizedBox(
+                height: 4,
+              ),
+              Indicator(
+                color: AppColors.contentColorPurple,
+                text: 'Profit',
+                isSquare: true,
+              ),
+              SizedBox(
+                height: 4,
+              ),
+            ],
+          ),
+          const SizedBox(
+            width: 28,
+          ),
+        ],
+      ),
+    );
+  }
+
+  List<PieChartSectionData> showingSections() {
+    return List.generate(3, (i) {
+      final isTouched = i == touchedIndex;
+      final fontSize = isTouched ? 25.0 : 16.0;
+      final radius = isTouched ? 60.0 : 50.0;
+      const shadows = [Shadow(color: Colors.black, blurRadius: 2)];
+      switch (i) {
+        case 0:
+          return PieChartSectionData(
+            color: AppColors.contentColorBlue,
+            value: 40,
+            title: '40%',
+            radius: radius,
+            titleStyle: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: AppColors.mainTextColor1,
+              shadows: shadows,
+            ),
+          );
+        case 1:
+          return PieChartSectionData(
+            color: AppColors.contentColorYellow,
+            value: 30,
+            title: '30%',
+            radius: radius,
+            titleStyle: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: AppColors.mainTextColor1,
+              shadows: shadows,
+            ),
+          );
+        case 2:
+          return PieChartSectionData(
+            color: AppColors.contentColorPurple,
+            value: 15,
+            title: '15%',
+            radius: radius,
+            titleStyle: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+              color: AppColors.mainTextColor1,
+              shadows: shadows,
+            ),
+          );
+
+        default:
+          throw Error();
+      }
+    });
   }
 }

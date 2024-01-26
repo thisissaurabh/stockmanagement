@@ -40,3 +40,20 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+class Home extends StatelessWidget {
+  const Home({super.key});
+
+  final String txt = "Doe John is name My";
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        children: [
+          Text(txt.toString())
+        ],
+      )
+    );
+  }
+}

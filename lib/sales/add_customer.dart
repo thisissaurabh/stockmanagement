@@ -118,6 +118,7 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
           ),
 
               SizedBox(height: 16,),
+              
 
               AddSupplierRow(
                 title: 'Customer Name',
@@ -132,12 +133,12 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                     //   }
                     //   return null;
                     // },
-                    validator: (v) {
-                      if (v!.isEmpty) {
-                        return "enter customer name";
-                      }
-                      return null;
-                    },
+                    // validator: (v) {
+                    //   if (v!.isEmpty) {
+                    //     return "enter customer name";
+                    //   }
+                    //   return null;
+                    // },
                     controller: secondName,
                     cursorColor: Colors.black,
                     decoration: CustomDataField(
@@ -153,12 +154,12 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                     controller: firstName,
                     cursorColor: Colors.black,
 
-                    validator: (v) {
-                      if (v!.isEmpty) {
-                        return "enter customer name";
-                      }
-                      return null;
-                    },
+                    // validator: (v) {
+                    //   if (v!.isEmpty) {
+                    //     return "enter customer name";
+                    //   }
+                    //   return null;
+                    // },
                     decoration: CustomDataField(
                       label: 'First Name',
                     ).dataFieldDecoration().copyWith(
@@ -199,12 +200,12 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                   height: 40.0,
                   child: TextFormField(
                     keyboardType: TextInputType.emailAddress,
-                    validator: (v) {
-                      if (v!.isEmpty || !v.contains('@')) {
-                        return 'Please enter email!';
-                      }
-                      return null;
-                    },
+                    // validator: (v) {
+                    //   if (v!.isEmpty || !v.contains('@')) {
+                    //     return 'Please enter email!';
+                    //   }
+                    //   return null;
+                    // },
                     controller:mail,
                     cursorColor: Colors.black,
                     decoration: CustomDataField(
@@ -233,17 +234,29 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                     ).dataFieldDecoration(),
                   ),
                 ) ,
-                child: SizedBox(
-                  width: 130,
-                  height: 40.0,
-                  child: TextFormField(
-                    keyboardType: TextInputType.emailAddress,
-                    controller: mobileNo,
-                    cursorColor: Colors.black,
-                    decoration: CustomDataField(
-                      label: 'Mobile',
-                    ).dataFieldDecoration(),
-                  ),
+                child: Row(
+                  children: [
+                    Column(
+                      children: [
+                        SizedBox(
+                          width: 130,
+                          height: 40.0,
+                          child: TextFormField(
+                            keyboardType: TextInputType.emailAddress,
+                            controller: mobileNo,
+                            cursorColor: Colors.black,
+                            decoration: CustomDataField(
+                              label: 'Mobile',
+                            ).dataFieldDecoration(),
+                          ),
+                        ),
+                        Text("Please Add Mobile No",
+                          style: TextStyle(
+                              color: Colors.redAccent
+                          ),),
+                      ],
+                    ),
+                  ],
                 ),
               ),
               SizedBox(height: 24,),
@@ -373,7 +386,8 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                       MainButton(
                         title: 'Add',
                           press: () {
-                            if (_formKey.currentState!.validate()) {
+                            if (firstName.text.isNotEmpty &&
+                                 mobileNo.text.isNotEmpty ) {
                               setState(() {
                                 isLoading = true;
                               });

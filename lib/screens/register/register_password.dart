@@ -120,7 +120,8 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                         width: width,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(16.0),
-                          color: AppColors.whiteColor,
+                          color: Colors.transparent
+                          // color: AppColors.whiteColor,
                         ),
                         child: TextFormField(
                           validator: (v) {
@@ -129,6 +130,7 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                             }
                             return null;
                           },
+                          textInputAction: TextInputAction.next,
                           inputFormatters: [
                             LengthLimitingTextInputFormatter(8),
                           ],
@@ -168,7 +170,8 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                         width: width,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(16.0),
-                          color: AppColors.whiteColor,
+                            color: Colors.transparent
+                          // color: AppColors.whiteColor,
                         ),
                         child: TextFormField(
                           validator: (v) {
@@ -177,6 +180,7 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                             }
                             return null;
                           },
+                          textInputAction: TextInputAction.next,
                           controller: confirmPassword,
                           inputFormatters: [
                             LengthLimitingTextInputFormatter(8),
@@ -198,6 +202,7 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                           ).textFieldDecoration(),
                         ),
                       ),
+                      SizedBox(height: 8,),
                       Align(
                         alignment: Alignment.centerRight,
                         child: TextButton(
@@ -205,7 +210,7 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                           child: Text(
                             'Forgot Password?',
                             style: ralewayStyle.copyWith(
-                              fontSize: 16.0,
+                              fontSize: 12.0,
                               color: Colors.black,
                               fontWeight: FontWeight.w600,
                             ),
@@ -219,50 +224,62 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                         color: Colors.transparent,
                         child: InkWell(
                           onTap: () {
-                            if (passwordController.text == confirmPassword.text) {
-                              setState(() {
-                                isLoading = true;
-                              });
-                              passwordApi(
-                                  password: passwordController.text,
-                                  confirmPassword: confirmPassword.text)
-                                  .then((value) async {
-                                if (value['status'] == 1) {
+                            if(
+                            passwordController.text.isNotEmpty &&
+                                confirmPassword.text.isNotEmpty) {
+                              if (passwordController.text == confirmPassword.text) {
+                                setState(() {
+                                  isLoading = true;
+                                });
+                                passwordApi(
+                                    password: passwordController.text,
+                                    confirmPassword: confirmPassword.text)
+                                    .then((value) async {
+                                  if (value['status'] == 1) {
 
-                                  setState(() {
-                                     isLoading = false;
-                                  });
-                                  CustomSnackbar.show(
-                                      context: context,
-                                      label: 'Success',
-                                      color: Colors.green,
-                                      iconImage: "assets/icons/tick.svg");
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            LoginScreen()),
-                                  );
-                                } else {
-                                  setState(() {
-                                    isLoading = false;
-                                  });
-                                  CustomSnackbar.show(
-                                      context: context,
-                                      label: 'Failed!!',
-                                      color: Colors.red,
-                                      iconImage: "assets/icons/cross.svg");
-                                  // print("no");
-                                }
-                              });
-                            } else {
+                                    setState(() {
+                                      isLoading = false;
+                                    });
+                                    CustomSnackbar.show(
+                                        context: context,
+                                        label: 'Success',
+                                        color: Colors.green,
+                                        iconImage: "assets/icons/tick.svg");
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              LoginScreen()),
+                                    );
+                                  } else {
+                                    setState(() {
+                                      isLoading = false;
+                                    });
+                                    CustomSnackbar.show(
+                                        context: context,
+                                        label: 'Failed!!',
+                                        color: Colors.red,
+                                        iconImage: "assets/icons/cross.svg");
+                                    // print("no");
+                                  }
+                                });
+                              } else {
+                                CustomMsgSnackbar.show(
+                                    context: context,
+                                    label: 'Please Check your password',
+                                    color: Colors.red,
+                                    iconImage: "assets/icons/cross.svg");
+
+                              }
+
+                            }  else {
                               CustomMsgSnackbar.show(
                                   context: context,
-                                  label: 'Please Check your password',
+                                  label: 'Please Create Login Password',
                                   color: Colors.red,
                                   iconImage: "assets/icons/cross.svg");
-
                             }
+
                           },
                           // onTap: () => Navigator.push(
                           //   context,

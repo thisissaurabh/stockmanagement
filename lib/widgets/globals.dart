@@ -7,6 +7,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:spyco_shop_management/constants/colors.dart';
 import 'package:spyco_shop_management/constants/textstyle.dart';
 
+import '../constants/textfield_decoration.dart';
+
 class CustomerDetailsCard extends StatelessWidget {
   final String name;
   final String email;
@@ -301,5 +303,30 @@ class TextFieldErrorText extends StatelessWidget {
     return Text(
       text,
     style: TextStyle(color: Colors.red),);
+  }
+}
+
+
+class DataWithTextFieldRow extends StatefulWidget {
+  final String name;
+  final Widget child;
+  const DataWithTextFieldRow({super.key, required this.name, required this.child});
+
+  @override
+  State<DataWithTextFieldRow> createState() => _DataWithTextFieldRowState();
+}
+
+class _DataWithTextFieldRowState extends State<DataWithTextFieldRow> {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(child: Text(widget.name)),
+        Expanded(
+          flex: 4,
+          child: widget.child
+        ),
+      ],
+    );
   }
 }

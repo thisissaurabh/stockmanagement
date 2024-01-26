@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
@@ -19,6 +17,8 @@ import 'package:spyco_shop_management/widgets/main_button.dart';
 import 'package:spyco_shop_management/widgets/snackbar.dart';
 import 'dart:io';
 
+import '../../constants/text_styles.dart';
+
 class AddUsers extends StatefulWidget {
   const AddUsers({super.key});
 
@@ -34,23 +34,7 @@ class _AddUsersState extends State<AddUsers> {
 
       // drawer: SideMenu(),
       body: SafeArea(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // We want this side menu only for large screen
-            if (Responsive.isDesktop(context))
-              // Expanded(
-              //   // default flex = 1
-              //   // and it takes 1/6 part of the screen
-              //   child: SideMenu(),
-              // ),
-            Expanded(
-              // It takes 5/6 part of the screen
-              flex: 5,
-              child: AddSupplierFields(),
-            ),
-          ],
-        ),
+        child: AddSupplierFields(),
       ),
     );
   }
@@ -92,7 +76,23 @@ class _AddSupplierFieldsState extends State<AddSupplierFields> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Header(title: "Add User"),
+              GestureDetector(
+                onTap: () {
+                  Navigator.pop(context);
+
+                },
+                child: Row(
+                  children: [
+                    SvgPicture.asset("assets/icons/chevron-back-svgrepo-com.svg",
+                      color: Colors.black,
+                      height: 32,
+                      width: 32,),
+                    SizedBox(width: 8,),
+                    Text("Add User",
+                      style: pageTitle,)
+                  ],
+                ),
+              ),
               Row(
                 children: [
                   Expanded(
@@ -124,11 +124,30 @@ class _AddSupplierFieldsState extends State<AddSupplierFields> {
 
                                 ],
                               ),
-
-
-
                             ],
-                          )
+                          ),
+                          Align(
+                            alignment: Alignment.center,
+                            child: Row(
+                              children: [
+                                Container(
+                                    color: Colors.transparent,
+                                    width: MediaQuery.sizeOf(context).width *0.10,
+                                    child: Text("Bussiness Type")),
+                                SizedBox(width: 40,),
+                                Expanded(
+                                  child:  SelectUserTypeCheckBox(
+                                    relation:role.text,
+                                    onPop: (val) {
+                                      role.text = val;
+
+                                    },),
+                                ),
+                                SizedBox(width: 16,),
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 16,),
                         ],
                       ),
                     ),
@@ -143,8 +162,9 @@ class _AddSupplierFieldsState extends State<AddSupplierFields> {
                     SizedBox(height: 5,),
                     CustomHorizontalLine(),
                     SizedBox(height: 16,),
-                    SizedBox(height: 20,),
-                    AddSupplierRow(
+                    // SizedBox(height: 20,),
+
+                  /*  AddSupplierRow(
                       title: "User Type",
                       child:  Expanded(
                         child: SelectUserTypeCheckBox(
@@ -154,99 +174,77 @@ class _AddSupplierFieldsState extends State<AddSupplierFields> {
 
                           },),
                       ),
-                    ),
+                    ),*/
                     SizedBox(height: 16,),
 
-                    AddSupplierRow(
-                      title: 'Name',
-                      child: SizedBox(
-                        width: 276,
-                        // height: 40.0,
-                        child: TextFormField(
-                          keyboardType: TextInputType.emailAddress,
-                          controller: name,
-                          validator: (v) {
-                            if (v!.isEmpty) {
-                              return "enter user name";
-                            }
-                            return null;
-                          },
-                          cursorColor: Colors.black,
-                          decoration: CustomDataField(
-                            label: 'Name',
-                          ).dataFieldDecoration(),
-                        ),
+                    DataWithTextFieldRow(
+                      name: 'Name',
+                      child: TextFormField(
+                        keyboardType: TextInputType.emailAddress,
+                        controller: name,
+                        validator: (v) {
+                          if (v!.isEmpty) {
+                            return "enter user name";
+                          }
+                          return null;
+                        },
+                        // controller: usernameController,
+                        cursorColor: Colors.black,
+                        decoration: CustomDataField(
+                          label: 'Enter User Name',
+                        ).dataFieldDecoration(),
                       ),
                     ),
                     SizedBox(height: 16,),
-                    AddSupplierRow(
-                      title: 'Company Branch Name',
-                      child:SizedBox(
-                        width: 276,
-                        // height: 40.0,
-                        child: TextFormField(
-                          keyboardType: TextInputType.emailAddress,
-                          validator: (v) {
-                            if (v!.isEmpty) {
-                              return "enter user branch name";
-                            }
-                            return null;
-                          },
-                          // validator: (v) {
-                          //   if (v!.isEmpty || !v.contains('@')) {
-                          //     return 'Please enter a valid email!';
-                          //   }
-                          //   return null;
-                          // },
-                          controller: companyLocation,
-                          cursorColor: Colors.black,
-                          decoration: CustomDataField(
-                            label: 'Branch Name',
-                          ).dataFieldDecoration(),
-                        ),
-                      ) ,
+                    DataWithTextFieldRow(
+                      name: 'Company Branch Name',
+                      child: TextFormField(
+                        controller: companyLocation,
+                        validator: (v) {
+                          if (v!.isEmpty) {
+                            return "enter user branch name";
+                          }
+                          return null;
+                        },
+                        cursorColor: Colors.black,
+                        // controller: usernameController,
+                        decoration: CustomDataField(
+                          label: 'Add Branch Name',
+                        ).dataFieldDecoration(),
+                      ),
                     ),
                     SizedBox(height: 16,),
-                    AddSupplierRow(
-                      title: 'User Mail',
-                      child:SizedBox(
-                        width: 276,
-                        // height: 40.0,
-                        child: TextFormField(
-                          keyboardType: TextInputType.emailAddress,
-                          controller: mail,
-                          validator: (v) {
+                    DataWithTextFieldRow(
+                      name: 'User Mail',
+                      child: TextFormField(
+                        controller: mail,
+                        validator: (v) {
                           if (v!.isEmpty || !v.contains('@')) {
                             return 'Please enter email!';
                           }
                           return null;
                         },
-                          cursorColor: Colors.black,
-                          decoration: CustomDataField(
-                            label: 'Email',
-                          ).dataFieldDecoration(),
-                        ),
+                        cursorColor: Colors.black,
+                        decoration: CustomDataField(
+                          label: 'Add User Mail',
+                        ).dataFieldDecoration(),
                       ),
                     ),
                     SizedBox(height: 16,),
-                    AddSupplierRow(
-                      title: 'User Phone',
-                      child:SizedBox(
-                        width: 276,
-                        // height: 40.0,
-                        child: TextFormField(
-                          validator: (v) {
-                            if (v!.isEmpty) {
-                              return 'Please enter confirm password!';
-                            }
-                            return null;
-                          },
-                          controller: phone,
-                          cursorColor: Colors.black,
-                          decoration: CustomDataField(
-                            label: 'User Phone',
-                          ).dataFieldDecoration(),
-                        ),
+                    DataWithTextFieldRow(
+                      name: 'User Phone',
+                      child: TextFormField(
+                        controller: phone,
+                        validator: (v) {
+                          if (v!.isEmpty) {
+                            return 'Please enter user phone no!';
+                          }
+                          return null;
+                        },
+                        cursorColor: Colors.black,
+                        decoration: CustomDataField(
+                          label: 'User Phone',
+                        ).dataFieldDecoration(),
                       ),
                     ),
                   ],
@@ -261,79 +259,55 @@ class _AddSupplierFieldsState extends State<AddSupplierFields> {
               SizedBox(height: 7,),
               CustomHorizontalLine(),
               SizedBox(height: 16,),
-              AddSupplierRow(
-                title: 'Username',
-                child:SizedBox(
-                  width: 276,
-                  // height: 40.0,
-                  child: TextFormField(
-                    keyboardType: TextInputType.emailAddress,
-                    validator: (v) {
-                      if (v!.isEmpty) {
-                        return 'Please enter username!';
-                      }
-                      return null;
-                    },
-                    controller: userName,
-                    cursorColor: Colors.black,
-                    decoration: CustomDataField(
-                      label: 'Username',
-                    ).dataFieldDecoration(),
-                  ),
-                ) ,
+              DataWithTextFieldRow(
+                name: 'Username',
+                child: TextFormField(
+                  controller: userName,
+                  validator: (v) {
+                    if (v!.isEmpty) {
+                      return 'Please enter username!';
+                    }
+                    return null;
+                  },
+                  cursorColor: Colors.black,
+                  decoration: CustomDataField(
+                    label: 'Username',
+                  ).dataFieldDecoration(),
+                ),
               ),
               SizedBox(height: 16,),
-              AddSupplierRow(
-                title: 'Set Password',
-                child:Row(
-                  children: [
-                    SizedBox(
-                      width: 276,
-                      // height: 40.0,
-                      child: TextFormField(
-                        validator: (v) {
-                          if (v!.isEmpty) {
-                            return 'Please enter password!';
-                          }
-                          return null;
-                        },
-                        controller: password,
-                        cursorColor: Colors.black,
-                        decoration: CustomDataField(
-                          label: 'Password',
-                        ).dataFieldDecoration(),
-                      ),
-                    ),
-                    SizedBox(width: 16,),
-                  ],
-                ) ,
+              DataWithTextFieldRow(
+                name: 'Set Password',
+                child: TextFormField(
+                  controller: password,
+                  validator: (v) {
+                    if (v!.isEmpty) {
+                      return 'Please enter password!';
+                    }
+                    return null;
+                  },
+                  cursorColor: Colors.black,
+                  decoration: CustomDataField(
+                    label: 'Add Password',
+                  ).dataFieldDecoration(),
+                ),
               ),
               SizedBox(height: 16,),
-              AddSupplierRow(
-                title: 'Confirm Password',
-                child:Row(
-                  children: [
-                    SizedBox(
-                      width: 276,
-                      // height: 40.0,
-                      child: TextFormField(
-                        keyboardType: TextInputType.emailAddress,
-                        validator: (v) {
-                          if (v!.isEmpty) {
-                            return 'Please enter confirm password!';
-                          }
-                          return null;
-                        },
-                        controller: confirmPassword,
-                        cursorColor: Colors.black,
-                        decoration: CustomDataField(
-                          label: 'Confirm Password',
-                        ).dataFieldDecoration(),
-                      ),
-                    ),
-                    SizedBox(width: 16,),
-                  ],
-                ) ,
+              DataWithTextFieldRow(
+                name: 'Confirm Password',
+                child: TextFormField(
+                  controller: confirmPassword,
+                  validator: (v) {
+                    if (v!.isEmpty) {
+                      return 'Please enter confirm password!';
+                    }
+                    return null;
+                  },
+                  cursorColor: Colors.black,
+                  decoration: CustomDataField(
+                    label: 'Confirm Password',
+                  ).dataFieldDecoration(),
+                ),
               ),
               SizedBox(height: 20,),
               Align(
@@ -416,17 +390,19 @@ class _AddSupplierFieldsState extends State<AddSupplierFields> {
                         },
                         sizeHorizontal: 30,
                         sizeVerticle: 16,
-                        color: bgColor,
-                        titleColor: Colors.white,
+                        color: selectedColor,
+                        titleColor: Colors.black,
                       ),
                     SizedBox(width: 5,),
                     if (Responsive.isDesktop(context))
                       MainButton(
                         title: 'Cancel',
-                        press: () {  },
+                        press: () {
+                          Navigator.pop(context);
+                        },
                         sizeHorizontal: 30,
                         sizeVerticle: 16,
-                        color: purpleColor,
+                        color: Colors.red,
                         titleColor: Colors.white,
                       ),
                   ],
@@ -526,7 +502,7 @@ class _SelectUserTypeCheckBoxState extends State<SelectUserTypeCheckBox> {
                     child: Container(
                       decoration: BoxDecoration(
                         color: _gIndex == 0
-                            ? bgColor
+                            ? selectedColor
                             : Colors.transparent,
                         shape: BoxShape.circle,
 
@@ -574,7 +550,7 @@ class _SelectUserTypeCheckBoxState extends State<SelectUserTypeCheckBox> {
                     child: Container(
                       decoration: BoxDecoration(
                         color: _gIndex == 1
-                            ? bgColor
+                            ? selectedColor
                             : Colors.transparent,
                         shape: BoxShape.circle,
 

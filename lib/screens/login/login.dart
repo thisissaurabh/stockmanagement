@@ -79,14 +79,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                 text: 'Let’s',
                                 style: ralewayStyle.copyWith(
                                   fontSize: 25.0,
-                                  color: AppColors.blueDarkColor,
+                                  color: Colors.black,
+                                  // color: AppColors.blueDarkColor,
                                   fontWeight: FontWeight.normal,
                                 )),
                             TextSpan(
                               text: ' Login',
                               style: ralewayStyle.copyWith(
                                 fontWeight: FontWeight.w800,
-                                color: AppColors.blueDarkColor,
+                                color: Colors.black,
+                                // color: AppColors.blueDarkColor,
                                 fontSize: 25.0,
                               ),
                             ),
@@ -99,7 +101,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         style: ralewayStyle.copyWith(
                           fontSize: 12.0,
                           fontWeight: FontWeight.w400,
-                          color: AppColors.textColor,
+                          color: Colors.black,
+                          // color: AppColors.textColor,
                         ),
                       ),
                       SizedBox(height: height * 0.064),
@@ -109,7 +112,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           'Username',
                           style: ralewayStyle.copyWith(
                             fontSize: 12.0,
-                            color: AppColors.blueDarkColor,
+                            color: Colors.black,
+                            // color: AppColors.blueDarkColor,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
@@ -120,10 +124,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         width: width,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(16.0),
-                          color: AppColors.whiteColor,
+                          // color: AppColors.whiteColor,
+                            color: Colors.transparent
                         ),
                         child: TextFormField(
                           keyboardType: TextInputType.emailAddress,
+                          textInputAction: TextInputAction.next,
                           // validator: (v) {
                           //   if (v!.isEmpty || !v.contains('@')) {
                           //     return 'Please enter a valid username!';
@@ -157,7 +163,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         width: width,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(16.0),
-                          color: AppColors.whiteColor,
+                          color: Colors.transparent
+                          // color: AppColors.whiteColor,
                         ),
                         child: TextFormField(
                           validator: (v) {
@@ -166,6 +173,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             }
                             return null;
                           },
+                          textInputAction: TextInputAction.next,
                           controller: passwordController,
                           cursorColor: Colors.black,
                           style: k16_400_black,
