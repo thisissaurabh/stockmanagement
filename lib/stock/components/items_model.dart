@@ -6,6 +6,7 @@ class Contact {
   String size;
   String hsnCode;
   String unit;
+  String barcode;
   String quantity;
   String purchasePrice;
   String discount;
@@ -24,6 +25,7 @@ class Contact {
   required this.size,
   required this.hsnCode,
   required this.unit,
+    required this.barcode,
   required this.quantity,
   required this.purchasePrice,
   required this.discount,

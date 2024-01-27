@@ -21,7 +21,7 @@ final Color kF71735 = Color(0xFFF71735);
 final Color kC6FBFB = Color(0xFFC6FBFB);
 final Color kE0E0E0 = Color(0xFFE0E0E0);
 final Color k68B476 = Color(0xFF68B476);
-final Color purpleColor = Color(0xff824cfb).withOpacity(0.90);
+final Color purpleColor = Color(0xff824cfb);
 final Color positiveColor = Color(0xff1a804c).withOpacity(0.80);
 
 class AppColors {

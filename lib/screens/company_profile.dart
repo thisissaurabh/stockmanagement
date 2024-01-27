@@ -28,6 +28,8 @@ import 'package:spyco_shop_management/widgets/main_button.dart';
 import 'package:spyco_shop_management/widgets/main_recent_widget.dart';
 import 'package:spyco_shop_management/widgets/snackbar.dart';
 
+import '../widgets/custom_textfield.dart';
+
 class CompanyProfile extends StatefulWidget {
   const CompanyProfile({super.key});
 
@@ -61,6 +63,7 @@ class CompanyProfileDetails extends StatefulWidget {
 class _CompanyProfileDetailsState extends State<CompanyProfileDetails> {
 
   bool isLoading = false;
+  final mail = TextEditingController();
   // LoginResponse? response;
 
   @override
@@ -128,41 +131,77 @@ class _CompanyProfileDetailsState extends State<CompanyProfileDetails> {
                         SizedBox(height: 7,),
                         CustomHorizontalLine(),
                         SizedBox(height: 16,),
-                        DataWithTextFieldRow(
-                          name: 'Mail',
-                          child: TextFormField(
-                            keyboardType: TextInputType.emailAddress,
-                            // controller: usernameController,
-                            cursorColor: Colors.black,
-                            decoration: CustomDataField(
-                              label: 'Mail',
-                            ).dataFieldDecoration(),
-                          ),
+                        Row(
+                          children: [
+                            Container(
+                                color: Colors.transparent,
+                                width: MediaQuery.sizeOf(context).width *0.10,
+                                child: Text("Mail")),
+                            SizedBox(width: 16,),
+
+                            Expanded(
+                              child: CustomTextField(
+                                controller: mail,
+                                hintText: 'Mail',
+                                validation:
+                                    (val) {
+
+                                },
+
+                              ),
+                            ),
+
+                          ],
                         ),
                        SizedBox(height: 16,),
-                        DataWithTextFieldRow(
-                          name: 'Username',
-                          child: TextFormField(
-                            keyboardType: TextInputType.emailAddress,
-                            // controller: usernameController,
-                            cursorColor: Colors.black,
-                            decoration: CustomDataField(
-                              label: 'Username',
-                            ).dataFieldDecoration(),
-                          ),
+                        Row(
+                          children: [
+                            Container(
+                                color: Colors.transparent,
+                                width: MediaQuery.sizeOf(context).width *0.10,
+                                child: Text("Username")),
+                            SizedBox(width: 16,),
+
+                            Expanded(
+                              child: CustomTextField(
+                                controller: mail,
+                                hintText: 'Username',
+                                validation:
+                                    (val) {
+
+                                },
+
+                              ),
+                            ),
+
+                          ],
                         ),
+
+
                         SizedBox(height: 16,),
-                        DataWithTextFieldRow(
-                          name: 'Contact No',
-                          child: TextFormField(
-                            keyboardType: TextInputType.emailAddress,
-                            // controller: usernameController,
-                            cursorColor: Colors.black,
-                            decoration: CustomDataField(
-                              label: 'Contact No',
-                            ).dataFieldDecoration(),
-                          ),
+                        Row(
+                          children: [
+                            Container(
+                                color: Colors.transparent,
+                                width: MediaQuery.sizeOf(context).width *0.10,
+                                child: Text("Contact No")),
+                            SizedBox(width: 16,),
+
+                            Expanded(
+                              child: CustomTextField(
+                                controller: mail,
+                                hintText: 'Contact No',
+                                validation:
+                                    (val) {
+
+                                },
+
+                              ),
+                            ),
+
+                          ],
                         ),
+
                        /* SizedBox(height: 16,),
                         AddSupplierRow(
                           title: 'Username',
@@ -224,67 +263,110 @@ class _CompanyProfileDetailsState extends State<CompanyProfileDetails> {
                         SizedBox(height: 7,),
                         CustomHorizontalLine(),
                         SizedBox(height: 16,),
-                        DataWithTextFieldRow(
-                          name: 'Company Address',
-                          child: TextFormField(
-                            keyboardType: TextInputType.emailAddress,
-                            // controller: usernameController,
-                            cursorColor: Colors.black,
-                            decoration: CustomDataField(
-                              label: 'Company Address',
-                            ).dataFieldDecoration(),
-                          ),
-                        ),
-                              SizedBox(width: 16,),
-                        SizedBox(height: 16,),
-                        DataWithTextFieldRow(
-                          name: 'City',
-                          child: TextFormField(
-                            keyboardType: TextInputType.emailAddress,
-                            // controller: usernameController,
-                            cursorColor: Colors.black,
-                            decoration: CustomDataField(
-                              label: 'City',
-                            ).dataFieldDecoration(),
-                          ),
-                        ),
-                              SizedBox(width: 16,),
-                        SizedBox(height: 16,),
-                        DataWithTextFieldRow(
-                          name: 'State',
-                          child: TextFormField(
-                            keyboardType: TextInputType.emailAddress,
-                            // controller: usernameController,
-                            cursorColor: Colors.black,
-                            decoration: CustomDataField(
-                              label: 'State',
-                            ).dataFieldDecoration(),
-                          ),
+                        Row(
+                          children: [
+                            Container(
+                                color: Colors.transparent,
+                                width: MediaQuery.sizeOf(context).width *0.10,
+                                child: Text("Company Address")),
+                            SizedBox(width: 16,),
+
+                            Expanded(
+                              child: CustomTextField(
+                                controller: mail,
+                                hintText: 'Company Address',
+                                validation:
+                                    (val) {
+
+                                },
+
+                              ),
+                            ),
+
+                          ],
                         ),
                         SizedBox(height: 16,),
-                        DataWithTextFieldRow(
-                          name: 'Gst NO',
-                          child: TextFormField(
-                            keyboardType: TextInputType.emailAddress,
-                            // controller: usernameController,
-                            cursorColor: Colors.black,
-                            decoration: CustomDataField(
-                              label: 'Gst NO',
-                            ).dataFieldDecoration(),
-                          ),
+                        Row(
+                          children: [
+                            Container(
+                                color: Colors.transparent,
+                                width: MediaQuery.sizeOf(context).width *0.10,
+                                child: Text("Other")),
+                            SizedBox(width: 16,),
+
+                            Expanded(
+                              child: CustomTextField(
+                                controller: mail,
+                                hintText: 'City',
+                                validation:
+                                    (val) {
+
+                                },
+
+                              ),
+                            ),
+                            SizedBox(width: 13,),
+                            Expanded(
+                              child: CustomTextField(
+                                controller: mail,
+                                hintText: 'State',
+                                validation:
+                                    (val) {
+
+                                },
+                              ),
+                            ),
+                          ],
                         ),
+
                         SizedBox(height: 16,),
-                        DataWithTextFieldRow(
-                          name: 'Role',
-                          child: TextFormField(
-                            keyboardType: TextInputType.emailAddress,
-                            // controller: usernameController,
-                            cursorColor: Colors.black,
-                            decoration: CustomDataField(
-                              label: 'Role',
-                            ).dataFieldDecoration(),
-                          ),
+                        Row(
+                          children: [
+                            Container(
+                                color: Colors.transparent,
+                                width: MediaQuery.sizeOf(context).width *0.10,
+                                child: Text("Gst No")),
+                            SizedBox(width: 16,),
+
+                            Expanded(
+                              child: CustomTextField(
+                                controller: mail,
+                                hintText: 'Gst No',
+                                validation:
+                                    (val) {
+
+                                },
+
+                              ),
+                            ),
+
+                          ],
                         ),
+
+                        SizedBox(height: 16,),
+                        Row(
+                          children: [
+                            Container(
+                                color: Colors.transparent,
+                                width: MediaQuery.sizeOf(context).width *0.10,
+                                child: Text("Role")),
+                            SizedBox(width: 16,),
+
+                            Expanded(
+                              child: CustomTextField(
+                                controller: mail,
+                                hintText: 'Role',
+                                validation:
+                                    (val) {
+
+                                },
+
+                              ),
+                            ),
+
+                          ],
+                        ),
+
                         SizedBox(height: 16,),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,

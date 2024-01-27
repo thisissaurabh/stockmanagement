@@ -27,6 +27,7 @@ import 'package:spyco_shop_management/widgets/snackbar.dart';
 import '../api/login_register/add_supplier_api.dart';
 import '../api/login_register/get_supplier_api.dart';
 import '../api_models/supplier_model.dart';
+import '../widgets/custom_textfield.dart';
 import 'add_stock_item.dart';
 
 class AddStock extends StatefulWidget {
@@ -80,7 +81,7 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
   String? selectedOption;
   final GlobalKey<FormState>_formKey =  GlobalKey<FormState>();
   bool isLoading = false;
-  final supplier = TextEditingController();
+  final supplierNameController = TextEditingController();
   final gender = TextEditingController();
   final dateInput = TextEditingController();
   final secondName = TextEditingController();
@@ -92,6 +93,10 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
   final address = TextEditingController();
   final city = TextEditingController();
   final state = TextEditingController();
+  final purchaseInvoiceController = TextEditingController();
+  final challanController = TextEditingController();
+  final codingTypeController = TextEditingController();
+  final remarksController = TextEditingController();
 
   // final List<String> items = [
   //   'Item1',
@@ -115,7 +120,6 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
     '1. Unique',
     '2. Lot',
     '3. Fixed'
-
   ];
 
   String? unitValue;
@@ -157,7 +161,9 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
 
   @override
   Widget build(BuildContext context) {
-    return isLoading ? Loading() :SingleChildScrollView(
+    return isLoading ?
+    Loading() :
+    SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -180,350 +186,275 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                         radius: 20,
                         child: Column(
                           children: [
-                                AddSupplierRow(
-                                  title: 'Supplier Name',
-                                  child:Column(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      SizedBox(
-                                        width: MediaQuery.sizeOf(context).width,
-                                        height: 40.0,
-                                        child:  Center(
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(16.0),
-                                            child: TextFormField(
-                                              controller: supplier,
-                                              readOnly: true,
-                                              decoration: InputDecoration(
-                                                suffixIcon: PopupMenuButton<int>(
-                                                  itemBuilder: (BuildContext context) {
-                                                    return List<PopupMenuEntry<int>>.generate(
-                                                      suppliersName.length,
-                                                          (int index) => PopupMenuItem<int>(
-                                                        value: index,
-                                                        child: GestureDetector(
-                                                          onTap: () {
-                                                            setState(() {
-                                                              var resp = getSupplierDetailsApi(id: suppliersName[index].id.toString());
-                                                              isLoading = true;
-                                                              resp.then((value) {
-                                                                if (value['status'] == 1) {
-                                                                  suppliersDetails = SupplierDetailsModel.fromJson(value);
-                                                                }
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Container(
+                                          color: Colors.transparent,
+                                          width: MediaQuery.sizeOf(context).width * 0.10,
+                                          child: Text("Supplier Name"),
+                                        ),
+                                        SizedBox(width: 16),
+                                        Expanded(
+                                          child: DropdownButtonFormField<String>(
+                                            value: supplierNameController.text.isNotEmpty ?
+                                            supplierNameController.text :
+                                            suppliersName.isNotEmpty ?
+                                            suppliersName[0].firstName.toString() :
+                                            null,
+                                            items: suppliersName.map<DropdownMenuItem<String>>((supplier) {
+                                              return DropdownMenuItem<String>(
+                                                value: supplier.firstName.toString(),
+                                                child: Text(supplier.firstName.toString()),
+                                              );
+                                            }).toList(),
+                                            onChanged: (String? value) {
+                                              int selectedIndex = suppliersName.indexWhere((supplier) => supplier.firstName.toString() == value);
+                                              if (selectedIndex != -1) {
+                                                setState(() {
+                                                  supplierNameController.text = value!;
 
-                                                                setState(() {
-                                                                  isLoading = false;
-                                                                });
+                                                  var resp = getSupplierDetailsApi(
+                                                      id: suppliersName[selectedIndex].id.toString());
+                                                  isLoading = true;
+                                                  resp.then((value) {
+                                                    if (value['status'] == 1) {
+                                                      suppliersDetails = SupplierDetailsModel.fromJson(value);
+                                                    }
 
-                                                                if (value['status'] != 1) {
-                                                                  print("error");
-                                                                }
-                                                              });
-                                                            });
-
-                                                          },
-                                                          child: Container(
-                                                            color: Colors.redAccent,
-                                                              child: Text(suppliersName[index].firstName.toString())),
-                                                        ),
-                                                      ),
-                                                    );
-                                                  },
-                                                  onSelected: (int index) {
                                                     setState(() {
-                                                      supplier.text = suppliersName[index].firstName.toString();
-
+                                                      isLoading = false;
                                                     });
-                                                  },
+
+                                                    if (value['status'] != 1) {
+                                                      print("error");
+                                                    }
+                                                  });
+
+                                                  // Add your logic here if needed
+                                                });
+                                              }
+                                            },
+
+                                            decoration: InputDecoration(
+                                              hintText: supplierNameController.text.isEmpty
+                                                  ? "Select Supplier"
+                                                  : supplierNameController.text,
+                                              border: OutlineInputBorder(
+                                                borderSide: BorderSide(
+                                                  color: Colors.yellow,
+                                                  width: 0.5,
                                                 ),
                                               ),
-                                              onTap: () {
-                                                setState(() {
-
-                                                });
-                                                FocusScope.of(context).requestFocus(new FocusNode());
-                                              },
+                                              enabledBorder: OutlineInputBorder(
+                                                borderRadius: BorderRadius.circular(6),
+                                                borderSide:
+                                                BorderSide(color: Colors.black.withOpacity(0.60), width: 0.5),
+                                              ),
+                                              errorBorder: OutlineInputBorder(
+                                                borderSide: BorderSide(color: Colors.red, width: 0.5),
+                                              ),
+                                              focusedBorder: OutlineInputBorder(
+                                                borderRadius: BorderRadius.circular(6),
+                                                borderSide: BorderSide(color: Colors.blue, width: 0.5),
+                                              ),
                                             ),
                                           ),
                                         ),
-                                        // child:   DropdownButtonHideUnderline(
-                                        //   child: DropdownButton2<String>(
-                                        //     isExpanded: true,
-                                        //     hint: const Row(
-                                        //       children: [
-                                        //         Expanded(
-                                        //           child: Text(
-                                        //             'Select Supplier',
-                                        //             style: TextStyle(
-                                        //               fontSize: 14,
-                                        //               color: Colors.black,
-                                        //             ),
-                                        //             overflow: TextOverflow.ellipsis,
-                                        //           ),
-                                        //         ),
-                                        //       ],
-                                        //     ),
-                                        //     items: suppliersName[index].firstName
-                                        //         .map((String item) => DropdownMenuItem<String>(
-                                        //       value: item,
-                                        //       child: Text(
-                                        //         item,
-                                        //         style: const TextStyle(
-                                        //           fontSize: 14,
-                                        //           // fontWeight: FontWeight.bold,
-                                        //           color: Colors.black,
-                                        //         ),
-                                        //         overflow: TextOverflow.ellipsis,
-                                        //       ),
-                                        //     ))
-                                        //         .toList(),
-                                        //     value: selectedValue,
-                                        //     onChanged: (String? value) {
-                                        //       setState(() {
-                                        //         selectedValue = value;
-                                        //       });
-                                        //     },
-                                        //     buttonStyleData: ButtonStyleData(
-                                        //       height: 50,
-                                        //       width: MediaQuery.sizeOf(context).width,
-                                        //       // width: 160,
-                                        //       padding: const EdgeInsets.only(left: 14, right: 14),
-                                        //       decoration: BoxDecoration(
-                                        //         borderRadius: BorderRadius.circular(6),
-                                        //         border: Border.all(
-                                        //           color: Colors.black26,
-                                        //         ),
-                                        //         color: Colors.white,
-                                        //       ),
-                                        //       elevation: 0,
-                                        //     ),
-                                        //     iconStyleData: const IconStyleData(
-                                        //       icon: Icon(
-                                        //         Icons.arrow_forward_ios_outlined,
-                                        //       ),
-                                        //       iconSize: 14,
-                                        //       iconEnabledColor: Colors.black,
-                                        //       iconDisabledColor: Colors.black,
-                                        //     ),
-                                        //     dropdownStyleData: DropdownStyleData(
-                                        //       // maxHeight: 200,
-                                        //       width: MediaQuery.sizeOf(context).width,
-                                        //       decoration: BoxDecoration(
-                                        //         borderRadius: BorderRadius.circular(14),
-                                        //         color: Colors.white,
-                                        //       ),
-                                        //       offset: const Offset(0, 0),
-                                        //       scrollbarTheme: ScrollbarThemeData(
-                                        //         radius: const Radius.circular(6),
-                                        //         thickness: MaterialStateProperty.all<double>(6),
-                                        //         thumbVisibility: MaterialStateProperty.all<bool>(true),
-                                        //       ),
-                                        //     ),
-                                        //     menuItemStyleData: const MenuItemStyleData(
-                                        //       height: 40,
-                                        //       padding: EdgeInsets.only(left: 14, right: 14),
-                                        //     ),
-                                        //   ),
-                                        // ),
-                                      ),
-                                      SizedBox(height: 5,),
-                                      // MouseHover(
-                                      //   child: Row(
-                                      //     children: [
-                                      //       SvgPicture.asset("assets/icons/add-svgrepo-com.svg",
-                                      //         color: Colors.green,),
-                                      //       Text("Add new Supplier",
-                                      //         style: TextStyle(
-                                      //             color: Colors.green
-                                      //         ),)
-                                      //     ],
-                                      //   ),
-                                      // ),
-                                    ],
-                                  ) ,
+                                      ],
+                                    ),
+
+
+                                    SizedBox(height: 5,),
+                                    // MouseHover(
+                                    //   child: Row(
+                                    //     children: [
+                                    //       SvgPicture.asset("assets/icons/add-svgrepo-com.svg",
+                                    //         color: Colors.green,),
+                                    //       Text("Add new Supplier",
+                                    //         style: TextStyle(
+                                    //             color: Colors.green
+                                    //         ),)
+                                    //     ],
+                                    //   ),
+                                    // ),
+                                  ],
                                 ),
                             SizedBox(height: 10),
-                             AddSupplierRow(
-                                      title: 'Business Name',
-                                      child:Container(
-                                        width: MediaQuery.sizeOf(context).width,
-                                        height: 40.0,
-                                        color: Colors.white,
-                                        child: TextFormField(
-                                          keyboardType: TextInputType.emailAddress,
-                                          // validator: (v) {
-                                          //   if (v!.isEmpty || !v.contains('@')) {
-                                          //     return 'Please enter a valid email!';
-                                          //   }
-                                          //   return null;
-                                          // },
-                                          controller: companyName,
-                                          cursorColor: Colors.black,
-                                          decoration: CustomDataField(
-                                            label: suppliersDetails== null ?
-                                            "Bussiness Name" :
-                                            suppliersDetails!.data!.companyName.toString()
+                            Row(
+                              children: [
+                                Container(
+                                    color: Colors.transparent,
+                                    width: MediaQuery.sizeOf(context).width *0.10,
+                                    child: Text("Business Name")),
+                                SizedBox(width: 16,),
 
-                                            // label: 'Business  Name',
-                                          ).dataFieldDecoration(),
-                                        ),
-                                      ) ,
-                                    ),
-                            SizedBox(height: 16,),
-                            AddSupplierRow(
-                              title: 'Short Name',
-                              child:Container(
-                                width: MediaQuery.sizeOf(context).width,
-                                height: 40.0,
-                                color: Colors.white,
-                                child: TextFormField(
-                                  keyboardType: TextInputType.emailAddress,
-                                  // validator: (v) {
-                                  //   if (v!.isEmpty || !v.contains('@')) {
-                                  //     return 'Please enter a valid email!';
-                                  //   }
-                                  //   return null;
-                                  // },
-                                  controller: companyName,
-                                  cursorColor: Colors.black,
-                                  decoration: CustomDataField(
-                                      label: suppliersDetails== null ?
-                                      "Short Name" :
-                                      suppliersDetails!.data!.firstName.toString()
-                                    // label: 'Short Name',
-                                  ).dataFieldDecoration(),
+                                Expanded(
+                                  child: CustomTextField(
+                                    controller: companyName,
+                                    readOnly: true,
+                                    hintText:
+                                        suppliersDetails == null ?
+                                            "Company Name":
+                                    suppliersDetails!.data!.companyName.toString(),
+                                    validation:
+                                    (val) {},
+                                  ),
                                 ),
-                              ) ,
+
+                              ],
                             ),
+                            SizedBox(height: 16,),
+                            Row(
+                              children: [
+                                Container(
+                                    color: Colors.transparent,
+                                    width: MediaQuery.sizeOf(context).width *0.10,
+                                    child: Text("Short Name")),
+                                SizedBox(width: 16,),
+
+                                Expanded(
+                                  child: CustomTextField(
+                                    readOnly: true,
+                                    hintText: suppliersDetails == null ?
+                                    "Short Name":
+                                    suppliersDetails!.data!.firstName.toString(),
+                                    validation:
+                                        (val) {},
+
+                                  ),
+                                ),
+
+                              ],
+                            ),
+                            SizedBox(height: 16,),
+                            Row(
+                              children: [
+                                Container(
+                                    color: Colors.transparent,
+                                    width: MediaQuery.sizeOf(context).width *0.10,
+                                    child: Text("Address")),
+                                SizedBox(width: 16,),
+
+                                Expanded(
+                                  child: CustomTextField(
+                                    verticlePadding: 10,
+                                    maxLines: 4,
+                                    readOnly: true,
+                                    hintText: suppliersDetails == null ?
+                                    "Address":
+                                    suppliersDetails!.data!.companyAddress.toString(),
+                                    validation:
+                                        (val) {},
+
+                                  ),
+                                ),
+
+                              ],
+                            ),
+
+
+
+                            SizedBox(height: 16,),
+                            Row(
+                              children: [
+                                Container(
+                                    color: Colors.transparent,
+                                    width: MediaQuery.sizeOf(context).width *0.10,
+                                    child: Text("Pin Code")),
+                                SizedBox(width: 16,),
+
+                                Expanded(
+                                  child: CustomTextField(
+                                    readOnly: true,
+                                    hintText: suppliersDetails == null ?
+                                    "Pin Code":
+                                    suppliersDetails!.data!.companyAddress.toString(),
+                                    validation:
+                                        (val) {},
+
+                                  ),
+                                ),
+
+                              ],
+                            ),
+                            SizedBox(height: 16,),
+                            Row(
+                              children: [
+                                Container(
+                                    color: Colors.transparent,
+                                    width: MediaQuery.sizeOf(context).width *0.10,
+                                    child: Text("City")),
+                                SizedBox(width: 16,),
+
+                                Expanded(
+                                  child: CustomTextField(
+                                    readOnly: true,
+                                    hintText: suppliersDetails == null ?
+                                    "City":
+                                    suppliersDetails!.data!.city.toString(),
+                                    validation:
+                                        (val) {},
+
+                                  ),
+                                ),
+                              ],
+                            ),
+
                             SizedBox(height: 16,),
 
                             Row(
                               children: [
                                 Container(
+                                    color: Colors.transparent,
                                     width: MediaQuery.sizeOf(context).width *0.10,
-                                    child: Text("Address")),
+                                    child: Text("State")),
                                 SizedBox(width: 16,),
-                                Expanded(
-                                  child: Container(
-                                    height: 100,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(6),
-                                      border: Border.all(
-                                          width: 0.5,
-                                          color: Colors.black.withOpacity(0.60)
-                                      ),
-                                    ),
 
+                                Expanded(
+                                  child: CustomTextField(
+                                    readOnly: true,
+                                    hintText: suppliersDetails == null ?
+                                    "State":
+                                    suppliersDetails!.data!.state.toString(),
+                                    validation:
+                                        (val) {},
 
                                   ),
                                 ),
-                                SizedBox(width: 16,),
+
                               ],
                             ),
 
                             SizedBox(height: 16,),
-                            AddSupplierRow(
-                              title: 'Pin Code',
-                              child:Container(
-                                width: MediaQuery.sizeOf(context).width,
-                                height: 40.0,
-                                color: Colors.white,
-                                child: TextFormField(
-                                  keyboardType: TextInputType.emailAddress,
-                                  // validator: (v) {
-                                  //   if (v!.isEmpty || !v.contains('@')) {
-                                  //     return 'Please enter a valid email!';
-                                  //   }
-                                  //   return null;
-                                  // },
-                                  controller: companyName,
-                                  cursorColor: Colors.black,
-                                  decoration: CustomDataField(
-                                      // label: suppliersDetails== null ?
-                                      // "Bussiness Name" :
-                                      // suppliersDetails!.data!..toString()
-                                    label: 'Pin Code',
-                                  ).dataFieldDecoration(),
-                                ),
-                              ) ,
-                            ),
-                            SizedBox(height: 16,),
-                            AddSupplierRow(
-                              title: 'City',
-                              child:Container(
-                                width: MediaQuery.sizeOf(context).width,
-                                height: 40.0,
-                                color: Colors.white,
-                                child: TextFormField(
-                                  keyboardType: TextInputType.emailAddress,
-                                  // validator: (v) {
-                                  //   if (v!.isEmpty || !v.contains('@')) {
-                                  //     return 'Please enter a valid email!';
-                                  //   }
-                                  //   return null;
-                                  // },
-                                  controller: companyName,
-                                  cursorColor: Colors.black,
-                                  decoration: CustomDataField(
-                                    label: 'City',
-                                  ).dataFieldDecoration(),
-                                ),
-                              ) ,
-                            ),
-                            SizedBox(height: 16,),
-                            AddSupplierRow(
-                              title: 'State',
-                              child:Container(
-                                width: MediaQuery.sizeOf(context).width,
-                                height: 40.0,
-                                color: Colors.white,
-                                child: TextFormField(
-                                  keyboardType: TextInputType.emailAddress,
-                                  // validator: (v) {
-                                  //   if (v!.isEmpty || !v.contains('@')) {
-                                  //     return 'Please enter a valid email!';
-                                  //   }
-                                  //   return null;
-                                  // },
-                                  controller: companyName,
-                                  cursorColor: Colors.black,
-                                  decoration: CustomDataField(
-                                    label: 'State',
-                                  ).dataFieldDecoration(),
-                                ),
-                              ) ,
-                            ),
-                            SizedBox(height: 16,),
-                            AddSupplierRow(
-                              title: 'Gst No',
-                              child:Container(
-                                width: MediaQuery.sizeOf(context).width,
-                                height: 40.0,
-                                color: Colors.white,
-                                child: TextFormField(
-                                  keyboardType: TextInputType.emailAddress,
-                                  inputFormatters: [
 
-                                  ],
-                                  // validator: (v) {
-                                  //   if (v!.isEmpty || !v.contains('@')) {
-                                  //     return 'Please enter a valid email!';
-                                  //   }
-                                  //   return null;
-                                  // },
-                                  controller: companyName,
-                                  cursorColor: Colors.black,
-                                  decoration: CustomDataField(
-                                    label: 'Gst No',
-                                  ).dataFieldDecoration(),
+                            Row(
+                              children: [
+                                Container(
+                                    color: Colors.transparent,
+                                    width: MediaQuery.sizeOf(context).width *0.10,
+                                    child: Text("Gst No")),
+                                SizedBox(width: 16,),
+
+                                Expanded(
+                                  child: CustomTextField(
+                                    readOnly: true,
+                                    hintText: suppliersDetails == null ?
+                                    "Gst No":
+                                    suppliersDetails!.data!.gstNo.toString(),
+                                    validation:
+                                        (val) {},
+
+                                  ),
                                 ),
-                              ) ,
+
+                              ],
                             ),
-
-
                           ],
-                        )),
+                        ),
+                    ),
                   ),
                   SizedBox(width: 16,),
                   Expanded(
@@ -532,236 +463,92 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                         child: Column(
                           children: [
                             SizedBox(height: 10),
-                            AddSupplierRow(
-                              title: 'Purchase Invoice No',
-                              child:Container(
-                                width: MediaQuery.sizeOf(context).width,
-                                height: 40.0,
-                                color: Colors.white,
-                                child: TextFormField(
-                                  keyboardType: TextInputType.emailAddress,
-                                  // validator: (v) {
-                                  //   if (v!.isEmpty || !v.contains('@')) {
-                                  //     return 'Please enter a valid email!';
-                                  //   }
-                                  //   return null;
-                                  // },
-                                  controller: companyName,
-                                  cursorColor: Colors.black,
-                                  decoration: CustomDataField(
-                                    label: 'Purchase Invoice No',
-                                  ).dataFieldDecoration(),
-                                ),
-                              ) ,
-                            ),
-                            SizedBox(height: 16,),
-                            AddSupplierRow(
-                              title: 'Challan No',
-                              child:Container(
-                                width: MediaQuery.sizeOf(context).width,
-                                height: 40.0,
-                                color: Colors.white,
-                                child: TextFormField(
-                                  keyboardType: TextInputType.emailAddress,
-                                  // validator: (v) {
-                                  //   if (v!.isEmpty || !v.contains('@')) {
-                                  //     return 'Please enter a valid email!';
-                                  //   }
-                                  //   return null;
-                                  // },
-                                  controller: companyName,
-                                  cursorColor: Colors.black,
-                                  decoration: CustomDataField(
-                                    label: 'Challan No',
-                                  ).dataFieldDecoration(),
-                                ),
-                              ) ,
-                            ),
-                            SizedBox(height: 16,),
-                        AddSupplierRow(
-                                      title: 'Invoice Date',
-                                      child:SizedBox(
-                                        width: MediaQuery.sizeOf(context).width,
-                                        height: 40.0,
-                                        child: TextFormField(
-                                          readOnly: true,
+                            Row(
+                              children: [
+                                Container(
+                                    color: Colors.transparent,
+                                    width: MediaQuery.sizeOf(context).width *0.10,
+                                    child: Text("Invoice No")),
+                                SizedBox(width: 16,),
 
+                                Expanded(
+                                  child: CustomTextField(
+                                    controller: purchaseInvoiceController,
+                                    hintText: 'Purchase Invoice No',
+                                    validation:
+                                        (val) {
+                                      if(val == null || val.isEmpty){
+                                        return 'Enter a Purchase Invoice No';
+                                      }
+                                      return null;
+                                    },
 
-                                          onTap: () async {
-                                            DateTime? pickedDate = await showDatePicker(
-                                                context: context, initialDate: DateTime.now(),
-                                                firstDate: DateTime(2000), //DateTime.now() - not to allow to choose before today.
-                                                lastDate: DateTime(2101)
-                                            );
-
-                                            if(pickedDate != null ){
-                                              print(pickedDate);  //pickedDate output format => 2021-03-10 00:00:00.000
-                                              String formattedDate = DateFormat('yyyy-MM-dd').format(pickedDate);
-                                              print(formattedDate); //formatted date output using intl package =>  2021-03-16
-                                              //you can implement different kind of Date Format here according to your requirement
-
-                                              setState(() {
-                                                dateInput.text = formattedDate; //set output date to TextField value.
-                                              });
-                                            }else{
-                                              print("Date is not selected");
-                                            }
-                                          },
-                                          // validator: (v) {
-                                          //   if (v!.isEmpty || !v.contains('@')) {
-                                          //     return 'Please enter a valid email!';
-                                          //   }
-                                          //   return null;
-                                          // },
-                                          controller: dateInput,
-                                          cursorColor: Colors.black,
-                                          decoration: CustomDataField(
-                                            label: 'Invoice Date',
-                                          ).dataFieldDecoration(),
-                                        ),
-                                      ) ,
-                                    ),
-                            SizedBox(height: 16,),
-                            AddSupplierRow(
-                              title: 'Coding Type',
-                              child:Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  SizedBox(
-                                    width: MediaQuery.sizeOf(context).width,
-                                    height: 40.0,
-                                    child:   DropdownButtonHideUnderline(
-                                      child: DropdownButton2<String>(
-                                        isExpanded: true,
-                                        hint: const Row(
-                                          children: [
-                                            Expanded(
-                                              child: Text(
-                                                'Coding Type',
-                                                style: TextStyle(
-                                                  fontSize: 14,
-                                                  color: Colors.black,
-                                                ),
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        items: codingType
-                                            .map((String item) => DropdownMenuItem<String>(
-                                          value: item,
-                                          child: Text(
-                                            item,
-                                            style: const TextStyle(
-                                              fontSize: 14,
-                                              // fontWeight: FontWeight.bold,
-                                              color: Colors.black,
-                                            ),
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
-                                        ))
-                                            .toList(),
-                                        value: codingValue,
-                                        onChanged: (String? value) {
-                                          setState(() {
-                                            codingValue = value;
-                                          });
-                                        },
-                                        buttonStyleData: ButtonStyleData(
-                                          height: 50,
-                                          width: 276,
-                                          // width: 160,
-                                          padding: const EdgeInsets.only(left: 14, right: 14),
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(6),
-                                            border: Border.all(
-                                              color: Colors.black26,
-                                            ),
-                                            color: Colors.white,
-                                          ),
-                                          elevation: 0,
-                                        ),
-                                        iconStyleData: const IconStyleData(
-                                          icon: Icon(
-                                            Icons.arrow_forward_ios_outlined,
-                                          ),
-                                          iconSize: 14,
-                                          iconEnabledColor: Colors.black,
-                                          iconDisabledColor: Colors.black,
-                                        ),
-                                        dropdownStyleData: DropdownStyleData(
-                                          // maxHeight: 200,
-                                          width: 276,
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(14),
-                                            color: Colors.white,
-                                          ),
-                                          offset: const Offset(0, 0),
-                                          scrollbarTheme: ScrollbarThemeData(
-                                            radius: const Radius.circular(6),
-                                            thickness: MaterialStateProperty.all<double>(6),
-                                            thumbVisibility: MaterialStateProperty.all<bool>(true),
-                                          ),
-                                        ),
-                                        menuItemStyleData: const MenuItemStyleData(
-                                          height: 40,
-                                          padding: EdgeInsets.only(left: 14, right: 14),
-                                        ),
-                                      ),
-                                    ),
                                   ),
-                                  SizedBox(height: 5,),
-                                ],
-                              ) ,
+                                ),
+
+                              ],
                             ),
                             SizedBox(height: 16,),
                             Row(
                               children: [
                                 Container(
+                                    color: Colors.transparent,
                                     width: MediaQuery.sizeOf(context).width *0.10,
-                                    child: Text("Address")),
+                                    child: Text("Challan No")),
                                 SizedBox(width: 16,),
-                                Expanded(
-                                  child: Container(
-                                    height: 100,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(6),
-                                      border: Border.all(
-                                          width: 0.5,
-                                          color: Colors.black.withOpacity(0.60)
-                                      ),
-                                    ),
 
+                                Expanded(
+                                  child: CustomTextField(
+                                    controller: challanController,
+                                    hintText: 'Challan No',
+                                    validation:
+                                        (val) {
+                                      if(val == null || val.isEmpty){
+                                        return 'Enter a Challan No';
+                                      }
+                                      return null;
+                                    },
 
                                   ),
                                 ),
-                                SizedBox(width: 16,),
+
                               ],
                             ),
+
+                            SizedBox(height: 16,),
+                            SizedBox(height: 16,),
                           ],
-                        )),
-                  ),
-                ],
+                        ),
+                      ),
+                    ),
+                 ],
               ),
 
 
               GestureDetector(
                 onTap: () {
-                  print(dateInput.text);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => MultiProvider(
-                        providers: [
-                          ChangeNotifierProvider(
-                            create: (context) => MenuAppController(),
-                          ),
-                        ],
-                        child: AddStockItems(date: dateInput.text,),
+                  // if(_formKey.currentState!.validate()) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => MultiProvider(
+                          providers: [
+                            ChangeNotifierProvider(
+                              create: (context) => MenuAppController(),
+                            ),
+                          ],
+                          child: AddStockItems(
+                            date: dateInput.text,
+                            supplierId: suppliersDetails!.data!.id.toString(),
+                            purchaseInvoiceNo: purchaseInvoiceController.text,
+                            challanNo: challanController.text,
+                            supplierName: supplierNameController.text,
+                            supplierBusinessName:suppliersDetails!.data!.companyName.toString(),
+                            gstNo:suppliersDetails!.data!.gstNo.toString(),),
+                        ),
                       ),
-                    ),
-                  );
+                    );
+                  // }
                 },
                 child: MouseHover(
                   child: Padding(

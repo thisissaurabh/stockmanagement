@@ -1,24 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:spyco_shop_management/constants/colors.dart';
 
 import '../constants/textstyle.dart';
 
 class CustomTextField extends StatelessWidget {
-
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final String hintText;
   final int maxLines;
+  final double verticlePadding;
+  final String? Function(String?)? validation;
+  final bool readOnly;
+  final TextInputAction textInputAction;
 
-  const CustomTextField({Key ? key, required this.controller, required this.hintText, this.maxLines = 1}) : super(key: key);
+
+
+  const CustomTextField({Key ? key,  this.controller,
+    required this.hintText,
+    this.maxLines = 1,
+    required this.validation,
+    this.verticlePadding = 0.05,
+    this.readOnly = false,
+    this.textInputAction = TextInputAction.next,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
       maxLines: maxLines,
+        readOnly: readOnly,
+        inputFormatters: [
+          LengthLimitingTextInputFormatter(10),
+        ],
+
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(vertical: 0.05,
+
+        contentPadding: EdgeInsets.symmetric(vertical: verticlePadding,
         horizontal: 10),
+
         hintText: hintText,
         hintStyle:  k16_400_62696A.copyWith(fontSize: 14),
         border: OutlineInputBorder(
@@ -42,12 +62,10 @@ class CustomTextField extends StatelessWidget {
               .withOpacity(0.90), width: 0.5),
         ),
       ),
-      validator: (val) {
-        if(val == null || val.isEmpty){
-          return 'Enter a valid $hintText';
-        }
-        return null;
-      },
+        textInputAction: textInputAction,
+        validator: validation
     );
   }
 }
+
+

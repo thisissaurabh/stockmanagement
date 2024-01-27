@@ -93,6 +93,12 @@ final TextStyle title16white = GoogleFonts.interTight(
   ),
 );
 
+final TextStyle paymentModeText = GoogleFonts.interTight(
+  textStyle: TextStyle(
+      color: Colors.black,
+      fontSize: 13,
+      fontWeight: FontWeight.w900),
+);
 
 
 

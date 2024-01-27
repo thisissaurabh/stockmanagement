@@ -16,6 +16,7 @@ import 'package:spyco_shop_management/widgets/main_button.dart';
 import 'package:spyco_shop_management/widgets/snackbar.dart';
 
 import '../api/login_register/add_supplier_api.dart';
+import '../widgets/custom_textfield.dart';
 
 class AddCustomer extends StatefulWidget {
   const AddCustomer({super.key});
@@ -118,147 +119,139 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
           ),
 
               SizedBox(height: 16,),
-              
+              Row(
+                children: [
+                  Container(
+                      color: Colors.transparent,
+                      width: MediaQuery.sizeOf(context).width *0.10,
+                      child: Text("Customer Name")),
+                  SizedBox(width: 16,),
 
-              AddSupplierRow(
-                title: 'Customer Name',
-                child2: SizedBox(
-                  width: 130,
-                  height: 40.0,
-                  child: TextFormField(
-                    keyboardType: TextInputType.emailAddress,
-                    // validator: (v) {
-                    //   if (v!.isEmpty || !v.contains('@')) {
-                    //     return 'Please enter a valid email!';
-                    //   }
-                    //   return null;
-                    // },
-                    // validator: (v) {
-                    //   if (v!.isEmpty) {
-                    //     return "enter customer name";
-                    //   }
-                    //   return null;
-                    // },
-                    controller: secondName,
-                    cursorColor: Colors.black,
-                    decoration: CustomDataField(
-                      label: 'Second Name',
-                    ).dataFieldDecoration(),
-                  ),
-                ) ,
-                child: SizedBox(
-                  width: 130,
-                  height: 40.0,
-                  child: TextFormField(
-                    keyboardType: TextInputType.emailAddress,
-                    controller: firstName,
-                    cursorColor: Colors.black,
+                  Expanded(
+                    child: CustomTextField(
+                      controller: firstName,
+                      hintText: 'First Name',
+                      validation:
+                          (val) {
+                        if(val == null || val.isEmpty){
+                          return 'Enter a Customer Name ';
+                        }
+                        return null;
+                      },
 
-                    // validator: (v) {
-                    //   if (v!.isEmpty) {
-                    //     return "enter customer name";
-                    //   }
-                    //   return null;
-                    // },
-                    decoration: CustomDataField(
-                      label: 'First Name',
-                    ).dataFieldDecoration().copyWith(
-                      errorBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.red),
-                      ),
                     ),
                   ),
-                ),
-              ),
-              SizedBox(height: 16,),
-              AddSupplierRow(
-                title: 'Company Name',
-                child:SizedBox(
-                  width: 276,
-                  height: 40.0,
-                  child: TextFormField(
-                    keyboardType: TextInputType.emailAddress,
-                    // validator: (v) {
-                    //   if (v!.isEmpty || !v.contains('@')) {
-                    //     return 'Please enter a valid email!';
-                    //   }
-                    //   return null;
-                    // },
-                    controller: companyName,
-                    cursorColor: Colors.black,
-                    decoration: CustomDataField(
-                      label: 'Company Name',
-                    ).dataFieldDecoration(),
-                  ),
-                ) ,
-              ),
-              SizedBox(height: 16,),
-              AddSupplierRow(
-                title: 'Customer Mail',
-                child:SizedBox(
-                  width: 276,
-                  height: 40.0,
-                  child: TextFormField(
-                    keyboardType: TextInputType.emailAddress,
-                    // validator: (v) {
-                    //   if (v!.isEmpty || !v.contains('@')) {
-                    //     return 'Please enter email!';
-                    //   }
-                    //   return null;
-                    // },
-                    controller:mail,
-                    cursorColor: Colors.black,
-                    decoration: CustomDataField(
-                      label: 'Email',
-                    ).dataFieldDecoration(),
-                  ),
-                ) ,),
-              SizedBox(height: 16,),
-              AddSupplierRow(
-                title: 'Customer Phone',
-                child2: SizedBox(
-                  width: 130,
-                  height: 40.0,
-                  child: TextFormField(
-                    keyboardType: TextInputType.emailAddress,
-                    // validator: (v) {
-                    //   if (v!.isEmpty || !v.contains('@')) {
-                    //     return 'Please enter a valid email!';
-                    //   }
-                    //   return null;
-                    // },
-                    controller: workNo,
-                    cursorColor: Colors.black,
-                    decoration: CustomDataField(
-                      label: 'Work',
-                    ).dataFieldDecoration(),
-                  ),
-                ) ,
-                child: Row(
-                  children: [
-                    Column(
-                      children: [
-                        SizedBox(
-                          width: 130,
-                          height: 40.0,
-                          child: TextFormField(
-                            keyboardType: TextInputType.emailAddress,
-                            controller: mobileNo,
-                            cursorColor: Colors.black,
-                            decoration: CustomDataField(
-                              label: 'Mobile',
-                            ).dataFieldDecoration(),
-                          ),
-                        ),
-                        Text("Please Add Mobile No",
-                          style: TextStyle(
-                              color: Colors.redAccent
-                          ),),
-                      ],
+                  SizedBox(width: 13,),
+                  Expanded(
+                    child: CustomTextField(
+                      controller: secondName,
+                      hintText: 'Second Name',
+                      validation:
+                          (val) {
+                        if(val == null || val.isEmpty){
+                          return 'Enter a Second Name ';
+                        }
+                        return null;
+                      },
+
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
+
+              SizedBox(height: 16,),
+              Row(
+                children: [
+                  Container(
+                      color: Colors.transparent,
+                      width: MediaQuery.sizeOf(context).width *0.10,
+                      child: Text("Business Name")),
+                  SizedBox(width: 16,),
+
+                  Expanded(
+                    child: CustomTextField(
+                      controller: companyName,
+                      hintText: 'Business Name',
+                      validation:
+                          (val) {
+                        if(val == null || val.isEmpty){
+                          return 'Enter a Customer Business Name ';
+                        }
+                        return null;
+                      },
+
+                    ),
+                  ),
+
+                ],
+              ),
+              SizedBox(height: 16,),
+              Row(
+                children: [
+                  Container(
+                      color: Colors.transparent,
+                      width: MediaQuery.sizeOf(context).width *0.10,
+                      child: Text("Customer Mail")),
+                  SizedBox(width: 16,),
+
+                  Expanded(
+                    child: CustomTextField(
+                      controller: mail,
+                      hintText: 'Customer Mail',
+                      validation:
+                          (val) {
+                        if(val == null || val.isEmpty){
+                          return 'Enter a Customer Mail ';
+                        }
+                        return null;
+                      },
+
+                    ),
+                  ),
+
+                ],
+              ),
+
+              SizedBox(height: 16,),
+              Row(
+                children: [
+                  Container(
+                      color: Colors.transparent,
+                      width: MediaQuery.sizeOf(context).width *0.10,
+                      child: Text("Customer Phone")),
+                  SizedBox(width: 16,),
+
+                  Expanded(
+                    child: CustomTextField(
+                      controller: mobileNo,
+                      hintText: 'Mobile',
+                      validation:
+                          (val) {
+                        if(val == null || val.isEmpty){
+                          return 'Enter a Customer Mobile No ';
+                        }
+                        return null;
+                      },
+
+                    ),
+                  ),
+                  SizedBox(width: 13,),
+                  Expanded(
+                    child: CustomTextField(
+                      controller: workNo,
+                      hintText: 'Work',
+                      validation:
+                          (val) {
+                        if(val == null || val.isEmpty){
+                          return 'Enter a Customer Work No ';
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                ],
+              ),
+
               SizedBox(height: 24,),
               Text(
                 "Other Details",
@@ -267,27 +260,32 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
               SizedBox(height: 7,),
               CustomHorizontalLine(),
               SizedBox(height: 16,),
-              AddSupplierRow(
-                title: 'Gst no',
-                child:SizedBox(
-                  width: 276,
-                  height: 40.0,
-                  child: TextFormField(
-                    keyboardType: TextInputType.emailAddress,
-                    // validator: (v) {
-                    //   if (v!.isEmpty || !v.contains('@')) {
-                    //     return 'Please enter a valid email!';
-                    //   }
-                    //   return null;
-                    // },
-                    controller: gstNO,
-                    cursorColor: Colors.black,
-                    decoration: CustomDataField(
-                      label: 'Gst No',
-                    ).dataFieldDecoration(),
+              Row(
+                children: [
+                  Container(
+                      color: Colors.transparent,
+                      width: MediaQuery.sizeOf(context).width *0.10,
+                      child: Text("Gst No")),
+                  SizedBox(width: 16,),
+
+                  Expanded(
+                    child: CustomTextField(
+                      controller: gstNO,
+                      hintText: 'Gst NO',
+                      validation:
+                          (val) {
+                        if(val == null || val.isEmpty){
+                          return 'Enter a Gst No ';
+                        }
+                        return null;
+                      },
+
+                    ),
                   ),
-                ) ,
+
+                ],
               ),
+
               // SizedBox(
               //   width: 276,
               //   child: TextFormField(
@@ -312,68 +310,66 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
               //   ),
               // ),
               SizedBox(height: 16,),
-              AddSupplierRow(
-                title: 'Adress',
-                child:Row(
-                  children: [
-                    SizedBox(
-                      width: 276,
-                      height: 40.0,
-                      child: TextFormField(
-                        keyboardType: TextInputType.emailAddress,
-                        // validator: (v) {
-                        //   if (v!.isEmpty || !v.contains('@')) {
-                        //     return 'Please enter a valid email!';
-                        //   }
-                        //   return null;
-                        // },
-                        controller: address,
-                        cursorColor: Colors.black,
-                        decoration: CustomDataField(
-                          label: 'Company Adress',
-                        ).dataFieldDecoration(),
-                      ),
+              Row(
+                children: [
+                  Container(
+                      color: Colors.transparent,
+                      width: MediaQuery.sizeOf(context).width *0.10,
+                      child: Text("Address")),
+                  SizedBox(width: 16,),
+
+                  Expanded(
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: CustomTextField(
+                            controller: address,
+                            hintText: 'Address',
+                            validation:
+                                (val) {
+                              if(val == null || val.isEmpty){
+                                return 'Enter a Supplier Adress ';
+                              }
+                              return null;
+                            },
+
+                          ),
+                        ),
+                        SizedBox(width: 16,),
+                        Expanded(
+                          child: CustomTextField(
+                            controller: city,
+                            hintText: 'City',
+                            validation:
+                                (val) {
+                              if(val == null || val.isEmpty){
+                                return 'Enter a Supplier City ';
+                              }
+                              return null;
+                            },
+
+                          ),
+                        ),
+                        SizedBox(width: 16,),
+                        Expanded(
+                          child: CustomTextField(
+                            controller: state,
+                            hintText: 'State',
+                            validation:
+                                (val) {
+                              if(val == null || val.isEmpty){
+                                return 'Enter a Supplier State ';
+                              }
+                              return null;
+                            },
+
+                          ),
+                        ),
+                      ],
                     ),
-                    SizedBox(width: 16,),
-                    SizedBox(
-                      width: 130,
-                      height: 40.0,
-                      child: TextFormField(
-                        keyboardType: TextInputType.emailAddress,
-                        // validator: (v) {
-                        //   if (v!.isEmpty || !v.contains('@')) {
-                        //     return 'Please enter a valid email!';
-                        //   }
-                        //   return null;
-                        // },
-                        controller: city,
-                        cursorColor: Colors.black,
-                        decoration: CustomDataField(
-                          label: 'City',
-                        ).dataFieldDecoration(),
-                      ),
-                    ),
-                    SizedBox(width: 16,),
-                    SizedBox(
-                      width: 130,
-                      height: 40.0,
-                      child: TextFormField(
-                        keyboardType: TextInputType.emailAddress,
-                        // validator: (v) {
-                        //   if (v!.isEmpty || !v.contains('@')) {
-                        //     return 'Please enter a valid email!';
-                        //   }
-                        //   return null;
-                        // },
-                        controller: state,
-                        cursorColor: Colors.black,
-                        decoration: CustomDataField(
-                          label: 'State',
-                        ).dataFieldDecoration(),
-                      ),
-                    ),
-                  ],
-                ) ,
+                  ),
+
+                ],
               ),
               SizedBox(height: 20,),
               Align(
@@ -386,8 +382,7 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                       MainButton(
                         title: 'Add',
                           press: () {
-                            if (firstName.text.isNotEmpty &&
-                                 mobileNo.text.isNotEmpty ) {
+                            if (_formKey.currentState!.validate()) {
                               setState(() {
                                 isLoading = true;
                               });
