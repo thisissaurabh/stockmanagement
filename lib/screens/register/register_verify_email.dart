@@ -145,6 +145,7 @@ class _RegisterVerifyEmailScreenState extends State<RegisterVerifyEmailScreen> {
                                   setState(() {
                                     isLoading = false;
                                   });
+
                                   CustomSnackbar.show(
                                       context: context,
                                       label: 'Success',
@@ -226,10 +227,15 @@ class _RegisterVerifyEmailScreenState extends State<RegisterVerifyEmailScreen> {
                                       email: widget.email
                                   ).then((value) async {
                                     if (value['status'] == 1) {
+                                      String otpMessage = 'Your OTP is ${value['otp']}';
                                       CustomSnackbar.show(context: context,
-                                          label: 'Success',
+                                          label:otpMessage,
                                           color: Colors.green,
                                           iconImage: "assets/icons/tick.svg");
+                                      /*CustomSnackbar.show(context: context,
+                                          label: 'Success',
+                                          color: Colors.green,
+                                          iconImage: "assets/icons/tick.svg");*/
 
                                     }
                                   });

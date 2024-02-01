@@ -45,7 +45,7 @@ class _DashBoardState extends State<DashBoard> {
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(22),
-                      color: Colors.black,
+                      color:Colors.black,
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(12.0),

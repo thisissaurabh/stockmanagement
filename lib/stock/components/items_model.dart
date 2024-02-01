@@ -1,5 +1,6 @@
 class Contact {
-  String itemCode;
+  // String itemCode;
+  String image;
   String itemName;
   String designName;
   String color;
@@ -11,14 +12,15 @@ class Contact {
   String purchasePrice;
   String discount;
   String gst;
-  String taxPercent;
+  // String taxPercent;
   String mrp;
   String total;
 
 
 
   Contact({
-    required this.itemCode,
+    // required this.itemCode,
+    required this.image,
     required this.itemName,
     required this.designName,
     required this.color,
@@ -30,7 +32,7 @@ class Contact {
   required this.purchasePrice,
   required this.discount,
     required this.gst,
-  required this.taxPercent,
+  // required this.taxPercent,
   required this.mrp,
   required this.total
   });

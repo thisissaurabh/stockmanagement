@@ -80,6 +80,45 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
   final city = TextEditingController();
   final state = TextEditingController();
 
+  final List<String> stateList = [
+    'Andhra Pradesh',
+    'Arunachal Pradesh',
+    'Assam',
+    'Bihar',
+    'Chhattisgarh',
+    'Goa',
+    'Gujarat',
+    'Haryana',
+    'Himachal Pradesh',
+    'Jharkhand',
+    'Karnataka',
+    'Kerala',
+    'Madhya Pradesh',
+    'Maharashtra',
+    'Manipur',
+    'Meghalaya',
+    'Mizoram',
+    'Nagaland',
+    'Odisha',
+    'Punjab',
+    'Rajasthan',
+    'Sikkim',
+    'Tamil Nadu',
+    'Telangana',
+    'Tripura',
+    'Uttar Pradesh',
+    'Uttarakhand',
+    'West Bengal',
+    'Andaman and\n Nicobar Islands',
+    'Chandigarh',
+    'Dadra and Nagar\n Haveli and Daman and Diu',
+    'Lakshadweep',
+    'Delhi',
+    'Puducherry',
+  ];
+
+  String? stateValue;
+
 
   @override
   Widget build(BuildContext context) {
@@ -182,7 +221,8 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                   Container(
                       color: Colors.transparent,
                       width: MediaQuery.sizeOf(context).width *0.10,
-                      child: Text("Business Name")),
+                      child: Text("Business Name"),
+                  ),
                   SizedBox(width: 16,),
 
                   Expanded(
@@ -193,7 +233,7 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                         validation:
                             (val) {
                           if(val == null || val.isEmpty){
-                            return 'Enter a Supplier Bussines Name ';
+                            return 'Enter a Supplier Business Name ';
                           }
                           return null;
                         },
@@ -371,19 +411,60 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                         ),
                         SizedBox(width: 16,),
                         Expanded(
-                          child: CustomTextField(
-                            controller: state,
-                            hintText: 'State',
-                            validation:
-                                (val) {
-                              if(val == null || val.isEmpty){
-                                return 'Enter a Supplier State ';
-                              }
-                              return null;
-                            },
+                          child: DropdownButtonFormField<String>(
 
+
+                            value: stateValue,
+                            items: stateList.map<DropdownMenuItem<String>>((String state) {
+                              return DropdownMenuItem<String>(
+                                value: state,
+                                child: Text(state),
+                              );
+                            }).toList(),
+                            onChanged: (String? value) {
+                              setState(() {
+                                stateValue = value;
+                              });
+                            },
+                            decoration: InputDecoration(
+                              hintText: 'Select State',
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Colors.yellow,
+                                  width: 0.5,
+                                ),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(6),
+                                borderSide: BorderSide(
+                                  color: Colors.black.withOpacity(0.60),
+                                  width: 0.5,
+                                ),
+                              ),
+                              errorBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.red, width: 0.5),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(6),
+                                borderSide: BorderSide(color: Colors.blue, width: 0.5),
+                              ),
+                            ),
                           ),
                         ),
+                        // Expanded(
+                        //   child: CustomTextField(
+                        //     controller: state,
+                        //     hintText: 'State',
+                        //     validation:
+                        //         (val) {
+                        //       if(val == null || val.isEmpty){
+                        //         return 'Enter a Supplier State ';
+                        //       }
+                        //       return null;
+                        //     },
+                        //
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),
@@ -484,11 +565,11 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
 
                         sizeHorizontal: 30,
                         sizeVerticle: 16,
-                        color: selectedColor,
-                        titleColor: Colors.black,
+                        color: selectedGreenColor,
+                        titleColor: Colors.white,
                       ),
                     SizedBox(width: 5,),
-                    if (Responsive.isDesktop(context))
+                   /* if (Responsive.isDesktop(context))
 
                       Container(
                         padding: EdgeInsets.symmetric(
@@ -508,7 +589,7 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                             Text("Cancel")
                           ],
                         ),
-                      ),
+                      ),*/
                       // MainButton(
                       //   title: 'Cancel',
                       //   press: () {  },

@@ -53,7 +53,7 @@ class _RelationShipCheckBoxState extends State<RelationShipCheckBox> {
                     child: Container(
                       decoration: BoxDecoration(
                         color: _gIndex == 0
-                            ? selectedColor
+                            ? selectedGreenColor
                             : Colors.transparent,
                         shape: BoxShape.circle,
 
@@ -101,7 +101,7 @@ class _RelationShipCheckBoxState extends State<RelationShipCheckBox> {
                     child: Container(
                       decoration: BoxDecoration(
                         color: _gIndex == 1
-                            ? selectedColor
+                            ? selectedGreenColor
                             : Colors.transparent,
                         shape: BoxShape.circle,
 

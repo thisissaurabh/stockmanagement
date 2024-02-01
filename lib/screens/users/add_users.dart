@@ -390,11 +390,11 @@ class _AddSupplierFieldsState extends State<AddSupplierFields> {
                         },
                         sizeHorizontal: 30,
                         sizeVerticle: 16,
-                        color: selectedColor,
-                        titleColor: Colors.black,
+                        color: selectedGreenColor,
+                        titleColor: Colors.white,
                       ),
                     SizedBox(width: 5,),
-                    if (Responsive.isDesktop(context))
+                  /*  if (Responsive.isDesktop(context))
                       MainButton(
                         title: 'Cancel',
                         press: () {
@@ -404,7 +404,7 @@ class _AddSupplierFieldsState extends State<AddSupplierFields> {
                         sizeVerticle: 16,
                         color: Colors.red,
                         titleColor: Colors.white,
-                      ),
+                      ),*/
                   ],
                 ),
               ),
@@ -502,7 +502,7 @@ class _SelectUserTypeCheckBoxState extends State<SelectUserTypeCheckBox> {
                     child: Container(
                       decoration: BoxDecoration(
                         color: _gIndex == 0
-                            ? selectedColor
+                            ? selectedGreenColor
                             : Colors.transparent,
                         shape: BoxShape.circle,
 
@@ -550,7 +550,7 @@ class _SelectUserTypeCheckBoxState extends State<SelectUserTypeCheckBox> {
                     child: Container(
                       decoration: BoxDecoration(
                         color: _gIndex == 1
-                            ? selectedColor
+                            ? selectedGreenColor
                             : Colors.transparent,
                         shape: BoxShape.circle,
 

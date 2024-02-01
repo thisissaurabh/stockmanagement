@@ -449,11 +449,11 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                           },
                         sizeHorizontal: 30,
                         sizeVerticle: 16,
-                        color: selectedColor,
-                        titleColor: Colors.black
+                        color: selectedGreenColor,
+                        titleColor: Colors.white
                       ),
                     SizedBox(width: 5,),
-                    if (Responsive.isDesktop(context))
+                  /*  if (Responsive.isDesktop(context))
                       Container(
                         padding: EdgeInsets.symmetric(
                           vertical: 14,
@@ -472,7 +472,7 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                             Text("Cancel")
                           ],
                         ),
-                      ),
+                      ),*/
                   ],
                 ),
               ),

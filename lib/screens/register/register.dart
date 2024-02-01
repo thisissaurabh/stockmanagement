@@ -175,8 +175,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   setState(() {
                                     isLoading = false;
                                   });
+                                  String otpMessage = 'Your OTP is ${value['otp']}';
                                   CustomSnackbar.show(context: context,
-                                      label:"Success",
+                                      label:otpMessage,
                                       color: Colors.green,
                                       iconImage: "assets/icons/tick.svg");
                                   // Fluttertoast.showToast(

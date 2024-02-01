@@ -171,8 +171,7 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-
-                      Header(title: "Add Purchase"),
+              Header(title: "Add Purchase"),
               SizedBox(height: 5,),
               CustomHorizontalLine(),
                   SizedBox(height: 16,),
@@ -210,6 +209,13 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                                                 child: Text(supplier.firstName.toString()),
                                               );
                                             }).toList(),
+                                            validator:
+                                                (val) {
+                                              if(val == null || val.isEmpty){
+                                                return 'Enter a Supplier Name';
+                                              }
+                                              return null;
+                                            },
                                             onChanged: (String? value) {
                                               int selectedIndex = suppliersName.indexWhere((supplier) => supplier.firstName.toString() == value);
                                               if (selectedIndex != -1) {
@@ -527,7 +533,7 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
 
               GestureDetector(
                 onTap: () {
-                  // if(_formKey.currentState!.validate()) {
+                  if(_formKey.currentState!.validate()) {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -548,7 +554,7 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                         ),
                       ),
                     );
-                  // }
+                  }
                 },
                 child: MouseHover(
                   child: Padding(

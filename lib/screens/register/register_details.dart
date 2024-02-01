@@ -1,16 +1,16 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:ionicons/ionicons.dart';
 import 'package:spyco_shop_management/api/login_register/register_apis.dart';
-
 import 'package:spyco_shop_management/constants/colors.dart';
 import 'package:spyco_shop_management/constants/responsive_widget.dart';
 import 'package:spyco_shop_management/constants/textfield_decoration.dart';
 import 'package:spyco_shop_management/constants/textstyle.dart';
-import 'package:spyco_shop_management/controllers/MenuAppController.dart';
-import 'package:spyco_shop_management/screens/main/main_screen.dart';
-import 'package:spyco_shop_management/screens/register/register.dart';
 import 'package:spyco_shop_management/screens/register/register_password.dart';
+import 'package:spyco_shop_management/widgets/global_widgets.dart';
 import 'package:spyco_shop_management/widgets/snackbar.dart';
 
 class RegisterDetailsScreen extends StatefulWidget {
@@ -26,9 +26,15 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
   final usernameController = TextEditingController();
   final gstNoController = TextEditingController();
   final addressController = TextEditingController();
+  final stateController = TextEditingController();
+  final cityController = TextEditingController();
+  final pincode = TextEditingController();
   bool showEye = false;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   bool isLoading = false;
+
+  File pickedImage = File("");
+  final ImagePicker _imgPicker = ImagePicker();
 
   @override
   Widget build(BuildContext context) {
@@ -78,37 +84,112 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         SizedBox(height: height * 0.08),
-                        RichText(
-                          text: TextSpan(
-                            children: [
-                              TextSpan(
-                                  text: 'Enter',
-                                  style: ralewayStyle.copyWith(
-                                    fontSize: 25.0,
-                                    color:Colors.black,
-                                    fontWeight: FontWeight.normal,
-                                  )),
-                              TextSpan(
-                                text: ' Company Details',
-                                style: ralewayStyle.copyWith(
-                                  fontWeight: FontWeight.w800,
-                                  color: Colors.black,
-                                  fontSize: 25.0,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                RichText(
+                                  text: TextSpan(
+                                    children: [
+                                      TextSpan(
+                                          text: 'Enter',
+                                          style: ralewayStyle.copyWith(
+                                            fontSize: 25.0,
+                                            color:Colors.black,
+                                            fontWeight: FontWeight.normal,
+                                          )),
+                                      TextSpan(
+                                        text: ' Company Details',
+                                        style: ralewayStyle.copyWith(
+                                          fontWeight: FontWeight.w800,
+                                          color: Colors.black,
+                                          fontSize: 25.0,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            ],
+                                SizedBox(height: height * 0.02),
+                                Text(
+                                  'Hey, Enter your details to create \nyour account.',
+                                  style: ralewayStyle.copyWith(
+                                    fontSize: 12.0,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        SizedBox(height: height * 0.02),
-                        Text(
-                          'Hey, Enter your details to create \nyour account.',
-                          style: ralewayStyle.copyWith(
-                            fontSize: 12.0,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black,
+                          Spacer(),
+                          Expanded(
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () async {
+                                        XFile? v = await _imgPicker.pickImage(
+                                            maxWidth: 90,
+                                            maxHeight: 90,
+                                            source: ImageSource.gallery);
+                                        if (v != null) {
+                                          setState(
+                                                () {
+                                              pickedImage = File(v.path);
+                                            },
+                                          );
+                                        }
+
+                                      },
+                                      child: MouseHover(
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              color: Colors.black,
+                                              borderRadius: BorderRadius.circular(16)
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Icon(Ionicons.push_outline,
+                                              size: 24,
+                                              color: Colors.white,),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: 20,),
+                                    Container(
+                                      height:MediaQuery.sizeOf(context).height * 0.15,
+                                      width: MediaQuery.sizeOf(context).width * 0.08,
+                                      clipBehavior: Clip.hardEdge,
+                                      decoration :BoxDecoration(
+                                          color: Colors.white,
+                                          shape: BoxShape.circle
+                                      ),
+                                      child:
+                                      pickedImage.path.isEmpty
+                                          ? SvgPicture.asset("assets/icons/placeholderperson.svg",
+                                        height:MediaQuery.sizeOf(context).height * 0.15,
+                                      )
+                                          :
+                                      Image.file(
+                                        height:MediaQuery.sizeOf(context).height * 0.15,
+                                        pickedImage,
+                                        fit: BoxFit.cover,
+                                      ), // backgroundImage: AssetImage('assets/images/Frame1000002321.png'),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 5,),
+                              ],
+                            ),
                           ),
-                        ),
-                        SizedBox(height: height * 0.064),
+                        ],
+                      ),
+                        SizedBox(height: height * 0.010),
                         Padding(
                           padding: const EdgeInsets.only(left: 16.0),
                           child: Text(
@@ -285,7 +366,140 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
                             cursorColor: Colors.black,
                             decoration: DecorationCustom(
                               suffixIcon: false,
-                              label: 'Bussiness Address',
+                              label: 'Business Address',
+                              prefixIcon: 'sms',
+                            ).textFieldDecoration(),
+                          ),
+                        ),
+                        SizedBox(height: height * 0.014),
+
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 16.0),
+                                    child: Text(
+                                      'State',
+                                      style: ralewayStyle.copyWith(
+                                        fontSize: 12.0,
+                                        color: AppColors.blueDarkColor,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 6.0),
+
+                                  Container(
+                                    height: 50.0,
+                                    width: width,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(16.0),
+                                      color: Colors.transparent,
+                                      // color: AppColors.whiteColor,
+                                    ),
+                                    child: TextFormField(
+                                      controller: stateController,
+                                      cursorColor: Colors.black,
+                                      textInputAction: TextInputAction.next,
+                                      inputFormatters: [
+                                        LengthLimitingTextInputFormatter(20),
+                                      ],
+                                      decoration: DecorationCustom(
+                                        suffixIcon: false,
+                                        label: 'State',
+                                        prefixIcon: 'sms',
+                                      ).textFieldDecoration(),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(width: 16,),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 16.0),
+                                    child: Text(
+                                      'City',
+                                      style: ralewayStyle.copyWith(
+                                        fontSize: 12.0,
+                                        color: AppColors.blueDarkColor,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 6.0),
+                                  Container(
+                                    height: 50.0,
+                                    width: width,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(16.0),
+                                      color: Colors.transparent,
+                                      // color: AppColors.whiteColor,
+                                    ),
+                                    child: TextFormField(
+                                      controller: cityController,
+                                      cursorColor: Colors.black,
+                                      textInputAction: TextInputAction.next,
+                                      inputFormatters: [
+                                        LengthLimitingTextInputFormatter(20),
+                                      ],
+                                      decoration: DecorationCustom(
+                                        suffixIcon: false,
+                                        label: 'City',
+                                        prefixIcon: 'sms',
+                                      ).textFieldDecoration(),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: height * 0.014),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16.0),
+                          child: Text(
+                            'Pincode',
+                            style: ralewayStyle.copyWith(
+                              fontSize: 12.0,
+                              color: AppColors.blueDarkColor,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 6.0),
+                        Container(
+                          height: 50.0,
+                          width: width,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16.0),
+                            color: Colors.transparent,
+                            // color: AppColors.whiteColor,
+                          ),
+                          child: TextFormField(
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(100),
+                            ],
+
+                            // keyboardType: TextInputType.emailAddress,
+                            // validator: (v) {
+                            //   if (v!.isEmpty || !v.contains('@')) {
+                            //     return 'Please enter a valid email!';
+                            //   }
+                            //   return null;
+                            // },
+                            controller: pincode,
+                            textInputAction: TextInputAction.next,
+                            cursorColor: Colors.black,
+                            decoration: DecorationCustom(
+                              suffixIcon: false,
+                              label: 'Pincode',
                               prefixIcon: 'sms',
                             ).textFieldDecoration(),
                           ),

@@ -24,10 +24,13 @@ import 'package:spyco_shop_management/widgets/cards.dart';
 import 'package:spyco_shop_management/widgets/custom_data_list.dart';
 import 'package:spyco_shop_management/widgets/global_widgets.dart';
 import 'package:spyco_shop_management/widgets/globals.dart';
+import 'package:spyco_shop_management/widgets/loading.dart';
 import 'package:spyco_shop_management/widgets/main_button.dart';
 import 'package:spyco_shop_management/widgets/main_recent_widget.dart';
 import 'package:spyco_shop_management/widgets/snackbar.dart';
 
+import '../api/login_register/company_profille_api.dart';
+import '../api_models/company_profile_model.dart';
 import '../widgets/custom_textfield.dart';
 
 class CompanyProfile extends StatefulWidget {
@@ -64,12 +67,36 @@ class _CompanyProfileDetailsState extends State<CompanyProfileDetails> {
 
   bool isLoading = false;
   final mail = TextEditingController();
+
+  @override
+  void initState() {
+    getCpmpanyProfile();
+    super.initState();
+  }
+
+
+  CompanyProfileModel? companyModel;
+
+  getCpmpanyProfile() {
+    isLoading = true;
+    var resp = getCompanyProfileApi();
+    resp.then((value) {
+      if (value['status'] == 1) {
+        companyModel = CompanyProfileModel.fromJson(value);
+        setState(() {
+          isLoading = false;
+        });
+      } else {
+        isLoading = false;
+      }
+    });
+  }
   // LoginResponse? response;
 
   @override
   Widget build(BuildContext context) {
 
-    return SingleChildScrollView(
+    return isLoading ? Loading() :SingleChildScrollView(
       padding: EdgeInsets.all(defaultPadding),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,10 +125,13 @@ class _CompanyProfileDetailsState extends State<CompanyProfileDetails> {
                       // backgroundImage: AssetImage('assets/images/Frame1000002321.png'),
                     ),
                     Text(
-                      "Xyz Company",
+                      companyModel!.user!.companyName.toString(),
+                      // "Xyz Company",
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
-                    Text("Saurabh")
+                    Text(
+                      companyModel!.user!.name.toString(),
+                    )
 
 
 
@@ -142,7 +172,7 @@ class _CompanyProfileDetailsState extends State<CompanyProfileDetails> {
                             Expanded(
                               child: CustomTextField(
                                 controller: mail,
-                                hintText: 'Mail',
+                                hintText: companyModel!.user!.email!.toString(),
                                 validation:
                                     (val) {
 
@@ -165,7 +195,7 @@ class _CompanyProfileDetailsState extends State<CompanyProfileDetails> {
                             Expanded(
                               child: CustomTextField(
                                 controller: mail,
-                                hintText: 'Username',
+                                hintText: companyModel!.user!.userName!.toString(),
                                 validation:
                                     (val) {
 
@@ -190,7 +220,7 @@ class _CompanyProfileDetailsState extends State<CompanyProfileDetails> {
                             Expanded(
                               child: CustomTextField(
                                 controller: mail,
-                                hintText: 'Contact No',
+                                hintText: companyModel!.user!.phone.toString(),
                                 validation:
                                     (val) {
 
@@ -274,7 +304,7 @@ class _CompanyProfileDetailsState extends State<CompanyProfileDetails> {
                             Expanded(
                               child: CustomTextField(
                                 controller: mail,
-                                hintText: 'Company Address',
+                                hintText: companyModel!.user!.address.toString(),
                                 validation:
                                     (val) {
 
@@ -331,7 +361,7 @@ class _CompanyProfileDetailsState extends State<CompanyProfileDetails> {
                             Expanded(
                               child: CustomTextField(
                                 controller: mail,
-                                hintText: 'Gst No',
+                                hintText: companyModel!.user!.gstNumber.toString(),
                                 validation:
                                     (val) {
 
@@ -355,7 +385,7 @@ class _CompanyProfileDetailsState extends State<CompanyProfileDetails> {
                             Expanded(
                               child: CustomTextField(
                                 controller: mail,
-                                hintText: 'Role',
+                                hintText: companyModel!.user!.role.toString(),
                                 validation:
                                     (val) {
 

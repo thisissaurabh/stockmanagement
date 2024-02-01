@@ -22,8 +22,9 @@ Future<dynamic> loginApi({
   http.StreamedResponse response = await request.send();
   var resp = jsonDecode(await response.stream.bytesToString());
   if(response.statusCode == 200) {
-    if(resp['status'] == 1){
-      // print(resp);
+    if(resp['status'] == true){
+      return LoginResponse.fromJson(resp);
+    } else {
       return LoginResponse.fromJson(resp);
     }
   } else {
@@ -32,4 +33,15 @@ Future<dynamic> loginApi({
     print(response.reasonPhrase);
     return false;
   }
+
+  //   if(resp['status'] == 1){
+  //     // print(resp);
+  //     return LoginResponse.fromJson(resp);
+  //   }
+  // } else {
+  //   print(resp);
+  //   print(response.statusCode);
+  //   print(response.reasonPhrase);
+  //   return false;
+  // }
 }

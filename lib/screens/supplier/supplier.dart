@@ -15,6 +15,7 @@ import 'package:spyco_shop_management/screens/main/components/side_menu.dart';
 import 'package:spyco_shop_management/screens/supplier/add_supplier.dart';
 import 'package:spyco_shop_management/widgets/cards.dart';
 import 'package:spyco_shop_management/widgets/custom_data_list.dart';
+import 'package:spyco_shop_management/widgets/custom_dialog.dart';
 
 import 'package:spyco_shop_management/widgets/main_button.dart';
 import 'package:spyco_shop_management/widgets/main_recent_widget.dart';
@@ -216,19 +217,28 @@ class _LeftSupplierPanelState extends State<LeftSupplierPanel> {
                                     ),
                                     PlusButton(
                                       press: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => MultiProvider(
-                                              providers: [
-                                                ChangeNotifierProvider(
-                                                  create: (context) => MenuAppController(),
-                                                ),
-                                              ],
-                                              child: AddSupplier(),
-                                            ),
-                                          ),
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return CustomDialog(
+                                              title: 'Dialog Title',
+                                              content: 'This is the content of the dialog.',
+                                            );
+                                          },
                                         );
+                                        // Navigator.push(
+                                        //   context,
+                                        //   MaterialPageRoute(
+                                        //     builder: (context) => MultiProvider(
+                                        //       providers: [
+                                        //         ChangeNotifierProvider(
+                                        //           create: (context) => MenuAppController(),
+                                        //         ),
+                                        //       ],
+                                        //       child: AddSupplier(),
+                                        //     ),
+                                        //   ),
+                                        // );
                                       },
                                     )
                                   ],

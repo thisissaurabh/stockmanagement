@@ -216,68 +216,71 @@ class _LoginScreenState extends State<LoginScreen> {
                             if (usernameController.text.isNotEmpty &&
                             passwordController.text.isNotEmpty) {
                               setState(() {
-                                // isLoading = true;
+                                isLoading = true;
                               });
                               loginApi(
                                   password: passwordController.text,
                                   username: usernameController.text)
                                   .then((value) async {
+                                setState(() {
+                                  isLoading = false;
+                                });
                                 response = value;
                                 print("check value");
                                 print(response!.user.name.toString());
                                 print(response!.user.userName.toString());
                                 print(response!.user.companyName.toString());
-                                if (response?.status != null &&
-                                    response!.status == 1) {
-                                  SharedPrefs().init();
-                                  var prefs =
-                                  await SharedPreferences
-                                      .getInstance();
-                                  prefs.setString('token',
-                                      response!.accessToken.toString()
-                                      );
-                                  prefs.setString('email',
-                                      usernameController.text
-                                  );
-                                  prefs.setString('password',
-                                      passwordController.text
-                                  );
-                                  // prefs.setBool(Keys().loginDone, true);
-                                  SharedPrefs().setLoginTrue();
-                                  setState(() {
-                                    // isLoading = false;
-                                  });
-                                  CustomSnackbar.show(
+                                if (response != null) {
+                                  // Check if response is not null
+                                  if (response!.status != null && response!.status == 1) {
+                                    // Ensure that status is not null and equals 1
+                                    SharedPrefs().init();
+                                    var prefs = await SharedPreferences.getInstance();
+                                    prefs.setString('token', response!.accessToken.toString());
+                                    prefs.setString('email', usernameController.text);
+                                    prefs.setString('password', passwordController.text);
+                                    SharedPrefs().setLoginTrue();
+                                    setState(() {
+                                      // isLoading = false;
+                                    });
+                                    CustomSnackbar.show(
                                       context: context,
                                       label: 'Success',
                                       color: Colors.green,
-                                      iconImage: "assets/icons/tick.svg");
-                                  print('check token');
-                                  print(response!.accessToken.toString());
-                                  print('check token');
-
-                                  Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => DashBoard(),
-                                        ),
-                                  );
-                                } else {
-                                  setState(() {
-                                    isLoading = false;
-                                  });
-                                  CustomMsgSnackbar.show(
+                                      iconImage: "assets/icons/tick.svg",
+                                    );
+                                    print('check token');
+                                    print(response!.accessToken.toString());
+                                    print('check token');
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => DashBoard(),
+                                      ),
+                                    );
+                                  } else {
+                                    CustomMsgSnackbar.show(
                                       context: context,
                                       label: "Please check your Login Credentials",
                                       color: Colors.red,
-                                      iconImage: "assets/icons/cross.svg");
-                                  // print("no");
+                                      iconImage: "assets/icons/cross.svg",
+                                    );
+                                  }
+                                } else {
+                                  CustomMsgSnackbar.show(
+                                    context: context,
+                                    label: "Invalid response from the server",
+                                    color: Colors.red,
+                                    iconImage: "assets/icons/cross.svg",
+                                  );
                                 }
+
                               });
                             } else {
+
                               CustomMsgSnackbar.show(
                                   context: context,
-                                  label: 'Please Enter login credentials',
+                                  label: "bhbhb",
                                   color: Colors.red,
                                   iconImage: "assets/icons/cross.svg");
 
