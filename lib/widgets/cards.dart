@@ -31,13 +31,16 @@ class ElevatedBgCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(radius),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
+    return Card(
+      elevation: 2,
+      child: Container(
+        padding: EdgeInsets.all(radius),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: const BorderRadius.all(Radius.circular(2)),
+        ),
+        child: child,
       ),
-      child: child,
     );
   }
 }

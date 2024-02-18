@@ -22,6 +22,7 @@ import 'package:spyco_shop_management/widgets/main_button.dart';
 import 'package:spyco_shop_management/widgets/main_recent_widget.dart';
 
 import '../widgets/loading.dart';
+import 'add_customer_dialog.dart';
 
 class CustomersScreen extends StatefulWidget {
   const CustomersScreen({super.key});
@@ -241,19 +242,28 @@ class _LeftCustomerPanelState extends State<LeftCustomerPanel> {
                                   ),
                                   PlusButton(
                                     press: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => MultiProvider(
-                                            providers: [
-                                              ChangeNotifierProvider(
-                                                create: (context) => MenuAppController(),
-                                              ),
-                                            ],
-                                            child: AddCustomer(),
-                                          ),
-                                        ),
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AddCustomerDialog(
+                                            title: 'Dialog Title',
+                                            content: 'This is the content of the dialog.',
+                                          );
+                                        },
                                       );
+                                      // Navigator.push(
+                                      //   context,
+                                      //   MaterialPageRoute(
+                                      //     builder: (context) => MultiProvider(
+                                      //       providers: [
+                                      //         ChangeNotifierProvider(
+                                      //           create: (context) => MenuAppController(),
+                                      //         ),
+                                      //       ],
+                                      //       child: AddCustomer(),
+                                      //     ),
+                                      //   ),
+                                      // );
                                     },
                                   )
                                 ],

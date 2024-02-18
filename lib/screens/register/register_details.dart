@@ -13,6 +13,7 @@ import 'package:spyco_shop_management/screens/register/register_password.dart';
 import 'package:spyco_shop_management/widgets/global_widgets.dart';
 import 'package:spyco_shop_management/widgets/snackbar.dart';
 
+
 class RegisterDetailsScreen extends StatefulWidget {
   const RegisterDetailsScreen({Key? key}) : super(key: key);
 
@@ -28,6 +29,7 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
   final addressController = TextEditingController();
   final stateController = TextEditingController();
   final cityController = TextEditingController();
+  final imageController = TextEditingController();
   final pincode = TextEditingController();
   bool showEye = false;
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -36,12 +38,58 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
   File pickedImage = File("");
   final ImagePicker _imgPicker = ImagePicker();
 
+  final List<String> stateList = [
+    'Andhra Pradesh',
+    'Arunachal Pradesh',
+    'Assam',
+    'Bihar',
+    'Chhattisgarh',
+    'Goa',
+    'Gujarat',
+    'Haryana',
+    'Himachal Pradesh',
+    'Jharkhand',
+    'Karnataka',
+    'Kerala',
+    'Madhya Pradesh',
+    'Maharashtra',
+    'Manipur',
+    'Meghalaya',
+    'Mizoram',
+    'Nagaland',
+    'Odisha',
+    'Punjab',
+    'Rajasthan',
+    'Sikkim',
+    'Tamil Nadu',
+    'Telangana',
+    'Tripura',
+    'Uttar Pradesh',
+    'Uttarakhand',
+    'West Bengal',
+    'Andaman and\n Nicobar Islands',
+    'Chandigarh',
+    'Dadra and Nagar\n Haveli and Daman and Diu',
+    'Lakshadweep',
+    'Delhi',
+    'Puducherry',
+  ];
+
+  String? stateValue;
+  late List<String> filteredStates;
+
+  @override
+  void initState() {
+    super.initState();
+    filteredStates = stateList; // Initialize filteredStates here
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: selectedColor,
+      backgroundColor: selectedGreenColor,
       body: SizedBox(
         height: height,
         width: width,
@@ -74,7 +122,7 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
                     horizontal: ResponsiveWidget.isSmallScreen(context)
                         ? height * 0.032
                         : height * 0.12),
-                color: selectedColor,
+                color: selectedGreenColor,
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.only(bottom: 40.0),
                   child: Form(
@@ -98,14 +146,14 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
                                           text: 'Enter',
                                           style: ralewayStyle.copyWith(
                                             fontSize: 25.0,
-                                            color:Colors.black,
+                                            color:Colors.white,
                                             fontWeight: FontWeight.normal,
                                           )),
                                       TextSpan(
                                         text: ' Company Details',
                                         style: ralewayStyle.copyWith(
                                           fontWeight: FontWeight.w800,
-                                          color: Colors.black,
+                                          color: Colors.white,
                                           fontSize: 25.0,
                                         ),
                                       ),
@@ -118,7 +166,7 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
                                   style: ralewayStyle.copyWith(
                                     fontSize: 12.0,
                                     fontWeight: FontWeight.w400,
-                                    color: Colors.black,
+                                    color: Colors.white,
                                   ),
                                 ),
                               ],
@@ -140,6 +188,8 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
                                           setState(
                                                 () {
                                               pickedImage = File(v.path);
+                                              imageController.text = pickedImage.toString();
+
                                             },
                                           );
                                         }
@@ -190,74 +240,92 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
                         ],
                       ),
                         SizedBox(height: height * 0.010),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 16.0),
-                          child: Text(
-                            'Name',
-                            style: ralewayStyle.copyWith(
-                              fontSize: 12.0,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w700,
+                        Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 16.0),
+                                    child: Text(
+                                      'Name',
+                                      style: ralewayStyle.copyWith(
+                                        fontSize: 12.0,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 6.0),
+                                  Container(
+                                    height: 50.0,
+                                    width: width,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(16.0),
+                                        color: Colors.transparent
+                                      // color: AppColors.whiteColor,
+                                    ),
+                                    child: TextFormField(
+                                      controller: nameController,
+                                      cursorColor: Colors.black,
+                                      textInputAction: TextInputAction.next,
+                                      inputFormatters: [
+                                        LengthLimitingTextInputFormatter(20),
+                                      ],
+                                      decoration: DecorationCustom(
+                                        suffixIcon: false,
+                                        label: 'Your Name',
+                                        prefixIcon: 'sms',
+                                      ).textFieldDecoration(),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ),
-                        const SizedBox(height: 6.0),
-                        Container(
-                          height: 50.0,
-                          width: width,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(16.0),
-                            color: Colors.transparent
-                            // color: AppColors.whiteColor,
-                          ),
-                          child: TextFormField(
-                            controller: nameController,
-                            cursorColor: Colors.black,
-                            textInputAction: TextInputAction.next,
-                            inputFormatters: [
-                              LengthLimitingTextInputFormatter(20),
-                            ],
-                            decoration: DecorationCustom(
-                              suffixIcon: false,
-                              label: 'Your Name',
-                              prefixIcon: 'sms',
-                            ).textFieldDecoration(),
-                          ),
-                        ),
-                        SizedBox(height: height * 0.014),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 16.0),
-                          child: Text(
-                            'Company Name',
-                            style: ralewayStyle.copyWith(
-                              fontSize: 12.0,
-                              color: AppColors.blueDarkColor,
-                              fontWeight: FontWeight.w700,
+                            SizedBox(width: 16,),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 16.0),
+                                    child: Text(
+                                      'Company Name',
+                                      style: ralewayStyle.copyWith(
+                                        fontSize: 12.0,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 6.0),
+                                  Container(
+                                    height: 50.0,
+                                    width: width,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(16.0),
+                                        color: Colors.transparent
+                                      // color: AppColors.whiteColor,
+                                    ),
+                                    child: TextFormField(
+                                      controller: companyController,
+                                      cursorColor: Colors.black,
+                                      textInputAction: TextInputAction.next,
+                                      inputFormatters: [
+                                        LengthLimitingTextInputFormatter(50),
+                                      ],
+                                      decoration: DecorationCustom(
+                                        suffixIcon: false,
+                                        label: 'Your Company Name',
+                                        prefixIcon: 'sms',
+                                      ).textFieldDecoration(),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                        ),
-                        const SizedBox(height: 6.0),
-                        Container(
-                          height: 50.0,
-                          width: width,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(16.0),
-                              color: Colors.transparent
-                            // color: AppColors.whiteColor,
-                          ),
-                          child: TextFormField(
-                            controller: companyController,
-                            cursorColor: Colors.black,
-                            textInputAction: TextInputAction.next,
-                            inputFormatters: [
-                              LengthLimitingTextInputFormatter(50),
-                            ],
-                            decoration: DecorationCustom(
-                              suffixIcon: false,
-                              label: 'Your Company Name',
-                              prefixIcon: 'sms',
-                            ).textFieldDecoration(),
-                          ),
+                          ],
                         ),
                         SizedBox(height: height * 0.014),
                         Padding(
@@ -266,7 +334,7 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
                             'UserName',
                             style: ralewayStyle.copyWith(
                               fontSize: 12.0,
-                              color: AppColors.blueDarkColor,
+                              color: Colors.white,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
@@ -301,7 +369,7 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
                             'Gst No',
                             style: ralewayStyle.copyWith(
                               fontSize: 12.0,
-                              color: AppColors.blueDarkColor,
+                              color: Colors.white,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
@@ -336,7 +404,7 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
                             'Address',
                             style: ralewayStyle.copyWith(
                               fontSize: 12.0,
-                              color: AppColors.blueDarkColor,
+                              color: Colors.white,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
@@ -385,7 +453,7 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
                                       'State',
                                       style: ralewayStyle.copyWith(
                                         fontSize: 12.0,
-                                        color: AppColors.blueDarkColor,
+                                        color: Colors.white,
                                         fontWeight: FontWeight.w700,
                                       ),
                                     ),
@@ -400,19 +468,56 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
                                       color: Colors.transparent,
                                       // color: AppColors.whiteColor,
                                     ),
-                                    child: TextFormField(
-                                      controller: stateController,
-                                      cursorColor: Colors.black,
-                                      textInputAction: TextInputAction.next,
-                                      inputFormatters: [
-                                        LengthLimitingTextInputFormatter(20),
-                                      ],
-                                      decoration: DecorationCustom(
-                                        suffixIcon: false,
-                                        label: 'State',
-                                        prefixIcon: 'sms',
-                                      ).textFieldDecoration(),
-                                    ),
+                                    child: Material(
+                                      color: Colors.transparent,
+                                      borderRadius: BorderRadius.circular(16.0),
+                                      child: Autocomplete<String>(
+                                        optionsBuilder: (TextEditingValue textEditingValue) {
+                                          return stateList.where((String option) {
+                                            return option.toLowerCase().contains(textEditingValue.text.toLowerCase());
+                                          });
+                                        },
+                                        onSelected: (String selectedValue) {
+                                          print("Selected state: $selectedValue");
+                                        },
+                                        fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, FocusNode focusNode, VoidCallback onFieldSubmitted) {
+                                          return TextField(
+                                            controller: textEditingController,
+                                            focusNode: focusNode,
+                                            decoration: DecorationCustom(
+                                              suffixIcon: false,
+                                              label: 'State',
+                                              prefixIcon: 'sms',
+                                            ).textFieldDecoration(),
+                                          );
+                                        },
+                                        optionsViewBuilder: (BuildContext context, AutocompleteOnSelected<String> onSelected, Iterable<String> options) {
+                                          return Material(
+                                            child: Container(
+                                              height: 200.0,
+                                              child: Padding(
+                                                padding: const EdgeInsets.only(right: 30.0),
+                                                child: ListView(
+                                                  children: options.map((String option) => SizedBox(
+                                                    width: MediaQuery.of(context).size.width * 0.2,
+                                                    child: ListTile(
+                                                      title: Text(option),
+                                                      onTap: () {
+                                                        onSelected(option);
+                                                      },
+                                                    ),
+                                                  )).toList(),
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    )
+
+
+
+
                                   ),
                                 ],
                               ),
@@ -428,7 +533,7 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
                                       'City',
                                       style: ralewayStyle.copyWith(
                                         fontSize: 12.0,
-                                        color: AppColors.blueDarkColor,
+                                        color: Colors.white,
                                         fontWeight: FontWeight.w700,
                                       ),
                                     ),
@@ -468,7 +573,7 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
                             'Pincode',
                             style: ralewayStyle.copyWith(
                               fontSize: 12.0,
-                              color: AppColors.blueDarkColor,
+                              color: Colors.white,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
@@ -506,7 +611,7 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
                         ),
                         SizedBox(height: height * 0.014),
 
-                        SizedBox(height: height * 0.05),
+                        SizedBox(height: height * 0.03),
                         Material(
                           color: Colors.transparent,
                           child: InkWell(
@@ -516,7 +621,12 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
                               companyController.text.isNotEmpty &&
                               usernameController.text.isNotEmpty &&
                               gstNoController.text.isNotEmpty &&
-                              addressController.text.isNotEmpty) {
+                                  pincode.text.isNotEmpty &&
+                                  cityController.text.isNotEmpty &&
+                                  stateController.text.isNotEmpty &&
+                              addressController.text.isNotEmpty&&
+                                  imageController.text.isNotEmpty
+                              ) {
                                 setState(() {
                                   isLoading = true;
                                 });
@@ -525,7 +635,13 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
                                     companyName: companyController.text,
                                     userName: usernameController.text,
                                     gstNo: gstNoController.text,
-                                    address: addressController.text
+                                    address: addressController.text,
+                                    zipCode: pincode.text,
+                                    city: cityController.text,
+                                    state: stateController.text,
+                                    photo: pickedImage.isAbsolute
+                                        ? pickedImage.path
+                                        : ''
                                 ).then((value) async {
                                   if (value['status'] == 1) {
                                     setState(() {

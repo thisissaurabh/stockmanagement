@@ -69,6 +69,10 @@ Future<dynamic> companyRegister({
   required String userName,
   required String gstNo,
   required String address,
+  required String zipCode,
+  required String city,
+  required String state,
+  required String photo,
 }) async {
   var headers = {
     'Accept': 'application/json',
@@ -81,8 +85,13 @@ Future<dynamic> companyRegister({
     'copanyName': companyName,
     'userName': userName,
     'gstNumber': gstNo,
-    'address': address
+    'address': address,
+    'zip_code': zipCode,
+    'city': city,
+    'state': state,
   });
+  request.files.add(await http.MultipartFile.fromPath(
+      'image_url', photo));
   request.headers.addAll(headers);
   http.StreamedResponse response = await request.send();
   var resp = jsonDecode(await response.stream.bytesToString());

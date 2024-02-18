@@ -30,7 +30,7 @@ class MainButton extends StatelessWidget {
         child: Container(
           padding:  EdgeInsets.symmetric(horizontal: sizeHorizontal, vertical: sizeVerticle),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12.0),
+            borderRadius: BorderRadius.circular(radius ??12.0),
             color: color,
           ),
           child: Text(
@@ -75,7 +75,8 @@ class PlusButton extends StatelessWidget {
 
 class AddButtonWithText extends StatelessWidget {
   final VoidCallback onTap;
-  const AddButtonWithText({super.key, required this.onTap});
+  final Color color;
+  const AddButtonWithText({super.key, required this.onTap, required this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +84,7 @@ class AddButtonWithText extends StatelessWidget {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: purpleColor.withOpacity(0.80),
+          color: color,
           borderRadius: BorderRadius.circular(4),
         ),
         child: Padding(

@@ -31,7 +31,7 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: selectedColor,
+      backgroundColor: selectedGreenColor,
       body: SizedBox(
         height: height,
         width: width,
@@ -64,7 +64,7 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                     horizontal: ResponsiveWidget.isSmallScreen(context)
                         ? height * 0.032
                         : height * 0.12),
-                color: selectedColor,
+                color: selectedGreenColor,
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.only(bottom: 40.0),
                   child: Column(
@@ -79,14 +79,14 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                                 text: 'Setup',
                                 style: ralewayStyle.copyWith(
                                   fontSize: 32.0,
-                                  color: Colors.black,
+                                  color: Colors.white,
                                   fontWeight: FontWeight.w800,
                                 )),
                             TextSpan(
                               text: ' Password',
                               style: ralewayStyle.copyWith(
                                 fontWeight: FontWeight.w800,
-                                color: Colors.black,
+                                color: Colors.white,
                                 fontSize: 25.0,
                               ),
                             ),
@@ -99,7 +99,7 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                         style: ralewayStyle.copyWith(
                           fontSize: 15.0,
                           fontWeight: FontWeight.w400,
-                          color: Colors.black,
+                          color: Colors.white,
                         ),
                       ),
                       SizedBox(height: height * 0.014),
@@ -109,7 +109,7 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                           'Password',
                           style: ralewayStyle.copyWith(
                             fontSize: 12.0,
-                            color: AppColors.blueDarkColor,
+                            color: Colors.white,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
@@ -159,7 +159,7 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                           'ConfirmPassword',
                           style: ralewayStyle.copyWith(
                             fontSize: 12.0,
-                            color: AppColors.blueDarkColor,
+                            color: Colors.white,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
@@ -203,20 +203,6 @@ class _RegisterPasswordScreenState extends State<RegisterPasswordScreen> {
                         ),
                       ),
                       SizedBox(height: 8,),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: TextButton(
-                          onPressed: () {},
-                          child: Text(
-                            'Forgot Password?',
-                            style: ralewayStyle.copyWith(
-                              fontSize: 12.0,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ),
                       SizedBox(height: height * 0.05),
                       isLoading ?
                       LoadingButton() :

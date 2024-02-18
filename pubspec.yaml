@@ -56,6 +56,7 @@ dependencies:
   pdf: ^3.10.7
   printing: ^5.11.1
   ionicons: ^0.2.2
+#  dropdown_search: ^4.0.0
   # create pdf document
 #  pdf: ^3.1.0
 
@@ -96,6 +97,7 @@ flutter:
     - assets/icons/
     - assets/icon/
 
+
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
@@ -112,17 +114,36 @@ flutter:
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
+
+
+
+  fonts:
+    - family: Butler
+      fonts:
+        - asset: assets/fonts/Inter-Black.ttf
+        - asset: assets/fonts/Inter-Bold.ttf
+        - asset: assets/fonts/Inter-ExtraBold.ttf
+        - asset: assets/fonts/Inter-ExtraLight.ttf
+        - asset: assets/fonts/Inter-Light.ttf
+        - asset: assets/fonts/Inter-Medium.ttf
+        - asset: assets/fonts/Inter-Regular.ttf
+        - asset: assets/fonts/Inter-SemiBold.ttf
+        - asset: assets/fonts/Inter-Thin.ttf
+
+
+#           style: italic
+
+#     fonts:
+#       - family: Butler
+#         fonts:
+#           - asset: assets/fonts/Inter-Black.ttf
+#           - asset: assets/fonts/Inter-Bold.ttf
+#           - asset: assets/fonts/Inter-ExtraBold.ttf
+#           - asset: assets/fonts/Inter-ExtraLight.ttf
+#           - asset: assets/fonts/Inter-Light.ttf
+#           - asset: assets/fonts/Inter-Medium.ttf
+#           - asset: assets/fonts/Inter-Regular.ttf
+#           - asset: assets/fonts/Inter-SemiBold.ttf
+#           - asset: assets/fonts/Inter-Thin.ttf
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

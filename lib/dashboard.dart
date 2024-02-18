@@ -13,7 +13,10 @@ import 'package:spyco_shop_management/screens/supplier/add_supplier.dart';
 import 'package:spyco_shop_management/screens/supplier/supplier.dart';
 import 'package:spyco_shop_management/screens/users/users.dart';
 import 'package:spyco_shop_management/stock/add_stock.dart';
+import 'package:spyco_shop_management/stock/barcode.dart';
+import 'package:spyco_shop_management/stock/view_all_stock.dart';
 import 'constants/colors.dart';
+import 'constants/text_styles.dart';
 import 'controllers/MenuAppController.dart';
 import 'crm/crm.dart';
 
@@ -40,394 +43,422 @@ class _DashBoardState extends State<DashBoard> {
           body: Row(
             children: [
               Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 8.0, top: 8, bottom: 8),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(22),
-                      color:Colors.black,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: ListView(
-                        children: [
-                          DrawerHeader(
-                            child: Center(
-                                child: Image.asset(
-                                    "assets/images/Logo final.jpg")),
-                          ),
-                          DrawerListTile(
-                            title: "Dashboard",
-                            svgSrc: "assets/icon/dashboard-svgrepo-com.svg",
-                            color: Colors.black,
-                            iconColor:
-                                _index == 0 ? selectedColor : Colors.black,
-                            svgColor: _index == 0 ? Colors.black : Colors.white,
-                            selectColor:
-                                _index == 0 ? Colors.white : Colors.transparent,
-                            selectTextColor:
-                                _index == 0 ? Colors.black : Colors.white,
-                            font:
-                                _index == 0 ? FontWeight.w600 : FontWeight.w300,
-                            press: () {
-                              setState(() {
-                                _index = 0;
-                              });
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //     builder: (context) => MultiProvider(
-                              //       providers: [
-                              //         ChangeNotifierProvider(
-                              //           create: (context) => MenuAppController(),
-                              //         ),
-                              //       ],
-                              //       child: MainScreen(),
-                              //     ),
-                              //   ),
-                              // );
-                            },
-                          ),
-                          DropDownMenu(
-                            title: 'Supplier',
-                            color: Colors.black,
-                            iconColor: Colors.black,
-                            leadingImage: 'assets/icon/box-packed-svgrepo-com.svg',
-                            child: Column(
-                              children: [
-                                CustomListTile(
-                                  selectColor: _index == 1
-                                      ? Colors.white
-                                      : Colors.transparent,
-                                  selectTextColor:
-                                      _index == 1 ? Colors.black : Colors.white,
-                                  font: _index == 1
-                                      ? FontWeight.w600
-                                      : FontWeight.w300,
-                                  press: () {
-                                    setState(() {
-                                      _index = 1;
-                                    });
-                                    // Navigator.push(
-                                    //   context,
-                                    //   MaterialPageRoute(
-                                    //     builder: (context) => MultiProvider(
-                                    //       providers: [
-                                    //         ChangeNotifierProvider(
-                                    //           create: (context) => MenuAppController(),
-                                    //         ),
-                                    //       ],
-                                    //       child: AddSupplier(),
-                                    //     ),
-                                    //   ),
-                                    // );
-                                  },
-                                  title: "Add supplier",
-                                ),
-                                CustomListTile(
-                                  selectColor: _index == 2
-                                      ? Colors.white
-                                      : Colors.transparent,
-                                  selectTextColor:
-                                      _index == 2 ? Colors.black : Colors.white,
-                                  font: _index == 2
-                                      ? FontWeight.w600
-                                      : FontWeight.w300,
-                                  press: () {
-                                    setState(() {
-                                      _index = 2;
-                                    });
-                                    // Navigator.push(
-                                    //   context,
-                                    //   MaterialPageRoute(
-                                    //     builder: (context) => MultiProvider(
-                                    //       providers: [
-                                    //         ChangeNotifierProvider(
-                                    //           create: (context) => MenuAppController(),
-                                    //         ),
-                                    //       ],
-                                    //       child: SupplierScreen(),
-                                    //     ),
-                                    //   ),
-                                    // );
-                                  },
-                                  title: "View all supplier",
-                                ),
-                              ],
+                child: Container(
+                  decoration: BoxDecoration(
+                    color:colorSideMenu,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: ListView(
+                      children: [
+                        Container(
+                          height: 100,
+                          child: Center(
+                            child: Text(
+                              "Logo",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 32,
+                                color: Colors.white
+                              ),
                             ),
-                          ),
-                          DropDownMenu(
-                            title: 'Purchase',
-                            leadingImage: 'assets/icon/square-dollar-chart-svgrepo-com.svg',
-                            color: Colors.black,
-                            iconColor: Colors.black,
-                            child: Column(
-                              children: [
-                                CustomListTile(
-                                  selectColor: _index == 3
-                                      ? Colors.white
-                                      : Colors.transparent,
-                                  selectTextColor:
-                                      _index == 3 ? Colors.black : Colors.white,
-                                  font: _index == 3
-                                      ? FontWeight.w600
-                                      : FontWeight.w300,
-                                  press: () {
-                                    setState(() {
-                                      _index = 3;
-                                    });
-                                  },
-                                  title: "Add Purchase",
-                                ),
-                                CustomListTile(
-                                  selectColor: Colors.black,
-                                  selectTextColor: Colors.white,
-                                  font: FontWeight.w600,
-                                  press: () {},
-                                  title: "View all stock",
-                                ),
-                              ],
-                            ),
-                          ),
-                          DrawerListTile(
-                            color: Colors.black,
-                            selectTextColor:
-                                Colors.white ,
-                            svgColor:
-                             Colors.white,
-                            title: "Pos",
-                            svgSrc: "assets/icon/card-pos-svgrepo-com.svg",
-                            iconColor:
-                                 Colors.black,
-                            selectColor:
-                                Colors.black ,
-                            font:
-                                FontWeight.w600 ,
-                            press: () {
-                              setState(() {
-                                _index = 4;
-                              });
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => MultiProvider(
-                                    providers: [
-                                      ChangeNotifierProvider(
-                                        create: (context) => MenuAppController(),
-                                      ),
-                                    ],
-                                    child: Invoice(),
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                          DropDownMenu(
-                            title: 'Customer',
-                            leadingImage: 'assets/icons/menu_doc.svg',
-                            color: Colors.black,
-                            iconColor: Colors.black,
-                            child: Column(
-                              children: [
-                                CustomListTile(
-                                  selectColor: _index == 4
-                                      ? Colors.white
-                                      : Colors.transparent,
-                                  selectTextColor:
-                                      _index == 4 ? Colors.black : Colors.white,
-                                  font: _index == 4
-                                      ? FontWeight.w600
-                                      : FontWeight.w300,
-                                  press: () {
-                                    setState(() {
-                                      _index = 4;
-                                    });
-                                    // Navigator.push(
-                                    //   context,
-                                    //   MaterialPageRoute(
-                                    //     builder: (context) => MultiProvider(
-                                    //       providers: [
-                                    //         ChangeNotifierProvider(
-                                    //           create: (context) => MenuAppController(),
-                                    //         ),
-                                    //       ],
-                                    //       child: AddCustomer(),
-                                    //     ),
-                                    //   ),
-                                    // );
-                                  },
-                                  title: "Add Customer",
-                                ),
-                                CustomListTile(
-                                  selectColor: _index == 5
-                                      ? Colors.white
-                                      : Colors.transparent,
-                                  selectTextColor:
-                                      _index == 5 ? Colors.black : Colors.white,
-                                  font: _index == 5
-                                      ? FontWeight.w600
-                                      : FontWeight.w300,
-                                  press: () {
-                                    setState(() {
-                                      _index = 5;
-                                    });
-                                    // Navigator.push(
-                                    //   context,
-                                    //   MaterialPageRoute(
-                                    //     builder: (context) => MultiProvider(
-                                    //       providers: [
-                                    //         ChangeNotifierProvider(
-                                    //           create: (context) => MenuAppController(),
-                                    //         ),
-                                    //       ],
-                                    //       child: CustomersScreen(),
-                                    //     ),
-                                    //   ),
-                                    // );
-                                  },
-                                  title: "All Customers",
-                                ),
-                              ],
-                            ),
-                          ),
-                          DrawerListTile(
-                            title: "Users",
-                            svgSrc: "assets/icon/person-square-svgrepo-com.svg",
-                            iconColor:
-                                _index == 6 ? selectedColor : Colors.black,
-                            color: Colors.black,
-                            selectTextColor:
-                                _index == 6 ? Colors.black : Colors.white,
-                            selectColor:
-                                _index == 6 ? Colors.white : Colors.transparent,
-                            svgColor: _index == 6 ? Colors.black : Colors.white,
-                            font:
-                                _index == 6 ? FontWeight.w600 : FontWeight.w300,
-                            press: () {
-                              setState(() {
-                                _index = 6;
-                              });
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //     builder: (context) => MultiProvider(
-                              //       providers: [
-                              //         ChangeNotifierProvider(
-                              //           create: (context) => MenuAppController(),
-                              //         ),
-                              //       ],
-                              //       child: Users(),
-                              //     ),
-                              //   ),
-                              // );
-                            },
-                          ),
-                          DrawerListTile(
-                            title: "Company profile",
-                            svgSrc: "assets/icon/company-svgrepo-com.svg",
-                            color: Colors.black,
-                            iconColor:
-                                _index == 7 ? selectedColor : Colors.black,
-                            selectTextColor:
-                                _index == 7 ? Colors.black : Colors.white,
-                            selectColor:
-                                _index == 7 ? Colors.white : Colors.transparent,
-                            svgColor: _index == 7 ? Colors.black : Colors.white,
-                            font:
-                                _index == 7 ? FontWeight.w600 : FontWeight.w300,
-                            press: () {
-                              setState(() {
-                                _index = 7;
-                              });
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //     builder: (context) => MultiProvider(
-                              //       providers: [
-                              //         ChangeNotifierProvider(
-                              //           create: (context) => MenuAppController(),
-                              //         ),
-                              //       ],
-                              //       child: CompanyProfile(),
-                              //     ),
-                              //   ),
-                              // );
-                            },
                           ),
 
-                          DrawerListTile(
-                            title: "Management",
-                            svgSrc: "assets/icon/dashboard-svgrepo-com.svg",
-                            color: Colors.black,
-                            iconColor:
-                            _index == 8 ? selectedColor : Colors.black,
-                            svgColor: _index == 8 ? Colors.black : Colors.white,
-                            selectColor:
-                            _index == 8 ? Colors.white : Colors.transparent,
-                            selectTextColor:
-                            _index == 8 ? Colors.black : Colors.white,
-                            font:
-                            _index == 8 ? FontWeight.w600 : FontWeight.w300,
-                            press: () {
-                              setState(() {
-                                _index = 8;
-                              });
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //     builder: (context) => MultiProvider(
-                              //       providers: [
-                              //         ChangeNotifierProvider(
-                              //           create: (context) => MenuAppController(),
-                              //         ),
-                              //       ],
-                              //       child: MainScreen(),
-                              //     ),
-                              //   ),
-                              // );
-                            },
+                        ),
+                        // DrawerHeader(
+                        //   child: Center(
+                        //       child: Icon(Icons.logo_dev_outlined)),
+                        // ),
+                        DrawerListTile(
+                          text:  sidemenTextWhite,
+                          title: "Dashboard",
+                          svgSrc: "assets/icon/dashboard-svgrepo-com.svg",
+                          selectedColor: _index == 0  ? selectedGreenColor : colorSideMenu,
+                          svgColor:  Colors.white,
+                          press: () {
+                            setState(() {
+                              _index = 0;
+                            });
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => MultiProvider(
+                            //       providers: [
+                            //         ChangeNotifierProvider(
+                            //           create: (context) => MenuAppController(),
+                            //         ),
+                            //       ],
+                            //       child: MainScreen(),
+                            //     ),
+                            //   ),
+                            // );
+                          },
+                        ),
+                        DrawerListTile(
+                          title: "Supplier",
+                          svgSrc: "assets/icon/dashboard-svgrepo-com.svg",
+                          selectedColor: _index == 1  ? selectedGreenColor : colorSideMenu,
+                          text: sidemenTextWhite,
+                          svgColor:Colors.white ,
+                          press: () {
+                            setState(() {
+                              _index = 1;
+                            });
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => MultiProvider(
+                            //       providers: [
+                            //         ChangeNotifierProvider(
+                            //           create: (context) => MenuAppController(),
+                            //         ),
+                            //       ],
+                            //       child: MainScreen(),
+                            //     ),
+                            //   ),
+                            // );
+                          },
+                        ),
+                        // DropDownMenu(
+                        //   title: 'Supplier',
+                        //   color:selectedGreenColor,
+                        //   leadingImage: 'assets/icon/box-packed-svgrepo-com.svg',
+                        //   child: Column(
+                        //     children: [
+                        //       // CustomListTile(
+                        //       //   selectColor: _index == 1
+                        //       //       ? Colors.white
+                        //       //       : Colors.transparent,
+                        //       //   selectTextColor:
+                        //       //       _index == 1 ? Colors.black : Colors.white,
+                        //       //   font: _index == 1
+                        //       //       ? FontWeight.w600
+                        //       //       : FontWeight.w300,
+                        //       //   press: () {
+                        //       //     setState(() {
+                        //       //       _index = 1;
+                        //       //     });
+                        //       //     // Navigator.push(
+                        //       //     //   context,
+                        //       //     //   MaterialPageRoute(
+                        //       //     //     builder: (context) => MultiProvider(
+                        //       //     //       providers: [
+                        //       //     //         ChangeNotifierProvider(
+                        //       //     //           create: (context) => MenuAppController(),
+                        //       //     //         ),
+                        //       //     //       ],
+                        //       //     //       child: AddSupplier(),
+                        //       //     //     ),
+                        //       //     //   ),
+                        //       //     // );
+                        //       //   },
+                        //       //   title: "Add supplier",
+                        //       // ),
+                        //       // CustomListTile(
+                        //       //   selectColor: _index == 1
+                        //       //       ? Colors.white
+                        //       //       : Colors.transparent,
+                        //       //   selectTextColor:
+                        //       //       _index == 1 ? Colors.black : Colors.white,
+                        //       //   font: _index == 2
+                        //       //       ? FontWeight.w600
+                        //       //       : FontWeight.w300,
+                        //       //   press: () {
+                        //       //     setState(() {
+                        //       //       _index = 2;
+                        //       //     });
+                        //       //     // Navigator.push(
+                        //       //     //   context,
+                        //       //     //   MaterialPageRoute(
+                        //       //     //     builder: (context) => MultiProvider(
+                        //       //     //       providers: [
+                        //       //     //         ChangeNotifierProvider(
+                        //       //     //           create: (context) => MenuAppController(),
+                        //       //     //         ),
+                        //       //     //       ],
+                        //       //     //       child: SupplierScreen(),
+                        //       //     //     ),
+                        //       //     //   ),
+                        //       //     // );
+                        //       //   },
+                        //       //   title: "View all supplier",
+                        //       // ),
+                        //     ],
+                        //   ),
+                        // ),
+                        DropDownMenu(
+                          title: 'Purchase',
+                          leadingImage: 'assets/icon/square-dollar-chart-svgrepo-com.svg',
+                          text:sidemenTextWhite,
+                          child: Column(
+                            children: [
+                              CustomListTile(
+                                text: sidemenTextWhite,
+
+                                press: () {
+                                  setState(() {
+                                    _index = 2;
+                                  });
+                                },
+                                title: "Add Purchase",
+                                selectedColor: _index ==  2 ? selectedGreenColor : colorSideMenu,
+                              ),
+                              CustomListTile(
+                                text: sidemenTextWhite,
+                                selectedColor:  _index ==  3 ? selectedGreenColor : colorSideMenu,
+
+
+                                press: () {
+                                  setState(() {
+                                    _index = 3;
+                                  });
+                                },
+                                title: "View all stock",
+                              ),
+                              CustomListTile(
+                                text: sidemenTextWhite,
+                                selectedColor:  _index ==  4 ? selectedGreenColor : colorSideMenu,
+
+                                press: () {
+                                  setState(() {
+                                    _index = 4;
+                                  });
+
+                                },
+                                title: "Barcode",
+                              ),
+                            ],
                           ),
-                          DrawerListTile(
-                            title: "CRM",
-                            svgSrc: "assets/icon/dashboard-svgrepo-com.svg",
-                            color: Colors.black,
-                            iconColor:
-                            _index == 9 ? selectedColor : Colors.black,
-                            svgColor: _index == 9 ? Colors.black : Colors.white,
-                            selectColor:
-                            _index == 9 ? Colors.white : Colors.transparent,
-                            selectTextColor:
-                            _index == 9 ? Colors.black : Colors.white,
-                            font:
-                            _index == 9 ? FontWeight.w600 : FontWeight.w300,
-                            press: () {
-                              setState(() {
-                                _index = 9;
-                              });
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //     builder: (context) => MultiProvider(
-                              //       providers: [
-                              //         ChangeNotifierProvider(
-                              //           create: (context) => MenuAppController(),
-                              //         ),
-                              //       ],
-                              //       child: MainScreen(),
-                              //     ),
-                              //   ),
-                              // );
-                            },
+                        ),
+                        DrawerListTile(
+                          svgColor:
+                          Colors.white,
+                          title: "Pos",
+                          selectedColor: colorSideMenu,
+                          text:  sidemenTextWhite ,
+                          svgSrc: "assets/icon/card-pos-svgrepo-com.svg",
+                          press: () {
+                            // setState(() {
+                            //   _index = 5;
+                            // });
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MultiProvider(
+                                  providers: [
+                                    ChangeNotifierProvider(
+                                      create: (context) => MenuAppController(),
+                                    ),
+                                  ],
+                                  child: Invoice(),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                        DrawerListTile(
+                          selectedColor:  _index ==  5 ? selectedGreenColor : colorSideMenu,
+                          title: "Customer",
+                          svgSrc: "assets/icon/dashboard-svgrepo-com.svg",
+                          text: sidemenTextWhite,
+                          svgColor: Colors.white,
+
+                          press: () {
+                            setState(() {
+                              _index = 5;
+                            });
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => MultiProvider(
+                            //       providers: [
+                            //         ChangeNotifierProvider(
+                            //           create: (context) => MenuAppController(),
+                            //         ),
+                            //       ],
+                            //       child: MainScreen(),
+                            //     ),
+                            //   ),
+                            // );
+                          },
+                        ),
+                       /* DropDownMenu(
+                          title: 'Customer',
+                          leadingImage: 'assets/icons/menu_doc.svg',
+                          color: selectedGreenColor,
+                          child: Column(
+                            children: [
+                              CustomListTile(
+                                selectColor: _index == 7
+                                    ? Colors.white
+                                    : Colors.transparent,
+                                selectTextColor:
+                                    _index == 7 ? Colors.black : Colors.white,
+                                font: _index == 7
+                                    ? FontWeight.w600
+                                    : FontWeight.w300,
+                                press: () {
+                                  setState(() {
+                                    _index = 7;
+                                  });
+                                  // Navigator.push(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //     builder: (context) => MultiProvider(
+                                  //       providers: [
+                                  //         ChangeNotifierProvider(
+                                  //           create: (context) => MenuAppController(),
+                                  //         ),
+                                  //       ],
+                                  //       child: AddCustomer(),
+                                  //     ),
+                                  //   ),
+                                  // );
+                                },
+                                title: "Add Customer",
+                              ),
+                              CustomListTile(
+                                selectColor: _index == 8
+                                    ? Colors.white
+                                    : Colors.transparent,
+                                selectTextColor:
+                                    _index == 8 ? Colors.black : Colors.white,
+                                font: _index == 8
+                                    ? FontWeight.w600
+                                    : FontWeight.w300,
+                                press: () {
+                                  setState(() {
+                                    _index = 8;
+                                  });
+                                  // Navigator.push(
+                                  //   context,
+                                  //   MaterialPageRoute(
+                                  //     builder: (context) => MultiProvider(
+                                  //       providers: [
+                                  //         ChangeNotifierProvider(
+                                  //           create: (context) => MenuAppController(),
+                                  //         ),
+                                  //       ],
+                                  //       child: CustomersScreen(),
+                                  //     ),
+                                  //   ),
+                                  // );
+                                },
+                                title: "All Customers",
+                              ),
+                            ],
                           ),
-                          // DrawerListTile(
-                          //   title: "Settings",
-                          //   svgSrc: "assets/icons/menu_setting.svg",
-                          //   press: () {},
-                          //   color: Colors.black,
-                          //   textColor: Colors.white, selectedIconColor: Colors.white,
-                          // ),
-                        ],
-                      ),
+                        ),*/
+                        DrawerListTile(
+                          selectedColor:  _index ==  6 ? selectedGreenColor : colorSideMenu,
+                          title: "Users",
+                          svgSrc: "assets/icon/person-square-svgrepo-com.svg",
+                          text: sidemenTextWhite,
+                          svgColor:  Colors.white ,
+                          press: () {
+                            setState(() {
+                              _index = 6;
+                            });
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => MultiProvider(
+                            //       providers: [
+                            //         ChangeNotifierProvider(
+                            //           create: (context) => MenuAppController(),
+                            //         ),
+                            //       ],
+                            //       child: Users(),
+                            //     ),
+                            //   ),
+                            // );
+                          },
+                        ),
+                        DrawerListTile(
+                          selectedColor:  _index ==  7 ? selectedGreenColor : colorSideMenu,
+                          title: "Company profile",
+                          svgSrc: "assets/icon/company-svgrepo-com.svg",
+                          text: sidemenTextWhite,
+                          svgColor:  Colors.white ,
+
+                          press: () {
+                            setState(() {
+                              _index = 7;
+                            });
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => MultiProvider(
+                            //       providers: [
+                            //         ChangeNotifierProvider(
+                            //           create: (context) => MenuAppController(),
+                            //         ),
+                            //       ],
+                            //       child: CompanyProfile(),
+                            //     ),
+                            //   ),
+                            // );
+                          },
+                        ),
+
+                        DrawerListTile(
+                          selectedColor:  _index ==  8 ? selectedGreenColor : colorSideMenu,
+                          title: "Management",
+                          svgSrc: "assets/icon/dashboard-svgrepo-com.svg",
+                          text: sidemenTextWhite,
+                          svgColor:  Colors.white,
+                          press: () {
+                            setState(() {
+                              _index = 8;
+                            });
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => MultiProvider(
+                            //       providers: [
+                            //         ChangeNotifierProvider(
+                            //           create: (context) => MenuAppController(),
+                            //         ),
+                            //       ],
+                            //       child: MainScreen(),
+                            //     ),
+                            //   ),
+                            // );
+                          },
+                        ),
+                        DrawerListTile(
+                          selectedColor:  _index ==  9 ? selectedGreenColor : colorSideMenu,
+                          title: "CRM",
+                          svgSrc: "assets/icon/dashboard-svgrepo-com.svg",
+                          text: sidemenTextWhite,
+                          svgColor:  Colors.white ,
+                          press: () {
+                            setState(() {
+                              _index = 9;
+                            });
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //     builder: (context) => MultiProvider(
+                            //       providers: [
+                            //         ChangeNotifierProvider(
+                            //           create: (context) => MenuAppController(),
+                            //         ),
+                            //       ],
+                            //       child: MainScreen(),
+                            //     ),
+                            //   ),
+                            // );
+                          },
+                        ),
+                        // DrawerListTile(
+                        //   title: "Settings",
+                        //   svgSrc: "assets/icons/menu_setting.svg",
+                        //   press: () {},
+                        //   color: Colors.black,
+                        //   textColor: Colors.white, selectedIconColor: Colors.white,
+                        // ),
+                      ],
                     ),
                   ),
                 ),
@@ -444,14 +475,14 @@ class _DashBoardState extends State<DashBoard> {
                       ],
                       child: MainScreen(),
                     ),
-                    MultiProvider(
+                /*    MultiProvider(
                       providers: [
                         ChangeNotifierProvider(
                           create: (context) => MenuAppController(),
                         ),
                       ],
                       child: AddSupplier(),
-                    ),
+                    ),*/
                     MultiProvider(
                       providers: [
                         ChangeNotifierProvider(
@@ -468,15 +499,34 @@ class _DashBoardState extends State<DashBoard> {
                       ],
                       child: AddStock(),
                     ),
-
                     MultiProvider(
                       providers: [
                         ChangeNotifierProvider(
                           create: (context) => MenuAppController(),
                         ),
                       ],
-                      child: AddCustomer(),
+                      child: ViewAllStock(),
                     ),
+                    MultiProvider(
+                      providers: [
+                        ChangeNotifierProvider(
+                          create: (context) => MenuAppController(),
+                        ),
+                      ],
+                      child: Barcode(),
+                    ),
+
+
+                  /*  MultiProvider(
+                      providers: [
+                        ChangeNotifierProvider(
+                          create: (context) => MenuAppController(),
+                        ),
+                      ],
+                      child: AddCustomer(),
+                    ),*/
+
+
                     MultiProvider(
                       providers: [
                         ChangeNotifierProvider(
@@ -533,25 +583,27 @@ class CustomListTile extends StatelessWidget {
     super.key,
       required this.title,
       required this.press,
-      required this.selectColor,
-      required this.selectTextColor,
-      required this.font
+      required this.text,
+    required this.selectedColor,
+
+
   });
   final String title;
   final VoidCallback press;
-  final Color selectColor;
-  final Color selectTextColor;
-  final FontWeight font;
+  final TextStyle text;
+  final Color selectedColor;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: selectColor, borderRadius: BorderRadius.circular(30)),
+      color: selectedColor,
+        borderRadius: BorderRadius.circular(12)
+      ),
       child: ListTile(
         title: Text(
           title,
-          style: TextStyle(color: selectTextColor, fontWeight: font),
+          style: text,
         ),
         onTap: press,
       ),
@@ -566,23 +618,18 @@ class DrawerListTile extends StatelessWidget {
     required this.title,
     required this.svgSrc,
     required this.press,
-    required this.color,
-    required this.iconColor,
-    required this.selectColor,
-    required this.selectTextColor,
     required this.svgColor,
-    required this.font,
+    required this.text,
+    required this.selectedColor,
+
     // required this.textColor, required this.selectedIconColor,
   }) : super(key: key);
 
   final String title, svgSrc;
   final VoidCallback press;
-  final Color color;
-  final Color iconColor;
   final Color svgColor;
-  final Color selectColor;
-  final Color selectTextColor;
-  final FontWeight font;
+  final TextStyle text;
+  final Color selectedColor;
 
   // final Color textColor;
   // final Color selectedIconColor;
@@ -591,32 +638,26 @@ class DrawerListTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-          color: selectColor, borderRadius: BorderRadius.circular(30)),
+          color: selectedColor,
+          borderRadius: BorderRadius.circular(12)
+      ),
+
       child: ListTile(
         onTap: press,
         horizontalTitleGap: 0.0,
-        leading: Container(
-          height: 38,
-          width: 38,
-          clipBehavior: Clip.hardEdge,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: iconColor,
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: SvgPicture.asset(
-              svgSrc,
-              color: svgColor,
-              // height: 16,
-            ),
+        leading: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: SvgPicture.asset(
+            svgSrc,
+            color: svgColor,
+            // height: 16,
           ),
         ),
         title: Padding(
           padding: const EdgeInsets.only(left: 8.0),
           child: Text(
             title,
-            style: TextStyle(color: selectTextColor, fontWeight: font),
+            style: text,
           ),
         ),
       ),
@@ -625,18 +666,19 @@ class DrawerListTile extends StatelessWidget {
 }
 
 class DropDownMenu extends StatefulWidget {
-  final String title, leadingImage;
+  final String title,
+      leadingImage;
   final Widget child;
-  final Color color;
-  final Color iconColor;
+  final TextStyle text;
+
 
   const DropDownMenu(
       {super.key,
       required this.title,
       required this.child,
       required this.leadingImage,
-      required this.color,
-      required this.iconColor});
+        required this.text,
+      });
 
   @override
   State<DropDownMenu> createState() => _DropDownMenuState();
@@ -647,58 +689,53 @@ class _DropDownMenuState extends State<DropDownMenu> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: widget.color,
-      child: ExpansionTile(
-        expandedAlignment: Alignment.centerLeft,
+    return StreamBuilder<Object>(
+      stream: null,
+      builder: (context, snapshot) {
+        return Container(
+          child: ExpansionTile(
+            expandedAlignment: Alignment.centerLeft,
 
-        title: Row(
-          children: [
-            Container(
-              height: 38,
-              width: 38,
-              clipBehavior: Clip.hardEdge,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: widget.iconColor,
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: SvgPicture.asset(
-                  widget.leadingImage,
-                  color: Colors.white,
+            title: Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: SvgPicture.asset(
+                    widget.leadingImage,
+                    color: Colors.white,
+                  ),
                 ),
-              ),
+                SizedBox(
+                  width: 6,
+                ),
+                Text(widget.title, style: widget.text),
+              ],
             ),
-            SizedBox(
-              width: 6,
-            ),
-            Text(widget.title, style: TextStyle(color: Colors.white)),
-          ],
-        ),
-        trailing: isExpanded
-            ? Image.asset(
-                'assets/images/dropdown reverse.png',
-                height: 16,
-                color: sideMenuTextColor,
-              )
-            : Image.asset(
-                'assets/images/dropdown.png',
-                height: 16,
-                color: sideMenuTextColor,
-              ),
-        onExpansionChanged: (bool expanded) {
-          setState(() => isExpanded = expanded);
-        },
+            trailing: isExpanded
+                ? Image.asset(
+                    'assets/images/dropdown reverse.png',
+                    height: 16,
+                    color: unSelectedMenuTextColor,
+                  )
+                : Image.asset(
+                    'assets/images/dropdown.png',
+                    height: 16,
+                    color: unSelectedMenuTextColor,
+                  ),
+            onExpansionChanged: (bool expanded) {
+              setState(() => isExpanded = expanded);
+            },
 
-        childrenPadding: EdgeInsets.only(left: 30),
-        //children padding
-        children: [
-          widget.child,
+            childrenPadding: EdgeInsets.only(left: 30),
+            //children padding
+            children: [
+              widget.child,
 
-          //more child menu
-        ],
-      ),
+              //more child menu
+            ],
+          ),
+        );
+      }
     );
   }
 }

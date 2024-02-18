@@ -41,8 +41,19 @@ const primaryColor = Color(0xFF2697FF);
 // const secondaryColor = Color(0xFF2A2D3E);
 const secondaryColor = Color(0xFFf4f6fa);
 const bgColor = Color(0xFF844dfb);
-const scaffoldColor = Color(0xFFf7f6fb);
+const scaffoldColor = Color(0xFFf3f3f9);
+// const scaffoldColor = Color(0xFFf7f6fb);
 const sideMenuTextColor = Color(0xFF89878c);
+const unSelectedMenuTextColor = Color(0xFFa5b6e4);
+const colorMainGrey = Color(0xFF808a93);
+const colorLightGreen = Color(0xFFd8edf9);
+const colorBlue = Color(0xFF529cdb
+);
+const colorLightOrange = Color(0xFFfef2df);
+const colorOrange = Color(0xFFf7b84d);
+
+const colorSideMenu = Color(0xFF323237);
+
 
 
 
@@ -52,3 +63,4 @@ const mainscreenColor = Colors.white;
 // const bgColor = Colors.yellow;
 
 const defaultPadding = 16.0;
+

@@ -9,6 +9,56 @@ final TextStyle pageTitle = GoogleFonts.interTight(
     color: Colors.black,
   ),
 );
+final TextStyle pageTitle16 = GoogleFonts.interTight(
+  textStyle: TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w800,
+    color: Colors.black,
+  ),
+);
+final TextStyle sidemenTextWhite = GoogleFonts.hammersmithOne(
+  textStyle: TextStyle(
+    fontSize: 16,
+    color: Colors.white,
+  ),
+);
+final TextStyle sidemenTextUnSelected = GoogleFonts.hammersmithOne(
+  textStyle: TextStyle(
+    fontSize: 16,
+    color: unSelectedMenuTextColor,
+  ),
+);
+
+final TextStyle textMainGrey = GoogleFonts.interTight(
+  textStyle: TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    color: colorMainGrey,
+  ),
+);
+final TextStyle textMainBlack = GoogleFonts.interTight(
+  textStyle: TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w600,
+    color: Colors.black,
+  ),
+);
+
+final TextStyle textGreenColor = GoogleFonts.interTight(
+  textStyle: TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w400,
+    color: selectedGreenColor,
+  ),
+);
+
+final TextStyle titleGrey16 = GoogleFonts.manrope(
+  textStyle: TextStyle(
+    fontSize: 13,
+    fontWeight: FontWeight.w600,
+    color: k62696A,
+  ),
+);
 final TextStyle title40 = GoogleFonts.interTight(
   textStyle: TextStyle(
     fontSize: 40,
@@ -101,4 +151,10 @@ final TextStyle paymentModeText = GoogleFonts.interTight(
 );
 
 
-
+final TextStyle textfieldTopText = GoogleFonts.interTight(
+  textStyle: TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w500,
+    color: Colors.black,
+  ),
+);

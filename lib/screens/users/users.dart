@@ -23,6 +23,8 @@ import 'package:spyco_shop_management/widgets/intraction_buttons.dart';
 import 'package:spyco_shop_management/widgets/loading.dart';
 import 'package:spyco_shop_management/widgets/main_button.dart';
 
+import 'add_users_dialog.dart';
+
 class Users extends StatefulWidget {
   const Users({super.key});
 
@@ -129,20 +131,30 @@ class _AllUsersListState extends State<AllUsersList> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 AddButtonWithText(
+                  color: selectedGreenColor,
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => MultiProvider(
-                          providers: [
-                            ChangeNotifierProvider(
-                              create: (context) => MenuAppController(),
-                            ),
-                          ],
-                          child: AddUsers(),
-                        ),
-                      ),
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AddUserDialog(
+                          title: 'Dialog Title',
+                          content: 'This is the content of the dialog.',
+                        );
+                      },
                     );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => MultiProvider(
+                    //       providers: [
+                    //         ChangeNotifierProvider(
+                    //           create: (context) => MenuAppController(),
+                    //         ),
+                    //       ],
+                    //       child: AddUsers(),
+                    //     ),
+                    //   ),
+                    // );
                   },
                 ),
               ],

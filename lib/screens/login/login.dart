@@ -28,6 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final passwordController = TextEditingController();
   bool showEye = false;
   bool isLoading = false;
+  final _formKey = GlobalKey<FormState>();
 
   LoginResponse? response;
   @override
@@ -35,7 +36,7 @@ class _LoginScreenState extends State<LoginScreen> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: selectedColor,
+      backgroundColor: selectedGreenColor,
       body: SizedBox(
         height: height,
         width: width,
@@ -64,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     horizontal: ResponsiveWidget.isSmallScreen(context)
                         ? height * 0.032
                         : height * 0.12),
-                color: selectedColor,
+                color: selectedGreenColor,
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.only(bottom: 40.0),
                   child: Column(
@@ -79,7 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 text: 'Let’s',
                                 style: ralewayStyle.copyWith(
                                   fontSize: 25.0,
-                                  color: Colors.black,
+                                  color: Colors.white,
                                   // color: AppColors.blueDarkColor,
                                   fontWeight: FontWeight.normal,
                                 )),
@@ -87,7 +88,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               text: ' Login',
                               style: ralewayStyle.copyWith(
                                 fontWeight: FontWeight.w800,
-                                color: Colors.black,
+                                color: Colors.white,
                                 // color: AppColors.blueDarkColor,
                                 fontSize: 25.0,
                               ),
@@ -101,7 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         style: ralewayStyle.copyWith(
                           fontSize: 12.0,
                           fontWeight: FontWeight.w400,
-                          color: Colors.black,
+                          color: Colors.white,
                           // color: AppColors.textColor,
                         ),
                       ),
@@ -112,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           'Username',
                           style: ralewayStyle.copyWith(
                             fontSize: 12.0,
-                            color: Colors.black,
+                            color: Colors.white,
                             // color: AppColors.blueDarkColor,
                             fontWeight: FontWeight.w700,
                           ),
@@ -130,12 +131,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: TextFormField(
                           keyboardType: TextInputType.emailAddress,
                           textInputAction: TextInputAction.next,
-                          // validator: (v) {
-                          //   if (v!.isEmpty || !v.contains('@')) {
-                          //     return 'Please enter a valid username!';
-                          //   }
-                          //   return null;
-                          // },
+                          validator: (v) {
+                            if (v!.isEmpty || !v.contains('@')) {
+                              return 'Please enter a valid username!';
+                            }
+                            return null;
+                          },
                           controller: usernameController,
                           cursorColor: Colors.black,
                           decoration: DecorationCustom(
@@ -152,7 +153,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           'Password',
                           style: ralewayStyle.copyWith(
                             fontSize: 12.0,
-                            color: AppColors.blueDarkColor,
+                            color: Colors.white,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
@@ -201,7 +202,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             'Forgot Password?',
                             style: ralewayStyle.copyWith(
                               fontSize: 12.0,
-                              color: Colors.black,
+                              color: Colors.white,
                               fontWeight: FontWeight.w900,
                             ),
                           ),
@@ -280,7 +281,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                               CustomMsgSnackbar.show(
                                   context: context,
-                                  label: "bhbhb",
+                                  label: "Enter Login credentials",
                                   color: Colors.red,
                                   iconImage: "assets/icons/cross.svg");
 
@@ -298,7 +299,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               'Sign In',
                               style: ralewayStyle.copyWith(
                                 fontWeight: FontWeight.w700,
-                                color: AppColors.whiteColor,
+                                color: Colors.white,
                                 fontSize: 16.0,
                               ),
                             ),
@@ -317,7 +318,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   'Dont have an account ?',
                                   style: ralewayStyle.copyWith(
                                     fontSize: 12.0,
-                                    color: AppColors.blueDarkColor,
+                                    color: Colors.white,
                                     fontWeight: FontWeight.w700,
                                   ),
                                 ),
@@ -334,7 +335,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   'Register now',
                                   style: ralewayStyle.copyWith(
                                     fontSize: 12.0,
-                                    color:Colors.black,
+                                    color:Colors.white,
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),

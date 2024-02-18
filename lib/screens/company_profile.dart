@@ -1,11 +1,13 @@
 
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:spyco_shop_management/api/login_register/logout_api.dart';
 import 'package:spyco_shop_management/api_models/login_model.dart';
 import 'package:spyco_shop_management/constants/colors.dart';
@@ -111,19 +113,38 @@ class _CompanyProfileDetailsState extends State<CompanyProfileDetails> {
                     padding: const EdgeInsets.symmetric(horizontal: 60.0,vertical: 16),
                     child: Column(
                 children: [
-                    Container(
-                      height:70,
-                      width: 70,
-                      decoration :BoxDecoration(
-                        color: Colors.white,
-                      shape: BoxShape.circle
-                    ),
-                      child: Image.asset(
-                        'assets/images/profile_pic.png',
-                        fit: BoxFit.cover,
+                  CachedNetworkImage(
+                    height: 80,
+                    width: 80,
+                    imageUrl: companyModel!.user!.imageUrl!.toString(),
+                    fit: BoxFit.cover,
+                    errorWidget: (context,
+                        url, error) =>
+                        Image.asset(
+                            "assets/icons/userico.jpg"),
+                    progressIndicatorBuilder:
+                        (a, b, c) => Opacity(
+                      opacity: 0.3,
+                      child:
+                      Shimmer.fromColors(
+                        baseColor:
+                        Colors.black12,
+                        highlightColor:
+                        Colors.white,
+                        child: Container(
+                          width: 70,
+                          height: 70,
+                          //margin: EdgeInsets.symmetric(horizontal: 24),
+                          decoration:
+                          BoxDecoration(
+                              color: Colors
+                                  .white,
+                              shape: BoxShape
+                                  .circle),
+                        ),
                       ),
-                      // backgroundImage: AssetImage('assets/images/Frame1000002321.png'),
                     ),
+                  ),
                     Text(
                       companyModel!.user!.companyName.toString(),
                       // "Xyz Company",

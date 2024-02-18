@@ -12,16 +12,16 @@ class CustomTextField extends StatelessWidget {
   final String? Function(String?)? validation;
   final bool readOnly;
   final TextInputAction textInputAction;
-
-
+  final Function()? tap;
+  final Function(String)? onChanged;
 
   const CustomTextField({Key ? key,  this.controller,
     required this.hintText,
     this.maxLines = 1,
     required this.validation,
-    this.verticlePadding = 6,
+    this.verticlePadding = 8,
     this.readOnly = false,
-    this.textInputAction = TextInputAction.next,
+    this.textInputAction = TextInputAction.next, this.tap, this.onChanged,
   }) : super(key: key);
 
   @override
@@ -31,6 +31,8 @@ class CustomTextField extends StatelessWidget {
 
       maxLines: maxLines,
         readOnly: readOnly,
+        onTap: tap,
+        onChanged: onChanged,
 
         // inputFormatters: [
         //   LengthLimitingTextInputFormatter(10),
@@ -64,6 +66,7 @@ class CustomTextField extends StatelessWidget {
            ),
         ),
         // textInputAction: TextInputAction.next,
+
 
         // onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
         onEditingComplete: () {

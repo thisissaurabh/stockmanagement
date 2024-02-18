@@ -2,6 +2,7 @@
 import 'dart:io';
 import 'dart:math';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
@@ -20,8 +21,11 @@ import 'package:spyco_shop_management/widgets/global_widgets.dart';
 import 'package:spyco_shop_management/widgets/globals.dart';
 import '../api/login_register/add_item_api.dart';
 import '../pos/invoice.dart';
+import '../widgets/add_person_row_holder.dart';
+import '../widgets/custom_textfield.dart';
 import '../widgets/main_button.dart';
 import '../widgets/snackbar.dart';
+import 'add_stock_dialog.dart';
 import 'components/items_model.dart';
 
 class AddStockItems extends StatefulWidget {
@@ -136,7 +140,8 @@ class _AddStockItemWindowState extends State<AddStockItemWindow> {
   bool add = false;
 
   ///---------------------------------------------------------------------------
-
+  final groupController = TextEditingController();
+  final brandController = TextEditingController();
   TextEditingController sno = TextEditingController();
   TextEditingController itemCode = TextEditingController();
   TextEditingController itemName = TextEditingController();
@@ -208,6 +213,7 @@ class _AddStockItemWindowState extends State<AddStockItemWindow> {
 
 
   final GlobalKey<FormState>_formKey =  GlobalKey<FormState>();
+  final GlobalKey<FormState> formKey =  GlobalKey<FormState>();
 
   String dateFormat = '';
 
@@ -737,7 +743,7 @@ class _AddStockItemWindowState extends State<AddStockItemWindow> {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Form(
-            key: _formKey,
+            key: formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -887,6 +893,37 @@ class _AddStockItemWindowState extends State<AddStockItemWindow> {
                     )
                   ],
                 ),
+                MouseHover(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return buildAddStockDialog(context);
+                            },
+                          );
+                        },
+                        child : Container(
+                          decoration: BoxDecoration(
+                            color: Colors.red,
+                            borderRadius: BorderRadius.circular(2),
+
+                          ),
+
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 4.0,
+                                horizontal: 20),
+                            child: Text("+ dnj",style: TextStyle(color: Colors.white),),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
                 SizedBox(height: 16,),
                 Row(
                   children: [
@@ -956,155 +993,6 @@ class _AddStockItemWindowState extends State<AddStockItemWindow> {
                         ],
                       ),
                     ),
-                 /*   Expanded(
-                      child: ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.all(selectedColor),
-                            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                              RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(15.0), // Set the radius here
-                              ),
-
-
-                            ),
-                          ),
-                          onPressed: () {
-                            //
-                            // String itemC = itemCode.text.trim();
-                            String imageN = pickedImage.toString().trim();
-                            String itemN = itemName.text.trim();
-                            String designN = designName.text.trim();
-                            String colorN = color.text.trim();
-                            String sizeN = size.text.trim();
-                            String hsnN = hsnCode.text.trim();
-                            String unitN = unit.text.trim();
-                            String barcodeN = barcodeType.text.trim();
-                            String quantityN = quantity.text.trim();
-                            String purchaseN = purchasePrice.text.trim();
-                            String gstN = gstController.text.trim();
-                            String discountN = discount.text.trim();
-                            // String taxPerN = gstController.text.trim();
-                            String setN = setMrp.text.trim();
-                            String totalN = totalAmount.text.trim();
-                            if (
-                            // itemC.isNotEmpty &&
-                            imageN.isNotEmpty &&
-                                itemN.isNotEmpty &&
-                                designN.isNotEmpty &&
-                                colorN.isNotEmpty &&
-                                sizeN.isNotEmpty &&
-                                hsnN.isNotEmpty &&
-                                unitN.isNotEmpty &&
-                                barcodeN.isNotEmpty &&
-                                quantityN.isNotEmpty &&
-                                purchaseN.isNotEmpty &&
-                                discountN.isNotEmpty &&
-                                setN.isNotEmpty &&
-                                gstN.isNotEmpty &&
-                                totalN.isNotEmpty
-                            // taxPerN.isNotEmpty
-
-                            ) {
-                              setState(() {
-                                // itemCode.text = '';
-                                // itemName.text = '';
-                                // designName.text = '';
-                                // color.text = '';
-                                // size.text = '';
-                                // hsnCode.text = '';
-                                // unit.text = '';
-                                // barcodeType.text = '';
-                                // quantity.text = '';
-                                // purchasePrice.text = '';
-                                // discount.text = '';
-                                // gstController.text = '';
-                                // setMrp.text = '';
-                                // totalAmount.text = '';
-                                contacts.add(
-                                    Contact(
-                                      // itemCode: itemC,
-                                      image: imageN,
-                                      itemName: itemN,
-                                      designName: designN,
-                                      color: colorN,
-                                      size: sizeN,
-                                      hsnCode: hsnN,
-                                      unit: unitN,
-                                      barcode: barcodeN,
-                                      quantity: quantityN,
-                                      purchasePrice: purchaseN,
-                                      discount: discountN,
-                                      mrp: setN,
-                                      total: totalN,
-                                      // taxPercent: taxPerN,
-                                      gst: gstN,
-
-                                    ));
-                              });
-                            }
-
-                            setState(() {
-                              if (_formKey.currentState!.validate()) {
-                                addCustomerSupplierApi(
-                                  supplierId: widget.supplierId,
-                                  purchaseInvoiceNo: widget.purchaseInvoiceNo,
-                                  challanNo: widget.purchaseInvoiceNo,
-                                  invoiceDate:  dateFormat,
-                                  codingType: barcodeType.text,
-                                  remarks:remarksController.text,
-                                  itemName: itemName.text,
-                                  designName: designName.text,
-                                  hsnCode: hsnCode.text,
-                                  quantity: quantity.text,
-                                  unit: unit.text,
-                                  purchasePrice: purchasePrice.text,
-                                  sellMrp: setMrp.text,
-                                  totalAmount: totalAmount.text,
-                                  discount: discount.text,
-                                  color: color.text,
-                                  size: size.text,
-                                  photo: pickedImage.isAbsolute
-                                      ? pickedImage.path
-                                      : '',)
-                                    .then((value) async {
-                                  // isLoading = false;
-                                  if (value['status'] == 1) {
-                                    setState(() {
-                                      // isLoading = false;
-                                    });
-                                    CustomSnackbar.show(
-                                        context: context,
-                                        label: 'Item Added',
-                                        color: Colors.green,
-                                        iconImage: "assets/icons/tick.svg");
-                                  } else {
-                                    setState(() {
-                                      // isLoading = false;
-                                    });
-                                    CustomSnackbar.show(
-                                        context: context,
-                                        label: 'Failed',
-                                        color: Colors.red,
-                                        iconImage: "assets/icons/cross.svg");
-                                    // print("no");
-                                  }
-                                });
-                              } else {
-                                CustomSnackbar.show(
-                                  context: context,
-                                  label: 'Failed',
-                                  color: Colors.red,
-                                  iconImage: "assets/icons/cross.svg",
-                                );
-                              }
-                            });
-                            //
-                          },
-                          child: const Text('Save',
-                            style: TextStyle(
-                                color: Colors.black, fontSize: 13, fontWeight: FontWeight.w900),)),
-                    ),*/
-
                   ],
                 ),
                 Column(
@@ -1563,217 +1451,7 @@ class _AddStockItemWindowState extends State<AddStockItemWindow> {
                 ///
                 ///
                 const SizedBox(height: 10),
-               /* Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ElevatedButton(
-                        style: ButtonStyle(
-                        ),
-                        onPressed: () {
-                          //
-                          // String itemC = itemCode.text.trim();
-                          String imageN = pickedImage.toString().trim();
-                          String itemN = itemName.text.trim();
-                          String designN = designName.text.trim();
-                          String colorN = color.text.trim();
-                          String sizeN = size.text.trim();
-                          String hsnN = hsnCode.text.trim();
-                          String unitN = unit.text.trim();
-                          String barcodeN = barcodeType.text.trim();
-                          String quantityN = quantity.text.trim();
-                          String purchaseN = purchasePrice.text.trim();
-                          String gstN = gstController.text.trim();
-                          String discountN = discount.text.trim();
-                          // String taxPerN = gstController.text.trim();
-                          String setN = setMrp.text.trim();
-                          String totalN = totalAmount.text.trim();
-                          if (
-                          // itemC.isNotEmpty &&
-                              imageN.isNotEmpty &&
-                              itemN.isNotEmpty &&
-                              designN.isNotEmpty &&
-                              colorN.isNotEmpty &&
-                              sizeN.isNotEmpty &&
-                              hsnN.isNotEmpty &&
-                              unitN.isNotEmpty &&
-                              barcodeN.isNotEmpty &&
-                              quantityN.isNotEmpty &&
-                              purchaseN.isNotEmpty &&
-                              discountN.isNotEmpty &&
-                              setN.isNotEmpty &&
-                              gstN.isNotEmpty &&
-                              totalN.isNotEmpty
-                          // taxPerN.isNotEmpty
 
-                          ) {
-                            setState(() {
-                              // itemCode.text = '';
-                              // itemName.text = '';
-                              // designName.text = '';
-                              // color.text = '';
-                              // size.text = '';
-                              // hsnCode.text = '';
-                              // unit.text = '';
-                              // barcodeType.text = '';
-                              // quantity.text = '';
-                              // purchasePrice.text = '';
-                              // discount.text = '';
-                              // gstController.text = '';
-                              // setMrp.text = '';
-                              // totalAmount.text = '';
-                              contacts.add(
-                                  Contact(
-                                      // itemCode: itemC,
-                                    image: imageN,
-                                      itemName: itemN,
-                                      designName: designN,
-                                      color: colorN,
-                                      size: sizeN,
-                                      hsnCode: hsnN,
-                                      unit: unitN,
-                                      barcode: barcodeN,
-                                      quantity: quantityN,
-                                      purchasePrice: purchaseN,
-                                      discount: discountN,
-                                      mrp: setN,
-                                      total: totalN,
-                                      // taxPercent: taxPerN,
-                                      gst: gstN,
-
-                                  ));
-                            });
-                          }
-
-                          setState(() {
-                            if (_formKey.currentState!.validate()) {
-                              addCustomerSupplierApi(
-                                  supplierId: widget.supplierId,
-                                  purchaseInvoiceNo: widget.purchaseInvoiceNo,
-                                  challanNo: widget.purchaseInvoiceNo,
-                                  invoiceDate:  dateFormat,
-                                  codingType: barcodeType.text,
-                                  remarks:remarksController.text,
-                                  itemName: itemName.text,
-                                  designName: designName.text,
-                                  hsnCode: hsnCode.text,
-                                  quantity: quantity.text,
-                                  unit: unit.text,
-                                  purchasePrice: purchasePrice.text,
-                                  sellMrp: setMrp.text,
-                                  totalAmount: totalAmount.text,
-                                  discount: discount.text,
-                                  color: color.text,
-                                  size: size.text,
-                                  photo: pickedImage.isAbsolute
-                                      ? pickedImage.path
-                                      : '',)
-                                  .then((value) async {
-                                // isLoading = false;
-                                if (value['status'] == 1) {
-                                  setState(() {
-                                    // isLoading = false;
-                                  });
-                                  CustomSnackbar.show(
-                                      context: context,
-                                      label: 'Item Added',
-                                      color: Colors.green,
-                                      iconImage: "assets/icons/tick.svg");
-                                } else {
-                                  setState(() {
-                                    // isLoading = false;
-                                  });
-                                  CustomSnackbar.show(
-                                      context: context,
-                                      label: 'Failed',
-                                      color: Colors.red,
-                                      iconImage: "assets/icons/cross.svg");
-                                  // print("no");
-                                }
-                              });
-                            } else {
-                              CustomSnackbar.show(
-                                  context: context,
-                                  label: 'Failed',
-                                  color: Colors.red,
-                                  iconImage: "assets/icons/cross.svg",
-                              );
-                            }
-                          });
-                          //
-                        },
-                        child: const Text('Save')),
-                   *//* ElevatedButton(
-                        onPressed: () {
-                          String itemC = itemCode.text.trim();
-                          String itemN = itemName.text.trim();
-                          String designN = designName.text.trim();
-                          String colorN = color.text.trim();
-                          String sizeN = size.text.trim();
-                          String hsnN = hsnCode.text.trim();
-                          String unitN = unit.text.trim();
-                          String barcodeN = barcodeType.text.trim();
-                          String quantityN = quantity.text.trim();
-                          String purchaseN = purchasePrice.text.trim();
-                          String discountN = discount.text.trim();
-                          String gstN = gstController.text.trim();
-                          // String taxPerN = taxPercent.text.trim();
-                          String setN = setMrp.text.trim();
-
-                          String totalN = totalAmount.text.trim();
-                          if (itemC.isNotEmpty &&
-                              itemN.isNotEmpty &&
-                              designN.isNotEmpty &&
-                              colorN.isNotEmpty &&
-                              sizeN.isNotEmpty &&
-                              hsnN.isNotEmpty &&
-                              unitN.isNotEmpty &&
-                              barcodeN.isNotEmpty &&
-                              quantityN.isNotEmpty &&
-                              purchaseN.isNotEmpty &&
-                              discountN.isNotEmpty &&
-                              // taxPerN.isNotEmpty &&
-                              setN.isNotEmpty &&
-                              gstN.isNotEmpty &&
-                              totalN.isNotEmpty) {
-                            setState(() {
-                              // itemCode.text = '';
-                              // itemName.text = '';
-                              // designName.text = '';
-                              // color.text = '';
-                              // size.text = '';
-                              // hsnCode.text = '';
-                              // unit.text = '';
-                              // barcodeType.text = '';
-                              // quantity.text = '';
-                              // purchasePrice.text = '';
-                              // discount.text = '';
-                              // gstController.text = '';
-                              // taxPercent.text = '';
-                              // setMrp.text = '';
-                              // totalAmount.text = '';
-                              contacts[selectedIndex].itemCode = itemC;
-                              contacts[selectedIndex].itemName = itemN;
-                              contacts[selectedIndex].designName = designN;
-                              contacts[selectedIndex].color = colorN;
-                              contacts[selectedIndex].size = sizeN;
-                              contacts[selectedIndex].hsnCode = hsnN;
-                              contacts[selectedIndex].unit = unitN;
-                              contacts[selectedIndex].barcode = barcodeN;
-                              contacts[selectedIndex].quantity = quantityN;
-                              contacts[selectedIndex].purchasePrice = purchaseN;
-                              contacts[selectedIndex].discount = discountN;
-                              contacts[selectedIndex].gst = gstN;
-                              // contacts[selectedIndex].taxPercent = taxPerN;
-                              contacts[selectedIndex].mrp = setN;
-                              contacts[selectedIndex].total = totalN;
-                              selectedIndex = -1;
-                            });
-                          }
-                          //
-                        },
-                        child: const Text('Update')),*//*
-                  ],
-                ),*/
                 const SizedBox(height: 10),
                 SizedBox(
                   height: 500,
@@ -1799,6 +1477,462 @@ class _AddStockItemWindowState extends State<AddStockItemWindow> {
       ),
     );
   }
+
+  AlertDialog buildAddStockDialog(BuildContext context) {
+    double quantityP = 0;
+    double purchasePriceP = 0;
+    double discountP = 0;
+    double gstP = 0;
+
+    void calculateTotalAmount() {
+      double discountAmount = (quantityP * purchasePriceP) * (discountP / 100);
+      double total = (quantityP * purchasePriceP) - discountAmount;
+
+      if (gstVal != null) {
+        double gstPercent = double.parse(gstVal!);
+        double gstAmount = (total * gstPercent) / 100;
+        total += gstAmount;
+      }
+      setState(() {
+        totalAmount.text = total.toStringAsFixed(2); // Assuming total amount is a double value
+      });
+    }
+
+    return AlertDialog(
+                              contentPadding: EdgeInsets.zero,
+                              content: StatefulBuilder(
+        builder: (BuildContext context, StateSetter setState) {
+          return Container(
+            width: MediaQuery.sizeOf(context).width * 0.50,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                        image: DecorationImage(image: AssetImage("assets/images/762836_78 150p-01.jpg",
+                        ),
+                            fit: BoxFit.cover)
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Text("Add Stock",
+                        style: pageTitle,),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  flex: 4,
+                  child: Container(
+                    padding: EdgeInsets.all(20),
+                    child:SingleChildScrollView(
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 16,),
+
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: AddPersonRowHolder(
+                                    title: 'Group Name',
+                                    textField: CustomTextField(
+                                      textInputAction: TextInputAction.next,
+                                      controller: groupController,
+                                      hintText: 'Group Name',
+
+                                      validation:
+                                          (val) {
+                                        if(val == null || val.isEmpty){
+                                          return 'Enter a Group Name ';
+                                        }
+                                        return null;
+                                      },
+
+                                    ),),
+                                ),
+                                SizedBox(width: 12,),
+                                Expanded(
+                                  child: AddPersonRowHolder(
+                                    title: 'Enter Brand Name',
+                                    textField: CustomTextField(
+                                      textInputAction: TextInputAction.next,
+                                      controller: brandController,
+                                      hintText: 'Enter Brand Name',
+
+                                      validation:
+                                          (val) {
+                                        if(val == null || val.isEmpty){
+                                          return 'Enter Brand Name ';
+                                        }
+                                        return null;
+                                      },
+
+                                    ),),
+                                ),
+                                SizedBox(width: 12,),
+                                Expanded(
+                                  child: AddPersonRowHolder(
+                                    title: 'Item Name',
+                                    textField:   CustomTextField(
+                                      textInputAction: TextInputAction.next,
+                                      controller: itemName,
+                                      hintText: 'Item Name',
+
+                                      validation:
+                                          (val) {
+                                        if(val == null || val.isEmpty){
+                                          return 'Enter a Item Name ';
+                                        }
+                                        return null;
+                                      },
+
+                                    ),),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 16,),
+                            Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: AddPersonRowHolder(
+                                        title: 'Color',
+                                        textField: CustomTextField(
+                                          textInputAction: TextInputAction.next,
+                                          controller: color,
+                                          hintText: 'Color',
+                                          validation:
+                                              (val) {
+                                            if(val == null || val.isEmpty){
+                                              return 'Enter a Color Name ';
+                                            }
+                                            return null;
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(width: 12,),
+                                    Expanded(
+                                      child: AddPersonRowHolder(
+                                        title: 'Size',
+                                        textField:    CustomTextField(
+                                          textInputAction: TextInputAction.next,
+                                          controller: size,
+                                          hintText: 'Size',
+                                          validation:
+                                              (val) {
+                                            if(val == null || val.isEmpty){
+                                              return 'Enter a Size';
+                                            }
+                                            return null;
+                                          },
+
+                                        ),),
+                                    ),
+                                    SizedBox(width: 12,),
+                                    Expanded(
+                                      child:
+                                      AddPersonRowHolder(
+                                        title: 'Design Name',
+                                        textField:    CustomTextField(
+                                          textInputAction: TextInputAction.next,
+                                          controller: designName,
+                                          hintText: 'Design Name',
+
+
+                                          validation:
+                                              (val) {
+                                            if(val == null || val.isEmpty){
+                                              return 'Enter a Design Name';
+                                            }
+                                            return null;
+                                          },
+
+                                        ),),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 16,),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: AddPersonRowHolder(
+                                    title: 'Quantity',
+                                    textField:    CustomTextField(
+                                      textInputAction: TextInputAction.next,
+                                      controller: quantity,
+                                      hintText: 'Quantity',
+                                      onChanged: (value) {
+                                        quantityP = double.tryParse(value) ?? 0;
+                                        calculateTotalAmount();
+                                      },
+
+                                      validation:
+                                          (val) {
+                                        if(val == null || val.isEmpty){
+                                          return 'Enter a Quantity';
+                                        }
+                                        return null;
+                                      },
+
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width: 12,),
+                                Expanded(
+
+                                  child: DropdownButtonFormField<String>(
+                                    value: unitVal,
+                                    items: units.map<DropdownMenuItem<String>>((unit) {
+                                      return DropdownMenuItem<String>(
+                                        value: unit,
+                                        child: Text(unit),
+                                      );
+                                    }).toList(),
+                                    onChanged: (String? value) {
+                                      if (value != null) {
+                                        setState(() {
+                                          unitVal = value;
+                                          unit.text = value;
+                                        });
+
+                                        // Add your logic here if needed
+                                      }
+                                    },
+                                    decoration: ItemDataField(
+                                      label: unitVal?.isEmpty ?? true ? "Select Unit" : unitVal!,
+                                    ).itemFieldDecoration(),
+                                  ),
+
+                                ),
+                                SizedBox(width: 12,),
+                                Expanded(
+                                  child: AddPersonRowHolder(
+                                    title: 'Hsn Code',
+                                    textField:    CustomTextField(
+                                      textInputAction: TextInputAction.next,
+                                      controller: hsnCode,
+                                      hintText: 'Hsn Code',
+
+                                      validation:
+                                          (val) {
+                                        if(val == null || val.isEmpty){
+                                          return 'Enter a Hsn Code';
+                                        }
+                                        return null;
+                                      },
+
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+
+                            SizedBox(height: 16,),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: AddPersonRowHolder(
+                                    title: 'Purchase Price',
+                                    textField:    CustomTextField(
+                                      textInputAction: TextInputAction.next,
+                                      controller: purchasePrice,
+                                      hintText: 'Purchase Price',
+                                      onChanged: (value) {
+                                        purchasePriceP = double.tryParse(value) ?? 0;
+                                        calculateTotalAmount();
+
+                                      },
+
+                                      validation:
+                                          (val) {
+                                        if(val == null || val.isEmpty){
+                                          return 'Enter a Purchase Price';
+                                        }
+                                        return null;
+                                      },
+
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width: 12,),
+                                Expanded(
+
+                                  child: AddPersonRowHolder(
+                                    title: 'Discount %',
+                                    textField:     CustomTextField(
+                                      textInputAction: TextInputAction.next,
+                                      controller: discount,
+                                      hintText: 'Discount %',
+                                      onChanged: (value) {
+                                        discountP = double.tryParse(value) ?? 0;
+                                        calculateTotalAmount();
+                                      },
+
+                                      validation:
+                                          (val) {
+                                        if(val == null || val.isEmpty){
+                                          return 'Discount %';
+                                        }
+                                        return null;
+                                      },
+
+                                    ),),
+
+                                ),
+                                SizedBox(width: 12,),
+                                Expanded(
+
+                                  child: AddPersonRowHolder(
+                                    title: 'Tax %',
+                                    textField:     CustomTextField(
+                                      textInputAction: TextInputAction.next,
+                                      controller: taxPercent,
+                                      hintText: 'Tax %',
+
+                                      validation:
+                                          (val) {
+                                        if(val == null || val.isEmpty){
+                                          return 'Tax %';
+                                        }
+                                        return null;
+                                      },
+
+                                    ),),
+
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 16,),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: AddPersonRowHolder(
+                                    title: 'Set Mrp',
+                                    textField:    CustomTextField(
+                                      textInputAction: TextInputAction.next,
+                                      controller: setMrp,
+                                      hintText: 'Set Mrp',
+
+                                      validation:
+                                          (val) {
+                                        if(val == null || val.isEmpty){
+                                          return 'Set Mrp';
+                                        }
+                                        return null;
+                                      },
+
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width: 12,),
+                                Expanded(
+
+                                  child: AddPersonRowHolder(
+                                    title: 'Barcode Type',
+                                    textField:     CustomTextField(
+                                      textInputAction: TextInputAction.next,
+                                      controller: barcodeType,
+                                      hintText: 'barcode Type',
+
+                                      validation:
+                                          (val) {
+                                        if(val == null || val.isEmpty){
+                                          return 'Barcode';
+                                        }
+                                        return null;
+                                      },
+
+                                    ),),
+
+                                ),
+                                SizedBox(width: 12,),
+                                Expanded(
+
+                                  child: AddPersonRowHolder(
+                                    title: 'Total',
+                                    textField:     CustomTextField(
+                                      textInputAction: TextInputAction.next,
+                                      controller: totalAmount,
+                                      hintText: 'Total',
+
+                                      validation:
+                                          (val) {
+                                        if(val == null || val.isEmpty){
+                                          return 'Total';
+                                        }
+                                        return null;
+                                      },
+
+                                    ),),
+
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 40,),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                if (Responsive.isDesktop(context))
+                                /* isLoading ?
+                                                      LoadingButton():*/
+                                  MainButton(
+                                    radius: 4,
+                                    title: 'Add',
+                                    press: () {
+                                      if (_formKey.currentState!.validate()) {
+                                        setState(() {
+                                          // isLoading = true;
+                                        });
+
+                                      } else {
+                                        CustomSnackbar.show(
+                                            context: context,
+                                            label: 'Failed',
+                                            color: Colors.red,
+                                            iconImage: "assets/icons/cross.svg");
+                                      }
+                                    },
+
+                                    sizeHorizontal: 30,
+                                    sizeVerticle: 8,
+                                    color: selectedGreenColor,
+                                    titleColor: Colors.white,
+                                  ),
+                                SizedBox(width: 5,),
+                                MainButton(
+                                  radius: 4,
+                                  title: 'Cancel',
+                                  press: () {
+                                    Navigator.pop(context);
+                                  },
+                                  sizeHorizontal: 18,
+                                  sizeVerticle: 8,
+                                  color: Colors.grey.withOpacity(0.10),
+                                  titleColor: Colors.black,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+    },
+                            ),);
+  }
+
+
   Widget getRow(int index) {
     int serialNumber = index + 1;
     return Row(

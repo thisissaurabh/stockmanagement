@@ -39,8 +39,8 @@ class MyApp extends StatelessWidget {
       //       .apply(bodyColor: Colors.black),
       //   canvasColor: secondaryColor,
       // ),
+      // home: RegisterDetailsScreen(),
       home: SplashScreen(),
-      // home: Loading(),
       // home: AddSupplierScreen(),
       // home: LoginScreen(),
 

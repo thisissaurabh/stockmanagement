@@ -1,26 +1,26 @@
-import 'dart:io';
+
+
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
-import 'package:provider/provider.dart';
-import 'package:spyco_shop_management/constants/colors.dart';
-import 'package:spyco_shop_management/constants/responsive.dart';
-import 'package:spyco_shop_management/constants/text_styles.dart';
-import 'package:spyco_shop_management/constants/textfield_decoration.dart';
-import 'package:spyco_shop_management/constants/textstyle.dart';
-import 'package:spyco_shop_management/controllers/MenuAppController.dart';
-import 'package:spyco_shop_management/pos/pdf_view_invoice.dart';
-import 'package:spyco_shop_management/screens/dashboard/components/header.dart';
-import 'package:spyco_shop_management/screens/main/components/side_menu.dart';
-import 'package:spyco_shop_management/widgets/cards.dart';
-import 'package:spyco_shop_management/widgets/global_widgets.dart';
-import 'package:spyco_shop_management/widgets/globals.dart';
+import 'package:ionicons/ionicons.dart';
+import 'package:spyco_shop_management/pos/credit_bill_dialog.dart';
+import 'package:spyco_shop_management/src/widgets/common_widgets.dart';
 
+import '../constants/size_box.dart';
+import '../constants/textfield_decoration.dart';
+import '../src/utiils/colors.dart';
+import '../src/utiils/strings.dart';
+import '../src/utiils/textfields.dart';
+import '../src/utiils/textstyles.dart';
+import '../src/widgets/custom_app_bar.dart';
+import '../src/widgets/custom_dropdown.dart';
+import '../src/widgets/sizebox.dart';
 import '../stock/add_stock_item.dart';
-import '../widgets/main_button.dart';
-import 'invoice_format.dart';
+import '../widgets/custom_check_box.dart';
+import '../widgets/global_widgets.dart';
+
 
 class Invoice extends StatefulWidget {
   const Invoice({
@@ -32,40 +32,40 @@ class Invoice extends StatefulWidget {
 }
 
 class _InvoiceState extends State<Invoice> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // We want this side menu only for large screen
-            // if (Responsive.isDesktop(context))
-            //   Expanded(
-            //     // default flex = 1
-            //     // and it takes 1/6 part of the screen
-            //     child: SideMenu(),
-            //   ),
-            Expanded(
-                // It takes 5/6 part of the screen
-                // flex: 5,
-                child: BillingWindow()),
-          ],
-        ),
-      ),
-    );
-  }
-}
 
-class BillingWindow extends StatefulWidget {
-  const BillingWindow({super.key});
+  final invoiceModeController = TextEditingController();
+  final salesPersonController = TextEditingController();
+  final salesPersonController2 = TextEditingController();
+  final customerNameController = TextEditingController();
+  final customerEmailController = TextEditingController();
+  final customerContactNoController = TextEditingController();
+  final customerDateController = TextEditingController();
+  final invoiceTypeController = TextEditingController();
+  final List<String> invoiceModeList = [
+    '1',
+    '2',
+    'Comme2rcial',
+    'Private',
+  ];
+  final List<String> salesPersonList = [
+    '1',
+    '2',
+    'Comme2rcial',
+    'Private',
+  ];
+  final List<String> salesPersonList2 = [
+    '1',
+    '2',
+    'Comme2rcial',
+    'Private',
+  ];
+  final List<String> invoiceTypeList = [
+    'Barcode',
+    'Manual',
+  ];
+  String? _selectedValue;
+  List<String> listOfValue = ['1', '2', '3', '4', '5'];
 
-  @override
-  State<BillingWindow> createState() => _BillingWindowState();
-}
-
-class _BillingWindowState extends State<BillingWindow> {
   final List<String> items = [
     'Item1',
     'Item2',
@@ -78,6 +78,10 @@ class _BillingWindowState extends State<BillingWindow> {
   ];
 
   String? selectedValue;
+  String? invoiceModeValue;
+  String? salesPerson1Value;
+  String? salesPerson2Value;
+
   final cash = TextEditingController();
 
   final List<String> paymentMethod = [
@@ -93,1772 +97,1116 @@ class _BillingWindowState extends State<BillingWindow> {
 
   bool add = false;
 
+  bool _switchValue = false;
+  bool shipping = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: scaffoldColor,
-      ///--------------------------------------------------
-      ///
-      ///
-      bottomNavigationBar: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 22),
-          color: Colors.white,
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment : CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Remarks",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 13,
-                              fontWeight: FontWeight.w900),
-                        ),
-                        SizedBox(height: 10,),
-                        Container(
-                          width: MediaQuery.sizeOf(context).width * 0.30,
-                          color: Colors.white,
-                          child: TextFormField(
-                            maxLines: 2,
-
-                            // validator: (v) {
-                            //   if (v!.isEmpty || !v.contains('@')) {
-                            //     return 'Please enter a valid email!';
-                            //   }
-                            //   return null;
-                            // },
-
-                            cursorColor: Colors.black,
-                            decoration: CustomDataField(
-                              label: '',
-                            ).dataFieldDecoration(),
-                          ),
-                        ),
-                        SizedBox(height: 10,),
-                        Text(
-                          "Add Document",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 13,
-                              fontWeight: FontWeight.w900),
-                        ),
-                        SizedBox(height: 10,),
-                        Row(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(6),
-                                border: Border.all(
-                                    width: 0.2,
-                                    color: Colors.black
-                                ),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 16),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset(
-                                      "assets/icon/document-add-svgrepo-com.svg",
-                                      color: Colors.grey,
-                                      height: 24,
-                                      width: 24,),
-                                    SizedBox(width: 5,),
-                                    Text("Add Document"),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(width: 10,),
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      height: 200,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "Payments",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w900),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            add = !add;
-
-                                          });
-                                        },
-                                        child: MouseHover(
-                                          child: Text(
-                                            add ?
-                                            "Close Payment Mode":
-                                            "Add Another Mode +",
-                                            style: TextStyle(
-                                                color: Colors.green,
-                                                fontSize: 11,
-                                                fontWeight: FontWeight.w600),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(
-
-                                    "Payment Mode",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 11,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: AddItemField(
-                                          control: cash,
-                                          label: 'Amount',
-                                        ),
-                                      ),
-                                      SizedBox(width: 14,),
-                                      Expanded(
-                                        child:SizedBox(
-                                          height: 30,
-                                          child: DropdownButtonHideUnderline(
-                                            child: DropdownButton2<String>(
-                                              isExpanded: true,
-                                              hint: const Row(
-                                                children: [
-                                                  Expanded(
-                                                    child: Text(
-                                                      'Mode',
-                                                      style: TextStyle(
-                                                        fontSize: 14,
-                                                        color: Colors.black,
-                                                      ),
-                                                      overflow: TextOverflow.ellipsis,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              items: paymentMethod
-                                                  .map((String item) => DropdownMenuItem<String>(
-                                                value: item,
-                                                child: Text(
-                                                  item,
-                                                  style: const TextStyle(
-                                                    fontSize: 14,
-                                                    // fontWeight: FontWeight.bold,
-                                                    color: Colors.black,
-                                                  ),
-                                                  overflow: TextOverflow.ellipsis,
-                                                ),
-                                              ))
-                                                  .toList(),
-                                              value: paymentVal,
-                                              onChanged: (String? value) {
-                                                setState(() {
-                                                  paymentVal = value;
-                                                  paymentMode.text = value!;
-                                                });
-                                              },
-                                              buttonStyleData: ButtonStyleData(
-                                                // height: 50,
-                                                width: 100,
-                                                // width: 160,
-                                                padding: const EdgeInsets.only(left: 14, right: 14),
-                                                decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                    color: Colors.black.withOpacity(0.50),
-                                                    width: 0.5,
-                                                  ),
-                                                  // color: Colors.white,
-                                                ),
-                                                elevation: 0,
-                                              ),
-                                              iconStyleData: const IconStyleData(
-                                                icon: Icon(
-                                                  Icons.arrow_forward_ios_outlined,
-                                                ),
-                                                iconSize: 14,
-                                                iconEnabledColor: Colors.black,
-                                                iconDisabledColor: Colors.black,
-                                              ),
-                                              dropdownStyleData: DropdownStyleData(
-                                                // maxHeight: 200,
-                                                width: 276,
-                                                decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(14),
-                                                  color: Colors.white,
-                                                ),
-                                                offset: const Offset(0, 0),
-                                                scrollbarTheme: ScrollbarThemeData(
-                                                  radius: const Radius.circular(6),
-                                                  thickness: MaterialStateProperty.all<double>(6),
-                                                  thumbVisibility: MaterialStateProperty.all<bool>(true),
-                                                ),
-                                              ),
-                                              menuItemStyleData: const MenuItemStyleData(
-                                                height: 40,
-                                                padding: EdgeInsets.only(left: 14, right: 14),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 12,
-                                  ),
-                                  add ?
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: AddItemField(
-                                          control: cash,
-                                          label: 'Amount',
-                                        ),
-                                      ),
-                                      SizedBox(width: 14,),
-                                      Expanded(
-                                        child:SizedBox(
-                                          height: 30,
-                                          child: DropdownButtonHideUnderline(
-                                            child: DropdownButton2<String>(
-                                              isExpanded: true,
-                                              hint: const Row(
-                                                children: [
-                                                  Expanded(
-                                                    child: Text(
-                                                      'Mode',
-                                                      style: TextStyle(
-                                                        fontSize: 14,
-                                                        color: Colors.black,
-                                                      ),
-                                                      overflow: TextOverflow.ellipsis,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              items: paymentMethod
-                                                  .map((String item) => DropdownMenuItem<String>(
-                                                value: item,
-                                                child: Text(
-                                                  item,
-                                                  style: const TextStyle(
-                                                    fontSize: 14,
-                                                    // fontWeight: FontWeight.bold,
-                                                    color: Colors.black,
-                                                  ),
-                                                  overflow: TextOverflow.ellipsis,
-                                                ),
-                                              ))
-                                                  .toList(),
-                                              value: paymentVal2,
-                                              onChanged: (String? value) {
-                                                setState(() {
-                                                  paymentVal2 = value;
-                                                  paymentMode2.text = value!;
-                                                });
-                                              },
-                                              buttonStyleData: ButtonStyleData(
-                                                // height: 50,
-                                                width: 100,
-                                                // width: 160,
-                                                padding: const EdgeInsets.only(left: 14, right: 14),
-                                                decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                    color: Colors.black.withOpacity(0.50),
-                                                    width: 0.5,
-                                                  ),
-                                                  // color: Colors.white,
-                                                ),
-                                                elevation: 0,
-                                              ),
-                                              iconStyleData: const IconStyleData(
-                                                icon: Icon(
-                                                  Icons.arrow_forward_ios_outlined,
-                                                ),
-                                                iconSize: 14,
-                                                iconEnabledColor: Colors.black,
-                                                iconDisabledColor: Colors.black,
-                                              ),
-                                              dropdownStyleData: DropdownStyleData(
-                                                // maxHeight: 200,
-                                                width: 276,
-                                                decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(14),
-                                                  color: Colors.white,
-                                                ),
-                                                offset: const Offset(0, 0),
-                                                scrollbarTheme: ScrollbarThemeData(
-                                                  radius: const Radius.circular(6),
-                                                  thickness: MaterialStateProperty.all<double>(6),
-                                                  thumbVisibility: MaterialStateProperty.all<bool>(true),
-                                                ),
-                                              ),
-                                              menuItemStyleData: const MenuItemStyleData(
-                                                height: 40,
-                                                padding: EdgeInsets.only(left: 14, right: 14),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-
-                                    ],
-                                  ) :
-                                  SizedBox(),
-                                  SizedBox(
-                                    height: 12,
-                                  ),
-                                  AddItemField(
-                                    control: cash,
-                                    label: 'Total',
-                                  ),
-
-
-                                  SizedBox(
-                                    height: 8,
-                                  ),
-
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 10,),
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      height: 200,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "Payments",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w900),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            add = !add;
-
-                                          });
-                                        },
-                                        child: MouseHover(
-                                          child: Text(
-                                            add ?
-                                            "Close Payment Mode":
-                                            "Add Another Mode +",
-                                            style: TextStyle(
-                                                color: Colors.green,
-                                                fontSize: 11,
-                                                fontWeight: FontWeight.w600),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(
-
-                                    "Payment Mode",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 11,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: AddItemField(
-                                          control: cash,
-                                          label: 'Amount',
-                                        ),
-                                      ),
-                                      SizedBox(width: 14,),
-                                      Expanded(
-                                        child:SizedBox(
-                                          height: 30,
-                                          child: DropdownButtonHideUnderline(
-                                            child: DropdownButton2<String>(
-                                              isExpanded: true,
-                                              hint: const Row(
-                                                children: [
-                                                  Expanded(
-                                                    child: Text(
-                                                      'Mode',
-                                                      style: TextStyle(
-                                                        fontSize: 14,
-                                                        color: Colors.black,
-                                                      ),
-                                                      overflow: TextOverflow.ellipsis,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              items: paymentMethod
-                                                  .map((String item) => DropdownMenuItem<String>(
-                                                value: item,
-                                                child: Text(
-                                                  item,
-                                                  style: const TextStyle(
-                                                    fontSize: 14,
-                                                    // fontWeight: FontWeight.bold,
-                                                    color: Colors.black,
-                                                  ),
-                                                  overflow: TextOverflow.ellipsis,
-                                                ),
-                                              ))
-                                                  .toList(),
-                                              value: paymentVal,
-                                              onChanged: (String? value) {
-                                                setState(() {
-                                                  paymentVal = value;
-                                                  paymentMode.text = value!;
-                                                });
-                                              },
-                                              buttonStyleData: ButtonStyleData(
-                                                // height: 50,
-                                                width: 100,
-                                                // width: 160,
-                                                padding: const EdgeInsets.only(left: 14, right: 14),
-                                                decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                    color: Colors.black.withOpacity(0.50),
-                                                    width: 0.5,
-                                                  ),
-                                                  // color: Colors.white,
-                                                ),
-                                                elevation: 0,
-                                              ),
-                                              iconStyleData: const IconStyleData(
-                                                icon: Icon(
-                                                  Icons.arrow_forward_ios_outlined,
-                                                ),
-                                                iconSize: 14,
-                                                iconEnabledColor: Colors.black,
-                                                iconDisabledColor: Colors.black,
-                                              ),
-                                              dropdownStyleData: DropdownStyleData(
-                                                // maxHeight: 200,
-                                                width: 276,
-                                                decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(14),
-                                                  color: Colors.white,
-                                                ),
-                                                offset: const Offset(0, 0),
-                                                scrollbarTheme: ScrollbarThemeData(
-                                                  radius: const Radius.circular(6),
-                                                  thickness: MaterialStateProperty.all<double>(6),
-                                                  thumbVisibility: MaterialStateProperty.all<bool>(true),
-                                                ),
-                                              ),
-                                              menuItemStyleData: const MenuItemStyleData(
-                                                height: 40,
-                                                padding: EdgeInsets.only(left: 14, right: 14),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 12,
-                                  ),
-                                  add ?
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: AddItemField(
-                                          control: cash,
-                                          label: 'Amount',
-                                        ),
-                                      ),
-                                      SizedBox(width: 14,),
-                                      Expanded(
-                                        child:SizedBox(
-                                          height: 30,
-                                          child: DropdownButtonHideUnderline(
-                                            child: DropdownButton2<String>(
-                                              isExpanded: true,
-                                              hint: const Row(
-                                                children: [
-                                                  Expanded(
-                                                    child: Text(
-                                                      'Mode',
-                                                      style: TextStyle(
-                                                        fontSize: 14,
-                                                        color: Colors.black,
-                                                      ),
-                                                      overflow: TextOverflow.ellipsis,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              items: paymentMethod
-                                                  .map((String item) => DropdownMenuItem<String>(
-                                                value: item,
-                                                child: Text(
-                                                  item,
-                                                  style: const TextStyle(
-                                                    fontSize: 14,
-                                                    // fontWeight: FontWeight.bold,
-                                                    color: Colors.black,
-                                                  ),
-                                                  overflow: TextOverflow.ellipsis,
-                                                ),
-                                              ))
-                                                  .toList(),
-                                              value: paymentVal2,
-                                              onChanged: (String? value) {
-                                                setState(() {
-                                                  paymentVal2 = value;
-                                                  paymentMode2.text = value!;
-                                                });
-                                              },
-                                              buttonStyleData: ButtonStyleData(
-                                                // height: 50,
-                                                width: 100,
-                                                // width: 160,
-                                                padding: const EdgeInsets.only(left: 14, right: 14),
-                                                decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                    color: Colors.black.withOpacity(0.50),
-                                                    width: 0.5,
-                                                  ),
-                                                  // color: Colors.white,
-                                                ),
-                                                elevation: 0,
-                                              ),
-                                              iconStyleData: const IconStyleData(
-                                                icon: Icon(
-                                                  Icons.arrow_forward_ios_outlined,
-                                                ),
-                                                iconSize: 14,
-                                                iconEnabledColor: Colors.black,
-                                                iconDisabledColor: Colors.black,
-                                              ),
-                                              dropdownStyleData: DropdownStyleData(
-                                                // maxHeight: 200,
-                                                width: 276,
-                                                decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(14),
-                                                  color: Colors.white,
-                                                ),
-                                                offset: const Offset(0, 0),
-                                                scrollbarTheme: ScrollbarThemeData(
-                                                  radius: const Radius.circular(6),
-                                                  thickness: MaterialStateProperty.all<double>(6),
-                                                  thumbVisibility: MaterialStateProperty.all<bool>(true),
-                                                ),
-                                              ),
-                                              menuItemStyleData: const MenuItemStyleData(
-                                                height: 40,
-                                                padding: EdgeInsets.only(left: 14, right: 14),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-
-                                    ],
-                                  ) :
-                                  SizedBox(),
-                                  SizedBox(
-                                    height: 12,
-                                  ),
-                                  AddItemField(
-                                    control: cash,
-                                    label: 'Total',
-                                  ),
-
-
-                                  SizedBox(
-                                    height: 8,
-                                  ),
-
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 10,),
-                  Expanded(
-                    child: Container(
-                      height: 200,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Expanded(
-                                child: Container(
-                                  color: Colors.grey.withOpacity(0.10),
-                                  child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                  children: [
-                                    Text(
-                                      "Total Amount",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w900),
-                                    ),
-                                    Text(
-                                      "200000",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 36,
-                                          fontWeight: FontWeight.w900),
-                                    ),
-                                    Spacer(),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        Container(
-                                          padding: EdgeInsets.symmetric(
-                                              vertical: 8, horizontal: 40),
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                              border: Border.all(
-                                                  width: 0.5,
-                                                  color: selectedColor)),
-                                          child: Row(
-                                            children: [
-                                              SvgPicture.asset(
-                                                "assets/icon/whatsapp-color-svgrepo-com.svg",
-                                                height: 18,
-                                                width: 18,
-                                              ),
-                                              SizedBox(
-                                                width: 3,
-                                              ),
-                                              Text("Share")
-                                            ],
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 10,
-                                        ),
-
-                                        MainButton(
-                                          title: 'Save',
-                                          press: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(builder: (context) =>  PDFView()),
-                                            );
-                                          },
-                                          sizeHorizontal: 50,
-                                          sizeVerticle: 10,
-                                          radius: 8,
-                                          color: selectedGreenColor,
-                                          titleColor: Colors.white,
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                              ),
-                            ),
-                                ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              )
-            ],
+      backgroundColor: Colors.white,
+      appBar: CustomAppBar(
+        title: 'Billing', widget: [
+        SizedBox(width: 15,),
+        MouseHover(
+          child: Padding(
+            padding: const EdgeInsets.only(right: 24.0),
+            child: Row(
+              children: [
+                Icon(Icons.assignment_return,color: Colors.black,),
+                Text("Sale Return",style:  const TextStyle(
+                  fontSize: 10,
+                  color: Colors.black,
+                ),),
+              ],
+            ),
           ),
-          /*  child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Container(
-                padding: EdgeInsets.symmetric(
-                    vertical: 8,
-                    horizontal: 20
-                ),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(
-                        width: 0.5,
-                        color: selectedColor
-                    )
-                ),
-                child: Row(
-                  children: [
-                    SvgPicture.asset(
-                      "assets/icon/whatsapp-color-svgrepo-com.svg",
-                    height: 18,
-                    width: 18,
-                    ),
-                    SizedBox(width: 3,),
-                    Text("Share")
-                  ],
-                ),
-              ),
-              SizedBox(width: 5,),
-              // Container(
-              //   padding: EdgeInsets.symmetric(
-              //     vertical: 8,
-              //     horizontal: 50
-              //   ),
-              //   decoration: BoxDecoration(
-              //     borderRadius: BorderRadius.circular(8),
-              //     border: Border.all(
-              //       width: 0.5,
-              //       color: selectedColor
-              //     )
-              //   ),
-              //   child: Text("Print"),
-              // ),
-              // SizedBox(width: 5,),
-              MainButton(
-                title: 'Save',
-                press: () {  },
-                sizeHorizontal: 50,
-                sizeVerticle: 10,
-                radius: 8,
-                color: selectedColor,
-                titleColor: Colors.black,),
-            ],
-          ),*/
         ),
-      ),
-      ///-----------------------------------------------------
-      ///
-      ///
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              GestureDetector(
-                onTap: () {
-                  Navigator.pop(context);
+        Padding(
+          padding: const EdgeInsets.only(right: 24.0),
+          child: GestureDetector(
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return CreditBillrDialog(
+                    title: 'Dialog Title',
+                    content: 'This is the content of the dialog.',
+                  );
                 },
-                child: Row(
-                  children: [
-                    SvgPicture.asset(
-                      "assets/icons/chevron-back-svgrepo-com.svg",
-                      color: Colors.black,
-                      height: 32,
-                      width: 32,
-                    ),
-                    SizedBox(
-                      width: 8,
-                    ),
-                    Text(
-                      "Billing",
-                      style: pageTitle,
-                    )
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 5,
-              ),
-              // CustomHorizontalLine(),
-              SizedBox(
-                height: 32,
-              ),
-              Row(
+              );
+            },
+            child: MouseHover(
+              child: Row(
                 children: [
-                  Expanded(
-                    flex: 1,
-                    child: Column(
-                      children: [
-                       /* SizedBox(
-                          width: 300,
-                          height: 40.0,
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton2<String>(
-                              isExpanded: true,
-                              hint: const Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      'Add Customer',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.black,
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              items: items
-                                  .map(
-                                      (String item) => DropdownMenuItem<String>(
-                                            value: item,
-                                            child: Text(
-                                              item,
-                                              style: const TextStyle(
-                                                fontSize: 14,
-                                                // fontWeight: FontWeight.bold,
-                                                color: Colors.black,
-                                              ),
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                          ))
-                                  .toList(),
-                              value: selectedValue,
-                              onChanged: (String? value) {
-                                setState(() {
-                                  selectedValue = value;
-                                });
-                              },
-                              buttonStyleData: ButtonStyleData(
-                                height: 50,
-                                width: 360,
-                                // width: 160,
-                                padding:
-                                    const EdgeInsets.only(left: 14, right: 14),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(6),
-                                  border: Border.all(
-                                    color: Colors.black26,
-                                  ),
-                                  color: Colors.white,
-                                ),
-                                elevation: 0,
-                              ),
-                              iconStyleData: const IconStyleData(
-                                icon: Icon(
-                                  Icons.arrow_forward_ios_outlined,
-                                ),
-                                iconSize: 14,
-                                iconEnabledColor: Colors.black,
-                                iconDisabledColor: Colors.black,
-                              ),
-                              dropdownStyleData: DropdownStyleData(
-                                // maxHeight: 200,
-                                width: 360,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(14),
-                                  color: Colors.white,
-                                ),
-                                offset: const Offset(0, 0),
-                                scrollbarTheme: ScrollbarThemeData(
-                                  radius: const Radius.circular(6),
-                                  thickness:
-                                      MaterialStateProperty.all<double>(6),
-                                  thumbVisibility:
-                                      MaterialStateProperty.all<bool>(true),
-                                ),
-                              ),
-                              menuItemStyleData: const MenuItemStyleData(
-                                height: 40,
-                                padding: EdgeInsets.only(left: 14, right: 14),
-                              ),
-                            ),
-                          ),
-                        ),*/
-                        SizedBox(
-                          height: 30,
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton2<String>(
-                              isExpanded: true,
-                              hint: const Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      'Mode',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.black,
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              items: paymentMethod
-                                  .map((String item) => DropdownMenuItem<String>(
-                                value: item,
-                                child: Text(
-                                  item,
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    // fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ))
-                                  .toList(),
-                              value: paymentVal2,
-                              onChanged: (String? value) {
-                                setState(() {
-                                  paymentVal2 = value;
-                                  paymentMode2.text = value!;
-                                });
-                              },
-                              buttonStyleData: ButtonStyleData(
-                                // height: 50,
-                                // width: 100,
-                                // width: 160,
-                                padding: const EdgeInsets.only(left: 14, right: 14),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.black.withOpacity(0.50),
-                                    width: 0.5,
-                                  ),
-                                  // color: Colors.white,
-                                ),
-                                elevation: 0,
-                              ),
-                              iconStyleData: const IconStyleData(
-                                icon: Icon(
-                                  Icons.arrow_forward_ios_outlined,
-                                ),
-                                iconSize: 14,
-                                iconEnabledColor: Colors.black,
-                                iconDisabledColor: Colors.black,
-                              ),
-                              dropdownStyleData: DropdownStyleData(
-                                // maxHeight: 200,
-                                width: 276,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(14),
-                                  color: Colors.white,
-                                ),
-                                offset: const Offset(0, 0),
-                                scrollbarTheme: ScrollbarThemeData(
-                                  radius: const Radius.circular(6),
-                                  thickness: MaterialStateProperty.all<double>(6),
-                                  thumbVisibility: MaterialStateProperty.all<bool>(true),
-                                ),
-                              ),
-                              menuItemStyleData: const MenuItemStyleData(
-                                height: 40,
-                                padding: EdgeInsets.only(left: 14, right: 14),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 16,
-                        ),
-                        AddItemField(
-                          control: cash,
-                          label: 'Email',
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    width: 30,
-                  ),
-                  Expanded(
-                    flex: 1,
-                    child: Column(
-                      children: [
-                        AddItemField(
-                          control: cash,
-                          label: 'Phone NO',
-                        ),
-                        // Container(
-                        //   width: MediaQuery.sizeOf(context).width,
-                        //   height: 40.0,
-                        //   color: Colors.white,
-                        //   child: TextFormField(
-                        //     // validator: (v) {
-                        //     //   if (v!.isEmpty || !v.contains('@')) {
-                        //     //     return 'Please enter a valid email!';
-                        //     //   }
-                        //     //   return null;
-                        //     // },
-                        //
-                        //     cursorColor: Colors.black,
-                        //     decoration: CustomDataField(
-                        //       label: 'Phone No',
-                        //     ).dataFieldDecoration(),
-                        //   ),
-                        // ),
-                        SizedBox(
-                          height: 16,
-                        ),
-                        AddItemField(
-                          control: cash,
-                          label: 'Address',
-                        ),
-                        // Container(
-                        //   width: MediaQuery.sizeOf(context).width,
-                        //   height: 40.0,
-                        //   color: Colors.white,
-                        //   child: TextFormField(
-                        //     // validator: (v) {
-                        //     //   if (v!.isEmpty || !v.contains('@')) {
-                        //     //     return 'Please enter a valid email!';
-                        //     //   }
-                        //     //   return null;
-                        //     // },
-                        //
-                        //     cursorColor: Colors.black,
-                        //     decoration: CustomDataField(
-                        //       label: 'Address',
-                        //     ).dataFieldDecoration(),
-                        //   ),
-                        // ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    width: 30,
-                  ),
-                  Expanded(
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          height: 30,
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton2<String>(
-                              isExpanded: true,
-                              hint: const Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      'Mode',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.black,
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              items: paymentMethod
-                                  .map((String item) => DropdownMenuItem<String>(
-                                value: item,
-                                child: Text(
-                                  item,
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    // fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ))
-                                  .toList(),
-                              value: paymentVal2,
-                              onChanged: (String? value) {
-                                setState(() {
-                                  paymentVal2 = value;
-                                  paymentMode2.text = value!;
-                                });
-                              },
-                              buttonStyleData: ButtonStyleData(
-                                // height: 50,
-                                // width: 100,
-                                // width: 160,
-                                padding: const EdgeInsets.only(left: 14, right: 14),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.black.withOpacity(0.50),
-                                    width: 0.5,
-                                  ),
-                                  // color: Colors.white,
-                                ),
-                                elevation: 0,
-                              ),
-                              iconStyleData: const IconStyleData(
-                                icon: Icon(
-                                  Icons.arrow_forward_ios_outlined,
-                                ),
-                                iconSize: 14,
-                                iconEnabledColor: Colors.black,
-                                iconDisabledColor: Colors.black,
-                              ),
-                              dropdownStyleData: DropdownStyleData(
-                                // maxHeight: 200,
-                                width: 276,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(14),
-                                  color: Colors.white,
-                                ),
-                                offset: const Offset(0, 0),
-                                scrollbarTheme: ScrollbarThemeData(
-                                  radius: const Radius.circular(6),
-                                  thickness: MaterialStateProperty.all<double>(6),
-                                  thumbVisibility: MaterialStateProperty.all<bool>(true),
-                                ),
-                              ),
-                              menuItemStyleData: const MenuItemStyleData(
-                                height: 40,
-                                padding: EdgeInsets.only(left: 14, right: 14),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 16,
-                        ),
-                        SizedBox(
-                          height: 30,
-                          child: DropdownButtonHideUnderline(
-                            child: DropdownButton2<String>(
-                              isExpanded: true,
-                              hint: const Row(
-                                children: [
-                                  Expanded(
-                                    child: Text(
-                                      'Mode',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.black,
-                                      ),
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              items: paymentMethod
-                                  .map((String item) => DropdownMenuItem<String>(
-                                value: item,
-                                child: Text(
-                                  item,
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    // fontWeight: FontWeight.bold,
-                                    color: Colors.black,
-                                  ),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ))
-                                  .toList(),
-                              value: paymentVal2,
-                              onChanged: (String? value) {
-                                setState(() {
-                                  paymentVal2 = value;
-                                  paymentMode2.text = value!;
-                                });
-                              },
-                              buttonStyleData: ButtonStyleData(
-                                // height: 50,
-                                // width: 100,
-                                // width: 160,
-                                padding: const EdgeInsets.only(left: 14, right: 14),
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.black.withOpacity(0.50),
-                                    width: 0.5,
-                                  ),
-                                  // color: Colors.white,
-                                ),
-                                elevation: 0,
-                              ),
-                              iconStyleData: const IconStyleData(
-                                icon: Icon(
-                                  Icons.arrow_forward_ios_outlined,
-                                ),
-                                iconSize: 14,
-                                iconEnabledColor: Colors.black,
-                                iconDisabledColor: Colors.black,
-                              ),
-                              dropdownStyleData: DropdownStyleData(
-                                // maxHeight: 200,
-                                width: 276,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(14),
-                                  color: Colors.white,
-                                ),
-                                offset: const Offset(0, 0),
-                                scrollbarTheme: ScrollbarThemeData(
-                                  radius: const Radius.circular(6),
-                                  thickness: MaterialStateProperty.all<double>(6),
-                                  thumbVisibility: MaterialStateProperty.all<bool>(true),
-                                ),
-                              ),
-                              menuItemStyleData: const MenuItemStyleData(
-                                height: 40,
-                                padding: EdgeInsets.only(left: 14, right: 14),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    width: 30,
-                  ),
-                  Expanded(
-                    flex: 3,
-                    child: Container(
-                      // height: 23,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Container(
-                            width: 200,
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    "Invoice No",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w900),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: AddItemField(
-                                    control: cash,
-                                    label: 'Invoice No',
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Container(
-                            width: 200,
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    "Date",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w900),
-                                  ),
-                                ),
-
-                                Expanded(
-                                  child: AddItemField(
-                                    control: cash,
-                                    label: '23/10/2024',
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          // UnderLineTextWidget(
-                          //   text: 'Invoice No',
-                          //   data: '1',
-                          // ),
-
-
-                        ],
-                      ),
-                    ),
-                  )
-                ],
-              ),
-
-              Padding(
-                padding: const EdgeInsets.only(top: 40.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                        child: InvoiceBoxField(
-                      title: '#',
-                    )),
-                    Expanded(
-                        flex: 4,
-                        child: InvoiceBoxField(
-                          title: 'Item',
-                        )),
-                    Expanded(
-                        child: InvoiceBoxField(
-                      title: 'Quantity',
-                    )),
-                    Expanded(
-                        flex: 2,
-                        child: InvoiceBoxField(
-                          title: 'Discount',
-                        )),
-                    Expanded(
-                        flex: 2,
-                        child: InvoiceBoxField(
-                          title: 'Tax',
-                        )),
-                    Expanded(
-                        child: InvoiceBoxField(
-                      title: 'Total',
-                    )),
-                  ],
-                ),
-              ),
-              Container(
-                color: Colors.grey.withOpacity(0.10),
-                child: Row(
-                  children: [
-                    Expanded(
-                        child: ItemRowBilling(
-                      title: '1',
-                      color: Colors.transparent,
-                    )),
-                    Expanded(
-                        flex: 4,
-                        child: ItemRowBilling(
-                            title: 'Item', color: Colors.transparent)),
-                    Expanded(
-                        child: ItemRowBilling(
-                            title: 'Quntity', color: Colors.transparent)),
-                    Expanded(
-                        flex: 2,
-                        child: ItemRowBilling(
-                            title: 'Disocunt', color: Colors.transparent)),
-                    Expanded(
-                        flex: 2,
-                        child: ItemRowBilling(
-                            title: 'Tax', color: Colors.transparent)),
-                    Expanded(
-                        child: ItemRowBilling(
-                            title: 'Total', color: Colors.transparent)),
-                  ],
-                ),
-              ),
-
-              /* Row(
-                children: [
-                  Expanded(
-                      child: InvoiceTotalBoxField(title: '',)
-                  ),
-                  Expanded(
-                      flex: 4,
-                      child: InvoiceTotalBoxField(title: '',)
-                  ),
-                  Expanded(
-                      child: InvoiceTotalBoxField(title: 'Total',)
-                  ),
-                  Expanded(
-                      flex: 2,
-                      child: InvoiceTotalBoxField(title: 'Total',)
-                  ),
-                  Expanded(
-                      flex: 2,
-                      child: InvoiceTotalBoxField(title: 'Total',)
-                  ),
-                  Expanded(
-                      child: InvoiceTotalBoxField(title: 'Total',)
-                  ),
-                ],
-              ),*/
-              SizedBox(
-                height: 20,
-              ),
-              /*    Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              flex: 3,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text("Remarks",
-                    style: contentHeading,),
-                  SizedBox(height: 10,),
-                  Container(
-                    width: MediaQuery.sizeOf(context).width * 0.30,
-                    color: Colors.white,
-                    child: TextFormField(
-                      maxLines: 5,
-
-                      // validator: (v) {
-                      //   if (v!.isEmpty || !v.contains('@')) {
-                      //     return 'Please enter a valid email!';
-                      //   }
-                      //   return null;
-                      // },
-
-                      cursorColor: Colors.black,
-                      decoration: CustomDataField(
-                        label: '',
-                      ).dataFieldDecoration(),
-                    ),
-                  ),
-                  SizedBox(height: 10,),
-                  Text("Add Document",
-                    style: contentHeading,),
-                  SizedBox(height: 20,),
-                  Container(
-                    height: 50,
-                    width: 200,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(6),
-                      border: Border.all(
-                          width: 0.2,
-                          color: Colors.black
-                      ),
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          "assets/icon/document-add-svgrepo-com.svg",
-                          color: Colors.grey,
-                          height: 24,
-                          width: 24,),
-                        SizedBox(width: 5,),
-                        Text("Add Document"),
-                      ],
-                    ),
-                  ),
+                  Icon(Icons.library_books,color: Colors.black,),
+                  Text("Credit bills",style:  const TextStyle(
+                    fontSize: 10,
+                    color: Colors.black,
+                  ),),
                 ],
               ),
             ),
-            Expanded(
-              child: ElevatedBgCard(
-                  radius: 15,
+          ),
+        ),
+        MouseHover(
+          child: Padding(
+            padding: const EdgeInsets.only(right: 24.0),
+            child: Row(
+              children: [
+                Icon(Icons.front_hand,color: Colors.black,),
+                Text("Hold bill",style:  const TextStyle(
+                  fontSize: 10,
+                  color: Colors.black,
+                ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(right: 16.0),
+          child: Row(
+            children: [
+              Text("Barcode",style:  const TextStyle(
+                fontSize: 10,
+                color: Colors.black,
+              ),),
+
+              CupertinoSwitch(
+                value: _switchValue,
+                onChanged: (value) {
+                  setState(() {
+                    _switchValue = value;
+                  });
+                },
+              ),
+              Text("Manual",style:  const TextStyle(
+                fontSize: 10,
+                color: Colors.black,
+              ),),
+            ],
+          ),
+        ),
+      ],),
+      bottomNavigationBar: buildBottomBar(context),
+
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: EdgeInsets.all(10),
+                  color: colorGreyBackGround,
                   child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Text(
+                        "Invoice Information",
+                        style: styleInterSemiBold(
+                            size: 14,
+                            color: Colors.black),
+                      ),
+                      sizeHeight16(),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('*Invoice Mode',
+                                  style: styleInterThin(
+                                      size: 10,
+                                      color: Colors.black),
+                                ),
+                                SizedBox(height: 3,),
+                                DropdownButtonFormField(
+                                  value: invoiceModeValue,
+                                  decoration: DropDownFieldDecoration(hint: '').decoration(),
+                                  hint: Text(
+                                    'choose one',
+                                    style:  const TextStyle(
+                                      fontSize: 10,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  isExpanded: true,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      invoiceModeValue = value;
+                                    });
+                                  },
+                                  items: invoiceModeList
+                                      .map((String val) {
+                                    return DropdownMenuItem(
+                                      value: val,
+                                      child: Text(
+                                        val,
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ],
+                            ),
+                          ),
+                          sizeWidthBox40(),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('*Sales person 1',
+                                  style: styleInterThin(
+                                      size: 10,
+                                      color: Colors.black),
+                                ),
+                                SizedBox(height: 3,),
+                                DropdownButtonFormField(
+                                  value: salesPerson1Value,
+                                  decoration: DropDownFieldDecoration(hint: '').decoration(),
+                                  hint: Text(
+                                    'choose one',
+                                    style:  const TextStyle(
+                                        fontSize: 10,
+                                        color: Colors.black,
+                                      ),
+                                  ),
+                                  isExpanded: true,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      salesPerson1Value = value;
+                                    });
+                                  },
+                                  items: salesPersonList
+                                      .map((String val) {
+                                    return DropdownMenuItem(
+                                      value: val,
+                                      child: Text(
+                                        val,
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ],
+                            ),
+                          ),
+                          sizeWidthBox40(),
+                          Expanded(
+                            child:  textBox(
+                              context: context,
+                              label: 'Customer Name',
+                              controller: customerNameController,
+                              hint: 'Customer Name',
+                              length: null,
+                              validator: (val) {
+                                return null;
+                              }, title: '*Customer Name'),),
+                          sizeWidthBox40(),
+                          Expanded(
+                            child:  textBox(
+                              context: context,
+                              label: 'Contact No',
+                              controller: customerContactNoController,
+                              hint: 'Contact No',
+                              length: null,
+                              validator: (val) {
+                                return null;
+                              }, title: '*Contact No'),),
+                          sizeWidthBox40(),
+                          Expanded(
+                            child:  textBox(
+                                context: context,
+                                label: 'Item Name',
+                                controller: customerContactNoController,
+                                hint: 'Item Name',
+                                length: null,
+                                validator: (val) {
+                                  return null;
+                                }, title: '*Item Name'),),
+                        ],
+                      ),
+                      sizeHeight8(),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('*Billing Type',
+                                  style: styleInterThin(
+                                      size: 10,
+                                      color: Colors.black),
+                                ),
+                                SizedBox(height: 3,),
+                                DropdownButtonFormField(
+                                  value: invoiceModeValue,
+                                  decoration: DropDownFieldDecoration(hint: '').decoration(),
+                                  hint: Text(
+                                    'choose one',
+                                     style:  const TextStyle(
+                                    fontSize: 10,
+                                    color: Colors.black,
+                                  ),
+                                  ),
+                                  isExpanded: true,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      invoiceModeValue = value;
+                                    });
+                                  },
+                                  items: invoiceModeList
+                                      .map((String val) {
+                                    return DropdownMenuItem(
+                                      value: val,
+                                      child: Text(
+                                        val,
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ],
+                            ),
+                          ),
+                          sizeWidthBox40(),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('*Sales Person 2',
+                                  style: styleInterThin(
+                                      size: 10,
+                                      color: Colors.black),
+                                ),
+                                SizedBox(height: 3,),
+                                DropdownButtonFormField(
+                                  value: salesPerson2Value,
+                                  decoration: DropDownFieldDecoration(hint: '').decoration(),
+                                  hint: Text(
+                                    'choose one',
+                                    style:  const TextStyle(
+                                      fontSize: 10,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  isExpanded: true,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      salesPerson2Value = value;
+                                    });
+                                  },
+                                  items: invoiceModeList
+                                      .map((String val) {
+                                    return DropdownMenuItem(
+                                      value: val,
+                                      child: Text(
+                                        val,
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ],
+                            ),
+                          ),
+                          sizeWidthBox40(),
+                          Expanded(
+                            child:  textBox(
+                                context: context,
+                                label: 'Customer Email',
+                                controller: customerEmailController,
+                                hint: 'Customer Email',
+                                length: null,
+                                validator: (val) {
+                                  return null;
+                                }, title: '*Customer Email'),),
+                          sizeWidthBox40(),
+                          Expanded(
+                            child:  textBox(
+                                context: context,
+                                label: 'Customer Email',
+                                controller: customerEmailController,
+                                hint: 'Customer Email',
+                                length: null,
+                                validator: (val) {
+                                  return null;
+                                }, title: '*Customer Email'),),
+                          sizeWidthBox40(),
+                          Expanded(
+                            child:  textBox(
+                                context: context,
+                                label: 'Date',
+                                controller: customerContactNoController,
+                                hint: 'Date',
+                                length: null,
+                                validator: (val) {
+                                  return null;
+                                }, title: '*Date'),),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                sizeHeight16(),
+                Padding(
+                  padding: const EdgeInsets.only(top: 5.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                          child: InvoiceBoxField(
+                            title: '#',
+                          )),
+                      Expanded(
+                          flex: 4,
+                          child: InvoiceBoxField(
+                            title: 'Item',
+                          )),
+                      Expanded(
+                          child: InvoiceBoxField(
+                            title: 'Quantity',
+                          )),
+                      Expanded(
+                          child: InvoiceBoxField(
+                            title: 'Unit',
+                          )),
+                      Expanded(
+                          child: InvoiceBoxField(
+                            title: 'Unit Price',
+                          )),
+                      Expanded(
+                          flex: 2,
+                          child: InvoiceBoxField(
+                            title: 'Discount',
+                          )),
+                      Expanded(
+                          flex: 2,
+                          child: InvoiceBoxField(
+                            title: 'Tax',
+                          )),
+                      Expanded(
+                          child: InvoiceBoxField(
+                            title: 'Total',
+                          )),
+                    ],
+                  ),
+                ),
+                Container(
+                  color: Colors.grey.withOpacity(0.10),
+                  child: Row(
+                    children: [
+                      Expanded(
+                          child: ItemRowBilling(
+                            title: '1',
+                            color: Colors.transparent,
+                          )),
+                      Expanded(
+                          flex: 4,
+                          child: ItemRowBilling(
+                              title: 'Item',
+                              color: Colors.transparent)),
+                      Expanded(
+                          child: ItemRowBilling(
+                              title: 'Quntity', color: Colors.transparent)),
+                      Expanded(
+                          child: ItemRowBilling(
+                              title: 'Unit', color: Colors.transparent)),
+                      Expanded(
+                          child: ItemRowBilling(
+                              title: 'Unit Price', color: Colors.transparent)),
+                      Expanded(
+                          flex: 2,
+                          child: ItemRowBilling(
+                              title: 'Disocunt', color: Colors.transparent)),
+                      Expanded(
+                          flex: 2,
+                          child: ItemRowBilling(
+                              title: 'Tax', color: Colors.transparent)),
+                      Expanded(
+                          child: ItemRowBilling(
+                              title: 'Total', color: Colors.transparent)),
+                    ],
+                  ),
+                ),
+
+
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  SingleChildScrollView buildBottomBar(BuildContext context) {
+    return SingleChildScrollView(
+      child: Container(
+        color: colorGreyBackGround,
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    children: [
+                      CustomRowWidget(
+                        title: 'Add Discount',
+                        initialCheckedValue: false,
+                        onChange: (bool isChecked) {
+                          // Handle the onChange logic here
+                        },
+                        child: Expanded(
+                          child: DropdownButtonFormField(
+                            value: _selectedValue,
+                            decoration: DropDownFieldDecoration(hint: '').decoration(),
+                            hint: Text(
+                              'choose one',
+                              style:  const TextStyle(
+                                fontSize: 10,
+                                color: Colors.black,
+                              ),
+                            ),
+                            isExpanded: true,
+                            onChanged: (value) {
+                              setState(() {
+                                _selectedValue = value;
+                              });
+                            },
+                            items: listOfValue
+                                .map((String val) {
+                              return DropdownMenuItem(
+                                value: val,
+                                child: Text(
+                                  val,
+                                ),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                      ),
+                      CustomRowWidget(
+                        title: 'Add Shipping',
+                        initialCheckedValue: true,
+                        onChange: (bool isChecked) {
+                          // Handle the onChange logic here
+                        },
+                      ),
+
+                    ],
+                  ),
+                ),
+                sizeWidthBox40(),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment : CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Remarks",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w900),
+                      ),
+                      SizedBox(height: 10,),
                       Container(
-                        width: 200,
-                        height: 40.0,
+                        width: MediaQuery.sizeOf(context).width * 0.30,
                         color: Colors.white,
                         child: TextFormField(
-
-                          // validator: (v) {
-                          //   if (v!.isEmpty || !v.contains('@')) {
-                          //     return 'Please enter a valid email!';
-                          //   }
-                          //   return null;
-                          // },
-
+                          maxLines: 2,
                           cursorColor: Colors.black,
                           decoration: CustomDataField(
-                            label: 'Cash',
+                            label: '',
                           ).dataFieldDecoration(),
                         ),
                       ),
-                      SizedBox(height: 16,),
+                      SizedBox(height: 10,),
+                      Text(
+                        "Add Document",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w900),
+                      ),
+                      SizedBox(height: 10,),
                       Row(
                         children: [
                           Container(
-                            width: 200,
-                            height: 40.0,
-                            color: Colors.white,
-                            child: TextFormField(
-
-                              // validator: (v) {
-                              //   if (v!.isEmpty || !v.contains('@')) {
-                              //     return 'Please enter a valid email!';
-                              //   }
-                              //   return null;
-                              // },
-
-                              cursorColor: Colors.black,
-                              decoration: CustomDataField(
-                                label: 'Upi',
-                              ).dataFieldDecoration(),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(6),
+                              border: Border.all(
+                                  width: 0.2,
+                                  color: Colors.black
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 16),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset(
+                                    "assets/icon/document-add-svgrepo-com.svg",
+                                    color: Colors.grey,
+                                    height: 24,
+                                    width: 24,),
+                                  SizedBox(width: 5,),
+                                  Text("Add Document"),
+                                ],
+                              ),
                             ),
                           ),
+                        ],
+                      ),],),
+                ),
+                sizeWidthBox40(),
+                Expanded(
+                  child: Container(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
                           Expanded(
-                            child: SvgPicture.asset("assets/icon/Paytm-Logo.wine.svg",height: 24,
-                            width: 24,),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Payments",
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w900),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          add = !add;
+
+                                        });
+                                      },
+                                      child: MouseHover(
+                                        child: Text(
+                                          add ?
+                                          "Close Payment Mode":
+                                          "Add Another Mode +",
+                                          style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: 11,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+
+                                  "Payment Mode",
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: AddItemField(
+                                        control: cash,
+                                        label: 'Amount',
+                                      ),
+                                    ),
+                                    SizedBox(width: 14,),
+                                    Expanded(
+                                      child:SizedBox(
+                                        height: 30,
+                                        child: DropdownButtonHideUnderline(
+                                          child: DropdownButton2<String>(
+                                            isExpanded: true,
+                                            hint: const Row(
+                                              children: [
+                                                Expanded(
+                                                  child: Text(
+                                                    'Mode',
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.black,
+                                                    ),
+                                                    overflow: TextOverflow.ellipsis,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            items: paymentMethod
+                                                .map((String item) => DropdownMenuItem<String>(
+                                              value: item,
+                                              child: Text(
+                                                item,
+                                                style: const TextStyle(
+                                                  fontSize: 14,
+                                                  // fontWeight: FontWeight.bold,
+                                                  color: Colors.black,
+                                                ),
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ))
+                                                .toList(),
+                                            value: paymentVal,
+                                            onChanged: (String? value) {
+                                              setState(() {
+                                                paymentVal = value;
+                                                paymentMode.text = value!;
+                                              });
+                                            },
+                                            buttonStyleData: ButtonStyleData(
+                                              // height: 50,
+                                              width: 100,
+                                              // width: 160,
+                                              padding: const EdgeInsets.only(left: 14, right: 14),
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color: Colors.black.withOpacity(0.50),
+                                                  width: 0.5,
+                                                ),
+                                                // color: Colors.white,
+                                              ),
+                                              elevation: 0,
+                                            ),
+                                            iconStyleData: const IconStyleData(
+                                              icon: Icon(
+                                                Icons.arrow_forward_ios_outlined,
+                                              ),
+                                              iconSize: 14,
+                                              iconEnabledColor: Colors.black,
+                                              iconDisabledColor: Colors.black,
+                                            ),
+                                            dropdownStyleData: DropdownStyleData(
+                                              // maxHeight: 200,
+                                              width: 276,
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(14),
+                                                color: Colors.white,
+                                              ),
+                                              offset: const Offset(0, 0),
+                                              scrollbarTheme: ScrollbarThemeData(
+                                                radius: const Radius.circular(6),
+                                                thickness: MaterialStateProperty.all<double>(6),
+                                                thumbVisibility: MaterialStateProperty.all<bool>(true),
+                                              ),
+                                            ),
+                                            menuItemStyleData: const MenuItemStyleData(
+                                              height: 40,
+                                              padding: EdgeInsets.only(left: 14, right: 14),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 12,
+                                ),
+                                add ?
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: AddItemField(
+                                        control: cash,
+                                        label: 'Amount',
+                                      ),
+                                    ),
+                                    SizedBox(width: 14,),
+                                    Expanded(
+                                      child:SizedBox(
+                                        height: 30,
+                                        child: DropdownButtonHideUnderline(
+                                          child: DropdownButton2<String>(
+                                            isExpanded: true,
+                                            hint: const Row(
+                                              children: [
+                                                Expanded(
+                                                  child: Text(
+                                                    'Mode',
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.black,
+                                                    ),
+                                                    overflow: TextOverflow.ellipsis,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            items: paymentMethod
+                                                .map((String item) => DropdownMenuItem<String>(
+                                              value: item,
+                                              child: Text(
+                                                item,
+                                                style: const TextStyle(
+                                                  fontSize: 14,
+                                                  // fontWeight: FontWeight.bold,
+                                                  color: Colors.black,
+                                                ),
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ))
+                                                .toList(),
+                                            value: paymentVal2,
+                                            onChanged: (String? value) {
+                                              setState(() {
+                                                paymentVal2 = value;
+                                                paymentMode2.text = value!;
+                                              });
+                                            },
+                                            buttonStyleData: ButtonStyleData(
+                                              // height: 50,
+                                              width: 100,
+                                              // width: 160,
+                                              padding: const EdgeInsets.only(left: 14, right: 14),
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color: Colors.black.withOpacity(0.50),
+                                                  width: 0.5,
+                                                ),
+                                                // color: Colors.white,
+                                              ),
+                                              elevation: 0,
+                                            ),
+                                            iconStyleData: const IconStyleData(
+                                              icon: Icon(
+                                                Icons.arrow_forward_ios_outlined,
+                                              ),
+                                              iconSize: 14,
+                                              iconEnabledColor: Colors.black,
+                                              iconDisabledColor: Colors.black,
+                                            ),
+                                            dropdownStyleData: DropdownStyleData(
+                                              // maxHeight: 200,
+                                              width: 276,
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(14),
+                                                color: Colors.white,
+                                              ),
+                                              offset: const Offset(0, 0),
+                                              scrollbarTheme: ScrollbarThemeData(
+                                                radius: const Radius.circular(6),
+                                                thickness: MaterialStateProperty.all<double>(6),
+                                                thumbVisibility: MaterialStateProperty.all<bool>(true),
+                                              ),
+                                            ),
+                                            menuItemStyleData: const MenuItemStyleData(
+                                              height: 40,
+                                              padding: EdgeInsets.only(left: 14, right: 14),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+
+                                  ],
+                                ) :
+                                SizedBox(),
+                                SizedBox(
+                                  height: 12,
+                                ),
+                                AddItemField(
+                                  control: cash,
+                                  label: 'Total',
+                                ),
+
+
+                                SizedBox(
+                                  height: 8,
+                                ),
+
+                              ],
+                            ),
                           ),
-                          Expanded(
-                            child: SvgPicture.asset("assets/icon/Google_Pay-Logo.wine.svg",height: 24,
-                              width: 24,),
-                          ),
-                          Expanded(
-                            child: SvgPicture.asset("assets/icon/PhonePe-Logo.wine.svg",height: 24,
-                              width: 24,),
-                          )
                         ],
                       ),
-                      SizedBox(height: 16,),
-                      Container(
-                        width: 200,
-                        height: 40.0,
-                        color: Colors.white,
-                        child: TextFormField(
+                    ),
+                  ),
+                ),
+                sizeWidthBox40(),
+                Expanded(
+                  child: outlineContainer(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text("Sub Total : 904.6",
+                        style: styleInterBold(
+                          size: 20,
+                          color: Colors.black
+                        ),),
+                        Text("Add CGST : 55.5",
+                        style: styleInterBold(
+                            size: 16,
+                            color: Colors.black
+                        ),),
+                        Text("Add SGST : 55.5",
+                        style: styleInterBold(
+                            size: 16,
+                            color: Colors.black
+                        ),),
+                        Text("Add IGST : 00.0",
+                        style: styleInterBold(
+                            size: 16,
+                            color: Colors.black
+                        ),),
+                        Text("Discount : 00.0",
+                          style: styleInterBold(
+                              size: 16,
+                              color: Colors.black
+                          ),),
+                        CustomHorizontalLine(),
+                        Text("Total : 2904.6",
+                          style: styleInterBold(
+                              size: 20,
+                              color: Colors.black
+                          ),),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
 
-                          // validator: (v) {
-                          //   if (v!.isEmpty || !v.contains('@')) {
-                          //     return 'Please enter a valid email!';
-                          //   }
-                          //   return null;
-                          // },
 
-                          cursorColor: Colors.black,
-                          decoration: CustomDataField(
-                            label: 'Bank',
-                          ).dataFieldDecoration(),
-                        ),
-                      ),
-                      SizedBox(height: 16,),
-                      Container(
-                        width: 200,
-                        height: 40.0,
-                        color: Colors.white,
-                        child: TextFormField(
-
-                          // validator: (v) {
-                          //   if (v!.isEmpty || !v.contains('@')) {
-                          //     return 'Please enter a valid email!';
-                          //   }
-                          //   return null;
-                          // },
-
-                          cursorColor: Colors.black,
-                          decoration: CustomDataField(
-                            label: 'Total',
-                          ).dataFieldDecoration(),
-                        ),
-                      ),
-                    ],
-                  )),
-            )
 
 
 
           ],
-        ),*/
-            ],
+        ) ,
+      ),
+    );
+  }
+
+  Padding buildRow(
+      BuildContext context,
+      String title,
+      bool isChecked,
+      Function(bool) onChange) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: Row(
+                children: [
+                  Expanded(
+                    child: SizedBox(
+                      width: 300,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: CustomCheckButton(
+                              title: title,
+                              isChecked: false,
+                              activeColor: colorSelectedGreen,
+                              onChanged: (bool isChecked) {
+                                setState(() {
+                                  shipping = !shipping;
+                                  onChange(isChecked); // Call the onChange function
+                                });
+                              },
+                            ),
+                          ),
+                          shipping ?
+                          Expanded(
+                            child: SizedBox(
+                              height: 24,
+                              child: Row(
+                                children: [
+                                  Container(
+                                    width:40,
+                                    color: colorSelectedGreen,
+                                    child: Image.asset(ic_rupee,
+                                    color: Colors.white,),
+                                  ),
+                                  SizedBox(
+                                    width: 100,
+                                    child: whiteTextBox(
+                                      context: context,
+                                      label: 'Amount',
+                                      controller: customerNameController,
+                                      hint: 'Amount',
+                                      length: null,
+                                      validator: (val) {
+                                        return null;
+                                      },
+                                    ),
+                                  )
+                                ],
+                              ),
+                            )
+                          ) :
+                              SizedBox()
+                        ],
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 4,
+                      child: Container(color: Colors.red,))
+
+                ],
+              ),
+    );
+  }
+}
+
+
+
+
+class CustomRowWidget extends StatefulWidget {
+  final String title;
+  final bool initialCheckedValue;
+  final Function(bool) onChange;
+  final Widget? child;
+
+
+  CustomRowWidget({
+    required this.title,
+    required this.initialCheckedValue,
+    required this.onChange,
+    this.child,
+  });
+
+  @override
+  _CustomRowWidgetState createState() => _CustomRowWidgetState();
+}
+
+class _CustomRowWidgetState extends State<CustomRowWidget> {
+  bool isChecked = false;
+  final controller = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    isChecked = widget.initialCheckedValue;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(14.0),
+      child: Row(
+        children: [
+          Expanded(
+            child: SizedBox(
+              // width: 300,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: CustomCheckButton(
+                      title: widget.title,
+                      isChecked: isChecked,
+                      activeColor: colorSelectedGreen,
+                      onChanged: (bool isChecked) {
+                        setState(() {
+                          this.isChecked = isChecked;
+                          widget.onChange(isChecked);
+                        });
+                      },
+                    ),
+                  ),
+
+                  isChecked
+                      ?
+                  widget.child ??
+                  Expanded(
+                    child: SizedBox(
+                      height: 24,
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 40,
+                            color: colorSelectedGreen,
+                            child: Image.asset(ic_rupee, color: Colors.white),
+                          ),
+                          SizedBox(
+                            width: 100,
+                            child: whiteTextBox(
+                              context: context,
+                              label: 'Amount',
+                              controller: controller,
+                              hint: 'Amount',
+                              length: null,
+                              validator: (val) {
+                                return null;
+                              },
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  )
+                      : SizedBox(),
+
+
+                ],
+              ),
+            ),
           ),
-        ),
+
+        ],
       ),
     );
   }
 }
 
-class UnderLineTextWidget extends StatefulWidget {
-  final String text;
-  final String data;
 
-  const UnderLineTextWidget(
-      {super.key, required this.text, required this.data});
+
+class DropdownFormField<T> extends StatefulWidget {
+  final String hintText;
+  final List<T> options;
+  final T value;
+  final void Function(T) onChanged;
+  final void Function(T)? onSaved; // Use T? to handle nullable types
+
+  DropdownFormField({
+    required this.hintText,
+    required this.options,
+    required this.value,
+    required this.onChanged,
+    this.onSaved,
+  });
 
   @override
-  State<UnderLineTextWidget> createState() => _UnderLineTextWidgetState();
+  _DropdownFormFieldState<T> createState() => _DropdownFormFieldState<T>();
 }
 
-class _UnderLineTextWidgetState extends State<UnderLineTextWidget> {
+class _DropdownFormFieldState<T> extends State<DropdownFormField<T>> {
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Text(widget.text),
-        SizedBox(
-          width: 24,
-        ),
-        Container(
-          height: 20,
-          width: 220,
-          child: TextField(
-            readOnly: true,
-            decoration: InputDecoration(
-              contentPadding: EdgeInsets.symmetric(vertical: 16),
-              hintText: widget.data,
-              hintStyle: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.w500,
-              ),
-              enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.black.withOpacity(0.40)),
-              ),
-              focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.black.withOpacity(0.40)),
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class InvoiceBoxField extends StatelessWidget {
-  final String title;
-
-
-  const InvoiceBoxField({super.key, required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 24,
-      decoration: BoxDecoration(
-          color: selectedGreenColor,
-          border:
-              Border.all(width: 0.2, color: Colors.black.withOpacity(0.50))),
-      child: Center(
-          child: Text(
-        title,
-        style: TextStyle(
-            color: Colors.white, fontSize: 13, fontWeight: FontWeight.w900),
-        overflow: TextOverflow.ellipsis,
-        textAlign: TextAlign.center,
-        maxLines: 2,
-      )),
-    );
-  }
-}
-
-class ItemRowBilling extends StatelessWidget {
-  final String title;
-  final Color color;
-
-  const ItemRowBilling({super.key, required this.title, required this.color});
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 25,
-      child: TextField(
-        cursorHeight: 22,
-        // controller: discount,
-        onChanged: (value) {
-          // discountP = double.tryParse(value) ?? 0;
-          // calculateTotalAmount();
-        },
-        onSubmitted: (val) {
-          FocusScope.of(context).requestFocus(FocusNode());
-          FocusScope.of(context).nextFocus();
-        },
-        decoration: ItemDataField(
-          label: title,
-        ).itemFieldDecoration(),
-      ),
-    );
-  }
-}
-
-class InvoiceTotalBoxField extends StatelessWidget {
-  final String title;
-
-  const InvoiceTotalBoxField({super.key, required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 50,
-      decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.80),
-          border:
-              Border.all(width: 0.2, color: Colors.black.withOpacity(0.50))),
-      child: Center(
-          child: Text(
-        title,
-        style: TextStyle(
-            color: Colors.black, fontSize: 13, fontWeight: FontWeight.w700),
-        overflow: TextOverflow.ellipsis,
-        textAlign: TextAlign.center,
-        maxLines: 2,
-      )),
-    );
-  }
-}
-
-class UnderLineDateWidget extends StatefulWidget {
-  final String text;
-  final String data;
-
-  const UnderLineDateWidget(
-      {super.key, required this.text, required this.data});
-
-  @override
-  State<UnderLineDateWidget> createState() => _UnderLineDateWidgetState();
-}
-
-class _UnderLineDateWidgetState extends State<UnderLineDateWidget> {
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Text(widget.text),
-        SizedBox(width: 24),
-        Container(
-          height: 20,
-          width: 220,
-          child: TextField(
-            readOnly: true,
-            decoration: InputDecoration(
-              contentPadding: EdgeInsets.symmetric(vertical: 16),
-              hintText: '23/12/2023',
-              hintStyle: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.w500,
-              ),
-              // suffixIcon: Container(
-              //   height:60,
-              //   width: 40,
-              //   child: Icon(Icons.search,
-              //   color: Colors.red,),
-              // ),
-              enabledBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.black.withOpacity(0.40)),
-              ),
-              focusedBorder: UnderlineInputBorder(
-                borderSide: BorderSide(color: Colors.black.withOpacity(0.40)),
-              ),
-            ),
-          ),
-        ),
-      ],
+    return DropdownButtonFormField<T>(
+      value: widget.value,
+      hint: Text(widget.hintText),
+      isExpanded: true,
+      onChanged: (T? value) {
+        if (value != null) {
+          setState(() {
+            widget.onChanged(value);
+          });
+        }
+      },
+      onSaved: widget.onSaved != null
+          ? (T? value) {
+        if (value != null) {
+          setState(() {
+            widget.onSaved!(value);
+          });
+        }
+      }
+          : null,
+      items: widget.options.map((T val) {
+        return DropdownMenuItem<T>(
+          value: val,
+          child: Text(val.toString()), // Convert value to string if needed
+        );
+      }).toList(),
     );
   }
 }

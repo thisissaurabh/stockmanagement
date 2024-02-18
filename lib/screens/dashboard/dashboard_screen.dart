@@ -6,6 +6,7 @@ import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:ionicons/ionicons.dart';
 import 'package:spyco_shop_management/api_models/login_model.dart';
 import 'package:spyco_shop_management/constants/colors.dart';
 import 'package:spyco_shop_management/constants/responsive.dart';
@@ -19,6 +20,7 @@ import 'package:spyco_shop_management/widgets/globals.dart';
 import 'package:spyco_shop_management/widgets/main_recent_widget.dart';
 
 import '../../constants/text_styles.dart';
+import 'components/dashboard_widgets.dart';
 
 class DashboardScreen extends StatefulWidget {
   @override
@@ -136,9 +138,101 @@ class _DashboardScreenState extends State<DashboardScreen> {
               //   ),
               // ),
               SizedBox(height: 5,),
+              Text("Business Monitor",
+                style: title36w500,
+              ),
               // SizedBox(height: 10),
               // CustomHorizontalLine(),
               SizedBox(height: 16,),
+
+              ///------------------------TOp panel -----------------------
+              Row(
+                children: [
+                  Expanded(
+                    child: ElevatedBgCard(
+                      radius: 16,
+                      child: CardSales(
+                        title: 'Total Sales', 
+                        amount: '120000', 
+                        viewAll: 'View All Sales',
+                        iconColor: colorBlue, 
+                        icon: Ionicons.server_outline,
+                        containerColor: colorLightGreen,),
+                    ),
+                  ),
+                  SizedBox(width: 16,),
+                  Expanded(
+                    child: ElevatedBgCard(
+                      radius: 16,
+                      child: CardSales(
+                        title: 'Total Purchase',
+                        amount: '180000',
+                        viewAll: 'View All Purchase',
+                        iconColor: colorLightOrange,
+                        icon: Ionicons.stats_chart,
+                        containerColor: colorOrange,),
+                    ),
+                  ),
+                  SizedBox(width: 20,),
+                  Expanded(
+                    child: ElevatedBgCard(
+                      radius: 16,
+                      child: CardSales(
+                        title: 'Current Stock',
+                        amount: '12000',
+                        viewAll: 'View All Stock',
+                        iconColor: colorLightOrange,
+                        icon: Ionicons.storefront_outline,
+                        containerColor: colorOrange,),
+                    ),
+                  ),
+                  SizedBox(width: 20,),
+                  Expanded(
+                    child: ElevatedBgCard(
+                      radius: 16,
+                      child: CardSales(
+                        title: 'Total Expanses',
+                        amount: '10000',
+                        viewAll: 'View All Expanses',
+                        iconColor: Colors.white.withOpacity(0.50),
+                        icon: Ionicons.book_outline,
+                        containerColor: colorMainGrey,),
+                    ),
+                  ),
+                ],
+              ),
+              ///------------------------TOp panel -----------------------
+              ///
+              SizedBox(height: 16,),
+              Row(
+                children: [
+                  Expanded(
+                    child: ElevatedBgCard(
+                      radius: 16,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text("Overview",
+                          style: textMainBlack,),
+                        ],
+                      )
+                    ),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: ElevatedBgCard(
+                      radius: 16,
+                      child: CardSales(
+                        title: 'Total Sales',
+                        amount: '120000',
+                        viewAll: 'View All Sales',
+                        iconColor: colorBlue,
+                        icon: Ionicons.server_outline,
+                        containerColor: colorLightGreen,),
+                    ),
+                  ),
+                ],
+              ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -151,6 +245,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                         Text("Business Monitor",
                         style: title36w500,
                         ),
+
+
+
+
+
+
                         SizedBox(height: 10,),
                         ElevatedBgColorCard(
                           color: selectedColor.withOpacity(0.60),
@@ -670,40 +770,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                           ),
                         ),
                         SizedBox(height: 24,),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: ElevatedBgColorCard(
-
-                                radius: 0,
-                                color: Colors.white,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(12)
-                                  ),
-                                  child: PieChartSample5(),
-
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              child: ElevatedBgColorCard(
-
-                                radius: 0,
-                                color: Colors.white,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(12)
-                                  ),
-                                  child: PieChartSample6(),
-
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
                         SizedBox(height: 24,),
                         Row(
                           children: [
@@ -775,112 +841,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   ),
                 ],
               ),
-
-
-              //---------------Old dashb0ard----------------
-              // Row(
-              //   children: [
-              //     if (Responsive.isDesktop(context))
-              //     Expanded(
-              //       // flex: 2,
-              //         child: ElevatedBgCard(
-              //           radius: 16,
-              //           child: Container(
-              //             height: MediaQuery.sizeOf(context).height *0.41,
-              //             child: BarChartSample1(),
-              //           ),
-              //         )),
-              //     SizedBox(width: 16,),
-              //     if (Responsive.isDesktop(context))
-              //     Expanded(
-              //         child: ElevatedBgCard(
-              //           radius: 16,
-              //           child: Container(
-              //             hExpanded(
-              //                               child: ElevatedBgCard(
-              //                                   radius: 16,
-              //                                 child: Column(
-              //                                   children: [
-              //                                     Row(
-              //                                       children: [
-              //                                         Text("Last Week"),
-              //                                       ],
-              //                                     ),
-              //                                     Text("277",style: pageTitle,)
-              //                                   ],
-              //                                 ),
-              //                               ),
-              //                             ),eight: MediaQuery.sizeOf(context).height *0.41,
-              //             child: PieChartSample2(),
-              //           ),
-              //         )),
-              //   ],
-              // ),
-              // SizedBox(height: defaultPadding),
-              //
-              //
-              // Row(
-              //   crossAxisAlignment: CrossAxisAlignment.start,
-              //   children: [
-              //     if (Responsive.isDesktop(context))
-              //     Expanded(
-              //       child: ElevatedBgCard(
-              //         radius: 16.0,
-              //         child: Column(
-              //           crossAxisAlignment: CrossAxisAlignment.start,
-              //           mainAxisAlignment: MainAxisAlignment.start,
-              //           children: [
-              //
-              //             DashBoardPriceCard(title: 'Total Sales', price: '₹40000', percent: '29 %',)
-              //           ],
-              //         ),
-              //       ),
-              //     ),
-              //     SizedBox(width: 16,),
-              //     if (Responsive.isDesktop(context))
-              //     Expanded(
-              //       child: ElevatedBgCard(
-              //         radius: 16.0,
-              //         child: Column(
-              //           crossAxisAlignment: CrossAxisAlignment.start,
-              //           mainAxisAlignment: MainAxisAlignment.start,
-              //           children: [
-              //             DashBoardPriceCard(title: 'Total Purchases', price: '₹10000', percent: '29 %',)
-              //           ],
-              //         ),
-              //       ),
-              //     ),
-              //   ],
-              // ),
-              // SizedBox(height: 10,),
-              // Row(
-              //   children: [
-              //     Expanded(
-              //       flex: 2,
-              //       child: CustomDataList(
-              //         listTitle: 'Recent Entries',
-              //         categoryTitle1: 'Type',
-              //         categoryTitle2: 'Party',
-              //         categoryTitle3: 'Item',
-              //         categoryTitle4: 'Date',
-              //         listItemCount: saleType.length,
-              //         saleType: saleType,
-              //         partyName: partyName,
-              //         date: date,
-              //         amount: amount,
-              //         categoryTitle5: 'Amount',
-              //         item: [],
-              //
-              //       ),
-              //     ),
-              //     SizedBox(width: 16),
-              //     Expanded(
-              //       child: ElevatedBgCard(
-              //           radius: 16.0,
-              //           child: BarChartSample2()),
-              //     ),
-              //   ],
-              // ),
             ],
           ),
         ),
@@ -888,832 +848,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 }
-
-
-class BarChartSample1 extends StatefulWidget {
-  BarChartSample1({super.key});
-
-  List<Color> get availableColors => const <Color>[
-    AppColors.contentColorPurple,
-    AppColors.contentColorYellow,
-    AppColors.contentColorBlue,
-    AppColors.contentColorOrange,
-    AppColors.contentColorPink,
-    AppColors.contentColorRed,
-  ];
-
-  final Color barBackgroundColor =
-  AppColors.contentColorWhite.darken().withOpacity(0.3);
-  final Color barColor = AppColors.contentColorWhite;
-  final Color touchedBarColor = AppColors.contentColorGreen;
-
-  @override
-  State<StatefulWidget> createState() => BarChartSample1State();
-}
-
-class BarChartSample1State extends State<BarChartSample1> {
-  final Duration animDuration = const Duration(milliseconds: 250);
-
-  int touchedIndex = -1;
-
-  bool isPlaying = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio:2,
-      child: Stack(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                const SizedBox(
-                  height: 4,
-                ),
-                Text(
-                  "Analysis",
-                  style: nameText,
-                ),
-                const SizedBox(
-                  height: 38,
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: BarChart(
-                      isPlaying ? randomData() : mainBarData(),
-                      swapAnimationDuration: animDuration,
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 12,
-                ),
-              ],
-            ),
-          ),
-
-        ],
-      ),
-    );
-  }
-
-  BarChartGroupData makeGroupData(
-      int x,
-      double y, {
-        bool isTouched = false,
-        Color? barColor,
-        double width = 150,
-        double barHeight = 10,
-        List<int> showTooltips = const [],
-      }) {
-    final alternatingColors = [
-      Colors.blue, // Change this to the first color you want
-      Colors.grey, // Change this to the second color you want
-    ];
-    final colorIndex = x % alternatingColors.length;
-    final selectedColor = alternatingColors[colorIndex];
-    //     List<int> showTooltips = const [],
-    //   }) {
-    // barColor ??= Colors.blue;
-    return BarChartGroupData(
-
-      x: x,
-      barRods: [
-        BarChartRodData(
-          toY: isTouched ? y + 1 : y,
-          color: isTouched ? widget.touchedBarColor : Colors.white,
-          width: width,
-          borderRadius: BorderRadius.circular(12),
-          borderSide: isTouched
-              ? BorderSide(color: widget.touchedBarColor.darken(80))
-              : const BorderSide(color: Colors.white, width: 0),
-          backDrawRodData: BackgroundBarChartRodData(
-            show: true,
-            toY: 10,
-            color: widget.barBackgroundColor,
-          ),
-        ),
-      ],
-      showingTooltipIndicators: showTooltips,
-    );
-  }
-
-  List<BarChartGroupData> showingGroups() => List.generate(3, (i) {
-    switch (i) {
-      case 0:
-        return makeGroupData(0, 5, isTouched: i == touchedIndex);
-      case 1:
-        return makeGroupData(1, 6.5, isTouched: i == touchedIndex);
-      case 2:
-        return makeGroupData(2, 5, isTouched: i == touchedIndex);
-      default:
-        return throw Error();
-    }
-  });
-
-  BarChartData mainBarData() {
-    return BarChartData(
-      barTouchData: BarTouchData(
-        touchTooltipData: BarTouchTooltipData(
-          tooltipBgColor: Colors.black,
-          tooltipHorizontalAlignment: FLHorizontalAlignment.right,
-          tooltipMargin: -10,
-          getTooltipItem: (group, groupIndex, rod, rodIndex) {
-            String weekDay;
-            switch (group.x) {
-              case 0:
-                weekDay = 'Monday';
-                break;
-              case 1:
-                weekDay = 'Tuesday';
-                break;
-              case 2:
-                weekDay = 'Wednesday';
-                break;
-              case 3:
-                weekDay = 'Thursday';
-                break;
-              case 4:
-                weekDay = 'Friday';
-                break;
-              case 5:
-                weekDay = 'Saturday';
-                break;
-              case 6:
-                weekDay = 'Sunday';
-                break;
-              default:
-                throw Error();
-            }
-            return BarTooltipItem(
-              '$weekDay\n',
-              const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-              ),
-              children: <TextSpan>[
-                TextSpan(
-                  text: (rod.toY - 1).toString(),
-                  style: TextStyle(
-                    color: widget.touchedBarColor,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            );
-          },
-        ),
-        touchCallback: (FlTouchEvent event, barTouchResponse) {
-          setState(() {
-            if (!event.isInterestedForInteractions ||
-                barTouchResponse == null ||
-                barTouchResponse.spot == null) {
-              touchedIndex = -1;
-              return;
-            }
-            touchedIndex = barTouchResponse.spot!.touchedBarGroupIndex;
-          });
-        },
-      ),
-      titlesData: FlTitlesData(
-
-        show: true,
-        rightTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        topTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        bottomTitles: AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: true,
-            getTitlesWidget: getTitles,
-            reservedSize: 38,
-          ),
-        ),
-        leftTitles:  AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: true,
-            getTitlesWidget: leftTitles,
-            reservedSize: 10,
-            interval: 1,
-          ),
-        ),
-      ),
-      borderData: FlBorderData(
-        show: false,
-      ),
-      barGroups: showingGroups(),
-      gridData: const FlGridData(show: false),
-    );
-  }
-
-  Widget leftTitles(double value, TitleMeta meta) {
-    const style = TextStyle(
-      color: Color(0xff7589a2),
-      fontWeight: FontWeight.bold,
-      fontSize: 18,
-    );
-    String text;
-    if (value == 0) {
-      text = '0';
-    } else if (value == 10) {
-      text = '1lac';
-    } else if (value == 19) {
-      text = '10lac';
-    } else {
-      return Container();
-    }
-    return FittedBox(
-      child: Row(
-        children: [
-          Text(
-            text,
-            style: TextStyle(
-              color: Color(0xff7589a2),
-              fontWeight: FontWeight.bold,
-              fontSize: 14,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget getTitles(double value, TitleMeta meta) {
-    const style = TextStyle(
-      color: Colors.black,
-      fontWeight: FontWeight.w400,
-      fontSize: 14,
-
-
-    );
-    Widget text;
-    switch (value.toInt()) {
-      case 0:
-        text = const Text('TOTAL STOCK', style:style );
-        break;
-      case 1:
-        text = const Text('TOTAL SALE', style: style);
-        break;
-      default:
-        text = const Text('CREDIT', style: style);
-        break;
-    }
-    return SideTitleWidget(
-      axisSide: meta.axisSide,
-      space: 16,
-      child: text,
-    );
-  }
-
-  BarChartData randomData() {
-    return BarChartData(
-      barTouchData: BarTouchData(
-        enabled: false,
-      ),
-      titlesData: FlTitlesData(
-        show: true,
-        bottomTitles: AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: true,
-            getTitlesWidget: getTitles,
-            reservedSize: 38,
-          ),
-        ),
-        leftTitles: const AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: false,
-          ),
-        ),
-        topTitles: const AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: false,
-          ),
-        ),
-        rightTitles: const AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: false,
-          ),
-        ),
-      ),
-      borderData: FlBorderData(
-        show: false,
-      ),
-      barGroups: List.generate(7, (i) {
-        switch (i) {
-          case 0:
-            return makeGroupData(
-              0,
-              Random().nextInt(15).toDouble() + 6,
-              barColor: widget.availableColors[
-              Random().nextInt(widget.availableColors.length)],
-            );
-          case 1:
-            return makeGroupData(
-              1,
-              Random().nextInt(15).toDouble() + 6,
-              barColor: widget.availableColors[
-              Random().nextInt(widget.availableColors.length)],
-            );
-          case 2:
-            return makeGroupData(
-              2,
-              Random().nextInt(15).toDouble() + 6,
-              barColor: widget.availableColors[
-              Random().nextInt(widget.availableColors.length)],
-            );
-          case 3:
-            return makeGroupData(
-              3,
-              Random().nextInt(15).toDouble() + 6,
-              barColor: widget.availableColors[
-              Random().nextInt(widget.availableColors.length)],
-            );
-          case 4:
-            return makeGroupData(
-              4,
-              Random().nextInt(15).toDouble() + 6,
-              barColor: widget.availableColors[
-              Random().nextInt(widget.availableColors.length)],
-            );
-          case 5:
-            return makeGroupData(
-              5,
-              Random().nextInt(15).toDouble() + 6,
-              barColor: widget.availableColors[
-              Random().nextInt(widget.availableColors.length)],
-            );
-          case 6:
-            return makeGroupData(
-              6,
-              Random().nextInt(15).toDouble() + 6,
-              barColor: widget.availableColors[
-              Random().nextInt(widget.availableColors.length)],
-            );
-          default:
-            return throw Error();
-        }
-      }),
-      gridData: const FlGridData(show: false),
-    );
-  }
-
-  Future<dynamic> refreshState() async {
-    setState(() {});
-    await Future<dynamic>.delayed(
-      animDuration + const Duration(milliseconds: 50),
-    );
-    if (isPlaying) {
-      await refreshState();
-    }
-  }
-}
-
-class BarChartSample2 extends StatefulWidget {
-  BarChartSample2({super.key});
-
-  List<Color> get availableColors => const <Color>[
-    AppColors.contentColorPurple,
-    AppColors.contentColorYellow,
-    AppColors.contentColorBlue,
-    AppColors.contentColorOrange,
-    AppColors.contentColorPink,
-    AppColors.contentColorRed,
-  ];
-
-  final Color barBackgroundColor =
-  AppColors.contentColorWhite.darken().withOpacity(0.3);
-  final Color barColor = AppColors.contentColorWhite;
-  final Color touchedBarColor = AppColors.contentColorGreen;
-
-  @override
-  State<StatefulWidget> createState() => BarChartSample2State();
-}
-
-class BarChartSample2State extends State<BarChartSample2> {
-  final Duration animDuration = const Duration(milliseconds: 250);
-
-  int touchedIndex = -1;
-
-  bool isPlaying = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio:1,
-      child: Stack(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                const SizedBox(
-                  height: 4,
-                ),
-                Text(
-                  "Payment Report",
-                  style: nameText,
-                ),
-                const SizedBox(
-                  height: 38,
-                ),
-                Expanded(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    child: BarChart(
-                      isPlaying ? randomData() : mainBarData(),
-                      swapAnimationDuration: animDuration,
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 12,
-                ),
-              ],
-            ),
-          ),
-
-        ],
-      ),
-    );
-  }
-
-  BarChartGroupData makeGroupData(
-      int x,
-      double y, {
-        bool isTouched = false,
-        Color? barColor,
-        double width = 40,
-        double barHeight = 40,
-        List<int> showTooltips = const [],
-      }) {
-    final alternatingColors = [
-      Colors.blue, // Change this to the first color you want
-      Colors.grey, // Change this to the second color you want
-    ];
-    final colorIndex = x % alternatingColors.length;
-    final selectedColor = alternatingColors[colorIndex];
-    //     List<int> showTooltips = const [],
-    //   }) {
-    // barColor ??= Colors.blue;
-    return BarChartGroupData(
-
-      x: x,
-      barRods: [
-        BarChartRodData(
-          toY: isTouched ? y + 1 : y,
-          color: isTouched ? widget.touchedBarColor : barColor,
-          width: width,
-          borderRadius: BorderRadius.circular(12),
-          borderSide: isTouched
-              ? BorderSide(color: widget.touchedBarColor.darken(80))
-              : const BorderSide(color: Colors.white, width: 0),
-          backDrawRodData: BackgroundBarChartRodData(
-            show: true,
-            toY: 20,
-            color: widget.barBackgroundColor,
-          ),
-        ),
-      ],
-      showingTooltipIndicators: showTooltips,
-    );
-  }
-
-  List<BarChartGroupData> showingGroups() => List.generate(3, (i) {
-    switch (i) {
-      case 0:
-        return makeGroupData(0, 5, isTouched: i == touchedIndex);
-      case 1:
-        return makeGroupData(1, 6.5, isTouched: i == touchedIndex);
-      case 2:
-        return makeGroupData(2, 5, isTouched: i == touchedIndex);
-
-
-      default:
-        return throw Error();
-    }
-  });
-
-  BarChartData mainBarData() {
-    return BarChartData(
-      barTouchData: BarTouchData(
-        touchTooltipData: BarTouchTooltipData(
-          tooltipBgColor: Colors.black,
-          tooltipHorizontalAlignment: FLHorizontalAlignment.right,
-          tooltipMargin: -10,
-          getTooltipItem: (group, groupIndex, rod, rodIndex) {
-            String weekDay;
-            switch (group.x) {
-              case 0:
-                weekDay = 'Cash';
-                break;
-              case 1:
-                weekDay = 'Bank';
-                break;
-              case 2:
-                weekDay = 'Others';
-                break;
-
-                break;
-              default:
-                throw Error();
-            }
-            return BarTooltipItem(
-              '$weekDay\n',
-              const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-              ),
-              children: <TextSpan>[
-                TextSpan(
-                  text: (rod.toY - 1).toString(),
-                  style: TextStyle(
-                    color: widget.touchedBarColor,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            );
-          },
-        ),
-        touchCallback: (FlTouchEvent event, barTouchResponse) {
-          setState(() {
-            if (!event.isInterestedForInteractions ||
-                barTouchResponse == null ||
-                barTouchResponse.spot == null) {
-              touchedIndex = -1;
-              return;
-            }
-            touchedIndex = barTouchResponse.spot!.touchedBarGroupIndex;
-          });
-        },
-      ),
-      titlesData: FlTitlesData(
-
-        show: true,
-        rightTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        topTitles: const AxisTitles(
-          sideTitles: SideTitles(showTitles: false),
-        ),
-        bottomTitles: AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: true,
-            getTitlesWidget: getTitles,
-            reservedSize: 38,
-          ),
-        ),
-        leftTitles:  AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: true,
-            getTitlesWidget: leftTitles,
-            reservedSize: 10,
-            interval: 1,
-          ),
-        ),
-      ),
-      borderData: FlBorderData(
-        show: false,
-      ),
-      barGroups: showingGroups(),
-      gridData: const FlGridData(show: false),
-    );
-  }
-
-  Widget leftTitles(double value, TitleMeta meta) {
-    const style = TextStyle(
-      color: Color(0xff7589a2),
-      fontWeight: FontWeight.bold,
-      fontSize: 18,
-    );
-    String text;
-    if (value == 0) {
-      text = '0';
-    } else if (value == 10) {
-      text = '1lac';
-    } else if (value == 19) {
-      text = '10lac';
-    } else {
-      return Container();
-    }
-    return FittedBox(
-      child: Row(
-        children: [
-          Text(
-            text,
-            style: TextStyle(
-              color: Color(0xff7589a2),
-              fontWeight: FontWeight.bold,
-              fontSize: 14,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget getTitles(double value, TitleMeta meta) {
-    const style = TextStyle(
-      color: Colors.black,
-      fontWeight: FontWeight.w400,
-      fontSize: 14,
-
-
-    );
-    Widget text;
-    switch (value.toInt()) {
-      case 0:
-        text = const Text('Cash', style:style );
-        break;
-      case 1:
-        text = const Text('Bank', style: style);
-        break;
-      default:
-        text = const Text('Other', style: style);
-        break;
-    }
-    return SideTitleWidget(
-      axisSide: meta.axisSide,
-      space: 16,
-      child: text,
-    );
-  }
-
-  BarChartData randomData() {
-    return BarChartData(
-      barTouchData: BarTouchData(
-        enabled: false,
-      ),
-      titlesData: FlTitlesData(
-        show: true,
-        bottomTitles: AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: true,
-            getTitlesWidget: getTitles,
-            reservedSize: 38,
-          ),
-        ),
-        leftTitles: const AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: false,
-          ),
-        ),
-        topTitles: const AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: false,
-          ),
-        ),
-        rightTitles: const AxisTitles(
-          sideTitles: SideTitles(
-            showTitles: false,
-          ),
-        ),
-      ),
-      borderData: FlBorderData(
-        show: false,
-      ),
-      barGroups: List.generate(7, (i) {
-        switch (i) {
-          case 0:
-            return makeGroupData(
-              0,
-              Random().nextInt(15).toDouble() + 6,
-              barColor: widget.availableColors[
-              Random().nextInt(widget.availableColors.length)],
-            );
-          case 1:
-            return makeGroupData(
-              1,
-              Random().nextInt(15).toDouble() + 6,
-              barColor: widget.availableColors[
-              Random().nextInt(widget.availableColors.length)],
-            );
-          case 2:
-            return makeGroupData(
-              2,
-              Random().nextInt(15).toDouble() + 6,
-              barColor: widget.availableColors[
-              Random().nextInt(widget.availableColors.length)],
-            );
-          case 3:
-            return makeGroupData(
-              3,
-              Random().nextInt(15).toDouble() + 6,
-              barColor: widget.availableColors[
-              Random().nextInt(widget.availableColors.length)],
-            );
-          case 4:
-            return makeGroupData(
-              4,
-              Random().nextInt(15).toDouble() + 6,
-              barColor: widget.availableColors[
-              Random().nextInt(widget.availableColors.length)],
-            );
-          case 5:
-            return makeGroupData(
-              5,
-              Random().nextInt(15).toDouble() + 6,
-              barColor: widget.availableColors[
-              Random().nextInt(widget.availableColors.length)],
-            );
-          case 6:
-            return makeGroupData(
-              6,
-              Random().nextInt(15).toDouble() + 6,
-              barColor: widget.availableColors[
-              Random().nextInt(widget.availableColors.length)],
-            );
-          default:
-            return throw Error();
-        }
-      }),
-      gridData: const FlGridData(show: false),
-    );
-  }
-
-  Future<dynamic> refreshState() async {
-    setState(() {});
-    await Future<dynamic>.delayed(
-      animDuration + const Duration(milliseconds: 50),
-    );
-    if (isPlaying) {
-      await refreshState();
-    }
-  }
-}
-
-
-extension ColorExtension on Color {
-  /// Convert the color to a darken color based on the [percent]
-  Color darken([int percent = 40]) {
-    assert(1 <= percent && percent <= 100);
-    final value = 1 - percent / 100;
-    return Color.fromARGB(
-      alpha,
-      (red * value).round(),
-      (green * value).round(),
-      (blue * value).round(),
-    );
-  }
-
-  Color lighten([int percent = 40]) {
-    assert(1 <= percent && percent <= 100);
-    final value = percent / 100;
-    return Color.fromARGB(
-      alpha,
-      (red + ((255 - red) * value)).round(),
-      (green + ((255 - green) * value)).round(),
-      (blue + ((255 - blue) * value)).round(),
-    );
-  }
-
-  Color avg(Color other) {
-    final red = (this.red + other.red) ~/ 2;
-    final green = (this.green + other.green) ~/ 2;
-    final blue = (this.blue + other.blue) ~/ 2;
-    final alpha = (this.alpha + other.alpha) ~/ 2;
-    return Color.fromARGB(alpha, red, green, blue);
-  }
-}
-
-
-
-class AppColors {
-  static const Color primary = contentColorCyan;
-  static const Color menuBackground = Color(0xFF090912);
-  static const Color itemsBackground = Color(0xFF1B2339);
-  static const Color pageBackground = Color(0xFF282E45);
-  static const Color mainTextColor1 = Colors.white;
-  static const Color mainTextColor2 = Colors.white70;
-  static const Color mainTextColor3 = Colors.white38;
-  static const Color mainGridLineColor = Colors.white10;
-  static const Color borderColor = Colors.white54;
-  static const Color gridLinesColor = Color(0x11FFFFFF);
-
-  static const Color contentColorBlack = Colors.black;
-  static const Color contentColorWhite = Colors.white;
-  static const Color contentColorBlue = Color(0xFF2196F3);
-  static const Color contentColorYellow = Color(0xFFFFC300);
-  static const Color contentColorOrange = Color(0xFFFF683B);
-  static const Color contentColorGreen = Color(0xFF3BFF49);
-  static const Color contentColorPurple = Color(0xFF6E1BFF);
-  static const Color contentColorPink = Color(0xFFFF3AF2);
-  static const Color contentColorRed = Color(0xFFE80054);
-  static const Color contentColorCyan = Color(0xFF50E4FF);
-}
-
-
-
 
 
 
@@ -1765,284 +899,3 @@ class Indicator extends StatelessWidget {
 
 
 
-class PieChartSample5 extends StatefulWidget {
-  const PieChartSample5({super.key});
-
-  @override
-  State<StatefulWidget> createState() => PieChartSample5State();
-}
-
-class PieChartSample5State extends State {
-  int touchedIndex = -1;
-
-  @override
-  Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 2,
-      child: Row(
-        children: <Widget>[
-          const SizedBox(
-            height: 18,
-          ),
-          Expanded(
-            child: AspectRatio(
-              aspectRatio: 4,
-              child: PieChart(
-                PieChartData(
-                  pieTouchData: PieTouchData(
-                    touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                      setState(() {
-                        if (!event.isInterestedForInteractions ||
-                            pieTouchResponse == null ||
-                            pieTouchResponse.touchedSection == null) {
-                          touchedIndex = -1;
-                          return;
-                        }
-                        touchedIndex = pieTouchResponse
-                            .touchedSection!.touchedSectionIndex;
-                      });
-                    },
-                  ),
-                  borderData: FlBorderData(
-                    show: false,
-                  ),
-                  sectionsSpace: 0,
-                  centerSpaceRadius: 40,
-                  sections: showingSections(),
-                ),
-              ),
-            ),
-          ),
-          const Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Indicator(
-                color: AppColors.contentColorBlue,
-                text: 'Total Stock',
-                isSquare: true,
-              ),
-              SizedBox(
-                height: 4,
-              ),
-              Indicator(
-                color: AppColors.contentColorYellow,
-                text: 'Stock Out',
-                isSquare: true,
-              ),
-              SizedBox(
-                height: 4,
-              ),
-              Indicator(
-                color: AppColors.contentColorPurple,
-                text: 'Stock In',
-                isSquare: true,
-              ),
-              SizedBox(
-                height: 4,
-              ),
-            ],
-          ),
-          const SizedBox(
-            width: 28,
-          ),
-        ],
-      ),
-    );
-  }
-
-  List<PieChartSectionData> showingSections() {
-    return List.generate(3, (i) {
-      final isTouched = i == touchedIndex;
-      final fontSize = isTouched ? 25.0 : 16.0;
-      final radius = isTouched ? 60.0 : 50.0;
-      const shadows = [Shadow(color: Colors.black, blurRadius: 2)];
-      switch (i) {
-        case 0:
-          return PieChartSectionData(
-            color: AppColors.contentColorBlue,
-            value: 40,
-            title: '40%',
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: AppColors.mainTextColor1,
-              shadows: shadows,
-            ),
-          );
-        case 1:
-          return PieChartSectionData(
-            color: AppColors.contentColorYellow,
-            value: 30,
-            title: '30%',
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: AppColors.mainTextColor1,
-              shadows: shadows,
-            ),
-          );
-        case 2:
-          return PieChartSectionData(
-            color: AppColors.contentColorPurple,
-            value: 15,
-            title: '15%',
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: AppColors.mainTextColor1,
-              shadows: shadows,
-            ),
-          );
-
-        default:
-          throw Error();
-      }
-    });
-  }
-}
-
-
-
-class PieChartSample6 extends StatefulWidget {
-  const PieChartSample6({super.key});
-
-  @override
-  State<StatefulWidget> createState() => PieChartSample6State();
-}
-
-class PieChartSample6State extends State {
-  int touchedIndex = -1;
-
-  @override
-  Widget build(BuildContext context) {
-    return AspectRatio(
-      aspectRatio: 2,
-      child: Row(
-        children: <Widget>[
-          const SizedBox(
-            height: 18,
-          ),
-          Expanded(
-            child: AspectRatio(
-              aspectRatio: 4,
-              child: PieChart(
-                PieChartData(
-                  pieTouchData: PieTouchData(
-                    touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                      setState(() {
-                        if (!event.isInterestedForInteractions ||
-                            pieTouchResponse == null ||
-                            pieTouchResponse.touchedSection == null) {
-                          touchedIndex = -1;
-                          return;
-                        }
-                        touchedIndex = pieTouchResponse
-                            .touchedSection!.touchedSectionIndex;
-                      });
-                    },
-                  ),
-                  borderData: FlBorderData(
-                    show: false,
-                  ),
-                  sectionsSpace: 0,
-                  centerSpaceRadius: 40,
-                  sections: showingSections(),
-                ),
-              ),
-            ),
-          ),
-          const Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Indicator(
-                color: AppColors.contentColorBlue,
-                text: 'Purchase',
-                isSquare: true,
-              ),
-              SizedBox(
-                height: 4,
-              ),
-              Indicator(
-                color: AppColors.contentColorYellow,
-                text: 'Expenses',
-                isSquare: true,
-              ),
-              SizedBox(
-                height: 4,
-              ),
-              Indicator(
-                color: AppColors.contentColorPurple,
-                text: 'Profit',
-                isSquare: true,
-              ),
-              SizedBox(
-                height: 4,
-              ),
-            ],
-          ),
-          const SizedBox(
-            width: 28,
-          ),
-        ],
-      ),
-    );
-  }
-
-  List<PieChartSectionData> showingSections() {
-    return List.generate(3, (i) {
-      final isTouched = i == touchedIndex;
-      final fontSize = isTouched ? 25.0 : 16.0;
-      final radius = isTouched ? 60.0 : 50.0;
-      const shadows = [Shadow(color: Colors.black, blurRadius: 2)];
-      switch (i) {
-        case 0:
-          return PieChartSectionData(
-            color: AppColors.contentColorBlue,
-            value: 40,
-            title: '40%',
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: AppColors.mainTextColor1,
-              shadows: shadows,
-            ),
-          );
-        case 1:
-          return PieChartSectionData(
-            color: AppColors.contentColorYellow,
-            value: 30,
-            title: '30%',
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: AppColors.mainTextColor1,
-              shadows: shadows,
-            ),
-          );
-        case 2:
-          return PieChartSectionData(
-            color: AppColors.contentColorPurple,
-            value: 15,
-            title: '15%',
-            radius: radius,
-            titleStyle: TextStyle(
-              fontSize: fontSize,
-              fontWeight: FontWeight.bold,
-              color: AppColors.mainTextColor1,
-              shadows: shadows,
-            ),
-          );
-
-        default:
-          throw Error();
-      }
-    });
-  }
-}

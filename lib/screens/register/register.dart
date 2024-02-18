@@ -35,7 +35,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: selectedColor,
+      backgroundColor: selectedGreenColor,
       body: SizedBox(
         height: height,
         width: width,
@@ -72,7 +72,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     horizontal: ResponsiveWidget.isSmallScreen(context)
                         ? height * 0.032
                         : height * 0.12),
-                color: selectedColor,
+                color: selectedGreenColor,
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.only(bottom: 40.0),
                   child: Column(
@@ -87,7 +87,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 text: 'Register',
                                 style: ralewayStyle.copyWith(
                                   fontSize: 25.0,
-                                  color: Colors.black,
+                                  color: Colors.white,
                                   // color: AppColors.blueDarkColor,
                                   fontWeight: FontWeight.w600,
                                 )),
@@ -95,7 +95,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               text: ' Now ',
                               style: ralewayStyle.copyWith(
                                 fontWeight: FontWeight.w900,
-                                color: Colors.black,
+                                color: Colors.white,
                                 // color: AppColors.blueDarkColor,
                                 fontSize: 25.0,
                               ),
@@ -109,7 +109,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         style: ralewayStyle.copyWith(
                           fontSize: 12.0,
                           fontWeight: FontWeight.w400,
-                          color: Colors.black
+                          color: Colors.white
                           // color: AppColors.textColor,
                         ),
                       ),
@@ -120,7 +120,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           'Email',
                           style: ralewayStyle.copyWith(
                             fontSize: 12.0,
-                            color: AppColors.blueDarkColor,
+                            color: Colors.white,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
@@ -239,7 +239,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   'Already have an account ?',
                                   style: ralewayStyle.copyWith(
                                     fontSize: 12.0,
-                                    color: Colors.black,
+                                    color: Colors.white,
                                     fontWeight: FontWeight.w700,
                                   ),
                                 ),
@@ -253,10 +253,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   );
                                 },
                                 child: MouseHover(
-                                  child: Text(' Login',
+                                  child: Text('  Login',
                                     style: ralewayStyle.copyWith(
                                       fontSize: 12.0,
-                                      color: Colors.black,
+                                      color: Colors.white,
                                       fontWeight: FontWeight.w900,
                                     ),
                                   ),

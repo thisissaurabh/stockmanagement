@@ -25,17 +25,16 @@ class CompanyProfileModel {
 class User {
   int? id;
   String? name;
-  Null? secondName;
+  String? secondName;
   String? email;
-  Null? phone;
+  String? phone;
   String? userName;
-  Null? emailVerifiedAt;
   String? companyName;
   String? gstNumber;
   String? address;
   String? role;
-  Null? userAddedBy;
-  Null? imageUrl;
+  String? userAddedBy;
+  String? imageUrl;
   String? createdAt;
   String? updatedAt;
 
@@ -46,7 +45,7 @@ class User {
         this.email,
         this.phone,
         this.userName,
-        this.emailVerifiedAt,
+
         this.companyName,
         this.gstNumber,
         this.address,
@@ -58,19 +57,18 @@ class User {
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    name = json['name'];
-    secondName = json['second_name'];
-    email = json['email'];
-    phone = json['phone'];
-    userName = json['user_name'];
-    emailVerifiedAt = json['email_verified_at'];
-    companyName = json['company_name'];
-    gstNumber = json['gst_number'];
-    address = json['address'];
-    role = json['role'];
-    userAddedBy = json['user_added_by'];
-    imageUrl = json['image_url'];
-    createdAt = json['created_at'];
+    name = json['name'].toString();
+    secondName = json['second_name'].toString();
+    email = json['email'].toString();
+    phone = json['phone'].toString();
+    userName = json['user_name'].toString();
+    companyName = json['company_name'].toString();
+    gstNumber = json['gst_number'].toString();
+    address = json['address'].toString();
+    role = json['role'].toString();
+    userAddedBy = json['user_added_by'].toString();
+    imageUrl = json['image_url'].toString();
+    createdAt = json['created_at'].toString().toString();
     updatedAt = json['updated_at'];
   }
 
@@ -82,7 +80,6 @@ class User {
     data['email'] = this.email;
     data['phone'] = this.phone;
     data['user_name'] = this.userName;
-    data['email_verified_at'] = this.emailVerifiedAt;
     data['company_name'] = this.companyName;
     data['gst_number'] = this.gstNumber;
     data['address'] = this.address;

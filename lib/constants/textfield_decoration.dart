@@ -439,21 +439,16 @@ class CustomDataField {
 
 class ItemDataField {
   final String label;
+  double ? verticle;
   ItemDataField({required this.label});
 
   InputDecoration itemFieldDecoration() {
     return InputDecoration(
-      // contentPadding: EdgeInsets.symmetric(vertical: 1),
+      contentPadding: EdgeInsets.symmetric(vertical:verticle ??  12,
+          horizontal: 10),
       hintText: label,
-      hintStyle: k16_400_62696A.copyWith(fontSize: 12),
-      fillColor: Colors.white,
-
-      //   contentPadding: EdgeInsets.symmetric(
-      //     horizontal: 10,
-      //     vertical: 10,
-      //   ),
-
-      // This is the normal border
+      isDense: true,
+      hintStyle:  k16_400_62696A.copyWith(fontSize: 14),
       border: OutlineInputBorder(
           borderSide: BorderSide(
               color: Colors.yellow,
@@ -461,19 +456,19 @@ class ItemDataField {
           )
       ),
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(0),
+        borderRadius: BorderRadius.circular(2),
         borderSide: BorderSide(color: Colors.black.withOpacity(0.60), width: 0.5),
       ),
       errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(0),
-              borderSide: BorderSide(color: Colors.black.withOpacity(0.60), width: 0.5),
-            ),
-      focusedBorder:OutlineInputBorder(
-        borderRadius: BorderRadius.circular(0),
-        borderSide: BorderSide(color: Colors.black.withOpacity(0.60), width: 0.5),
+        borderSide: BorderSide(
+            color: Colors.red,
+            width: 0.5),
       ),
-      contentPadding: EdgeInsets.symmetric(vertical: 6,horizontal: 2),
-
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(2),
+        borderSide: BorderSide( color: selectedGreenColor
+            , width: 0.5),
+      ),
     );
 
     // return InputDecoration(

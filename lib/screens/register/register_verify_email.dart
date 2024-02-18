@@ -32,7 +32,7 @@ class _RegisterVerifyEmailScreenState extends State<RegisterVerifyEmailScreen> {
     double height = MediaQuery.of(context).size.height;
     double width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: selectedColor,
+      backgroundColor: selectedGreenColor,
       body: SizedBox(
         height: height,
         width: width,
@@ -65,7 +65,7 @@ class _RegisterVerifyEmailScreenState extends State<RegisterVerifyEmailScreen> {
                     horizontal: ResponsiveWidget.isSmallScreen(context)
                         ? height * 0.032
                         : height * 0.12),
-                color: selectedColor,
+                color: selectedGreenColor,
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.only(bottom: 40.0),
                   child: Column(
@@ -80,7 +80,7 @@ class _RegisterVerifyEmailScreenState extends State<RegisterVerifyEmailScreen> {
                                 text: 'Verify',
                                 style: ralewayStyle.copyWith(
                                   fontSize: 25.0,
-                                  color: Colors.black,
+                                  color: Colors.white,
                                   // color: AppColors.blueDarkColor,
                                   fontWeight: FontWeight.normal,
                                 )),
@@ -88,7 +88,7 @@ class _RegisterVerifyEmailScreenState extends State<RegisterVerifyEmailScreen> {
                               text: ' Email ',
                               style: ralewayStyle.copyWith(
                                 fontWeight: FontWeight.w800,
-                                color: Colors.black,
+                                color: Colors.white,
                                 // color: AppColors.blueDarkColor,
                                 fontSize: 25.0,
                               ),
@@ -102,7 +102,7 @@ class _RegisterVerifyEmailScreenState extends State<RegisterVerifyEmailScreen> {
                         style: ralewayStyle.copyWith(
                           fontSize: 16.0,
                           fontWeight: FontWeight.w400,
-                          color: Colors.black,
+                          color: Colors.white,
                           // color: AppColors.textColor,
                         ),
                       ),
@@ -116,14 +116,14 @@ class _RegisterVerifyEmailScreenState extends State<RegisterVerifyEmailScreen> {
                         //   return null;
                         // },
                         controller: otpController,
-                        cursorColor: Colors.black,
+                        cursorColor: Colors.white,
                         // keyboardType: TextInputType.number,
                         appContext: context,
                         length: 4,
                         onChanged: (val) {},
                         pinTheme: PinTheme(
-                          activeColor: Colors.black,
-                          inactiveColor: Colors.black,
+                          activeColor: Colors.white,
+                          inactiveColor: Colors.white,
                         ),
                       ),
                       SizedBox(height: height * 0.014),
@@ -196,7 +196,7 @@ class _RegisterVerifyEmailScreenState extends State<RegisterVerifyEmailScreen> {
                               'Enter OTP ',
                               style: ralewayStyle.copyWith(
                                 fontWeight: FontWeight.w700,
-                                color: AppColors.whiteColor,
+                                color: Colors.white,
                                 fontSize: 16.0,
                               ),
                             ),
@@ -215,7 +215,7 @@ class _RegisterVerifyEmailScreenState extends State<RegisterVerifyEmailScreen> {
                                   'Did not Received Otp ?',
                                   style: ralewayStyle.copyWith(
                                     fontSize: 12.0,
-                                    color: Colors.black,
+                                    color: Colors.white,
                                     // color: AppColors.blueDarkColor,
                                     fontWeight: FontWeight.w700,
                                   ),
@@ -249,7 +249,7 @@ class _RegisterVerifyEmailScreenState extends State<RegisterVerifyEmailScreen> {
                                   'Resend',
                                   style: ralewayStyle.copyWith(
                                     fontSize: 15.0,
-                                    color: Colors.black,
+                                    color: Colors.white,
                                     fontWeight: FontWeight.w800,
                                   ),
                                 ),
