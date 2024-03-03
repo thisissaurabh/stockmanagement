@@ -12,3 +12,8 @@ Widget sizeHeight8() {
     height: 8,
   );
 }
+
+
+Widget sizedBoxWidth12() {
+  return SizedBox(width: 12,);
+}

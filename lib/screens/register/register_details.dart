@@ -480,9 +480,13 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
                                         onSelected: (String selectedValue) {
                                           print("Selected state: $selectedValue");
                                         },
-                                        fieldViewBuilder: (BuildContext context, TextEditingController textEditingController, FocusNode focusNode, VoidCallback onFieldSubmitted) {
+                                        fieldViewBuilder: (
+                                            BuildContext context,
+                                            TextEditingController stateController,
+                                            FocusNode focusNode,
+                                            VoidCallback onFieldSubmitted) {
                                           return TextField(
-                                            controller: textEditingController,
+                                            controller: stateController,
                                             focusNode: focusNode,
                                             decoration: DecorationCustom(
                                               suffixIcon: false,
@@ -513,11 +517,7 @@ class _RegisterDetailsScreenState extends State<RegisterDetailsScreen> {
                                           );
                                         },
                                       ),
-                                    )
-
-
-
-
+                                    ),
                                   ),
                                 ],
                               ),

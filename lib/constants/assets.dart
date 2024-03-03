@@ -1,0 +1,1 @@
+const String icTick = "assets/icons/tick.svg";

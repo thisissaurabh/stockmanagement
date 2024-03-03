@@ -9,6 +9,7 @@ import 'package:spyco_shop_management/constants/responsive.dart';
 import 'package:spyco_shop_management/constants/textfield_decoration.dart';
 import 'package:spyco_shop_management/constants/textstyle.dart';
 import 'package:spyco_shop_management/controllers/MenuAppController.dart';
+import 'package:spyco_shop_management/management/sales_person.dart';
 import 'package:spyco_shop_management/screens/dashboard/components/header.dart';
 import 'package:spyco_shop_management/screens/main/components/side_menu.dart';
 import 'package:spyco_shop_management/widgets/cards.dart';
@@ -61,6 +62,10 @@ class _ManagementPanelState extends State<ManagementPanel> {
               children: [
                 Expanded(
                   child: ElevatedBgColorCard(
+                    tap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (builder) => SalesPerson()));
+                    },
                       radius: 16,
                       color: Colors.yellowAccent.withOpacity(0.70),
                       child: Column(

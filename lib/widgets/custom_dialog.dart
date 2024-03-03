@@ -452,3 +452,46 @@ class _CustomDialogState extends State<CustomDialog> {
     );
   }
 }
+
+
+
+
+class NameEditDialogWidget extends StatelessWidget {
+  final String title;
+  final Widget addTextField;
+  final Widget buttons;
+  const NameEditDialogWidget({
+    Key? key,
+    required this.title,
+    required this.addTextField,
+    required this.buttons,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      insetPadding: EdgeInsets.only(left: 20, right: 20),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      elevation: 0,
+      backgroundColor: Colors.white,
+      content: SizedBox(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+              ),
+              SizedBox(height: 10),
+              addTextField,
+              SizedBox(height: 20),
+              buttons
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

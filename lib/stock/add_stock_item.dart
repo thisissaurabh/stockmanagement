@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -20,14 +21,18 @@ import 'package:spyco_shop_management/widgets/cards.dart';
 import 'package:spyco_shop_management/widgets/global_widgets.dart';
 import 'package:spyco_shop_management/widgets/globals.dart';
 import '../api/login_register/add_item_api.dart';
+import '../api/stock_apis/group_apis.dart';
+import '../api_models/group_model.dart';
 import '../pos/invoice.dart';
 import '../widgets/add_person_row_holder.dart';
+import '../widgets/custom_dialog.dart';
 import '../widgets/custom_textfield.dart';
 import '../widgets/main_button.dart';
 import '../widgets/snackbar.dart';
+import 'add_group.dart';
 import 'add_stock_dialog.dart';
 import 'components/items_model.dart';
-
+import 'package:flutter_typeahead/flutter_typeahead.dart';
 class AddStockItems extends StatefulWidget {
   final String date;
   final String supplierId;
@@ -159,6 +164,7 @@ class _AddStockItemWindowState extends State<AddStockItemWindow> {
   final totalAmount = TextEditingController();
   final barcodeType = TextEditingController();
   final remarksController = TextEditingController();
+  final groupIdController = TextEditingController();
   double quantityP = 0;
   double purchasePriceP = 0;
   double discountP = 0;
@@ -221,13 +227,38 @@ class _AddStockItemWindowState extends State<AddStockItemWindow> {
   @override
   void initState() {
     // TODO: implement initState
+    getGroup();
     super.initState();
     selectedDate = DateTime.now();
+
     dateFormat = DateFormat(
         'dd-MM-yyyy'
     )
         .format(
         selectedDate);
+  }
+
+
+
+
+  bool isLoading =  false;
+  List<GroupModel> group = [];
+  getGroup() {
+    isLoading = true;
+    var resp = getGroupApi();
+    resp.then((value) {
+      if (value['status'] == 1) {
+        for(var v in value['data']) {
+          group.add(GroupModel.fromJson(v));
+        }
+        print(group.length);
+        setState(() {
+          isLoading = false;
+        });
+      } else {
+        isLoading = false;
+      }
+    });
   }
 
 
@@ -1350,20 +1381,6 @@ class _AddStockItemWindowState extends State<AddStockItemWindow> {
 
                                     ) {
                                       setState(() {
-                                        // itemCode.text = '';
-                                        // itemName.text = '';
-                                        // designName.text = '';
-                                        // color.text = '';
-                                        // size.text = '';
-                                        // hsnCode.text = '';
-                                        // unit.text = '';
-                                        // barcodeType.text = '';
-                                        // quantity.text = '';
-                                        // purchasePrice.text = '';
-                                        // discount.text = '';
-                                        // gstController.text = '';
-                                        // setMrp.text = '';
-                                        // totalAmount.text = '';
                                         contacts.add(
                                             Contact(
                                               // itemCode: itemC,
@@ -1498,9 +1515,11 @@ class _AddStockItemWindowState extends State<AddStockItemWindow> {
       });
     }
 
+
+
     return AlertDialog(
-                              contentPadding: EdgeInsets.zero,
-                              content: StatefulBuilder(
+      contentPadding: EdgeInsets.zero,
+      content: StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
           return Container(
             width: MediaQuery.sizeOf(context).width * 0.50,
@@ -1532,32 +1551,198 @@ class _AddStockItemWindowState extends State<AddStockItemWindow> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(height: 16,),
-
                             Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Expanded(
-                                  child: AddPersonRowHolder(
-                                    title: 'Group Name',
-                                    textField: CustomTextField(
-                                      textInputAction: TextInputAction.next,
-                                      controller: groupController,
-                                      hintText: 'Group Name',
+                                    child:AddPersonRowHolder(
+                                      title: 'Group Name',
+                                      textField: Row(
+                                        children: [
+                                          Expanded(
+                                            flex: 3,
+                                              child: TypeAheadField<GroupModel>(
+                                                // decorationBuilder: ,
+                                                suggestionsCallback: (search) => group.where((group) {
+                                                  return group.groupName!.toLowerCase().contains(search.toLowerCase());
+                                                }).toList(),
+                                                builder: (context, controller, focusNode) {
+                                                  return TextField(
+                                                    controller: controller,
+                                                    focusNode: focusNode,
+                                                    autofocus: true,
+                                                    decoration: MainFieldDecoration(label: 'Group Name').mainFieldDecoration(),
+                                                    onChanged: (val) {
+                                                      setState(() {
+                                                        // groupNameController.text = controller.text;
+                                                      });
 
-                                      validation:
-                                          (val) {
-                                        if(val == null || val.isEmpty){
-                                          return 'Enter a Group Name ';
-                                        }
-                                        return null;
-                                      },
+                                                    },
+                                                  );
+                                                },
+                                                itemBuilder: (context, group) {
+                                                  return ListTile(
+                                                    title: Text(group.groupName.toString()),
+                                                  );
+                                                },
+                                                onSelected: (group) {
+                                                  setState(() {
+                                                    groupController.text = group.groupName.toString();
+                                                  });
 
-                                    ),),
-                                ),
+
+
+                                                },
+                                              ),
+                                              // child: CustomTextField(
+                                              //   textInputAction: TextInputAction.next,
+                                              //   controller: groupController,
+                                              //   hintText: 'Group Name',
+                                              //
+                                              //   validation:
+                                              //       (val) {
+                                              //     if(val == null || val.isEmpty){
+                                              //       return 'Enter a Group Name ';
+                                              //     }
+                                              //     return null;
+                                              //   },
+                                              // ),
+                                          ),
+                                          SizedBox(width: 6,),
+                                          Expanded(
+                                            child: customButton(
+                                              horizontalPadding: 6,
+                                              color: Colors.green,
+                                              text: "Add",
+                                              tap: () {
+                                                showDialog(
+                                                  context: context,
+                                                  builder: (BuildContext context) {
+                                                    return AddGroupDialog(
+                                                      content: '',
+                                                      title: '',
+                                                      onPop: (val) {
+                                                        groupController.text = val!;
+
+                                                      }, onPopId: (val) {
+                                                      groupIdController.text = val.toString();
+
+                                                    },);
+                                                  },
+                                                );
+                                              },
+                                            ),
+                                          )
+                                        ],
+                                      )
+                                    ), ),
                                 SizedBox(width: 12,),
                                 Expanded(
                                   child: AddPersonRowHolder(
                                     title: 'Enter Brand Name',
                                     textField: CustomTextField(
+                                      readOnly: true,
+                                      tap: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return NameEditDialogWidget(
+                                              title: 'Brand Name',
+                                              addTextField: TextFormField(
+                                                onChanged: (v) {
+                                                  setState(() {});
+
+                                                },
+                                                controller: brandController,
+                                                decoration: MainFieldDecoration(label: '').
+                                                mainFieldDecoration(),
+                                                //keyboardType: TextInputType.phone,
+                                              ), buttons: Row(
+                                              children: [
+                                                MainButton(
+                                                  radius: 4,
+                                                  title: 'Add',
+                                                  press: () {
+
+                                                   /* if(groupNameController.text.isNotEmpty ) {
+                                                      setState(() {
+                                                        isLoading = true;
+                                                        widget.onPop(groupNameController.text);
+                                                      });
+
+                                                      addGroupApi(
+                                                          groupName: groupNameController.text,
+                                                          hsnCode: hsnCodeController.text,
+                                                          cgst: cgstController.text,
+                                                          sgst: sgstController.text,
+                                                          igst: igstController.text,
+                                                          cess: cessController.text
+                                                      ).then((value) async {
+
+                                                        if (value['status'] == 1) {
+                                                          setState(() {
+                                                            isLoading = false;
+                                                          });
+
+                                                          Navigator.pop(context);
+                                                          CustomMsgSnackbar.show(context: context,
+                                                              label:"Group Added Succesfully",
+                                                              color: Colors.green,
+                                                              iconImage: icTick);
+
+                                                          // Fluttertoast.showToast(
+                                                          //   msg: 'Your OTP is ${value['otp']}',
+                                                          // );
+                                                          // Navigator.push(
+                                                          //   context,
+                                                          //   MaterialPageRoute(
+                                                          //       builder: (context) => RegisterVerifyEmailScreen(
+                                                          //         email: emailController.text,)),
+                                                          // );
+                                                        } else {
+                                                          setState(() {
+                                                            isLoading = false;
+                                                          });
+                                                          CustomMsgSnackbar.show(context: context,
+                                                              label: value['message'],
+                                                              color: Colors.red,
+                                                              iconImage: "assets/icons/cross.svg");
+                                                        }
+                                                      });
+                                                    }
+                                                    // }
+                                                    // else {
+                                                    //   CustomMsgSnackbar.show(context: context,
+                                                    //       label: 'Please Enter Valid Email',
+                                                    //       color: Colors.red,
+                                                    //       iconImage: "assets/icons/cross.svg");
+                                                    // }*/
+                                                  },
+
+                                                  sizeHorizontal: 30,
+                                                  sizeVerticle: 8,
+                                                  color: selectedGreenColor,
+                                                  titleColor: Colors.white,
+                                                ),
+                                                SizedBox(width: 5,),
+                                                MainButton(
+                                                  radius: 4,
+                                                  title: 'Cancel',
+                                                  press: () {
+                                                    Navigator.pop(context);
+                                                  },
+                                                  sizeHorizontal: 18,
+                                                  sizeVerticle: 8,
+                                                  color: Colors.grey.withOpacity(0.10),
+                                                  titleColor: Colors.black,
+                                                ),
+                                              ],
+                                            ),
+                                            );
+                                          },
+                                        );
+                                      },
                                       textInputAction: TextInputAction.next,
                                       controller: brandController,
                                       hintText: 'Enter Brand Name',
@@ -1569,8 +1754,8 @@ class _AddStockItemWindowState extends State<AddStockItemWindow> {
                                         }
                                         return null;
                                       },
-
-                                    ),),
+                                    ),
+                                  ),
                                 ),
                                 SizedBox(width: 12,),
                                 Expanded(

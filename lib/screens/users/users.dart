@@ -155,7 +155,7 @@ class _AllUsersListState extends State<AllUsersList> {
                     //     ),
                     //   ),
                     // );
-                  },
+                  }, text: 'Add user',
                 ),
               ],
             ),

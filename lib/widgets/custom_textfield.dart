@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:spyco_shop_management/constants/colors.dart';
 
+import '../constants/text_styles.dart';
 import '../constants/textstyle.dart';
 
 class CustomTextField extends StatelessWidget {
@@ -28,16 +29,10 @@ class CustomTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
-
       maxLines: maxLines,
         readOnly: readOnly,
         onTap: tap,
         onChanged: onChanged,
-
-        // inputFormatters: [
-        //   LengthLimitingTextInputFormatter(10),
-        // ],
-
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(vertical: verticlePadding,
         horizontal: 10),
@@ -134,4 +129,23 @@ class Field extends StatelessWidget {
 
   }
 
+}
+
+
+
+Widget customDropDownFieldHolder({
+  required String title,
+  required Widget child,
+
+}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(title,
+            style: textfieldTopText),
+        SizedBox(height: 6,),
+        child,
+
+      ],
+    );
 }

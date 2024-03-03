@@ -158,7 +158,7 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
       }
     });
   }
-
+// bhbhbh
   @override
   Widget build(BuildContext context) {
     return isLoading ?
@@ -550,7 +550,8 @@ class _AddCustomerFieldsState extends State<AddCustomerFields> {
                             challanNo: challanController.text,
                             supplierName: supplierNameController.text,
                             supplierBusinessName:suppliersDetails!.data!.companyName.toString(),
-                            gstNo:suppliersDetails!.data!.gstNo.toString(),),
+                            gstNo:suppliersDetails!.data!.gstNo.toString(),
+                          ),
                         ),
                       ),
                     );

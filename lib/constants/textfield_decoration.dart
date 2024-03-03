@@ -514,3 +514,44 @@ class UnderLineField {
 }
 
 
+class MainFieldDecoration {
+  final String label;
+  final double ? verticlePadding;
+
+  MainFieldDecoration( {required this.label,
+    this.verticlePadding,
+    });
+
+  InputDecoration mainFieldDecoration() {
+    return  InputDecoration(
+      contentPadding: EdgeInsets.symmetric(
+          vertical: verticlePadding ?? 8,
+          horizontal: 10),
+      hintText: label,
+      isDense: true,
+      hintStyle:  k16_400_62696A.copyWith(fontSize: 14),
+      border: OutlineInputBorder(
+          borderSide: BorderSide(
+              color: Colors.yellow,
+              width: 0.5
+          )
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(2),
+        borderSide: BorderSide(color: Colors.black.withOpacity(0.60), width: 0.5),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+            color: Colors.red,
+            width: 0.5),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(2),
+        borderSide: BorderSide( color: selectedGreenColor
+            , width: 0.5),
+      ),
+    );
+
+  }
+}
+

@@ -22,7 +22,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       ), //
       centerTitle: false,
       title: Text(
-        "Billing",
+        title,
         style: styleInterExtraBold(size: 34, color: Colors.black),
       ),
       actions: widget,

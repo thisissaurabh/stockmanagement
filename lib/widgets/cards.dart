@@ -46,25 +46,29 @@ class ElevatedBgCard extends StatelessWidget {
 }
 
 class ElevatedBgColorCard extends StatelessWidget {
-  const ElevatedBgColorCard({
+   ElevatedBgColorCard({
     super.key,
     required this.child,
     required this.radius,
-    required this.color,
+    required this.color,  this.tap,
   });
   final Widget child;
   final double radius;
   final Color color;
+  final Function()? tap;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(radius),
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
+    return GestureDetector(
+      onTap: tap ?? null,
+      child: Container(
+        padding: EdgeInsets.all(radius),
+        decoration: BoxDecoration(
+          color: color,
+          borderRadius: const BorderRadius.all(Radius.circular(10)),
+        ),
+        child: child,
       ),
-      child: child,
     );
   }
 }

@@ -76,7 +76,8 @@ class PlusButton extends StatelessWidget {
 class AddButtonWithText extends StatelessWidget {
   final VoidCallback onTap;
   final Color color;
-  const AddButtonWithText({super.key, required this.onTap, required this.color});
+  final String text;
+  const AddButtonWithText({super.key, required this.onTap, required this.color, required this.text});
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +93,7 @@ class AddButtonWithText extends StatelessWidget {
           child: Row(
             children: [
               SvgPicture.asset("assets/icons/add-svgrepo-com.svg",color: Colors.white,),
-              Text("Add User",
+              Text(text,
               style: TextStyle(color: Colors.white),),
             ],
           ),
@@ -130,4 +131,30 @@ class LoadingButton extends StatelessWidget {
       ],
     );
   }
+}
+
+Widget customButton({
+  required Color color,
+  required String text,
+  required Function() tap,
+  double ? verticalPadding,
+  double ? horizontalPadding,
+}) {
+  return  GestureDetector(
+    onTap: tap,
+    child: Container(
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(2),
+
+      ),
+
+      child: Padding(
+        padding:  EdgeInsets.symmetric(
+            vertical: verticalPadding ?? 4.0,
+            horizontal:horizontalPadding ?? 20),
+        child: Center(child: Text(text,style: TextStyle(color: Colors.white),)),
+      ),
+    ),
+  );
 }
