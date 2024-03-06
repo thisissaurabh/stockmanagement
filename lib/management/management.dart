@@ -20,6 +20,7 @@ import 'package:spyco_shop_management/widgets/main_button.dart';
 import 'package:spyco_shop_management/widgets/snackbar.dart';
 
 import '../constants/text_styles.dart';
+import 'discount.dart';
 
 
 class Management extends StatefulWidget {
@@ -82,12 +83,22 @@ class _ManagementPanelState extends State<ManagementPanel> {
                 SizedBox(width: 16,),
                 Expanded(
                   child: ElevatedBgColorCard(
+                      tap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (builder) => DiscountScreen()));
+                      },
                       radius: 16,
                       color: Colors.redAccent,
-                      child: Container(
-                          height: 300,
-                          width: 300,
-                          child: SvgPicture.asset("assets/icon/team-sales-svgrepo-com.svg"))),
+                      child: Column(
+                        children: [
+                          Container(
+                              height: 300,
+                              width: 300,
+                              child: SvgPicture.asset("assets/icon/team-sales-svgrepo-com.svg")),
+                          Text("Discount",
+                            style: title20Black,)
+                        ],
+                      )),
                 )
               ],
             )

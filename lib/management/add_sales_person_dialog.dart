@@ -13,7 +13,9 @@ import '../../widgets/custom_textfield.dart';
 import '../../widgets/global_widgets.dart';
 
 import '../../widgets/main_button.dart';
+import '../api/salesperson_api.dart';
 import '../screens/users/add_users.dart';
+import '../widgets/loading.dart';
 
 
 class AddSalesPersonDialog extends StatefulWidget {
@@ -35,18 +37,9 @@ class _AddSalesPersonDialogState extends State<AddSalesPersonDialog> {
   String? selectedOption;
   final GlobalKey<FormState>_formKey =  GlobalKey<FormState>();
   bool isLoading = false;
-  final roleController = TextEditingController();
   final nameController = TextEditingController();
-  final secondName = TextEditingController();
-  final contactNoController = TextEditingController();
-  final branchController = TextEditingController();
-  final mailController = TextEditingController();
-  final workNo = TextEditingController();
-  final userNameController = TextEditingController();
-  final address = TextEditingController();
-  final password = TextEditingController();
-  final confirmPassword = TextEditingController();
-  final pinCodeController = TextEditingController();
+  final phoneNoController = TextEditingController();
+  final emailController = TextEditingController();
   final imageController = TextEditingController();
 
   String? stateValue;
@@ -77,7 +70,7 @@ class _AddSalesPersonDialogState extends State<AddSalesPersonDialog> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
-                        child: Text("Add User",
+                        child: Text("Add",
                           style: pageTitle.copyWith(color: Colors.white),),
                       ),
                       Spacer(),
@@ -183,7 +176,7 @@ class _AddSalesPersonDialogState extends State<AddSalesPersonDialog> {
                                 title: 'Contact No',
                                 textField: CustomTextField(
                                   textInputAction: TextInputAction.next,
-                                  controller: contactNoController,
+                                  controller: phoneNoController,
                                   hintText: 'Contact No',
                                   validation:
                                       (val) {
@@ -201,16 +194,16 @@ class _AddSalesPersonDialogState extends State<AddSalesPersonDialog> {
                           children: [
                             Expanded(
                               child: AddPersonRowHolder(
-                                title: 'Branch Location',
+                                title: 'Email',
                                 textField:   CustomTextField(
                                   textInputAction: TextInputAction.next,
-                                  controller: branchController,
-                                  hintText: 'Branch Location',
+                                  controller: emailController,
+                                  hintText: 'Email',
 
                                   validation:
                                       (val) {
                                     if(val == null || val.isEmpty){
-                                      return 'Branch Location' ;
+                                      return 'Email' ;
                                     }
                                     return null;
                                   },
@@ -218,26 +211,26 @@ class _AddSalesPersonDialogState extends State<AddSalesPersonDialog> {
                                 ),),
                             ),
                             SizedBox(width: 12,),
-                            Expanded(
-                              child:
-                              AddPersonRowHolder(
-                                title: 'Sales Person Mail',
-                                textField:    CustomTextField(
-                                  textInputAction: TextInputAction.next,
-                                  controller: mailController,
-                                  hintText: 'Contact No',
-
-
-                                  validation:
-                                      (val) {
-                                    if(val == null || val.isEmpty){
-                                      return 'Enter a valid Mail';
-                                    }
-                                    return null;
-                                  },
-
-                                ),),
-                            ),
+                            // Expanded(
+                            //   child:
+                            //   AddPersonRowHolder(
+                            //     title: 'Sales Person Mail',
+                            //     textField:    CustomTextField(
+                            //       textInputAction: TextInputAction.next,
+                            //       controller: mailController,
+                            //       hintText: 'Contact No',
+                            //
+                            //
+                            //       validation:
+                            //           (val) {
+                            //         if(val == null || val.isEmpty){
+                            //           return 'Enter a valid Mail';
+                            //         }
+                            //         return null;
+                            //       },
+                            //
+                            //     ),),
+                            // ),
                           ],
                         ),
                         SizedBox(height: 16,),
@@ -253,33 +246,28 @@ class _AddSalesPersonDialogState extends State<AddSalesPersonDialog> {
                                 title: 'Add',
                                 press: () {
                                   if (_formKey.currentState!.validate()) {
-                                    if(password.text.isNotEmpty && confirmPassword.text.isNotEmpty) {
                                       setState(() {
                                         isLoading = true;
                                       });
-                                      addUserApi(
+                                      addSalesPersonApi(
                                         name: nameController.text,
-                                        email: mailController.text,
-                                        username:usernameController.text,
-                                        companyLocation: branchController.text,
-                                        role: roleController.text.isEmpty ?
-                                        "userAccess" :
-                                        roleController.text,
-                                        phNo: contactNoController.text.isEmpty ?
-                                        "0000000000" :contactNoController.text,
-                                        password: password.text,
-                                        confirmPassword: confirmPassword.text,
+                                        email: emailController.text,
+                                        phone: phoneNoController.text,
+                                        photo: pickedImage.path,
                                       ).then((value) async {
                                         isLoading = false;
                                         if (value['status'] == 1) {
                                           setState(() {
                                             isLoading = false;
+                                            isLoading ? Loading() : getSalesPersonApi();
                                           });
+
                                           CustomSnackbar.show(
                                               context: context,
                                               label: 'Success',
                                               color: Colors.green,
                                               iconImage: "assets/icons/tick.svg");
+                                          Navigator.pop(context);
                                           // Navigator.push(
                                           //   context,
                                           //   MaterialPageRoute(
@@ -306,13 +294,7 @@ class _AddSalesPersonDialogState extends State<AddSalesPersonDialog> {
                                         }
                                       });
 
-                                    } else {
-                                      CustomMsgSnackbar.show(
-                                          context: context,
-                                          label: 'Please Set Password For Login',
-                                          color: Colors.red,
-                                          iconImage: "assets/icons/cross.svg");
-                                    }
+
                                   } else {
                                     CustomSnackbar.show(
                                         context: context,

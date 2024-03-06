@@ -22,11 +22,14 @@ import 'package:spyco_shop_management/widgets/global_widgets.dart';
 import 'package:spyco_shop_management/widgets/globals.dart';
 import '../api/login_register/add_item_api.dart';
 import '../api/stock_apis/group_apis.dart';
+import '../api_models/brand_model_get.dart';
 import '../api_models/group_model.dart';
+import '../constants/assets.dart';
 import '../pos/invoice.dart';
 import '../widgets/add_person_row_holder.dart';
 import '../widgets/custom_dialog.dart';
 import '../widgets/custom_textfield.dart';
+import '../widgets/loading.dart';
 import '../widgets/main_button.dart';
 import '../widgets/snackbar.dart';
 import 'add_group.dart';
@@ -228,6 +231,7 @@ class _AddStockItemWindowState extends State<AddStockItemWindow> {
   void initState() {
     // TODO: implement initState
     getGroup();
+    // getBrand();
     super.initState();
     selectedDate = DateTime.now();
 
@@ -262,509 +266,42 @@ class _AddStockItemWindowState extends State<AddStockItemWindow> {
   }
 
 
+  String ? groupId;
+  String ? brandId;
+
+
+  List<GetBrandModel> brandList = [];
+  getBrand() {
+    isLoading = true;
+    brandList.clear();
+    var resp = getBrandApi(groupId: groupId.toString());
+    resp.then((value) {
+
+      if (value['status'] == 1) {
+        for(var v in value['data']) {
+          brandList.add(GetBrandModel.fromJson(v));
+        }
+        print(brandList.length);
+        setState(() {
+          isLoading = false;
+        });
+      } else {
+        isLoading = false;
+      }
+    });
+  }
+
+  final groupNController = TextEditingController();
+  final brandNController = TextEditingController();
+
+
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: scaffoldColor,
-      bottomNavigationBar: SingleChildScrollView(
-        child: Container(
-          padding: EdgeInsets.symmetric(horizontal: 22),
-          color: Colors.white,
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment : CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Remarks",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 13,
-                              fontWeight: FontWeight.w900),
-                        ),
-                        SizedBox(height: 10,),
-                        Container(
-                          width: MediaQuery.sizeOf(context).width * 0.30,
-                          color: Colors.white,
-                          child: TextFormField(
-                            maxLines: 2,
-
-                            // validator: (v) {
-                            //   if (v!.isEmpty || !v.contains('@')) {
-                            //     return 'Please enter a valid email!';
-                            //   }
-                            //   return null;
-                            // },
-                            cursorColor: Colors.black,
-                            decoration: CustomDataField(
-                              label: '',
-                            ).dataFieldDecoration(),
-                          ),
-                        ),
-                        SizedBox(height: 10,),
-                        Text(
-                          "Add Document",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 13,
-                              fontWeight: FontWeight.w900),
-                        ),
-                        SizedBox(height: 10,),
-                        Row(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(6),
-                                border: Border.all(
-                                    width: 0.2,
-                                    color: Colors.black
-                                ),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 16),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset(
-                                      "assets/icon/document-add-svgrepo-com.svg",
-                                      color: Colors.grey,
-                                      height: 24,
-                                      width: 24,),
-                                    SizedBox(width: 5,),
-                                    Text("Add Document"),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(width: 10,),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment : CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Payments",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 13,
-                              fontWeight: FontWeight.w900),
-                        ),
-                        SizedBox(height: 10,),
-                        Container(
-                          width: MediaQuery.sizeOf(context).width * 0.30,
-                          color: Colors.white,
-                          child: TextFormField(
-                            maxLines: 2,
-
-                            // validator: (v) {
-                            //   if (v!.isEmpty || !v.contains('@')) {
-                            //     return 'Please enter a valid email!';
-                            //   }
-                            //   return null;
-                            // },
-
-                            cursorColor: Colors.black,
-                            decoration: CustomDataField(
-                              label: '',
-                            ).dataFieldDecoration(),
-                          ),
-                        ),
-                        SizedBox(height: 10,),
-                        Text(
-                          "Payments",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 13,
-                              fontWeight: FontWeight.w900),
-                        ),
-                        SizedBox(height: 10,),
-                        Row(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(6),
-                                border: Border.all(
-                                    width: 0.2,
-                                    color: Colors.black
-                                ),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 16),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset(
-                                      "assets/icon/document-add-svgrepo-com.svg",
-                                      color: Colors.grey,
-                                      height: 24,
-                                      width: 24,),
-                                    SizedBox(width: 5,),
-                                    Text("Add Document"),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(width: 10,),
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                      height: 200,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        "Payments",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 13,
-                                            fontWeight: FontWeight.w900),
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            add = !add;
-
-                                          });
-                                        },
-                                        child: MouseHover(
-                                          child: Text(
-                                            add ?
-                                            "Close Payment Mode":
-                                            "Add Another Mode +",
-                                            style: TextStyle(
-                                                color: Colors.green,
-                                                fontSize: 11,
-                                                fontWeight: FontWeight.w600),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Text(
-
-                                    "Payment Mode",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 11,
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                  SizedBox(
-                                    height: 5,
-                                  ),
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: AddItemField(
-                                          // control: cash,
-                                          label: 'Amount',
-                                        ),
-                                      ),
-                                      SizedBox(width: 14,),
-                                      Expanded(
-                                        child:SizedBox(
-                                          height: 30,
-                                          child: DropdownButtonHideUnderline(
-                                            child: DropdownButton2<String>(
-                                              isExpanded: true,
-                                              hint: const Row(
-                                                children: [
-                                                  Expanded(
-                                                    child: Text(
-                                                      'Mode',
-                                                      style: TextStyle(
-                                                        fontSize: 14,
-                                                        color: Colors.black,
-                                                      ),
-                                                      overflow: TextOverflow.ellipsis,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              items: paymentMethod
-                                                  .map((String item) => DropdownMenuItem<String>(
-                                                value: item,
-                                                child: Text(
-                                                  item,
-                                                  style: const TextStyle(
-                                                    fontSize: 14,
-                                                    // fontWeight: FontWeight.bold,
-                                                    color: Colors.black,
-                                                  ),
-                                                  overflow: TextOverflow.ellipsis,
-                                                ),
-                                              ))
-                                                  .toList(),
-                                              value: paymentVal,
-                                              onChanged: (String? value) {
-                                                setState(() {
-                                                  paymentVal = value;
-                                                  paymentMode.text = value!;
-                                                });
-                                              },
-                                              buttonStyleData: ButtonStyleData(
-                                                // height: 50,
-                                                width: 100,
-                                                // width: 160,
-                                                padding: const EdgeInsets.only(left: 14, right: 14),
-                                                decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                    color: Colors.black.withOpacity(0.50),
-                                                    width: 0.5,
-                                                  ),
-                                                  // color: Colors.white,
-                                                ),
-                                                elevation: 0,
-                                              ),
-                                              iconStyleData: const IconStyleData(
-                                                icon: Icon(
-                                                  Icons.arrow_forward_ios_outlined,
-                                                ),
-                                                iconSize: 14,
-                                                iconEnabledColor: Colors.black,
-                                                iconDisabledColor: Colors.black,
-                                              ),
-                                              dropdownStyleData: DropdownStyleData(
-                                                // maxHeight: 200,
-                                                width: 276,
-                                                decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(14),
-                                                  color: Colors.white,
-                                                ),
-                                                offset: const Offset(0, 0),
-                                                scrollbarTheme: ScrollbarThemeData(
-                                                  radius: const Radius.circular(6),
-                                                  thickness: MaterialStateProperty.all<double>(6),
-                                                  thumbVisibility: MaterialStateProperty.all<bool>(true),
-                                                ),
-                                              ),
-                                              menuItemStyleData: const MenuItemStyleData(
-                                                height: 40,
-                                                padding: EdgeInsets.only(left: 14, right: 14),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 12,
-                                  ),
-                                  add ?
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: AddItemField(
-                                          // control: cash,
-                                          label: 'Amount',
-                                        ),
-                                      ),
-                                      SizedBox(width: 14,),
-                                      Expanded(
-                                        child:SizedBox(
-                                          height: 30,
-                                          child: DropdownButtonHideUnderline(
-                                            child: DropdownButton2<String>(
-                                              isExpanded: true,
-                                              hint: const Row(
-                                                children: [
-                                                  Expanded(
-                                                    child: Text(
-                                                      'Mode',
-                                                      style: TextStyle(
-                                                        fontSize: 14,
-                                                        color: Colors.black,
-                                                      ),
-                                                      overflow: TextOverflow.ellipsis,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                              items: paymentMethod
-                                                  .map((String item) => DropdownMenuItem<String>(
-                                                value: item,
-                                                child: Text(
-                                                  item,
-                                                  style: const TextStyle(
-                                                    fontSize: 14,
-                                                    // fontWeight: FontWeight.bold,
-                                                    color: Colors.black,
-                                                  ),
-                                                  overflow: TextOverflow.ellipsis,
-                                                ),
-                                              ))
-                                                  .toList(),
-                                              value: paymentVal2,
-                                              onChanged: (String? value) {
-                                                setState(() {
-                                                  paymentVal2 = value;
-                                                  paymentMode2.text = value!;
-                                                });
-                                              },
-                                              buttonStyleData: ButtonStyleData(
-                                                // height: 50,
-                                                width: 100,
-                                                // width: 160,
-                                                padding: const EdgeInsets.only(left: 14, right: 14),
-                                                decoration: BoxDecoration(
-                                                  border: Border.all(
-                                                    color: Colors.black.withOpacity(0.50),
-                                                    width: 0.5,
-                                                  ),
-                                                  // color: Colors.white,
-                                                ),
-                                                elevation: 0,
-                                              ),
-                                              iconStyleData: const IconStyleData(
-                                                icon: Icon(
-                                                  Icons.arrow_forward_ios_outlined,
-                                                ),
-                                                iconSize: 14,
-                                                iconEnabledColor: Colors.black,
-                                                iconDisabledColor: Colors.black,
-                                              ),
-                                              dropdownStyleData: DropdownStyleData(
-                                                // maxHeight: 200,
-                                                width: 276,
-                                                decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(14),
-                                                  color: Colors.white,
-                                                ),
-                                                offset: const Offset(0, 0),
-                                                scrollbarTheme: ScrollbarThemeData(
-                                                  radius: const Radius.circular(6),
-                                                  thickness: MaterialStateProperty.all<double>(6),
-                                                  thumbVisibility: MaterialStateProperty.all<bool>(true),
-                                                ),
-                                              ),
-                                              menuItemStyleData: const MenuItemStyleData(
-                                                height: 40,
-                                                padding: EdgeInsets.only(left: 14, right: 14),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-
-                                    ],
-                                  ) :
-                                  SizedBox(),
-                                  SizedBox(
-                                    height: 12,
-                                  ),
-                                  AddItemField(
-                                    // control: cash,
-                                    label: 'Total',
-                                  ),
-
-
-                                  SizedBox(
-                                    height: 8,
-                                  ),
-
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 10,),
-                  Expanded(
-                    child: Container(
-                      height: 200,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Container(
-                                color: Colors.grey.withOpacity(0.10),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      Text(
-                                        "Total Amount",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w900),
-                                      ),
-                                      Text(
-                                        "200000",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 36,
-                                            fontWeight: FontWeight.w900),
-                                      ),
-                                      Spacer(),
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.end,
-                                        children: [
-
-                                          MainButton(
-                                            title: 'Exit',
-                                            press: () {
-                                              // Navigator.push(
-                                              //   context,
-                                              //   MaterialPageRoute(builder: (context) =>  InvoiceWidget()),
-                                              // );
-                                            },
-                                            sizeHorizontal: 50,
-                                            sizeVerticle: 10,
-                                            radius: 8,
-                                            color: selectedGreenColor,
-                                            titleColor: Colors.white,
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              )
-            ],
-          ),
-        ),
-      ),
+      bottomNavigationBar: buildBottomNavigationBar(context),
       ///-----------------------------------------------------------------------
       ///
       ///
@@ -1248,81 +785,9 @@ class _AddStockItemWindowState extends State<AddStockItemWindow> {
                         SizedBox(width: 5,),
                         GestureDetector(
                           onTap: () {
-                            /*String imageN = pickedImage.toString().trim();
-                            String itemN = itemName.text.trim();
-                            String designN = designName.text.trim();
-                            String colorN = color.text.trim();
-                            String sizeN = size.text.trim();
-                            String hsnN = hsnCode.text.trim();
-                            String unitN = unit.text.trim();
-                            String barcodeN = barcodeType.text.trim();
-                            String quantityN = quantity.text.trim();
-                            String purchaseN = purchasePrice.text.trim();
-                            String gstN = gstController.text.trim();
-                            String discountN = discount.text.trim();
-                            // String taxPerN = gstController.text.trim();
-                            String setN = setMrp.text.trim();
-                            String totalN = totalAmount.text.trim();
-                            if (
-                            // itemC.isNotEmpty &&
-                            imageN.isNotEmpty &&
-                                itemN.isNotEmpty &&
-                                designN.isNotEmpty &&
-                                colorN.isNotEmpty &&
-                                sizeN.isNotEmpty &&
-                                hsnN.isNotEmpty &&
-                                unitN.isNotEmpty &&
-                                barcodeN.isNotEmpty &&
-                                quantityN.isNotEmpty &&
-                                purchaseN.isNotEmpty &&
-                                discountN.isNotEmpty &&
-                                setN.isNotEmpty &&
-                                gstN.isNotEmpty &&
-                                totalN.isNotEmpty
-                            // taxPerN.isNotEmpty
-
-                            ) {
-                              setState(() {
-                                // itemCode.text = '';
-                                // itemName.text = '';
-                                // designName.text = '';
-                                // color.text = '';
-                                // size.text = '';
-                                // hsnCode.text = '';
-                                // unit.text = '';
-                                // barcodeType.text = '';
-                                // quantity.text = '';
-                                // purchasePrice.text = '';
-                                // discount.text = '';
-                                // gstController.text = '';
-                                // setMrp.text = '';
-                                // totalAmount.text = '';
-                                contacts.add(
-                                    Contact(
-                                      // itemCode: itemC,
-                                      image: imageN,
-                                      itemName: itemN,
-                                      designName: designN,
-                                      color: colorN,
-                                      size: sizeN,
-                                      hsnCode: hsnN,
-                                      unit: unitN,
-                                      barcode: barcodeN,
-                                      quantity: quantityN,
-                                      purchasePrice: purchaseN,
-                                      discount: discountN,
-                                      mrp: setN,
-                                      total: totalN,
-                                      // taxPercent: taxPerN,
-                                      gst: gstN,
-
-                                    ));
-                              });
-                            }*/
-
                             setState(() {
                               if (_formKey.currentState!.validate()) {
-                                addCustomerSupplierApi(
+                                addItemApi(
                                   supplierId: widget.supplierId,
                                   purchaseInvoiceNo: widget.purchaseInvoiceNo,
                                   challanNo: widget.purchaseInvoiceNo,
@@ -1342,9 +807,10 @@ class _AddStockItemWindowState extends State<AddStockItemWindow> {
                                   size: size.text,
                                   photo: pickedImage.isAbsolute
                                       ? pickedImage.path
-                                      : '',)
+                                      : '',
+                                  groupId: '',
+                                  brandID: '',)
                                     .then((value) async {
-                                  // isLoading = false;
                                   if (value['status'] == 1) {
                                     String imageN = pickedImage.toString().trim();
                                     String itemN = itemName.text.trim();
@@ -1495,6 +961,506 @@ class _AddStockItemWindowState extends State<AddStockItemWindow> {
     );
   }
 
+  SingleChildScrollView buildBottomNavigationBar(BuildContext context) {
+    return SingleChildScrollView(
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 22),
+        color: Colors.white,
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment : CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Remarks",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w900),
+                      ),
+                      SizedBox(height: 10,),
+                      Container(
+                        width: MediaQuery.sizeOf(context).width * 0.30,
+                        color: Colors.white,
+                        child: TextFormField(
+                          maxLines: 2,
+
+                          // validator: (v) {
+                          //   if (v!.isEmpty || !v.contains('@')) {
+                          //     return 'Please enter a valid email!';
+                          //   }
+                          //   return null;
+                          // },
+                          cursorColor: Colors.black,
+                          decoration: CustomDataField(
+                            label: '',
+                          ).dataFieldDecoration(),
+                        ),
+                      ),
+                      SizedBox(height: 10,),
+                      Text(
+                        "Add Document",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w900),
+                      ),
+                      SizedBox(height: 10,),
+                      Row(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(6),
+                              border: Border.all(
+                                  width: 0.2,
+                                  color: Colors.black
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 16),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset(
+                                    "assets/icon/document-add-svgrepo-com.svg",
+                                    color: Colors.grey,
+                                    height: 24,
+                                    width: 24,),
+                                  SizedBox(width: 5,),
+                                  Text("Add Document"),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(width: 10,),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment : CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Payments",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w900),
+                      ),
+                      SizedBox(height: 10,),
+                      Container(
+                        width: MediaQuery.sizeOf(context).width * 0.30,
+                        color: Colors.white,
+                        child: TextFormField(
+                          maxLines: 2,
+
+                          // validator: (v) {
+                          //   if (v!.isEmpty || !v.contains('@')) {
+                          //     return 'Please enter a valid email!';
+                          //   }
+                          //   return null;
+                          // },
+
+                          cursorColor: Colors.black,
+                          decoration: CustomDataField(
+                            label: '',
+                          ).dataFieldDecoration(),
+                        ),
+                      ),
+                      SizedBox(height: 10,),
+                      Text(
+                        "Payments",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 13,
+                            fontWeight: FontWeight.w900),
+                      ),
+                      SizedBox(height: 10,),
+                      Row(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(6),
+                              border: Border.all(
+                                  width: 0.2,
+                                  color: Colors.black
+                              ),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 16),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  SvgPicture.asset(
+                                    "assets/icon/document-add-svgrepo-com.svg",
+                                    color: Colors.grey,
+                                    height: 24,
+                                    width: 24,),
+                                  SizedBox(width: 5,),
+                                  Text("Add Document"),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(width: 10,),
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    height: 200,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Payments",
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w900),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          add = !add;
+
+                                        });
+                                      },
+                                      child: MouseHover(
+                                        child: Text(
+                                          add ?
+                                          "Close Payment Mode":
+                                          "Add Another Mode +",
+                                          style: TextStyle(
+                                              color: Colors.green,
+                                              fontSize: 11,
+                                              fontWeight: FontWeight.w600),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Text(
+
+                                  "Payment Mode",
+                                  style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                SizedBox(
+                                  height: 5,
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: AddItemField(
+                                        // control: cash,
+                                        label: 'Amount',
+                                      ),
+                                    ),
+                                    SizedBox(width: 14,),
+                                    Expanded(
+                                      child:SizedBox(
+                                        height: 30,
+                                        child: DropdownButtonHideUnderline(
+                                          child: DropdownButton2<String>(
+                                            isExpanded: true,
+                                            hint: const Row(
+                                              children: [
+                                                Expanded(
+                                                  child: Text(
+                                                    'Mode',
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.black,
+                                                    ),
+                                                    overflow: TextOverflow.ellipsis,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            items: paymentMethod
+                                                .map((String item) => DropdownMenuItem<String>(
+                                              value: item,
+                                              child: Text(
+                                                item,
+                                                style: const TextStyle(
+                                                  fontSize: 14,
+                                                  // fontWeight: FontWeight.bold,
+                                                  color: Colors.black,
+                                                ),
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ))
+                                                .toList(),
+                                            value: paymentVal,
+                                            onChanged: (String? value) {
+                                              setState(() {
+                                                paymentVal = value;
+                                                paymentMode.text = value!;
+                                              });
+                                            },
+                                            buttonStyleData: ButtonStyleData(
+                                              // height: 50,
+                                              width: 100,
+                                              // width: 160,
+                                              padding: const EdgeInsets.only(left: 14, right: 14),
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color: Colors.black.withOpacity(0.50),
+                                                  width: 0.5,
+                                                ),
+                                                // color: Colors.white,
+                                              ),
+                                              elevation: 0,
+                                            ),
+                                            iconStyleData: const IconStyleData(
+                                              icon: Icon(
+                                                Icons.arrow_forward_ios_outlined,
+                                              ),
+                                              iconSize: 14,
+                                              iconEnabledColor: Colors.black,
+                                              iconDisabledColor: Colors.black,
+                                            ),
+                                            dropdownStyleData: DropdownStyleData(
+                                              // maxHeight: 200,
+                                              width: 276,
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(14),
+                                                color: Colors.white,
+                                              ),
+                                              offset: const Offset(0, 0),
+                                              scrollbarTheme: ScrollbarThemeData(
+                                                radius: const Radius.circular(6),
+                                                thickness: MaterialStateProperty.all<double>(6),
+                                                thumbVisibility: MaterialStateProperty.all<bool>(true),
+                                              ),
+                                            ),
+                                            menuItemStyleData: const MenuItemStyleData(
+                                              height: 40,
+                                              padding: EdgeInsets.only(left: 14, right: 14),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 12,
+                                ),
+                                add ?
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: AddItemField(
+                                        // control: cash,
+                                        label: 'Amount',
+                                      ),
+                                    ),
+                                    SizedBox(width: 14,),
+                                    Expanded(
+                                      child:SizedBox(
+                                        height: 30,
+                                        child: DropdownButtonHideUnderline(
+                                          child: DropdownButton2<String>(
+                                            isExpanded: true,
+                                            hint: const Row(
+                                              children: [
+                                                Expanded(
+                                                  child: Text(
+                                                    'Mode',
+                                                    style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: Colors.black,
+                                                    ),
+                                                    overflow: TextOverflow.ellipsis,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            items: paymentMethod
+                                                .map((String item) => DropdownMenuItem<String>(
+                                              value: item,
+                                              child: Text(
+                                                item,
+                                                style: const TextStyle(
+                                                  fontSize: 14,
+                                                  // fontWeight: FontWeight.bold,
+                                                  color: Colors.black,
+                                                ),
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ))
+                                                .toList(),
+                                            value: paymentVal2,
+                                            onChanged: (String? value) {
+                                              setState(() {
+                                                paymentVal2 = value;
+                                                paymentMode2.text = value!;
+                                              });
+                                            },
+                                            buttonStyleData: ButtonStyleData(
+                                              // height: 50,
+                                              width: 100,
+                                              // width: 160,
+                                              padding: const EdgeInsets.only(left: 14, right: 14),
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color: Colors.black.withOpacity(0.50),
+                                                  width: 0.5,
+                                                ),
+                                                // color: Colors.white,
+                                              ),
+                                              elevation: 0,
+                                            ),
+                                            iconStyleData: const IconStyleData(
+                                              icon: Icon(
+                                                Icons.arrow_forward_ios_outlined,
+                                              ),
+                                              iconSize: 14,
+                                              iconEnabledColor: Colors.black,
+                                              iconDisabledColor: Colors.black,
+                                            ),
+                                            dropdownStyleData: DropdownStyleData(
+                                              // maxHeight: 200,
+                                              width: 276,
+                                              decoration: BoxDecoration(
+                                                borderRadius: BorderRadius.circular(14),
+                                                color: Colors.white,
+                                              ),
+                                              offset: const Offset(0, 0),
+                                              scrollbarTheme: ScrollbarThemeData(
+                                                radius: const Radius.circular(6),
+                                                thickness: MaterialStateProperty.all<double>(6),
+                                                thumbVisibility: MaterialStateProperty.all<bool>(true),
+                                              ),
+                                            ),
+                                            menuItemStyleData: const MenuItemStyleData(
+                                              height: 40,
+                                              padding: EdgeInsets.only(left: 14, right: 14),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+
+                                  ],
+                                ) :
+                                SizedBox(),
+                                SizedBox(
+                                  height: 12,
+                                ),
+                                AddItemField(
+                                  // control: cash,
+                                  label: 'Total',
+                                ),
+
+
+                                SizedBox(
+                                  height: 8,
+                                ),
+
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 10,),
+                Expanded(
+                  child: Container(
+                    height: 200,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              color: Colors.grey.withOpacity(0.10),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      "Total Amount",
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w900),
+                                    ),
+                                    Text(
+                                      "200000",
+                                      style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 36,
+                                          fontWeight: FontWeight.w900),
+                                    ),
+                                    Spacer(),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.end,
+                                      children: [
+
+                                        MainButton(
+                                          title: 'Exit',
+                                          press: () {
+                                            // Navigator.push(
+                                            //   context,
+                                            //   MaterialPageRoute(builder: (context) =>  InvoiceWidget()),
+                                            // );
+                                          },
+                                          sizeHorizontal: 50,
+                                          sizeVerticle: 10,
+                                          radius: 8,
+                                          color: selectedGreenColor,
+                                          titleColor: Colors.white,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
   AlertDialog buildAddStockDialog(BuildContext context) {
     double quantityP = 0;
     double purchasePriceP = 0;
@@ -1514,8 +1480,7 @@ class _AddStockItemWindowState extends State<AddStockItemWindow> {
         totalAmount.text = total.toStringAsFixed(2); // Assuming total amount is a double value
       });
     }
-
-
+    final formKey = GlobalKey<FormState>();
 
     return AlertDialog(
       contentPadding: EdgeInsets.zero,
@@ -1546,7 +1511,7 @@ class _AddStockItemWindowState extends State<AddStockItemWindow> {
                     padding: EdgeInsets.all(20),
                     child:SingleChildScrollView(
                       child: Form(
-                        key: _formKey,
+                        key: formKey,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -1556,58 +1521,49 @@ class _AddStockItemWindowState extends State<AddStockItemWindow> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Expanded(
-                                    child:AddPersonRowHolder(
+                                  flex: 2,
+                                    child: AddPersonRowHolder(
                                       title: 'Group Name',
                                       textField: Row(
                                         children: [
                                           Expanded(
-                                            flex: 3,
                                               child: TypeAheadField<GroupModel>(
-                                                // decorationBuilder: ,
+                                                debounceDuration: Duration(seconds: 1),
                                                 suggestionsCallback: (search) => group.where((group) {
                                                   return group.groupName!.toLowerCase().contains(search.toLowerCase());
                                                 }).toList(),
                                                 builder: (context, controller, focusNode) {
                                                   return TextField(
-                                                    controller: controller,
+                                                    controller: groupNController,
                                                     focusNode: focusNode,
                                                     autofocus: true,
                                                     decoration: MainFieldDecoration(label: 'Group Name').mainFieldDecoration(),
                                                     onChanged: (val) {
                                                       setState(() {
-                                                        // groupNameController.text = controller.text;
-                                                      });
+                                                        controller.text = groupNController.text;
 
+                                                      });
                                                     },
                                                   );
                                                 },
                                                 itemBuilder: (context, group) {
                                                   return ListTile(
+                                                    onTap: () {
+                                                      setState(() {
+                                                        groupNController.text = group.groupName.toString();
+                                                        groupId = group.id.toString();
+                                                        print(groupId);
+                                                        print("groupId");
+                                                        print(groupId);
+                                                        isLoading ? Loading() : getBrand();
+                                                      });
+
+
+                                                    },
                                                     title: Text(group.groupName.toString()),
                                                   );
-                                                },
-                                                onSelected: (group) {
-                                                  setState(() {
-                                                    groupController.text = group.groupName.toString();
-                                                  });
-
-
-
-                                                },
+                                                }, onSelected: (group) {  },
                                               ),
-                                              // child: CustomTextField(
-                                              //   textInputAction: TextInputAction.next,
-                                              //   controller: groupController,
-                                              //   hintText: 'Group Name',
-                                              //
-                                              //   validation:
-                                              //       (val) {
-                                              //     if(val == null || val.isEmpty){
-                                              //       return 'Enter a Group Name ';
-                                              //     }
-                                              //     return null;
-                                              //   },
-                                              // ),
                                           ),
                                           SizedBox(width: 6,),
                                           Expanded(
@@ -1623,7 +1579,7 @@ class _AddStockItemWindowState extends State<AddStockItemWindow> {
                                                       content: '',
                                                       title: '',
                                                       onPop: (val) {
-                                                        groupController.text = val!;
+                                                        groupNController.text = val!;
 
                                                       }, onPopId: (val) {
                                                       groupIdController.text = val.toString();
@@ -1633,129 +1589,143 @@ class _AddStockItemWindowState extends State<AddStockItemWindow> {
                                                 );
                                               },
                                             ),
-                                          )
+                                          ),
                                         ],
                                       )
                                     ), ),
                                 SizedBox(width: 12,),
                                 Expanded(
-                                  child: AddPersonRowHolder(
-                                    title: 'Enter Brand Name',
-                                    textField: CustomTextField(
-                                      readOnly: true,
-                                      tap: () {
-                                        showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return NameEditDialogWidget(
-                                              title: 'Brand Name',
-                                              addTextField: TextFormField(
-                                                onChanged: (v) {
-                                                  setState(() {});
-
-                                                },
-                                                controller: brandController,
-                                                decoration: MainFieldDecoration(label: '').
-                                                mainFieldDecoration(),
-                                                //keyboardType: TextInputType.phone,
-                                              ), buttons: Row(
-                                              children: [
-                                                MainButton(
-                                                  radius: 4,
-                                                  title: 'Add',
-                                                  press: () {
-
-                                                   /* if(groupNameController.text.isNotEmpty ) {
+                                  flex: 2,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text("Brand Name",
+                                            style: textfieldTopText),
+                                        SizedBox(height: 10,),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                              child: TypeAheadField<GetBrandModel>(
+                                                suggestionsCallback: (search) => brandList.where((brandList) {
+                                                  return brandList.brandName!.toLowerCase().contains(search.toLowerCase());
+                                                }).toList(),
+                                                builder: (context, controller, focusNode) {
+                                                  return TextField(
+                                                    controller: brandNController,
+                                                    focusNode: focusNode,
+                                                    autofocus: true,
+                                                    decoration: MainFieldDecoration(label: 'Brand Name').mainFieldDecoration(),
+                                                    onChanged: (val) {
                                                       setState(() {
-                                                        isLoading = true;
-                                                        widget.onPop(groupNameController.text);
+                                                        controller.text = brandNController.text;
+
                                                       });
-
-                                                      addGroupApi(
-                                                          groupName: groupNameController.text,
-                                                          hsnCode: hsnCodeController.text,
-                                                          cgst: cgstController.text,
-                                                          sgst: sgstController.text,
-                                                          igst: igstController.text,
-                                                          cess: cessController.text
-                                                      ).then((value) async {
-
-                                                        if (value['status'] == 1) {
-                                                          setState(() {
-                                                            isLoading = false;
-                                                          });
-
-                                                          Navigator.pop(context);
-                                                          CustomMsgSnackbar.show(context: context,
-                                                              label:"Group Added Succesfully",
-                                                              color: Colors.green,
-                                                              iconImage: icTick);
-
-                                                          // Fluttertoast.showToast(
-                                                          //   msg: 'Your OTP is ${value['otp']}',
-                                                          // );
-                                                          // Navigator.push(
-                                                          //   context,
-                                                          //   MaterialPageRoute(
-                                                          //       builder: (context) => RegisterVerifyEmailScreen(
-                                                          //         email: emailController.text,)),
-                                                          // );
-                                                        } else {
-                                                          setState(() {
-                                                            isLoading = false;
-                                                          });
-                                                          CustomMsgSnackbar.show(context: context,
-                                                              label: value['message'],
-                                                              color: Colors.red,
-                                                              iconImage: "assets/icons/cross.svg");
-                                                        }
-                                                      });
-                                                    }
-                                                    // }
-                                                    // else {
-                                                    //   CustomMsgSnackbar.show(context: context,
-                                                    //       label: 'Please Enter Valid Email',
-                                                    //       color: Colors.red,
-                                                    //       iconImage: "assets/icons/cross.svg");
-                                                    // }*/
-                                                  },
-
-                                                  sizeHorizontal: 30,
-                                                  sizeVerticle: 8,
-                                                  color: selectedGreenColor,
-                                                  titleColor: Colors.white,
-                                                ),
-                                                SizedBox(width: 5,),
-                                                MainButton(
-                                                  radius: 4,
-                                                  title: 'Cancel',
-                                                  press: () {
-                                                    Navigator.pop(context);
-                                                  },
-                                                  sizeHorizontal: 18,
-                                                  sizeVerticle: 8,
-                                                  color: Colors.grey.withOpacity(0.10),
-                                                  titleColor: Colors.black,
-                                                ),
-                                              ],
+                                                    },
+                                                  );
+                                                },
+                                                itemBuilder: (context, brand) {
+                                                  return ListTile(
+                                                    title: Text(brand.brandName.toString()),
+                                                  );
+                                                },
+                                                onSelected: (brand) {
+                                                  setState(() {
+                                                    brandNController.text = brand.brandName.toString();
+                                                    isLoading = true;
+                                                    brandId = brand.id.toString();
+                                                    print(groupId);
+                                                    print("groupId");
+                                                    print(groupId);
+                                                  });
+                                                 },
+                                                )
                                             ),
-                                            );
-                                          },
-                                        );
-                                      },
-                                      textInputAction: TextInputAction.next,
-                                      controller: brandController,
-                                      hintText: 'Enter Brand Name',
+                                            SizedBox(width: 6,),
+                                            Expanded(
+                                              child: customButton(
+                                                horizontalPadding: 6,
+                                                color: Colors.green,
+                                                text: "Add",
+                                                tap: () {
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (BuildContext context) {
+                                                      return NameEditDialogWidget(
+                                                        title: 'Brand Name',
+                                                        addTextField: TextFormField(
+                                                          onChanged: (v) {
+                                                            setState(() {});
+                                                          },
+                                                          controller: brandNController,
+                                                          decoration: MainFieldDecoration(label: 'Brand Name').mainFieldDecoration(),
+                                                          //keyboardType: TextInputType.phone,
+                                                        ), buttons: MainButton(
+                                                          title: "Add",
+                                                          press: () {
+                                                            if(brandNController.text.isNotEmpty ) {
+                                                              setState(() {
+                                                                isLoading = true;
 
-                                      validation:
-                                          (val) {
-                                        if(val == null || val.isEmpty){
-                                          return 'Enter Brand Name ';
-                                        }
-                                        return null;
-                                      },
+                                                              });
+                                                              addBrandApi(
+                                                                  id: groupId.toString(),
+                                                                  brandName:brandNController.text
+                                                              ).then((value) async {
+                                                                // response = value;
+                                                                if (
+                                                                value['status'] == 1
+
+                                                                /*response != null && response?.status == 1*/) {
+                                                                  setState(() {
+                                                                    isLoading = false;
+
+                                                                  });
+
+
+
+                                                                  // print(object)
+                                                                  /*   print(response);
+                                        widget.onPopId(response!.data.id.toString());
+                                        print(response!.data.id.toString());*/
+                                                                  // id = response!.data.id.toInt();
+                                                                  Navigator.pop(context);
+                                                                  CustomMsgSnackbar.show(context: context,
+                                                                      label:"Brand Added Successfully",
+                                                                      color: Colors.green,
+                                                                      iconImage: icTick);
+                                                                } else {
+                                                                  setState(() {
+                                                                    isLoading = false;
+                                                                  });
+                                                                  // CustomMsgSnackbar.show(context: context,
+                                                                  //     label: "Failed",
+                                                                  //     color: Colors.red,
+                                                                  //     iconImage: "assets/icons/cross.svg");
+                                                                }
+                                                              });
+                                                            }
+                                                            // }
+                                                            else {
+                                                              CustomMsgSnackbar.show(context: context,
+                                                                  label: 'Please Enter Brand Name',
+                                                                  color: Colors.red,
+                                                                  iconImage: "assets/icons/cross.svg");
+                                                            }
+                                                          },
+                                                          sizeHorizontal: 16,
+                                                          sizeVerticle: 6,
+                                                          color: selectedGreenColor,
+                                                          titleColor: selectedColor),
+                                                      );
+                                                    },
+                                                  );
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ],
                                     ),
-                                  ),
                                 ),
                                 SizedBox(width: 12,),
                                 Expanded(
@@ -1773,8 +1743,8 @@ class _AddStockItemWindowState extends State<AddStockItemWindow> {
                                         }
                                         return null;
                                       },
-
-                                    ),),
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
@@ -1932,9 +1902,7 @@ class _AddStockItemWindowState extends State<AddStockItemWindow> {
                                       onChanged: (value) {
                                         purchasePriceP = double.tryParse(value) ?? 0;
                                         calculateTotalAmount();
-
                                       },
-
                                       validation:
                                           (val) {
                                         if(val == null || val.isEmpty){
@@ -1948,10 +1916,9 @@ class _AddStockItemWindowState extends State<AddStockItemWindow> {
                                 ),
                                 SizedBox(width: 12,),
                                 Expanded(
-
                                   child: AddPersonRowHolder(
                                     title: 'Discount %',
-                                    textField:     CustomTextField(
+                                    textField: CustomTextField(
                                       textInputAction: TextInputAction.next,
                                       controller: discount,
                                       hintText: 'Discount %',
@@ -2000,11 +1967,10 @@ class _AddStockItemWindowState extends State<AddStockItemWindow> {
                                 Expanded(
                                   child: AddPersonRowHolder(
                                     title: 'Set Mrp',
-                                    textField:    CustomTextField(
+                                    textField: CustomTextField(
                                       textInputAction: TextInputAction.next,
                                       controller: setMrp,
                                       hintText: 'Set Mrp',
-
                                       validation:
                                           (val) {
                                         if(val == null || val.isEmpty){
@@ -2018,35 +1984,29 @@ class _AddStockItemWindowState extends State<AddStockItemWindow> {
                                 ),
                                 SizedBox(width: 12,),
                                 Expanded(
-
                                   child: AddPersonRowHolder(
                                     title: 'Barcode Type',
-                                    textField:     CustomTextField(
+                                    textField: CustomTextField(
                                       textInputAction: TextInputAction.next,
                                       controller: barcodeType,
                                       hintText: 'barcode Type',
-
-                                      validation:
-                                          (val) {
+                                      validation: (val) {
                                         if(val == null || val.isEmpty){
                                           return 'Barcode';
                                         }
                                         return null;
                                       },
-
-                                    ),),
-
+                                    ),
+                                  ),
                                 ),
                                 SizedBox(width: 12,),
                                 Expanded(
-
                                   child: AddPersonRowHolder(
                                     title: 'Total',
-                                    textField:     CustomTextField(
+                                    textField: CustomTextField(
                                       textInputAction: TextInputAction.next,
                                       controller: totalAmount,
                                       hintText: 'Total',
-
                                       validation:
                                           (val) {
                                         if(val == null || val.isEmpty){
@@ -2054,9 +2014,8 @@ class _AddStockItemWindowState extends State<AddStockItemWindow> {
                                         }
                                         return null;
                                       },
-
-                                    ),),
-
+                                    ),
+                                  ),
                                 ),
                               ],
                             ),
@@ -2071,18 +2030,122 @@ class _AddStockItemWindowState extends State<AddStockItemWindow> {
                                     radius: 4,
                                     title: 'Add',
                                     press: () {
-                                      if (_formKey.currentState!.validate()) {
+                                      // setState(() {
                                         setState(() {
-                                          // isLoading = true;
-                                        });
+                                          if (formKey.currentState!.validate()) {
+                                            addItemApi(
+                                              supplierId: widget.supplierId,
+                                              purchaseInvoiceNo: widget.purchaseInvoiceNo,
+                                              challanNo: widget.purchaseInvoiceNo,
+                                              invoiceDate:  dateFormat,
+                                              codingType: barcodeType.text,
+                                              remarks:remarksController.text,
+                                              itemName: itemName.text,
+                                              designName: designName.text,
+                                              hsnCode: hsnCode.text,
+                                              quantity: quantity.text,
+                                              unit: unit.text,
+                                              purchasePrice: purchasePrice.text,
+                                              sellMrp: setMrp.text,
+                                              totalAmount: totalAmount.text,
+                                              discount: discount.text,
+                                              color: color.text,
+                                              size: size.text,
+                                              photo: pickedImage.isAbsolute
+                                                  ? pickedImage.path
+                                                  : '',
+                                              groupId: groupId.toString(),
+                                              brandID: brandId.toString(),)
+                                                .then((value) async {
+                                              // isLoading = false;
+                                              if (value['status'] == 1) {
+                                                String imageN = pickedImage.toString().trim();
+                                                String itemN = itemName.text.trim();
+                                                String designN = designName.text.trim();
+                                                String colorN = color.text.trim();
+                                                String sizeN = size.text.trim();
+                                                String hsnN = hsnCode.text.trim();
+                                                String unitN = unit.text.trim();
+                                                String barcodeN = barcodeType.text.trim();
+                                                String quantityN = quantity.text.trim();
+                                                String purchaseN = purchasePrice.text.trim();
+                                                String gstN = gstController.text.trim();
+                                                String discountN = discount.text.trim();
+                                                // String taxPerN = gstController.text.trim();
+                                                String setN = setMrp.text.trim();
+                                                String totalN = totalAmount.text.trim();
+                                                if (
+                                                // itemC.isNotEmpty &&
+                                                imageN.isNotEmpty &&
+                                                    itemN.isNotEmpty &&
+                                                    designN.isNotEmpty &&
+                                                    colorN.isNotEmpty &&
+                                                    sizeN.isNotEmpty &&
+                                                    hsnN.isNotEmpty &&
+                                                    unitN.isNotEmpty &&
+                                                    barcodeN.isNotEmpty &&
+                                                    quantityN.isNotEmpty &&
+                                                    purchaseN.isNotEmpty &&
+                                                    discountN.isNotEmpty &&
+                                                    setN.isNotEmpty &&
+                                                    gstN.isNotEmpty &&
+                                                    totalN.isNotEmpty
+                                                // taxPerN.isNotEmpty
 
-                                      } else {
-                                        CustomSnackbar.show(
-                                            context: context,
-                                            label: 'Failed',
-                                            color: Colors.red,
-                                            iconImage: "assets/icons/cross.svg");
-                                      }
+                                                ) {
+                                                  setState(() {
+                                                    contacts.add(
+                                                        Contact(
+                                                          // itemCode: itemC,
+                                                          image: imageN,
+                                                          itemName: itemN,
+                                                          designName: designN,
+                                                          color: colorN,
+                                                          size: sizeN,
+                                                          hsnCode: hsnN,
+                                                          unit: unitN,
+                                                          barcode: barcodeN,
+                                                          quantity: quantityN,
+                                                          purchasePrice: purchaseN,
+                                                          discount: discountN,
+                                                          mrp: setN,
+                                                          total: totalN,
+                                                          // taxPercent: taxPerN,
+                                                          gst: gstN,
+
+                                                        ));
+                                                  });
+                                                }
+                                                setState(() {
+                                                  // isLoading = false;
+                                                });
+                                                CustomSnackbar.show(
+                                                    context: context,
+                                                    label: 'Item Added',
+                                                    color: Colors.green,
+                                                    iconImage: "assets/icons/tick.svg");
+                                              } else {
+                                                setState(() {
+                                                  // isLoading = false;
+                                                });
+                                                CustomSnackbar.show(
+                                                    context: context,
+                                                    label: 'Failed',
+                                                    color: Colors.red,
+                                                    iconImage: "assets/icons/cross.svg");
+                                                // print("no");
+                                              }
+                                            });
+                                          } else {
+                                            CustomSnackbar.show(
+                                              context: context,
+                                              label: 'Failed',
+                                              color: Colors.red,
+                                              iconImage: "assets/icons/cross.svg",
+                                            );
+                                          }
+                                        });
+                                      // });
                                     },
 
                                     sizeHorizontal: 30,

@@ -4,8 +4,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spyco_shop_management/constants/shared_prefs.dart';
 import 'package:spyco_shop_management/constants/urls.dart';
 
-Future<dynamic> addCustomerSupplierApi({
+Future<dynamic> addItemApi({
   required String supplierId,
+  required String groupId,
+  required String brandID,
   required String purchaseInvoiceNo,
   required String challanNo,
   required String invoiceDate,
@@ -36,6 +38,8 @@ Future<dynamic> addCustomerSupplierApi({
   var request = http.MultipartRequest(
       'POST', Uri.parse('$baseUrl/store-item'));
   request.fields.addAll({
+    'group_id': groupId,
+    'brand_id': brandID,
     'suppliers_id': supplierId,
     'purchase_invoice_no': purchaseInvoiceNo,
     'challan_no': challanNo,

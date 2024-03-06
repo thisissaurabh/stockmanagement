@@ -412,7 +412,7 @@ class _AddGroupDialogState extends State<AddGroupDialog> {
                                           /*response != null && response?.status == 1*/) {
                                             setState(() {
                                               isLoading = false;
-                                              id = value['data']['id'];
+
                                               widget.onPopId(id);
                                             });
                                             print("object");

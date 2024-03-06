@@ -26,17 +26,18 @@ import '../api/salesperson_api.dart';
 import '../api_models/salesperson_model.dart';
 import '../screens/users/add_users_dialog.dart';
 import '../src/widgets/custom_app_bar.dart';
+import 'add_discount_dialog.dart';
 import 'add_sales_person_dialog.dart';
 
 
-class SalesPerson extends StatefulWidget {
-  const SalesPerson({super.key});
+class DiscountScreen extends StatefulWidget {
+  const DiscountScreen({super.key});
 
   @override
-  State<SalesPerson> createState() => _SalesPersonState();
+  State<DiscountScreen> createState() => _DiscountScreenState();
 }
 
-class _SalesPersonState extends State<SalesPerson> {
+class _DiscountScreenState extends State<DiscountScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,10 +122,10 @@ class _AllUsersListState extends State<AllUsersList> {
       isLoading ?
       Loading():
       Scaffold(
-       appBar:  CustomAppBar(
-          title: 'Sales Person', widget: [
+        appBar:  CustomAppBar(
+          title: 'Discount', widget: [
         ],
-       ),
+        ),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -141,13 +142,13 @@ class _AllUsersListState extends State<AllUsersList> {
                         showDialog(
                           context: context,
                           builder: (BuildContext context) {
-                            return AddSalesPersonDialog(
+                            return AddDiscountDialog(
                               title: 'Dialog Title',
                               content: 'This is the content of the dialog.',
                             );
                           },
                         );
-                      }, text: 'Add Salesperson',
+                      }, text: 'Add Discount',
                     ),
                   ],
                 ),
